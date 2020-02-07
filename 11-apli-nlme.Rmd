@@ -24,7 +24,7 @@ De la figura anterior vemos que las curvas de crecimiento inician a diferente al
 En las siguientes ecuaciones se resume el modelo matemático que interesa en esta situación.
 
 \begin{align*} 
-Height_{ij} &\sim  N(\mu_{ij}, \sigma^2_y) \\ 
+Height_{ij} &\sim  N(\mu_{ij}, \sigma^2_{Heigth}) \\ 
 \mu_{ij} &= \beta_0 + \beta_1 Age_{ij} + b_{0i} + b_{1i} Age_{ij} \\
 \left (
 \begin{matrix}
@@ -55,7 +55,33 @@ Para obtener la tabla de resumen usamos:
 summary(fit)
 ```
 
-De la salida anterior se obtiene que $\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=149.37, \hat{\beta}_1=6.52, \hat{\sigma}_y=0.66, \hat{\sigma}_{b0}=8.08, \hat{\sigma}_{b1}=1.68, \hat{\sigma}_{b0b1}=8.71)^\top$. La estimación $\hat{\sigma}_{b0b1}$ no aparece directamente en el summary pero se obtiene utilizando la ecuación $Cor=Cov/(\sigma_1 \sigma_2)$ que relaciona [correlación](https://en.wikipedia.org/wiki/Correlation_and_dependence), covarianza y desviaciones de los efectos aleatorios.
+De la salida anterior se obtiene que $\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=149.37, \hat{\beta}_1=6.53, \hat{\sigma}_y=0.66, \hat{\sigma}_{b0}=8.08, \hat{\sigma}_{b1}=1.68, \hat{\sigma}_{b0b1}=8.71)^\top$. La estimación $\hat{\sigma}_{b0b1}$ no aparece directamente en el summary pero se obtiene utilizando la ecuación $Cor=Cov/(\sigma_1 \sigma_2)$ que relaciona [correlación](https://en.wikipedia.org/wiki/Correlation_and_dependence), covarianza y desviaciones de los efectos aleatorios.
+
+Usando la información anterior se puede escribir el modelo ajustado de la siguiente manera.
+
+\begin{align*} 
+Height_{ij} &\sim  N(\hat{\mu}_{ij}, 0.66^2) \\ 
+\hat{\mu}_{ij} &= 149.37 + 6.53 Age_{ij} + b_{0i} + b_{1i} Age_{ij} \\
+\left (
+\begin{matrix}
+b_{0} \\ b_{1}
+\end{matrix} 
+\right ) &\sim 
+N\left ( \left ( \begin{matrix}
+0 \\ 0
+\end{matrix} \right ),
+\left ( \begin{matrix}
+8.08^2 & 8.71 \\ 
+8.71 & 1.68^2
+\end{matrix} \right )
+\right ).
+\end{align*}
+
+Los elementos $b_{0i}$ y $b_{1i}$ se deben substituir por sus respectivas predicciones $\tilde{b}_{0i}$ y $\tilde{b}_{1i}$ y se pueden obtener del modelo ajustado así:
+
+```{r}
+ranef(fit)
+```
 
 Los valores de los efectos fijos estimados se pueden obtener así:
 
@@ -63,15 +89,51 @@ Los valores de los efectos fijos estimados se pueden obtener así:
 fixef(fit)
 ```
 
-Los valores de las predicciones de $b_0$ y $b_1$ se pueden obtener así:
+Usando la información de los efectos fijo y aleatorios obtenidos antes, es posible escribir la ecuación del modelo para cada individuo. Los efectos fijos estimados fueron $\hat{\beta}_0 \approx 149.37$ y  $\hat{\beta}_1\approx  6.53$. Para el sujeto # 10 se obtuvo $\tilde{b}_{0, i=10} \approx -19.10$ y $\tilde{b}_{1, i=10} \approx -2.79$, así la media del individuo  # 10 se calcula así:
 
-```{r}
-ranef(fit)
-```
+\begin{align*} 
+\hat{\mu}_{i=10, j} &= \hat{\beta}_0 + \hat{\beta}_0 \, Age_{i=10, j} + \tilde{b}_{0, i=10} + \tilde{b}_{1, i=10} \, Age_{i=10, j} \\
+\hat{\mu}_{i=10, j} &= 149.37 + 6.53 \, Age_{i=10, j} - 19.10 - 2.79 \, Age_{i=10, j} \\
+\hat{\mu}_{i=10, j} &= 130.27 + 3.74 \, Age_{i=10, j}
+\end{align*}
 
-Los efectos finales (fijos y aleatorios) para cada uno de los individuos se obtienen así:
+Lo anterior se puede resumir en el siguiente modelo.
+
+\begin{align*} 
+Height_{i=10, j} &\sim  N(\hat{\mu}_{i=10, j}, \hat{\sigma}^2_{Height}) \\ 
+\hat{\mu}_{i=10, j} &= 130.27 + 3.74 \, Age_{i=10, j} \\
+\hat{\sigma}_{Height} &= 0.66
+\end{align*}
+
+La expresión anterior para cada individuo con los efectos finales (fijos y aleatorios) se puede obtener con R así:
 
 ```{r}
 coef(fit)
 ```
+
+En la presente aplicación es posible incluir la recta de regresión para cada individuo al diagrama de dispersión original. El código de R para obtener esto es el siguiente.
+
+```{r evol_fit_nlme}
+library(lattice)
+xyplot(height ~ age | Subject, data=Oxboys, fit=fit,
+       strip=strip.custom(bg="white"), 
+       pch=16, cex=0.7, col='indianred1',
+       panel = function(x, y, ..., fit, subscripts) {
+         panel.xyplot(x, y, ...)
+         ypred <- fitted(fit)[subscripts]
+         panel.lines(x, ypred, col="deepskyblue3", lwd=1)
+       },
+       ylab="Height (cm)", xlab="Centered age")
+```
+
+En la figura anterior se tienen las observaciones (crecimiento) representado por los puntos rojos, adicionalmente, aparece una recta de color azul que representa la recta de regresión para cada individuo. De la figura se observa que la linea logra explicar la evolución del crecimiento para cada individuo.
+
+## Ejercicios {-}
+1. Repita el ejercicio anterior considerando un modelo sólo con intercepto aleatorio. Dibuje las rectas de regresión para cada individuo. ¿Qué opina de este modelo?
+
+2. Repita el ejercicio anterior considerando un modelo sólo con pendiente aleatoria. Dibuje las rectas de regresión para cada individuo. ¿Qué opina de este modelo?
+
+3. Estime la estatura para el individuo # 3 cuando su edad centrada sea de 1.1.
+
+4. Replique los ejemplo [de este documento](https://socialsciences.mcmaster.ca/jfox/Books/Companion-1E/appendix-mixed-models.pdf).
 

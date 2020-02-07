@@ -156,7 +156,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.1" data-path="ph.html"><a href="ph.html#prueba-de-hipótesis-sobre-un-parámetro-fijo-beta_k"><i class="fa fa-check"></i><b>5.1</b> Prueba de hipótesis sobre un parámetro fijo <span class="math inline">\(\beta_k\)</span></a></li>
 <li class="chapter" data-level="5.2" data-path="ph.html"><a href="ph.html#prueba-de-hipótesis-sobre-un-conjunto-de-parámetros-varios-beta_k"><i class="fa fa-check"></i><b>5.2</b> Prueba de hipótesis sobre un conjunto de parámetros (varios <span class="math inline">\(\beta_k\)</span>)</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="apli-nlme.html"><a href="apli-nlme.html"><i class="fa fa-check"></i><b>6</b> Aplicación con <code>nlme</code></a></li>
+<li class="chapter" data-level="6" data-path="apli-nlme.html"><a href="apli-nlme.html"><i class="fa fa-check"></i><b>6</b> Aplicación con <code>nlme</code></a><ul>
+<li class="chapter" data-level="" data-path="apli-nlme.html"><a href="apli-nlme.html#ejercicios"><i class="fa fa-check"></i>Ejercicios</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -203,7 +205,7 @@ Es posible convertir un data.frame para que tenga la clase groupedData, consulte
 <p>De la figura anterior vemos que las curvas de crecimiento inician a diferente altura (intercepto) y que la pendiente del crecimiento no son todas iguales, por ejemplo, el individuo 21 creció más rápido que el individuo 3. Esto nos hace pensar que un modelo con intercepto y pendiente aleatoria podrían ser adecuados para modelar el crecimiento.</p>
 <p>En las siguientes ecuaciones se resume el modelo matemático que interesa en esta situación.</p>
 <p><span class="math display">\[\begin{align*} 
-Height_{ij} &amp;\sim  N(\mu_{ij}, \sigma^2_y) \\ 
+Height_{ij} &amp;\sim  N(\mu_{ij}, \sigma^2_{Heigth}) \\ 
 \mu_{ij} &amp;= \beta_0 + \beta_1 Age_{ij} + b_{0i} + b_{1i} Age_{ij} \\
 \left (
 \begin{matrix}
@@ -251,13 +253,27 @@ N\left ( \left ( \begin{matrix}
 ## 
 ## Number of Observations: 234
 ## Number of Groups: 26</code></pre>
-<p>De la salida anterior se obtiene que <span class="math inline">\(\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=149.37, \hat{\beta}_1=6.52, \hat{\sigma}_y=0.66, \hat{\sigma}_{b0}=8.08, \hat{\sigma}_{b1}=1.68, \hat{\sigma}_{b0b1}=8.71)^\top\)</span>. La estimación <span class="math inline">\(\hat{\sigma}_{b0b1}\)</span> no aparece directamente en el summary pero se obtiene utilizando la ecuación <span class="math inline">\(Cor=Cov/(\sigma_1 \sigma_2)\)</span> que relaciona <a href="https://en.wikipedia.org/wiki/Correlation_and_dependence">correlación</a>, covarianza y desviaciones de los efectos aleatorios.</p>
-<p>Los valores de los efectos fijos estimados se pueden obtener así:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1"><span class="kw">fixef</span>(fit)</a></code></pre></div>
-<pre><code>## (Intercept)         age 
-##  149.371753    6.525469</code></pre>
-<p>Los valores de las predicciones de <span class="math inline">\(b_0\)</span> y <span class="math inline">\(b_1\)</span> se pueden obtener así:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1"><span class="kw">ranef</span>(fit)</a></code></pre></div>
+<p>De la salida anterior se obtiene que <span class="math inline">\(\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=149.37, \hat{\beta}_1=6.53, \hat{\sigma}_y=0.66, \hat{\sigma}_{b0}=8.08, \hat{\sigma}_{b1}=1.68, \hat{\sigma}_{b0b1}=8.71)^\top\)</span>. La estimación <span class="math inline">\(\hat{\sigma}_{b0b1}\)</span> no aparece directamente en el summary pero se obtiene utilizando la ecuación <span class="math inline">\(Cor=Cov/(\sigma_1 \sigma_2)\)</span> que relaciona <a href="https://en.wikipedia.org/wiki/Correlation_and_dependence">correlación</a>, covarianza y desviaciones de los efectos aleatorios.</p>
+<p>Usando la información anterior se puede escribir el modelo ajustado de la siguiente manera.</p>
+<p><span class="math display">\[\begin{align*} 
+Height_{ij} &amp;\sim  N(\hat{\mu}_{ij}, 0.66^2) \\ 
+\hat{\mu}_{ij} &amp;= 149.37 + 6.53 Age_{ij} + b_{0i} + b_{1i} Age_{ij} \\
+\left (
+\begin{matrix}
+b_{0} \\ b_{1}
+\end{matrix} 
+\right ) &amp;\sim 
+N\left ( \left ( \begin{matrix}
+0 \\ 0
+\end{matrix} \right ),
+\left ( \begin{matrix}
+8.08^2 &amp; 8.71 \\ 
+8.71 &amp; 1.68^2
+\end{matrix} \right )
+\right ).
+\end{align*}\]</span></p>
+<p>Los elementos <span class="math inline">\(b_{0i}\)</span> y <span class="math inline">\(b_{1i}\)</span> se deben substituir por sus respectivas predicciones <span class="math inline">\(\tilde{b}_{0i}\)</span> y <span class="math inline">\(\tilde{b}_{1i}\)</span> y se pueden obtener del modelo ajustado así:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1"><span class="kw">ranef</span>(fit)</a></code></pre></div>
 <pre><code>##    (Intercept)         age
 ## 10 -19.0972476 -2.78657472
 ## 26 -11.3675996 -0.97474075
@@ -285,7 +301,23 @@ N\left ( \left ( \begin{matrix}
 ## 14  10.0986013  2.09367207
 ## 19  15.1957040  2.50720025
 ## 4   15.6927297  2.78723179</code></pre>
-<p>Los efectos finales (fijos y aleatorios) para cada uno de los individuos se obtienen así:</p>
+<p>Los valores de los efectos fijos estimados se pueden obtener así:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1"><span class="kw">fixef</span>(fit)</a></code></pre></div>
+<pre><code>## (Intercept)         age 
+##  149.371753    6.525469</code></pre>
+<p>Usando la información de los efectos fijo y aleatorios obtenidos antes, es posible escribir la ecuación del modelo para cada individuo. Los efectos fijos estimados fueron <span class="math inline">\(\hat{\beta}_0 \approx 149.37\)</span> y <span class="math inline">\(\hat{\beta}_1\approx 6.53\)</span>. Para el sujeto # 10 se obtuvo <span class="math inline">\(\tilde{b}_{0, i=10} \approx -19.10\)</span> y <span class="math inline">\(\tilde{b}_{1, i=10} \approx -2.79\)</span>, así la media del individuo # 10 se calcula así:</p>
+<p><span class="math display">\[\begin{align*} 
+\hat{\mu}_{i=10, j} &amp;= \hat{\beta}_0 + \hat{\beta}_0 \, Age_{i=10, j} + \tilde{b}_{0, i=10} + \tilde{b}_{1, i=10} \, Age_{i=10, j} \\
+\hat{\mu}_{i=10, j} &amp;= 149.37 + 6.53 \, Age_{i=10, j} - 19.10 - 2.79 \, Age_{i=10, j} \\
+\hat{\mu}_{i=10, j} &amp;= 130.27 + 3.74 \, Age_{i=10, j}
+\end{align*}\]</span></p>
+<p>Lo anterior se puede resumir en el siguiente modelo.</p>
+<p><span class="math display">\[\begin{align*} 
+Height_{i=10, j} &amp;\sim  N(\hat{\mu}_{i=10, j}, \hat{\sigma}^2_{Height}) \\ 
+\hat{\mu}_{i=10, j} &amp;= 130.27 + 3.74 \, Age_{i=10, j} \\
+\hat{\sigma}_{Height} &amp;= 0.66
+\end{align*}\]</span></p>
+<p>La expresión anterior para cada individuo con los efectos finales (fijos y aleatorios) se puede obtener con R así:</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1"><span class="kw">coef</span>(fit)</a></code></pre></div>
 <pre><code>##    (Intercept)      age
 ## 10    130.2745 3.738894
@@ -314,7 +346,29 @@ N\left ( \left ( \begin{matrix}
 ## 14    159.4704 8.619141
 ## 19    164.5675 9.032669
 ## 4     165.0645 9.312700</code></pre>
+<p>En la presente aplicación es posible incluir la recta de regresión para cada individuo al diagrama de dispersión original. El código de R para obtener esto es el siguiente.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1"><span class="kw">library</span>(lattice)</a>
+<a class="sourceLine" id="cb36-2" title="2"><span class="kw">xyplot</span>(height <span class="op">~</span><span class="st"> </span>age <span class="op">|</span><span class="st"> </span>Subject, <span class="dt">data=</span>Oxboys, <span class="dt">fit=</span>fit,</a>
+<a class="sourceLine" id="cb36-3" title="3">       <span class="dt">strip=</span><span class="kw">strip.custom</span>(<span class="dt">bg=</span><span class="st">&quot;white&quot;</span>), </a>
+<a class="sourceLine" id="cb36-4" title="4">       <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.7</span>, <span class="dt">col=</span><span class="st">&#39;indianred1&#39;</span>,</a>
+<a class="sourceLine" id="cb36-5" title="5">       <span class="dt">panel =</span> <span class="cf">function</span>(x, y, ..., fit, subscripts) {</a>
+<a class="sourceLine" id="cb36-6" title="6">         <span class="kw">panel.xyplot</span>(x, y, ...)</a>
+<a class="sourceLine" id="cb36-7" title="7">         ypred &lt;-<span class="st"> </span><span class="kw">fitted</span>(fit)[subscripts]</a>
+<a class="sourceLine" id="cb36-8" title="8">         <span class="kw">panel.lines</span>(x, ypred, <span class="dt">col=</span><span class="st">&quot;deepskyblue3&quot;</span>, <span class="dt">lwd=</span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb36-9" title="9">       },</a>
+<a class="sourceLine" id="cb36-10" title="10">       <span class="dt">ylab=</span><span class="st">&quot;Height (cm)&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;Centered age&quot;</span>)</a></code></pre></div>
+<p><img src="libro_mod_pred_files/figure-html/evol_fit_nlme-1.png" width="672" /></p>
+<p>En la figura anterior se tienen las observaciones (crecimiento) representado por los puntos rojos, adicionalmente, aparece una recta de color azul que representa la recta de regresión para cada individuo. De la figura se observa que la linea logra explicar la evolución del crecimiento para cada individuo.</p>
+<div id="ejercicios" class="section level2 unnumbered">
+<h2>Ejercicios</h2>
+<ol style="list-style-type: decimal">
+<li><p>Repita el ejercicio anterior considerando un modelo sólo con intercepto aleatorio. Dibuje las rectas de regresión para cada individuo. ¿Qué opina de este modelo?</p></li>
+<li><p>Repita el ejercicio anterior considerando un modelo sólo con pendiente aleatoria. Dibuje las rectas de regresión para cada individuo. ¿Qué opina de este modelo?</p></li>
+<li><p>Estime la estatura para el individuo # 3 cuando su edad centrada sea de 1.1.</p></li>
+<li><p>Replique los ejemplo <a href="https://socialsciences.mcmaster.ca/jfox/Books/Companion-1E/appendix-mixed-models.pdf">de este documento</a>.</p></li>
+</ol>
 
+</div>
 </div>
             </section>
 
