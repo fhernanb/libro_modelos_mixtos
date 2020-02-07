@@ -85,3 +85,9 @@ knitr::include_graphics("images/summary_fit_lmer.png")
 ```
 
 Según el resultado anterior $\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=3.53363, \hat{\beta}_1=-5.97805, \hat{\sigma}_y=4.012, \hat{\sigma}_{bo}=21.507)^\top$ mientras que el vector real de parámetros es $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma_y=4, \sigma_{bo}=25)^\top$.
+
+```{block2, type='rmdtip'}
+Compare los resultados de la tabla anterior obtenida con la función `lmer` anterior con los resultados obtenidos con la función `lme` de capítulo \@ref(pac-nlme).
+
+¿Hay alguna similitud?
+```
