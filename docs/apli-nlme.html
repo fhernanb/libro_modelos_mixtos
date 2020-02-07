@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Modelos Mixtos con R</title>
+  <title>6 Aplicación con nlme | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para ….." />
   <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Modelos Mixtos con R" />
+  <meta property="og:title" content="6 Aplicación con nlme | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:image" content="images/cover.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="fhernanb/libro_mod_pred" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Modelos Mixtos con R" />
+  <meta name="twitter:title" content="6 Aplicación con nlme | Modelos Mixtos con R" />
   
   <meta name="twitter:description" content="Este libro es para ….." />
   <meta name="twitter:image" content="images/cover.png" />
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="reg-lin.html"/>
+<link rel="prev" href="ph.html"/>
+<link rel="next" href="references.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -178,72 +178,151 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Modelos Mixtos con R</h1>
-<p class="author"><em>Freddy Hernández Barajas</em></p>
-<p class="author"><em>Jorge Leonardo López Martínez</em></p>
-<p class="date"><em>2020-02-07</em></p>
-</div>
-<div id="bienvenido" class="section level1 unnumbered">
-<h1>Bienvenido</h1>
-<p><img src="images/Portada.jpg" width="50%" style="display: block; margin: auto;" /></p>
-<p>Este libro está destinado para usuarios de R interesados en aplicar modelos mixtos.</p>
-<p><a href="https://fhernanb.github.io/">Freddy Hernández Barajas</a><br />
-<a href="https://leo4luffy.github.io/">Jorge Leonardo López Martínez</a></p>
-<div id="estructura-del-libro" class="section level2 unnumbered">
-<h2>Estructura del libro</h2>
-<p>En el capítulo <a href="reg-lin.html#reg-lin">1</a> se hace un repaso básico del modelo de regresión lineal clásico. En el capítulo <a href="mod-mix.html#mod-mix">2</a> se presentan los modelos mixtos. En el capítulo <a href="pac-lme4.html#pac-lme4">3</a> se presenta el paquete <code>lme4</code> y sus principales funciones para modelación, mientras que en el capítulo <a href="pac-nlme.html#pac-nlme">4</a> se presenta el paquete <code>nlme</code> y sus principales funciones para modelación.</p>
-</div>
-<div id="software-y-convenciones" class="section level2 unnumbered">
-<h2>Software y convenciones</h2>
-<p>Para realizar este libro usamos los paquetes <strong>knitr</strong> <span class="citation">(Xie <a href="#ref-xie2015" role="doc-biblioref">2015</a>)</span> y <strong>bookdown</strong> <span class="citation">(Xie <a href="#ref-R-bookdown" role="doc-biblioref">2019</a>)</span> que permiten unir la ventajas de LaTeX y R en un mismo archivo.</p>
-<p>En todo el libro se presentarán códigos que el lector puede copiar y pegar en su consola de R para obtener los mismos resultados aquí del libro. Los códigos se destacan en una caja de color similar a la mostrada a continuación.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="dv">4</span> <span class="op">+</span><span class="st"> </span><span class="dv">6</span></a>
-<a class="sourceLine" id="cb1-2" title="2">a &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">6</span>)</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="dv">5</span> <span class="op">*</span><span class="st"> </span>a</a>
-<a class="sourceLine" id="cb1-4" title="4"><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></a></code></pre></div>
-<p>Los resultados o salidas obtenidos de cualquier código se destacan con dos símbolos de númeral (<code>##</code>) al inicio de cada línea o renglón, esto quiere decir que todo lo que inicie con <code>##</code> son resultados obtenidos y <strong>NO</strong> los debe copiar. Abajo se muestran los resultados obtenidos luego de correr el código anterior.</p>
-<pre><code>## [1] 10</code></pre>
-<pre><code>## [1]  5 25 30</code></pre>
-<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
-</div>
-<div id="bloques-informativos" class="section level2 unnumbered">
-<h2>Bloques informativos</h2>
-<p>En varias partes del libro usaremos bloques informativos para resaltar algún aspecto importante. Abajo se encuentra un ejemplo de los bloques y su significado.</p>
+<div id="apli-nlme" class="section level1">
+<h1><span class="header-section-number">6</span> Aplicación con <code>nlme</code></h1>
+<p>En este capítulo se mostrará como usar el paquete <code>nlme</code> para la aplicación de modelos mixtos con la base de datos <code>Oxboys</code> del mismo paquete.</p>
+<p>A continuación la base de datos a utilizar.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">library</span>(nlme)</a>
+<a class="sourceLine" id="cb24-2" title="2"><span class="kw">head</span>(Oxboys)</a></code></pre></div>
+<pre><code>## Grouped Data: height ~ age | Subject
+##   Subject     age height Occasion
+## 1       1 -1.0000  140.5        1
+## 2       1 -0.7479  143.4        2
+## 3       1 -0.4630  144.8        3
+## 4       1 -0.1643  147.1        4
+## 5       1 -0.0027  147.7        5
+## 6       1  0.2466  150.2        6</code></pre>
+<p>Esta base de datos sobre crecimiento contiene la información sobre altura (<code>heigth</code>), edad estandarizada (<code>age</code>) de un grupo de 26 jóvenes. Como la base de datos <code>Oxboys</code> es de la clase groupedData, es posible aplicar un <code>plot</code> directamente y el resultado se muestra continuación.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="kw">plot</span>(Oxboys)</a></code></pre></div>
+<p><img src="libro_mod_pred_files/figure-html/plot_oxboys_nlme-1.png" width="672" /></p>
 
 <div class="rmdnote">
-Nota aclaratoria.
+Es posible convertir un data.frame para que tenga la clase groupedData, consulte la ayuda de la función <code>groupedData</code> del paquete <code>nlme</code> para más detalles.
 </div>
 
+<p>De la figura anterior vemos que las curvas de crecimiento inician a diferente altura (intercepto) y que la pendiente del crecimiento no son todas iguales, por ejemplo, el individuo 21 creció más rápido que el individuo 3. Esto nos hace pensar que un modelo con intercepto y pendiente aleatoria podrían ser adecuados para modelar el crecimiento.</p>
+<p>En las siguientes ecuaciones se resume el modelo matemático que interesa en esta situación.</p>
+<p><span class="math display">\[\begin{align*} 
+Height_{ij} &amp;\sim  N(\mu_{ij}, \sigma^2_y) \\ 
+\mu_{ij} &amp;= \beta_0 + \beta_1 Age_{ij} + b_{0i} + b_{1i} Age_{ij} \\
+\left (
+\begin{matrix}
+b_{0} \\ b_{1}
+\end{matrix} 
+\right ) &amp;\sim 
+N\left ( \left ( \begin{matrix}
+0 \\ 0
+\end{matrix} \right ),
+\left ( \begin{matrix}
+\sigma^2_{b0} &amp; \sigma_{b01} \\ 
+\sigma_{b01} &amp; \sigma^2_{b1}
+\end{matrix} \right )
+\right )
+\end{align*}\]</span></p>
+<p>El vector de parámetros para este modelo sería <span class="math inline">\(\boldsymbol{\Theta}=(\beta_0, \beta_1, \sigma_y, \sigma_{b0}, \sigma_{b1}, \sigma_{b0b1})^\top\)</span>.</p>
+<p>Para ajustar este modelo a los datos con el paquete <code>nlme</code> podemos usar el siguiente código.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1">fit &lt;-<span class="st"> </span><span class="kw">lme</span>(height <span class="op">~</span><span class="st"> </span>age, <span class="dt">random=</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>age <span class="op">|</span><span class="st"> </span>Subject, <span class="dt">data=</span>Oxboys, <span class="dt">method=</span><span class="st">&quot;REML&quot;</span>)</a></code></pre></div>
+<p>Para obtener la tabla de resumen usamos:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1"><span class="kw">summary</span>(fit)</a></code></pre></div>
+<pre><code>## Linear mixed-effects model fit by REML
+##  Data: Oxboys 
+##       AIC      BIC    logLik
+##   736.091 756.7714 -362.0455
+## 
+## Random effects:
+##  Formula: ~1 + age | Subject
+##  Structure: General positive-definite, Log-Cholesky parametrization
+##             StdDev   Corr  
+## (Intercept) 8.081077 (Intr)
+## age         1.680717 0.641 
+## Residual    0.659889       
+## 
+## Fixed effects: height ~ age 
+##                 Value Std.Error  DF  t-value p-value
+## (Intercept) 149.37175 1.5854173 207 94.21605       0
+## age           6.52547 0.3363003 207 19.40370       0
+##  Correlation: 
+##     (Intr)
+## age 0.628 
+## 
+## Standardized Within-Group Residuals:
+##         Min          Q1         Med          Q3         Max 
+## -2.65092109 -0.57493341 -0.02842894  0.59604254  2.60496077 
+## 
+## Number of Observations: 234
+## Number of Groups: 26</code></pre>
+<p>De la salida anterior se obtiene que <span class="math inline">\(\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=149.37, \hat{\beta}_1=6.52, \hat{\sigma}_y=0.66, \hat{\sigma}_{b0}=8.08, \hat{\sigma}_{b1}=1.68, \hat{\sigma}_{b0b1}=8.71)^\top\)</span>. La estimación <span class="math inline">\(\hat{\sigma}_{b0b1}\)</span> no aparece directamente en el summary pero se obtiene utilizando la ecuación <span class="math inline">\(Cor=Cov/(\sigma_1 \sigma_2)\)</span> que relaciona <a href="https://en.wikipedia.org/wiki/Correlation_and_dependence">correlación</a>, covarianza y desviaciones de los efectos aleatorios.</p>
+<p>Los valores de los efectos fijos estimados se pueden obtener así:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1"><span class="kw">fixef</span>(fit)</a></code></pre></div>
+<pre><code>## (Intercept)         age 
+##  149.371753    6.525469</code></pre>
+<p>Los valores de las predicciones de <span class="math inline">\(b_0\)</span> y <span class="math inline">\(b_1\)</span> se pueden obtener así:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1"><span class="kw">ranef</span>(fit)</a></code></pre></div>
+<pre><code>##    (Intercept)         age
+## 10 -19.0972476 -2.78657472
+## 26 -11.3675996 -0.97474075
+## 25 -10.1595528 -2.42702035
+## 9  -11.2213331 -0.58069044
+## 2   -6.5096277 -1.07136271
+## 6   -2.5902388 -2.41771656
+## 7   -3.2473132 -1.46379286
+## 17  -6.3744842  1.89443713
+## 16  -1.8344703 -1.86707015
+## 15  -5.0856366  0.51526141
+## 8   -1.0776201 -0.06615528
+## 20   2.0850836 -1.99239802
+## 1   -1.2464285  0.59919226
+## 18   1.8031920 -0.51486646
+## 5    2.0531168 -0.24308081
+## 23   1.6937341  0.63140824
+## 11   0.6839704  1.85733185
+## 21   1.1525543  0.91894343
+## 3    6.2613001 -1.58181075
+## 24   3.7645669  0.25652772
+## 22   5.1957592  1.50551719
+## 12   7.4308033  0.52297645
+## 13   6.7004368  1.89758007
+## 14  10.0986013  2.09367207
+## 19  15.1957040  2.50720025
+## 4   15.6927297  2.78723179</code></pre>
+<p>Los efectos finales (fijos y aleatorios) para cada uno de los individuos se obtienen así:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1"><span class="kw">coef</span>(fit)</a></code></pre></div>
+<pre><code>##    (Intercept)      age
+## 10    130.2745 3.738894
+## 26    138.0042 5.550728
+## 25    139.2122 4.098448
+## 9     138.1504 5.944778
+## 2     142.8621 5.454106
+## 6     146.7815 4.107752
+## 7     146.1244 5.061676
+## 17    142.9973 8.419906
+## 16    147.5373 4.658399
+## 15    144.2861 7.040730
+## 8     148.2941 6.459313
+## 20    151.4568 4.533071
+## 1     148.1253 7.124661
+## 18    151.1749 6.010602
+## 5     151.4249 6.282388
+## 23    151.0655 7.156877
+## 11    150.0557 8.382801
+## 21    150.5243 7.444412
+## 3     155.6331 4.943658
+## 24    153.1363 6.781996
+## 22    154.5675 8.030986
+## 12    156.8026 7.048445
+## 13    156.0722 8.423049
+## 14    159.4704 8.619141
+## 19    164.5675 9.032669
+## 4     165.0645 9.312700</code></pre>
 
-<div class="rmdtip">
-Sugerencia.
-</div>
-
-
-<div class="rmdwarning">
-Advertencia.
-</div>
-
-
-</div>
-</div>
-<h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-xie2015">
-<p>Xie, Yihui. 2015. <em>Dynamic Documents with R and Knitr</em>. 2nd ed. Boca Raton, Florida: Chapman; Hall/CRC. <a href="http://yihui.name/knitr/">http://yihui.name/knitr/</a>.</p>
-</div>
-<div id="ref-R-bookdown">
-<p>Xie, Yihui. 2019. <em>Bookdown: Authoring Books and Technical Documents with R Markdown</em>. <a href="https://CRAN.R-project.org/package=bookdown">https://CRAN.R-project.org/package=bookdown</a>.</p>
-</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="reg-lin.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ph.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -274,7 +353,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/index.Rmd",
+"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/11-apli-nlme.Rmd",
 "text": "Edit"
 },
 "history": {

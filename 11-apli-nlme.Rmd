@@ -1,0 +1,77 @@
+# Aplicación con `nlme` {#apli-nlme}
+
+En este capítulo se mostrará como usar el paquete `nlme` para la aplicación de modelos mixtos con la base de datos `Oxboys` del mismo paquete.
+
+A continuación la base de datos a utilizar.
+
+```{r}
+library(nlme)
+head(Oxboys)
+```
+
+Esta base de datos sobre crecimiento contiene la información sobre altura (`heigth`), edad estandarizada (`age`) de un grupo de 26 jóvenes. Como la base de datos `Oxboys` es de la clase groupedData, es posible aplicar un `plot` directamente y el resultado se muestra continuación.
+
+```{r plot_oxboys_nlme}
+plot(Oxboys)
+```
+
+```{block2, type='rmdnote'}
+Es posible convertir un data.frame para que tenga la clase groupedData, consulte la ayuda de la función `groupedData` del paquete `nlme` para más detalles.
+```
+
+De la figura anterior vemos que las curvas de crecimiento inician a diferente altura (intercepto) y que la pendiente del crecimiento no son todas iguales, por ejemplo, el individuo 21 creció más rápido que el individuo 3. Esto nos hace pensar que un modelo con intercepto y pendiente aleatoria podrían ser adecuados para modelar el crecimiento.
+
+En las siguientes ecuaciones se resume el modelo matemático que interesa en esta situación.
+
+\begin{align*} 
+Height_{ij} &\sim  N(\mu_{ij}, \sigma^2_y) \\ 
+\mu_{ij} &= \beta_0 + \beta_1 Age_{ij} + b_{0i} + b_{1i} Age_{ij} \\
+\left (
+\begin{matrix}
+b_{0} \\ b_{1}
+\end{matrix} 
+\right ) &\sim 
+N\left ( \left ( \begin{matrix}
+0 \\ 0
+\end{matrix} \right ),
+\left ( \begin{matrix}
+\sigma^2_{b0} & \sigma_{b01} \\ 
+\sigma_{b01} & \sigma^2_{b1}
+\end{matrix} \right )
+\right )
+\end{align*}
+
+El vector de parámetros para este modelo sería $\boldsymbol{\Theta}=(\beta_0, \beta_1, \sigma_y, \sigma_{b0}, \sigma_{b1}, \sigma_{b0b1})^\top$.
+
+Para ajustar este modelo a los datos con el paquete `nlme` podemos usar el siguiente código.
+
+```{r}
+fit <- lme(height ~ age, random= ~ 1 + age | Subject, data=Oxboys, method="REML")
+```
+
+Para obtener la tabla de resumen usamos:
+
+```{r}
+summary(fit)
+```
+
+De la salida anterior se obtiene que $\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=149.37, \hat{\beta}_1=6.52, \hat{\sigma}_y=0.66, \hat{\sigma}_{b0}=8.08, \hat{\sigma}_{b1}=1.68, \hat{\sigma}_{b0b1}=8.71)^\top$. La estimación $\hat{\sigma}_{b0b1}$ no aparece directamente en el summary pero se obtiene utilizando la ecuación $Cor=Cov/(\sigma_1 \sigma_2)$ que relaciona [correlación](https://en.wikipedia.org/wiki/Correlation_and_dependence), covarianza y desviaciones de los efectos aleatorios.
+
+Los valores de los efectos fijos estimados se pueden obtener así:
+
+```{r}
+fixef(fit)
+```
+
+Los valores de las predicciones de $b_0$ y $b_1$ se pueden obtener así:
+
+```{r}
+ranef(fit)
+```
+
+Los efectos finales (fijos y aleatorios) para cada uno de los individuos se obtienen así:
+
+```{r}
+coef(fit)
+```
+

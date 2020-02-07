@@ -156,6 +156,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.1" data-path="ph.html"><a href="ph.html#prueba-de-hipótesis-sobre-un-parámetro-fijo-beta_k"><i class="fa fa-check"></i><b>5.1</b> Prueba de hipótesis sobre un parámetro fijo <span class="math inline">\(\beta_k\)</span></a></li>
 <li class="chapter" data-level="5.2" data-path="ph.html"><a href="ph.html#prueba-de-hipótesis-sobre-un-conjunto-de-parámetros-varios-beta_k"><i class="fa fa-check"></i><b>5.2</b> Prueba de hipótesis sobre un conjunto de parámetros (varios <span class="math inline">\(\beta_k\)</span>)</a></li>
 </ul></li>
+<li class="chapter" data-level="6" data-path="apli-nlme.html"><a href="apli-nlme.html"><i class="fa fa-check"></i><b>6</b> Aplicación con <code>nlme</code></a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -204,7 +205,7 @@ y_{ij} &amp;\sim  N(\mu_{ij}, \sigma^2) \\
 b_{0} &amp;\sim N(0, \sigma^2_{b0}=625) \\
 x_{ij} &amp;\sim U(-5, 6)
 \end{align*}\]</span></p>
-<p>El vector de parámetros de este modelo es <span class="math inline">\(\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma_y=4, \sigma_{bo}=25)^\top\)</span>.</p>
+<p>El vector de parámetros de este modelo es <span class="math inline">\(\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma_y=4, \sigma_{b0}=25)^\top\)</span>.</p>
 <p><strong>Solución</strong></p>
 <p>El código para simular las 500 observaciones se muestra a continuación. Observe que se fijó la semilla en dos ocasiones para que el lector pueda replicar el ejemplo y obtener los mismos resultados.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">ni &lt;-<span class="st"> </span><span class="dv">50</span></a>
@@ -233,7 +234,7 @@ x_{ij} &amp;\sim U(-5, 6)
 <p>La función <code>summary</code> se puede usar sobre el objeto <code>fit</code> para obtener una tabla de resumen, a continuación se ilustra el uso y la salida de <code>summary</code>.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="kw">summary</span>(fit)</a></code></pre></div>
 <p><img src="images/summary_fit_lme.png" width="110%" style="display: block; margin: auto;" /></p>
-<p>Según el resultado anterior <span class="math inline">\(\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=3.53363, \hat{\beta}_1=-5.97805, \hat{\sigma}_y=4.012, \hat{\sigma}_{bo}=21.507)^\top\)</span> mientras que el vector real de parámetros es <span class="math inline">\(\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma_y=4, \sigma_{bo}=25)^\top\)</span>.</p>
+<p>Según el resultado anterior <span class="math inline">\(\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=3.533631, \hat{\beta}_1=-5.978053, \hat{\sigma}_y=4.01157, \hat{\sigma}_{b0}=21.50711)^\top\)</span> mientras que el vector real de parámetros es <span class="math inline">\(\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma_y=4, \sigma_{b0}=25)^\top\)</span>.</p>
 
 <div class="rmdtip">
 <p>Compare los resultados de la tabla anterior obtenida con la función <code>lme</code> anterior con los resultados obtenidos con la función <code>lmer</code> de capítulo <a href="pac-lme4.html#pac-lme4">3</a>.</p>

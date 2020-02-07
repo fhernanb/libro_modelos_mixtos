@@ -29,7 +29,7 @@ b_{0} &\sim N(0, \sigma^2_{b0}=625) \\
 x_{ij} &\sim U(-5, 6)
 \end{align*}
 
-El vector de parámetros de este modelo es $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma_y=4, \sigma_{bo}=25)^\top$.
+El vector de parámetros de este modelo es $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma_y=4, \sigma_{b0}=25)^\top$.
 
 __Solución__
 
@@ -79,7 +79,7 @@ summary(fit)
 knitr::include_graphics("images/summary_fit_lme.png")
 ```
 
-Según el resultado anterior $\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=3.53363, \hat{\beta}_1=-5.97805, \hat{\sigma}_y=4.012, \hat{\sigma}_{bo}=21.507)^\top$ mientras que el vector real de parámetros es $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma_y=4, \sigma_{bo}=25)^\top$.
+Según el resultado anterior $\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=3.533631, \hat{\beta}_1=-5.978053, \hat{\sigma}_y=4.01157, \hat{\sigma}_{b0}=21.50711)^\top$ mientras que el vector real de parámetros es $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma_y=4, \sigma_{b0}=25)^\top$.
 
 ```{block2, type='rmdtip'}
 Compare los resultados de la tabla anterior obtenida con la función `lme` anterior con los resultados obtenidos con la función `lmer` de capítulo \@ref(pac-lme4).
