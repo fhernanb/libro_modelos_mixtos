@@ -1,0 +1,13 @@
+# Pruebas de hipótesis {#ph}
+
+En este capítulo se muestran las pruebas de hipótesis para comparar modelo mixtos.
+
+## Prueba de hipótesis sobre un parámetro fijo $\beta_k$
+Si el interés es estudiar $H_0: \beta_k = \beta_{k0}$ contra $H_0: \beta_k \neq \beta_{k0}$ se puede usar la prueba de Wald que tiene el siguiente estadístico:
+$$
+t = \frac{\hat{\beta}_k - \beta_{k0}}{se(\hat{\beta}_k)},
+$$
+donde $se(\hat{\beta}_k)$ corresponde al error estándar de la estimación $\hat{\beta}_k$, todo esto disponible en el summary del modelo ajustado. Si $H_0$ es verdadera, $t \sim t_{n-p}$, siendo $n$ el número de observaciones y $p$ el número de efectos fijos estimados (no el número de variables) en el modelo.
+
+## Prueba de hipótesis sobre un conjunto de parámetros (varios $\beta_k$)
+

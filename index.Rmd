@@ -1,0 +1,74 @@
+--- 
+title: "Modelos Mixtos con R"
+author: ["Freddy Hernández Barajas", "Jorge Leonardo López Martínez"]
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+cover-image: images/cover.png
+github-repo: fhernanb/libro_mod_pred
+description: "Este libro es para ....."
+---
+
+# Bienvenido {-}
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown', 'nlme', 'lme4', 'MPV', 'scatterplot3d', 'plotly', 'packages.bib', 'MASS', 'brms', 'MCMCglmm', 'glmmADMB'))
+```
+
+```{r echo=FALSE, out.width="50%", fig.align='center'}
+knitr::include_graphics("images/Portada.jpg")
+```
+
+Este libro está destinado para usuarios de R interesados en aplicar modelos mixtos.
+
+[Freddy Hernández Barajas](https://fhernanb.github.io/)  
+[Jorge Leonardo López Martínez](https://leo4luffy.github.io/)
+
+## Estructura del libro {-}
+
+En el capítulo \@ref(reg-lin) se hace un repaso del modelo de regresión lineal clásico. En el capítulo \@ref(mod-mix) se presentan los modelos mixtos.
+
+
+
+## Software y convenciones {-}
+
+Para realizar este libro usamos los paquetes **knitr**\index{knitr} [@xie2015] y **bookdown**\index{bookdown} [@R-bookdown] que permiten unir la ventajas de LaTeX y R en un mismo archivo.
+
+En todo el libro se presentarán códigos que el lector puede copiar y pegar en su consola de R para obtener los mismos resultados aquí del libro. Los códigos se destacan en una caja de color similar a la mostrada a continuación.
+
+```{r, eval=F}
+4 + 6
+a <- c(1, 5, 6)
+5 * a
+1:10
+```
+
+Los resultados o salidas obtenidos de cualquier código se destacan con dos símbolos de númeral (`##`) al inicio de cada línea o renglón, esto quiere decir que todo lo que inicie con `##` son resultados obtenidos y __NO__ los debe copiar. Abajo se muestran los resultados obtenidos luego de correr el código anterior.
+
+```{r, echo=F}
+4 + 6
+a <- c(1, 5, 6)
+5 * a
+1:10
+```
+
+## Bloques informativos {-}
+En varias partes del libro usaremos bloques informativos para resaltar algún aspecto importante. Abajo se encuentra un ejemplo de los bloques y su significado.
+
+```{block2, type='rmdnote'}
+Nota aclaratoria.
+```
+
+```{block2, type='rmdtip'}
+Sugerencia.
+```
+
+```{block2, type='rmdwarning'}
+Advertencia.
+```

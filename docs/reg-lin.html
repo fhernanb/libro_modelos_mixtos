@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>1 Regresión lineal | Modelos Mixtos con R</title>
+  <meta name="description" content="Este libro es para ….." />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="1 Regresión lineal | Modelos Mixtos con R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="images/cover.png" />
+  <meta property="og:description" content="Este libro es para ….." />
+  <meta name="github-repo" content="fhernanb/libro_mod_pred" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="1 Regresión lineal | Modelos Mixtos con R" />
+  
+  <meta name="twitter:description" content="Este libro es para ….." />
+  <meta name="twitter:image" content="images/cover.png" />
+
+<meta name="author" content="Freddy Hernández Barajas" />
+<meta name="author" content="Jorge Leonardo López Martínez" />
+
+
+<meta name="date" content="2020-02-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="mod-mix.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Modelos Mixtos con R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Bienvenido</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#estructura-del-libro"><i class="fa fa-check"></i>Estructura del libro</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#software-y-convenciones"><i class="fa fa-check"></i>Software y convenciones</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#bloques-informativos"><i class="fa fa-check"></i>Bloques informativos</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="reg-lin.html"><a href="reg-lin.html"><i class="fa fa-check"></i><b>1</b> Regresión lineal</a><ul>
+<li class="chapter" data-level="1.1" data-path="reg-lin.html"><a href="reg-lin.html#modelo-estadístico"><i class="fa fa-check"></i><b>1.1</b> Modelo estadístico</a></li>
+<li class="chapter" data-level="1.2" data-path="reg-lin.html"><a href="reg-lin.html#verosimilitud-del-modelo"><i class="fa fa-check"></i><b>1.2</b> Verosimilitud del modelo</a><ul>
+<li class="chapter" data-level="" data-path="reg-lin.html"><a href="reg-lin.html#ejemplo"><i class="fa fa-check"></i>Ejemplo</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="mod-mix.html"><a href="mod-mix.html"><i class="fa fa-check"></i><b>2</b> Modelos Mixtos</a></li>
+<li class="chapter" data-level="3" data-path="pac-lme4.html"><a href="pac-lme4.html"><i class="fa fa-check"></i><b>3</b> Paquete <strong>lme4</strong></a><ul>
+<li class="chapter" data-level="3.1" data-path="pac-lme4.html"><a href="pac-lme4.html#función-lmer"><i class="fa fa-check"></i><b>3.1</b> Función <code>lmer</code></a></li>
+<li class="chapter" data-level="" data-path="pac-lme4.html"><a href="pac-lme4.html#ejemplo-modelo-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo con intercepto aleatorio</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="pac-nlme.html"><a href="pac-nlme.html"><i class="fa fa-check"></i><b>4</b> Paquete <strong>nlme</strong></a><ul>
+<li class="chapter" data-level="4.1" data-path="pac-nlme.html"><a href="pac-nlme.html#función-lme"><i class="fa fa-check"></i><b>4.1</b> Función <code>lme</code></a></li>
+<li class="chapter" data-level="" data-path="pac-nlme.html"><a href="pac-nlme.html#ejemplo-modelo-con-intercepto-aleatorio-1"><i class="fa fa-check"></i>Ejemplo: modelo con intercepto aleatorio</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="ph.html"><a href="ph.html"><i class="fa fa-check"></i><b>5</b> Pruebas de hipótesis</a><ul>
+<li class="chapter" data-level="5.1" data-path="ph.html"><a href="ph.html#prueba-de-hipótesis-sobre-un-parámetro-fijo-beta_k"><i class="fa fa-check"></i><b>5.1</b> Prueba de hipótesis sobre un parámetro fijo <span class="math inline">\(\beta_k\)</span></a></li>
+<li class="chapter" data-level="5.2" data-path="ph.html"><a href="ph.html#prueba-de-hipótesis-sobre-un-conjunto-de-parámetros-varios-beta_k"><i class="fa fa-check"></i><b>5.2</b> Prueba de hipótesis sobre un conjunto de parámetros (varios <span class="math inline">\(\beta_k\)</span>)</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Modelos Mixtos con R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="reg-lin" class="section level1">
+<h1><span class="header-section-number">1</span> Regresión lineal</h1>
+<p>En este capítulo se presenta el modelo de regresión lineal clásico.</p>
+<div id="modelo-estadístico" class="section level2">
+<h2><span class="header-section-number">1.1</span> Modelo estadístico</h2>
+<p>El modelo estadístico en regresión lineal clásico permite modelar la media de una variable <span class="math inline">\(Y\)</span> en función de <span class="math inline">\(k\)</span> covariables. El modelo se puede expresar como sigue.</p>
+<p><span class="math display">\[\begin{align} \label{mod2}
+y_i &amp;\sim N(\mu_i, \sigma^2), \\ 
+\mu_i &amp;= \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \cdots + \beta_k x_{ki}, \\
+\sigma^2 &amp;= \text{constante}
+\end{align}\]</span></p>
+<p>donde <span class="math inline">\(i=1, 2, \ldots, n\)</span> es el índice que identifica las <span class="math inline">\(n\)</span> observaciones del conjunto de entrenamiento. El vector de parámetros del modelo es <span class="math inline">\(\boldsymbol{\theta}=(\beta_0, \beta_1, \cdots, \beta_k, \sigma)^\top\)</span>.</p>
+</div>
+<div id="verosimilitud-del-modelo" class="section level2">
+<h2><span class="header-section-number">1.2</span> Verosimilitud del modelo</h2>
+<p>La función de verosimilitud <span class="math inline">\(L\)</span> para el modelo es la siguiente:</p>
+<p><span class="math display">\[
+L(\boldsymbol{\theta}) = \prod_i^n f(y_i \vert \beta_0, \beta_1, \cdots, \beta_k, \sigma),
+\]</span></p>
+<p>donde <span class="math inline">\(f\)</span> corresponde a la función de densidad de la normal.</p>
+<p>Para estimar el vector de parámetros <span class="math inline">\(\boldsymbol{\theta}\)</span> del modelo se usa el método de Máxima Verosimilitud sobre la función <span class="math inline">\(L\)</span> o sobre la función de log-verosimilitud siguiente:</p>
+<p><span class="math display">\[
+l(\boldsymbol{\theta}) = \sum_i^n \log(f(y_i \vert \beta_0, \beta_1, \cdots, \beta_k, \sigma)),
+\]</span></p>
+<div id="ejemplo" class="section level3 unnumbered">
+<h3>Ejemplo</h3>
+<p>Como ilustración vamos a usar los datos del ejemplo 3.1 del libro de <a href="https://www.amazon.com/Introduccion-analisis-regresion-lineal-Spanish/dp/9702403278">Montgomery, Peck and Vining (2003)</a>. En el ejemplo 3.1 los autores ajustaron un modelo de regresión lineal múltiple para explicar el <strong>Tiempo</strong> necesario para que un trabajador haga el mantenimiento y surta una máquina dispensadora de refrescos en función de las variables <strong>Número de Cajas</strong> y <strong>Distancia</strong>.</p>
+<p>Los datos del ejemplo están disponibles en el paquete <strong>MPV</strong> (por los apellidos de los autores). A continuación el código para cargar los datos y una muestra de las 6 primeras observaciones de la base de datos, en total se disponen de 20 observaciones.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">require</span>(MPV)</a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="kw">colnames</span>(softdrink) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;tiempo&#39;</span>, <span class="st">&#39;cantidad&#39;</span>, <span class="st">&#39;distancia&#39;</span>)</a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="kw">head</span>(softdrink)</a></code></pre></div>
+<pre><code>##   tiempo cantidad distancia
+## 1  16.68        7       560
+## 2  11.50        3       220
+## 3  12.03        3       340
+## 4  14.88        4        80
+## 5  13.75        6       150
+## 6  18.11        7       330</code></pre>
+<p>Un gráfico en 3d es obligratorio para explorar la relación entre las variables, este diagrama de puede obtener usando el paquete <strong>scatterplot3d</strong>. A continuación el código para construirlo.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">library</span>(scatterplot3d)</a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="kw">attach</span>(softdrink)</a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="kw">scatterplot3d</span>(<span class="dt">x=</span>cantidad, <span class="dt">y=</span>distancia, <span class="dt">z=</span>tiempo, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex.lab=</span><span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb7-4" title="4">              <span class="dt">highlight.3d=</span><span class="ot">TRUE</span>, <span class="dt">type=</span><span class="st">&quot;h&quot;</span>, <span class="dt">xlab=</span><span class="st">&#39;Cantidad de cajas&#39;</span>,</a>
+<a class="sourceLine" id="cb7-5" title="5">              <span class="dt">ylab=</span><span class="st">&#39;Distancia (pies)&#39;</span>, <span class="dt">zlab=</span><span class="st">&#39;Tiempo (min)&#39;</span>)</a></code></pre></div>
+<p><img src="libro_mod_pred_files/figure-html/3d_refrescos_01-1.png" width="672" /></p>
+<p>De la figura anterior se ve claramente que a medida que aumenta el número de cajas y la distancia los tiempos tienden a ser mayores.</p>
+<p>A continuación se define la función de <strong>menos</strong> log-verosimilitud para el modelo anterior. A pesar de que nos interesa maximizar la función de log-verosimilitud hemos creado su negativo, esto porque la mayoría de las funciones de optimización minimizan y no maximizan; maximizar <span class="math inline">\(f(x)\)</span> es equivalente a minimizar <span class="math inline">\(-f(x)\)</span>.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">minusll &lt;-<span class="st"> </span><span class="cf">function</span>(theta, y, x1, x2) {</a>
+<a class="sourceLine" id="cb8-2" title="2">  media &lt;-<span class="st"> </span>theta[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>theta[<span class="dv">2</span>] <span class="op">*</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>theta[<span class="dv">3</span>] <span class="op">*</span><span class="st"> </span>x2  <span class="co"># Se define la media</span></a>
+<a class="sourceLine" id="cb8-3" title="3">  desvi &lt;-<span class="st"> </span>theta[<span class="dv">4</span>]                             <span class="co"># Se define la desviación.</span></a>
+<a class="sourceLine" id="cb8-4" title="4">  <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(<span class="kw">dnorm</span>(<span class="dt">x=</span>y, <span class="dt">mean=</span>media, <span class="dt">sd=</span>desvi, <span class="dt">log=</span><span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb8-5" title="5">}</a></code></pre></div>
+<p>Ahora vamos a usar la función <code>optim</code> para encontrar los valores que maximizan la función de log-verosimilitud, el código para hacer eso se muestra a continuación. En el parámetro <code>par</code> se coloca un vector de posibles valores de <span class="math inline">\(\boldsymbol{\Theta}\)</span> para iniciar la búsqueda, en <code>fn</code> se coloca la función de interés, en <code>lower</code> y <code>upper</code> se colocan vectores que indican los límites de búsqueda de cada parámetro, los <span class="math inline">\(\beta_k\)</span> pueden variar entre <span class="math inline">\(-\infty\)</span> y <span class="math inline">\(\infty\)</span> mientras que el parámetro <span class="math inline">\(\sigma\)</span> toma valores en el intervalo <span class="math inline">\((0, \infty)\)</span>. Como la función <code>minusll</code> tiene argumentos adicionales <code>y</code>, <code>x1</code> y <code>x2</code>, estos pasan a la función <code>optim</code> al final como se muestra en el código.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">mod1 &lt;-<span class="st"> </span><span class="kw">optim</span>(<span class="dt">par=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">fn=</span>minusll,</a>
+<a class="sourceLine" id="cb9-2" title="2">              <span class="dt">method=</span><span class="st">&#39;L-BFGS-B&#39;</span>,</a>
+<a class="sourceLine" id="cb9-3" title="3">              <span class="dt">lower=</span><span class="kw">c</span>(<span class="op">-</span><span class="ot">Inf</span>, <span class="op">-</span><span class="ot">Inf</span>, <span class="op">-</span><span class="ot">Inf</span>, <span class="dv">0</span>),</a>
+<a class="sourceLine" id="cb9-4" title="4">              <span class="dt">upper=</span><span class="kw">c</span>(<span class="ot">Inf</span>, <span class="ot">Inf</span>, <span class="ot">Inf</span>, <span class="ot">Inf</span>), </a>
+<a class="sourceLine" id="cb9-5" title="5">              <span class="dt">y=</span>softdrink<span class="op">$</span>tiempo, </a>
+<a class="sourceLine" id="cb9-6" title="6">              <span class="dt">x1=</span>softdrink<span class="op">$</span>cantidad, </a>
+<a class="sourceLine" id="cb9-7" title="7">              <span class="dt">x2=</span>softdrink<span class="op">$</span>distancia)</a></code></pre></div>
+<p>En el objeto <code>res1</code> está el resultado de la optimización, para explorar los resultados usamos</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">mod1</a></code></pre></div>
+<pre><code>## $par
+## [1] 2.34103296 1.61590757 0.01438512 3.05769678
+## 
+## $value
+## [1] 63.41469
+## 
+## $counts
+## function gradient 
+##       58       58 
+## 
+## $convergence
+## [1] 0
+## 
+## $message
+## [1] &quot;CONVERGENCE: REL_REDUCTION_OF_F &lt;= FACTR*EPSMCH&quot;</code></pre>
+<p>De esta forma el vector de parámetros estimados del modelo es <span class="math inline">\(\hat{\boldsymbol{\theta}}=(2.34, 1.62, 0.01, 3.06)^\top\)</span>.</p>
+<p>Usualmente en la práctica se usa la función <code>lm</code> para estimar el vector de parámetros, a continuación el código necesario para usar la funcion <code>lm</code>.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">mod2 &lt;-<span class="st"> </span><span class="kw">lm</span>(tiempo <span class="op">~</span><span class="st"> </span>cantidad <span class="op">+</span><span class="st"> </span>distancia, <span class="dt">data=</span>softdrink)</a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="kw">summary</span>(mod2)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = tiempo ~ cantidad + distancia, data = softdrink)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.7880 -0.6629  0.4364  1.1566  7.4197 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 2.341231   1.096730   2.135 0.044170 *  
+## cantidad    1.615907   0.170735   9.464 3.25e-09 ***
+## distancia   0.014385   0.003613   3.981 0.000631 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.259 on 22 degrees of freedom
+## Multiple R-squared:  0.9596, Adjusted R-squared:  0.9559 
+## F-statistic: 261.2 on 2 and 22 DF,  p-value: 4.687e-16</code></pre>
+<p>De la salida anterior vemos que el vector de parámetros estimados del modelo es <span class="math inline">\(\hat{\boldsymbol{\theta}}=(2.34, 1.62, 0.01, 3.26)^\top\)</span>.</p>
+
+<div class="rmdtip">
+Para profundizar en el modelo de regresion lineal se recomienda consultar libro <a href="https://fhernanb.github.io/libro_regresion/index.html">Modelos de Regresión con R</a>
+</div>
+
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="mod-mix.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/02-regre-clasica.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
