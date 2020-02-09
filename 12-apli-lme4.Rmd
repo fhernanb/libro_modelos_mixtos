@@ -171,7 +171,7 @@ Graf_1 <- ggplot(data = sleepstudy, aes(x = Days, y = modelo_simple, color = Sub
   geom_abline(intercept = 251.40, slope = 10.47, color = "black", linetype = "solid", size = 0.5) +
   theme_bw() +
   theme(legend.position = "none") +
-  labs(x = "Días", y = "Tiempo de reacción predicho", title = 'Modelo simple') +
+  labs(x = "Días", y = "Tiempo de reacción predicho", title = 'Modelo de regresión clásico') +
   theme(axis.text = element_text(size = 8, color = "black", face = "bold"), 
         axis.title = element_text(size = 8, face = "bold"),
         plot.title = element_text(size = 8, color = "black", face = "bold"))
