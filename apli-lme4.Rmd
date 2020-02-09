@@ -1,0 +1,107 @@
+# Aplicación con `lme4`
+
+En este capítulo se mostrará como usar el paquete `lme4` para la aplicación de modelos mixtos con la base de datos `sleepstudy` del mismo paquete.
+
+A continuación la base de datos a utilizar.
+
+```{r, message = FALSE}
+library(lme4)
+head(sleepstudy)
+```
+Esta base de datos sobre el tiempo de reacción promedio por día para un conjunto de individuos, en un estudio de privación del sueño, contiene la información sobre el tiempo de reacción promedio (`Reaction`), el número de días de privación del sueño (`Days`), donde el día 0 corresponde al día en el que los indiviuos tenían su cantidad normal de sueño, y el número del individuo (en total 18) sobre el que se realizó la observación (`Subject`). A partir del día 0, hubo una restricción en cada individuo a 3 horas de sueño por noche.
+
+```{r plot_sleepstudy_lme4, fig.align="center"}
+
+library(ggplot2)
+
+ggplot(sleepstudy, aes(x = Days, y = Reaction, color = Subject)) +
+  geom_point() +
+  theme_bw() +
+  facet_wrap(~ Subject) + 
+  theme(legend.position = "none")
+```
+
+De la figura anterior vemos que el tiempo de reacción promedio, tanto en el día 0 como en los siguientes días de prueba (del día 1 al día 9), son distintos en cada uno de los individuos. Esta situación conlleva a probar la hipótesis de que el tiempo de reacción promedio en una serie de pruebas varía según los individuos. Esto es, ajustar un modelo donde el intercepto y la pendiente se consideran como efectos aleatorios.
+
+Un modelo lineal mixto que describe la anterior situación se puede escribir como:
+
+\begin{align*} 
+Reaction_{ij} &\sim  N(\mu_{ij}, \sigma^2_{Reaction}) \\ 
+\mu_{ij} &= \beta_0 + \beta_1 Subject_{ij} + b_{0i} + b_{1i} Subject_{ij} \\
+\left (
+\begin{matrix}
+b_{0} \\ b_{1}
+\end{matrix} 
+\right ) &\sim 
+N\left ( \left [ \begin{matrix}
+0 \\ 0
+\end{matrix} \right ],
+\left [ \begin{matrix}
+\sigma^2_{b0} & \sigma_{b01} \\ 
+\sigma_{b01} & \sigma^2_{b1}
+\end{matrix} \right ]
+\right )
+\end{align*}
+
+Aquí, los individuos ($i$) varían en el tiempo de reacción promedio tanto en su intercepto ($b_{0i}$) como en su pendiente ($b_{1i}$), que en conjunto componen la varianza total en dicho tiempo atribuible a la variación entre individuos. Esta contribución individual se cuantifica usando un modelo de intercepto y pendiente aleatoria con distribución normal ($N$). La variación entre individuos en intercepto y pendiente es $\sigma^2_{b0}$ y $\sigma²_{b1}$, respectivamente. La covarianza entre el intercepto y la pendiente esta dada por $\sigma_{b01}$.
+
+El vector de parámetros para este modelo sería $\boldsymbol{\Theta}=(\beta_0, \beta_1, \sigma_y, \sigma_{b0}, \sigma_{b1}, \sigma_{b0b1})^\top$.
+
+Para ajustar el modelo de intercepto y pendiente aleatoria planteado usando el paquete `lme4` podemos usar el siguiente código:
+
+```{r Ajuste del modelo}
+fit <- lmer(Reaction ~ Days + (Days | Subject), REML = TRUE, data = sleepstudy)
+```
+
+Para obtener la tabla de resumen usamos:
+
+```{r Resumen del modelo}
+
+summary(fit)
+```
+
+De la salida anterior se obtienen los siguientes parámetros ($\Theta$):
+
+```{r Tabla 1 sobre resultados del modelo ajustado, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+
+library(dplyr)
+library(kableExtra)
+
+Tabla_1 <- tibble::tribble(
+  ~x,
+  251.40,
+  10.47,
+  25.59,
+  24.74,
+  5.92,
+  10.25
+)
+rownames(Tabla_1) <- c("$\\beta_{0}$", "$\\beta_{1}$", "$\\sigma_{y}$", "$\\sigma_{b0}$", "$\\sigma_{b1}$", "$\\sigma_{b0b1}$")
+
+knitr::kable(Tabla_1, col.names = "$\\Theta$") %>%
+  kable_styling(full_width = FALSE) %>%
+  footnote(symbol = "El útimo parámetro estimado se obtiene utilizando la ecuación\n de [correlación](https://en.wikipedia.org/wiki/Correlation_and_dependence) que relaciona la covarianza y desviaciones de los\n efectos aleatorios: $Cor=Cov/(\\sigma_1 * \\sigma_2)$.")
+```
+
+Usando la información anterior se puede escribir el modelo ajustado de la siguiente manera:
+
+\begin{align*} 
+Reaction_{ij} &\sim  N(\hat{\mu}_{ij}, 25.59^2) \\ 
+\hat{\mu}_{ij} &= 251.40 + 10.47 Subject_{ij} + b_{0i} + b_{1i} Subject_{ij} \\
+\left (
+\begin{matrix}
+b_{0} \\ b_{1}
+\end{matrix} 
+\right ) &\sim 
+N\left ( \left [ \begin{matrix}
+0 \\ 0
+\end{matrix} \right ],
+\left [ \begin{matrix}
+24.74^2 & 10.25 \\ 
+10.25 & 5.92^2
+\end{matrix} \right ]
+\right ).
+\end{align*}
+
+
+
