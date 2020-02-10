@@ -78,16 +78,24 @@ Los resultados anteriores se pueden obtener por medio de la función `anova` as�
 anova(fit1, fit2)
 ```
 
-Ahora vamos a simular 20 conjuntos de datos bajo $H_0$ verdadera y luego calcularemos los `lrt` para así tener la distribución real de ellos bajo la hipótesis nula verdadera.
+Ahora vamos a simular 50 conjuntos de datos bajo $H_0$ verdadera y luego calcularemos los `lrt` para así tener la distribución real de ellos bajo la hipótesis nula $H_0: \sigma^2_{b0} = 0$ verdadera.
 
 ```{r}
-k <- 20
+pseudo_gen_dat <- function(n, m, beta0, beta1, sigmay) {
+  group <- rep(1:n, each=m)
+  x <- datos$x  # Aqui la diferencia ;)
+  mu <- beta0 + beta1 * x
+  y <- rnorm(n=n*m, mean=mu, sd=sigmay)
+  data.frame(group=group, x=x, y=y)
+}
+
+k <- 50
 lrts <- numeric(k)
 for (i in 1:k) {
-  pseudo_datos <- gen_dat_b0(n=10, m=10, 
-                             beta0=4.64931, beta1=-6.00175, 
-                             sigma=2.50842, sigmab0=0)
-  m1 <- gls(y ~ x, data=pseudo_datos)
+  pseudo_datos <- pseudo_gen_dat(n=10, m=10, 
+                                 beta0=4.64931, beta1=-6.00175, 
+                                 sigma=2.50842)
+  m1 <- gls(y ~ x, data=pseudo_datos, method="REML")
   m2 <- lme(y ~ x, random = ~ 1| group, data=pseudo_datos, method="REML")
   lrts[i] <- -2 * (logLik(m1) - logLik(m2))
 }
@@ -115,3 +123,6 @@ library(RLRsim)
 exactRLRT(fit2, nsim=1000)
 ```
 
+## Ejercicios {-}
+
+1. Aplique la prueba LRT a los ejemplos de los capítulos \@ref(apli-nlme) y \@ref(apli-lme4) para determinar si es apropiado o no incluir efectos aleatorios.

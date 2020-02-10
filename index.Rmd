@@ -23,7 +23,7 @@ knitr::write_bib(c(
 
 ```{r echo=FALSE, eval=FALSE}
 # lista de paquetes necesarios para compilar el libro
-list.of.packages <- c("MPV", "scatterplot3d", "kableExtra")
+list.of.packages <- c("MPV", "scatterplot3d", "kableExtra", "RLRsim")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 ```
