@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>7 Aplicación con lme4 | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para ….." />
-  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
   <meta property="og:title" content="7 Aplicación con lme4 | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
@@ -25,7 +25,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2020-02-09" />
+<meta name="date" content="2020-02-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -71,7 +71,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+  { content: attr(title);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -188,8 +188,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">7</span> Aplicación con <code>lme4</code></h1>
 <p>En este capítulo se mostrará como usar el paquete <code>lme4</code> para la aplicación de modelos mixtos con la base de datos <code>sleepstudy</code> del mismo paquete.</p>
 <p>A continuación la base de datos a utilizar.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(lme4)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">head</span>(sleepstudy)</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1"><span class="kw">library</span>(lme4)</a>
+<a class="sourceLine" id="cb37-2" title="2"><span class="kw">head</span>(sleepstudy)</a></code></pre></div>
 <pre><code>##   Reaction Days Subject
 ## 1 249.5600    0     308
 ## 2 258.7047    1     308
@@ -198,13 +198,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5 356.8519    4     308
 ## 6 414.6901    5     308</code></pre>
 <p>Esta base de datos sobre el tiempo de reacción promedio por día para un conjunto de individuos, en un estudio de privación del sueño, contiene la información sobre el tiempo de reacción promedio (<code>Reaction</code>), el número de días de privación del sueño (<code>Days</code>), donde el día 0 corresponde al día en el que los indiviuos tenían su cantidad normal de sueño, y el número del individuo (en total 18) sobre el que se realizó la observación (<code>Subject</code>). A partir del día 0, hubo una restricción en cada individuo a 3 horas de sueño por noche.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">ggplot</span>(<span class="dt">data =</span> sleepstudy, <span class="kw">aes</span>(<span class="dt">x =</span> Days, <span class="dt">y =</span> Reaction, <span class="dt">color =</span> Subject)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Subject) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb39-2" title="2"></a>
+<a class="sourceLine" id="cb39-3" title="3"><span class="kw">ggplot</span>(<span class="dt">data =</span> sleepstudy, <span class="kw">aes</span>(<span class="dt">x =</span> Days, <span class="dt">y =</span> Reaction, <span class="dt">color =</span> Subject)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb39-4" title="4"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb39-5" title="5"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb39-6" title="6"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Subject) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb39-7" title="7"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
 <p><img src="libro_mod_pred_files/figure-html/plot_sleepstudy_lme4-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>De la figura anterior vemos que el tiempo de reacción promedio, tanto en el día 0 como en los siguientes días de prueba (del día 1 al día 9), son distintos en cada uno de los individuos. Esta situación conlleva a probar la hipótesis de que el tiempo de reacción promedio en una serie de pruebas varía según los individuos. Esto es, ajustar un modelo donde el intercepto y la pendiente se consideran como efectos aleatorios.</p>
 <p>Un modelo lineal mixto que describe la anterior situación se puede escribir como:</p>
@@ -228,9 +228,9 @@ N\left ( \left [ \begin{matrix}
 <p>Aquí, los individuos (<span class="math inline">\(i\)</span>) varían en el tiempo de reacción promedio tanto en su intercepto (<span class="math inline">\(b_{0i}\)</span>) como en su pendiente (<span class="math inline">\(b_{1i}\)</span>), que en conjunto componen la varianza total en dicho tiempo atribuible a la variación entre individuos. Esta contribución individual se cuantifica usando un modelo de intercepto y pendiente aleatoria con distribución normal (<span class="math inline">\(N\)</span>). La variación entre individuos en intercepto y pendiente es <span class="math inline">\(\sigma^2_{b0}\)</span> y <span class="math inline">\(\sigma²_{b1}\)</span>, respectivamente. La covarianza entre el intercepto y la pendiente esta dada por <span class="math inline">\(\sigma_{b01}\)</span>.</p>
 <p>El vector de parámetros para este modelo sería <span class="math inline">\(\boldsymbol{\Theta}=(\beta_0, \beta_1, \sigma_y, \sigma_{b0}, \sigma_{b1}, \sigma_{b0b1})^\top\)</span>.</p>
 <p>Para ajustar el modelo de intercepto y pendiente aleatoria planteado usando el paquete <code>lme4</code> podemos usar el siguiente código:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">fit &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction <span class="op">~</span><span class="st"> </span>Days <span class="op">+</span><span class="st"> </span>(Days <span class="op">|</span><span class="st"> </span>Subject), <span class="dt">REML =</span> <span class="ot">TRUE</span>, <span class="dt">data =</span> sleepstudy)</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1">fit &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction <span class="op">~</span><span class="st"> </span>Days <span class="op">+</span><span class="st"> </span>(Days <span class="op">|</span><span class="st"> </span>Subject), <span class="dt">REML =</span> <span class="ot">TRUE</span>, <span class="dt">data =</span> sleepstudy)</a></code></pre></div>
 <p>Para obtener la tabla de resumen usamos:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">summary</span>(fit)</a></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1"><span class="kw">summary</span>(fit)</a></code></pre></div>
 <pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
 ## Formula: Reaction ~ Days + (Days | Subject)
 ##    Data: sleepstudy
@@ -344,7 +344,7 @@ N\left ( \left [ \begin{matrix}
 \right )
 \end{align*}\]</span></p>
 <p>Los elementos <span class="math inline">\(b_{0i}\)</span> y <span class="math inline">\(b_{1i}\)</span> se deben substituir por sus respectivas predicciones <span class="math inline">\(\tilde{b}_{0i}\)</span> y <span class="math inline">\(\tilde{b}_{1i}\)</span> y se pueden obtener del modelo ajustado de esta forma:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">ranef</span>(fit)</a></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" title="1"><span class="kw">ranef</span>(fit)</a></code></pre></div>
 <pre><code>## $Subject
 ##     (Intercept)        Days
 ## 308   2.2575329   9.1992737
@@ -368,7 +368,7 @@ N\left ( \left [ \begin{matrix}
 ## 
 ## with conditional variances for &quot;Subject&quot;</code></pre>
 <p>Y los valores de los efectos fijos estimados se pueden obtener así:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">fixef</span>(fit)</a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" title="1"><span class="kw">fixef</span>(fit)</a></code></pre></div>
 <pre><code>## (Intercept)        Days 
 ##   251.40510    10.46729</code></pre>
 <p>Con base en la información anterior de efectos aleatorios y fijos, es posible escribir la ecuación del modelo para cada individuo. Para esto, se debe considerar los efectos fijos estimados (<span class="math inline">\(\hat{\beta}_0 \approx 251.40\)</span> y <span class="math inline">\(\hat{\beta}_1\approx 10.47\)</span>) y los efectos aleatorios de cada uno de los individuos (por ejemplo para el individuo <code>308</code>, <span class="math inline">\(\tilde{b}_{0, i=308} \approx 2.26\)</span> y <span class="math inline">\(\tilde{b}_{1, i=308} \approx 9.20\)</span>). Así, el valor medio del individuo <code>308</code> se calcula como:</p>
@@ -383,7 +383,7 @@ Reaction_{i=308, j} &amp;\sim  N(\hat{\mu}_{i=308, j}, \hat{\sigma}^2_{Reaction}
 \hat{\sigma}_{Reaction} &amp;= 25.59
 \end{align*}\]</span></p>
 <p>Los efectos fijos y aleatorios de la expresión anterior para cada uno de los individuos se pueden obtener con <code>R</code> de la siguiente forma:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">coef</span>(fit)</a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" title="1"><span class="kw">coef</span>(fit)</a></code></pre></div>
 <pre><code>## $Subject
 ##     (Intercept)       Days
 ## 308    253.6626 19.6665597
@@ -408,17 +408,17 @@ Reaction_{i=308, j} &amp;\sim  N(\hat{\mu}_{i=308, j}, \hat{\sigma}^2_{Reaction}
 ## attr(,&quot;class&quot;)
 ## [1] &quot;coef.mer&quot;</code></pre>
 <p>A continuación podras observar el diagrama de dispersión mostrado al inicio de este capitulo, agregandole a la misma la recta de regresión para cada individuo. El código de <code>R</code> para obtener esto se presenta a continuación:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">fit &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction <span class="op">~</span><span class="st"> </span>Days <span class="op">+</span><span class="st"> </span>(Days <span class="op">|</span><span class="st"> </span>Subject), <span class="dt">REML =</span> <span class="ot">TRUE</span>, <span class="dt">data =</span> sleepstudy)</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">sleepstudy<span class="op">$</span>pred_inter_pend_aleatorio &lt;-<span class="st"> </span><span class="kw">predict</span>(fit)</a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="kw">ggplot</span>(<span class="dt">data =</span> sleepstudy, <span class="kw">aes</span>(<span class="dt">x =</span> Days, <span class="dt">y =</span> pred_inter_pend_aleatorio, <span class="dt">color =</span> Subject)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Days, <span class="dt">y =</span> Reaction, <span class="dt">color =</span> Subject)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">intercept =</span> <span class="fl">251.40</span>, <span class="dt">slope =</span> <span class="fl">10.47</span>, <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="dt">size =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Subject) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
-<p><img src="libro_mod_pred_files/figure-html/Gr%C3%A1fico%20con%20recta%20de%20regresi%C3%B3n-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1">fit &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction <span class="op">~</span><span class="st"> </span>Days <span class="op">+</span><span class="st"> </span>(Days <span class="op">|</span><span class="st"> </span>Subject), <span class="dt">REML =</span> <span class="ot">TRUE</span>, <span class="dt">data =</span> sleepstudy)</a>
+<a class="sourceLine" id="cb49-2" title="2">sleepstudy<span class="op">$</span>pred_inter_pend_aleatorio &lt;-<span class="st"> </span><span class="kw">predict</span>(fit)</a>
+<a class="sourceLine" id="cb49-3" title="3"></a>
+<a class="sourceLine" id="cb49-4" title="4"><span class="kw">ggplot</span>(<span class="dt">data =</span> sleepstudy, <span class="kw">aes</span>(<span class="dt">x =</span> Days, <span class="dt">y =</span> pred_inter_pend_aleatorio, <span class="dt">color =</span> Subject)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb49-5" title="5"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb49-6" title="6"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Days, <span class="dt">y =</span> Reaction, <span class="dt">color =</span> Subject)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb49-7" title="7"><span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">intercept =</span> <span class="fl">251.40</span>, <span class="dt">slope =</span> <span class="fl">10.47</span>, <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="dt">size =</span> <span class="fl">0.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb49-8" title="8"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb49-9" title="9"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>Subject) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb49-10" title="10"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
+<p><img src="libro_mod_pred_files/figure-html/Gráfico con recta de regresión-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>La figura anterior corresponde a un modelo de intercepto y pendiente aleatoria, en el que se permite que tanto los interceptos como las pendientes varíen según los individuos. Las líneas continuas corresponde a la recta de regresión ajustada a los datos. Los puntos representan las observaciones (tiempo de reacción promedio por día) medidas en cada uno de los individuos. La línea negra discontinua representa el valor medio global de la distribución de los efectos aleatorios.</p>
 <p>A continuación podra observar distintas figuras donde se ajustaron cuatro modelos distintos, entre ellos el modelo mixto con intercepto y pendiente aleatoria ya evaluado aquí (Figura 4). Con base en estas figuras, se plantean los ejercicios posteriores a las mismas figuras:</p>
 <p><img src="libro_mod_pred_files/figure-html/Graficos%20de%20los%20distintos%20modelo-1.png" width="672" style="display: block; margin: auto;" /></p>
