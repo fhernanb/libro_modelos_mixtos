@@ -9,5 +9,109 @@ t = \frac{\hat{\beta}_k - \beta_{k0}}{se(\hat{\beta}_k)},
 $$
 donde $se(\hat{\beta}_k)$ corresponde al error estándar de la estimación $\hat{\beta}_k$, todo esto disponible en el summary del modelo ajustado. Si $H_0$ es verdadera, $t \sim t_{n-p}$, siendo $n$ el número de observaciones y $p$ el número de efectos fijos estimados (no el número de variables) en el modelo.
 
-## Prueba de hipótesis sobre un conjunto de parámetros (varios $\beta_k$)
+## Prueba de hipótesis sobre un conjunto de parámetros fijos (varios $\beta_k$)
+
+## Prueba de hipótesis sobre componentes de varianza
+
+La función `gen_dat_b0` de abajo permite simular `m` observaciones de `n` grupos con intercepto aleatorio $b_0 \sim N(0, \sigma^2_{bo})$. Adicionalmente, es posible elegir los efectos fijos `beta0`, `beta_1` y la varianza `sigma` de la variable respuesta.
+
+```{r}
+gen_dat_b0 <- function(n, m, beta0, beta1, 
+                       sigmay, sigmab0, seed=NULL) {
+  if(is.null(seed))
+    seed <- as.integer(runif(1)*2e9)
+  group <- rep(1:n, each=m)
+  set.seed(seed)
+  b0 <- rep(rnorm(n=n, mean=0, sd=sigmab0), each=m)
+  set.seed(seed)
+  x <- runif(n=n*m, min=0, max=10)
+  mu <- beta0 + beta1 * x + b0
+  set.seed(seed)
+  y <- rnorm(n=n*m, mean=mu, sd=sigmay)
+  data.frame(group=group, x=x, y=y)
+}
+```
+
+Vamos ahora a generar 10 observaciones para 10 grupos con intercepto aleatorio con una varianza $\sigma^2_{b0}=2^2=4$. La semilla se va a fijar en un valor de 1220872376 por cuestiones didácticas.
+
+```{r}
+datos <- gen_dat_b0(n=10, m=10, 
+                    beta0=4, beta1=-6, 
+                    sigmay=2, sigmab0=2, seed=1220872376)
+head(datos)
+```
+
+Ajustando dos modelos.
+
+```{r}
+library(nlme)
+fit1 <- gls(y ~ x, data=datos, method="REML") # Igual resultado con lm
+fit2 <- lme(y ~ x, random = ~ 1| group, data=datos, method="REML")
+```
+
+Resultados del primer modelo.
+
+```{r}
+summary(fit1)
+```
+
+Resultados del segundo modelo.
+
+```{r}
+summary(fit2)
+```
+
+Ahora vamos a calcular el estadístico y su valor-P.
+
+```{r}
+lrt <- -2 * (logLik(fit1) - logLik(fit2))
+lrt
+my_p.value <- pchisq(q=3.04712, df=1, lower.tail=FALSE)
+my_p.value
+```
+
+De la salida anterior se tiene que $valor-P = 0.0809$ y como $\alpha=0.05$, por lo tanto NO hay evidencias para rechazar $H_0: \sigma^2_{b0} = 0$. ¿No es extraña esta conclusión &#129300;?
+
+Los resultados anteriores se pueden obtener por medio de la función `anova` así.
+
+```{r}
+anova(fit1, fit2)
+```
+
+Ahora vamos a simular 20 conjuntos de datos bajo $H_0$ verdadera y luego calcularemos los `lrt` para así tener la distribución real de ellos bajo la hipótesis nula verdadera.
+
+```{r}
+k <- 20
+lrts <- numeric(k)
+for (i in 1:k) {
+  pseudo_datos <- gen_dat_b0(n=10, m=10, 
+                             beta0=4.64931, beta1=-6.00175, 
+                             sigma=2.50842, sigmab0=0)
+  m1 <- gls(y ~ x, data=pseudo_datos)
+  m2 <- lme(y ~ x, random = ~ 1| group, data=pseudo_datos, method="REML")
+  lrts[i] <- -2 * (logLik(m1) - logLik(m2))
+}
+```
+
+Dibujando la densidad de los `lrt`.
+
+```{r}
+plot(density(lrts), main='Densidad empírica de los lrts')
+```
+
+Calculando el valor-P.
+
+```{r}
+acumulada <- ecdf(x=lrts) # F(x) para los valores LRT
+1 - acumulada(3.04712)    # Valor-P
+```
+
+De la salida anterior se tiene que $valor-P < \alpha$ por lo tanto SI hay evidencias para rechazar $H_0: \sigma^2_{b0} = 0$. ¿Es esto coherente ahora &#128578;?
+
+Los resultados anteriores se pueden obtener por medio de la función `exactRLRT` así.
+
+```{r}
+library(RLRsim)
+exactRLRT(fit2, nsim=1000)
+```
 
