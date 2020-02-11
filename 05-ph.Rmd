@@ -10,24 +10,57 @@ $$
 donde $se(\hat{\beta}_k)$ corresponde al error estándar de la estimación $\hat{\beta}_k$, todo esto disponible en el summary del modelo ajustado. Si $H_0$ es verdadera, $t \sim t_{n-p}$, siendo $n$ el número de observaciones y $p$ el número de efectos fijos estimados (no el número de variables) en el modelo.
 
 ## Prueba de hipótesis sobre un conjunto de parámetros fijos (varios $\beta_k$)
+Luego un ejemplo.
+
+## Prueba razón de verosimilitud
+Supongamos que queremos estudiar $H_0: \theta \in \boldsymbol{\Theta}_0$ versus $H_A: \theta \in \boldsymbol{\Theta}^c$. La prueba razón de verosimilitud ($LR$) para $H_0$ está dada por:
+
+$$
+LR = -2 \log \left( \frac{ sup_{\theta \in \boldsymbol{\Theta}_0} L(\theta)}{ sup_{\theta \in \boldsymbol{\Theta}} L(\theta)} \right)
+$$
+
+Usualmente la prueba de razón de verosimilitud se expresa en función de los valores de log-verosimilitud del modelo asi:
+
+$$
+LR = -2 ( l(\Theta_0) - l(\hat{\Theta}) )
+$$
+
+y el estadístico $LR \sim \chi^2_{k-k_0}$, donde $k$ es el número de parámetros del modelo estimado y $k_0$ el número de parámetros del modelo asumiendo $H_0$ verdadera.
 
 ## Prueba de hipótesis sobre componentes de varianza
+Las componentes de varianza corresponden a las varianzas y covarianzas del vector de efectos aleatorios. Para hacer pruebas de hipótesis sobre las componentes de varianza se tienen dos casos que se explican en las siguientes subsecciones.
 
-La función `gen_dat_b0` de abajo permite simular `m` observaciones de `n` grupos con intercepto aleatorio $b_0 \sim N(0, \sigma^2_{bo})$. Adicionalmente, es posible elegir los efectos fijos `beta0`, `beta_1` y la varianza `sigma` de la variable respuesta.
+### Componentes de varianza lejos del borde
+Luego un ejemplo.
+
+### Componentes de varianza en el borde
+Este caso se presenta cuando la hipótesis nula considera que uno o varios parámetros están justo en el borde del dominio del parámetro en cuestion. Por ejemplo, si queremos estudiar la inclusión del intercepto aleatorio $b_0$ en un modelo de regresión clásico, tendríamos las siguientes hipótesis: $H_0: \sigma^2_{b0} = 0$ versus $H_A: \sigma^2_{b0} > 0$. Debido a la condición de $\sigma^2_{b0}$ en $H_0$, se dice que esa componente de varianza está en el borde de su dominio, ya que $\sigma^2_{b0}$ no puede ser negativa. En este ejemplo particular, rechazar $H_0$ implicaría que es apropiado incluir $b_0$ en el modelo.
+
+### Ejemplo {-}
+Simule 10 observaciones para cada uno de los 10 grupos siguiendo el siguiente modelo y luego aplique la prueba de razón de verosimilitud para estudiar $H_0: \sigma^2_{b0} = 0$ versus $H_A: \sigma^2_{b0} > 0$.
+
+\begin{align*} 
+y_{ij} &\sim  N(\mu_{ij}, \sigma^2) \\ 
+\mu_{ij} &= 4 - 6 x_{ij} + b_{0i} \\
+\sigma^2_y &= 4 \\
+b_{0} &\sim N(0, \sigma^2_{b0}=4) \\
+x_{ij} &\sim U(0, 10)
+\end{align*}
+
+__Solución__
+
+La función `gen_dat_b0` de abajo permite simular `m` observaciones de `n` grupos con intercepto aleatorio $b_0 \sim N(0, \sigma^2_{b0})$. Adicionalmente, es posible elegir los efectos fijos `beta0`, `beta_1` y la varianza `sigma` de la variable respuesta.
 
 ```{r}
-gen_dat_b0 <- function(n, m, beta0, beta1, 
-                       sigmay, sigmab0, seed=NULL) {
-  if(is.null(seed))
-    seed <- as.integer(runif(1)*2e9)
+gen_dat_b0 <- function(n, m, beta0, beta1, sigmay, sigmab0, seed=NULL) {
+  if(is.null(seed)) seed <- as.integer(runif(1)*2e9)
   group <- rep(1:n, each=m)
   set.seed(seed)
   b0 <- rep(rnorm(n=n, mean=0, sd=sigmab0), each=m)
   set.seed(seed)
   x <- runif(n=n*m, min=0, max=10)
-  mu <- beta0 + beta1 * x + b0
   set.seed(seed)
-  y <- rnorm(n=n*m, mean=mu, sd=sigmay)
+  y <- rnorm(n=n*m, mean=beta0 + beta1 * x + b0, sd=sigmay)
   data.frame(group=group, x=x, y=y)
 }
 ```
@@ -41,7 +74,7 @@ datos <- gen_dat_b0(n=10, m=10,
 head(datos)
 ```
 
-Ajustando dos modelos.
+Vamos a ajustar dos modelos, el primero sin incluir $b_0$ y el segundo incluyendo $b_0$.
 
 ```{r}
 library(nlme)
@@ -125,4 +158,8 @@ exactRLRT(fit2, nsim=1000)
 
 ## Ejercicios {-}
 
-1. Aplique la prueba LRT a los ejemplos de los capítulos \@ref(apli-nlme) y \@ref(apli-lme4) para determinar si es apropiado o no incluir efectos aleatorios.
+1. Considere el ejemplo del capítulo \@ref(apli-nlme) sobre el estudio de crecimiento de un grupo de jóvenes. Aplique la prueba razón de verosimilitud para estudiar $H_0: \sigma^2_{b0} = 0$ versus $H_A: \sigma^2_{b0} > 0$, es decir, ajuste un modelo lineal simple para explicar la estatura en función de la edad y luego un modelo mixto con intercepto aleatorio. ¿Cuál de los dos modelos parece explicar mejor los datos? Use $\alpha=0.06$.
+
+
+
+
