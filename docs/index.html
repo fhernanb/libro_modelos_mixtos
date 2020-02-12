@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para ….." />
-  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
@@ -51,7 +51,6 @@
 
 
 
-<script src="libs/kePrint-0.0.1/kePrint.js"></script>
 
 
 <style type="text/css">
@@ -71,7 +70,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(title);
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -164,10 +163,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejercicios"><i class="fa fa-check"></i>Ejercicios</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="apli-nlme.html"><a href="apli-nlme.html"><i class="fa fa-check"></i><b>6</b> Aplicación con <code>nlme</code></a><ul>
+<li class="chapter" data-level="6" data-path="reg-diagnos.html"><a href="reg-diagnos.html"><i class="fa fa-check"></i><b>6</b> Diagnóstico del modelo de regresión de efectos mixtos</a><ul>
+<li class="chapter" data-level="6.1" data-path="reg-diagnos.html"><a href="reg-diagnos.html#los-residuos"><i class="fa fa-check"></i><b>6.1</b> Los residuos</a></li>
+<li class="chapter" data-level="6.2" data-path="reg-diagnos.html"><a href="reg-diagnos.html#el-método-gráfico"><i class="fa fa-check"></i><b>6.2</b> El método gráfico</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="apli-nlme.html"><a href="apli-nlme.html"><i class="fa fa-check"></i><b>7</b> Aplicación con <code>nlme</code></a><ul>
 <li class="chapter" data-level="" data-path="apli-nlme.html"><a href="apli-nlme.html#ejercicios-1"><i class="fa fa-check"></i>Ejercicios</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="apli-lme4.html"><a href="apli-lme4.html"><i class="fa fa-check"></i><b>7</b> Aplicación con <code>lme4</code></a><ul>
+<li class="chapter" data-level="8" data-path="apli-lme4.html"><a href="apli-lme4.html"><i class="fa fa-check"></i><b>8</b> Aplicación con <code>lme4</code></a><ul>
 <li class="chapter" data-level="" data-path="apli-lme4.html"><a href="apli-lme4.html#ejercicios-2"><i class="fa fa-check"></i>Ejercicios</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -209,12 +212,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="software-y-convenciones" class="section level2 unnumbered">
 <h2>Software y convenciones</h2>
-<p>Para realizar este libro usamos los paquetes <strong>knitr</strong> <span class="citation">(Xie <a href="#ref-xie2015" role="doc-biblioref">2015</a>)</span> y <strong>bookdown</strong> <span class="citation">(Xie <a href="#ref-R-bookdown" role="doc-biblioref">2020</a>)</span> que permiten unir la ventajas de LaTeX y R en un mismo archivo.</p>
+<p>Para realizar este libro usamos los paquetes <strong>knitr</strong> <span class="citation">(Xie <a href="#ref-xie2015">2015</a>)</span> y <strong>bookdown</strong> <span class="citation">(Xie <a href="#ref-R-bookdown">2019</a>)</span> que permiten unir la ventajas de LaTeX y R en un mismo archivo.</p>
 <p>En todo el libro se presentarán códigos que el lector puede copiar y pegar en su consola de R para obtener los mismos resultados aquí del libro. Los códigos se destacan en una caja de color similar a la mostrada a continuación.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="dv">4</span> <span class="op">+</span><span class="st"> </span><span class="dv">6</span></a>
-<a class="sourceLine" id="cb1-2" title="2">a &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">6</span>)</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="dv">5</span> <span class="op">*</span><span class="st"> </span>a</a>
-<a class="sourceLine" id="cb1-4" title="4"><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="dv">4</span> <span class="op">+</span><span class="st"> </span><span class="dv">6</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">a &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="dv">5</span> <span class="op">*</span><span class="st"> </span>a</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></a></code></pre></div>
 <p>Los resultados o salidas obtenidos de cualquier código se destacan con dos símbolos de númeral (<code>##</code>) al inicio de cada línea o renglón, esto quiere decir que todo lo que inicie con <code>##</code> son resultados obtenidos y <strong>NO</strong> los debe copiar. Abajo se muestran los resultados obtenidos luego de correr el código anterior.</p>
 <pre><code>## [1] 10</code></pre>
 <pre><code>## [1]  5 25 30</code></pre>
@@ -247,7 +250,7 @@ Advertencia.
 <p>Xie, Yihui. 2015. <em>Dynamic Documents with R and Knitr</em>. 2nd ed. Boca Raton, Florida: Chapman; Hall/CRC. <a href="http://yihui.name/knitr/">http://yihui.name/knitr/</a>.</p>
 </div>
 <div id="ref-R-bookdown">
-<p>Xie, Yihui. 2020. <em>Bookdown: Authoring Books and Technical Documents with R Markdown</em>. <a href="https://CRAN.R-project.org/package=bookdown">https://CRAN.R-project.org/package=bookdown</a>.</p>
+<p>Xie, Yihui. 2019. <em>Bookdown: Authoring Books and Technical Documents with R Markdown</em>. <a href="https://CRAN.R-project.org/package=bookdown">https://CRAN.R-project.org/package=bookdown</a>.</p>
 </div>
 </div>
             </section>
