@@ -1,0 +1,12 @@
+# Diagnóstico del modelo de regresión de efectos mixtos {#reg-diagnos}
+
+El diagnóstico del modelo de regresión es un método que permite determinar si un modelo de regresión ajustado representa adecuadamente los datos. Dicho diagnóstico puede ser de dos tipos: mediante métodos gráficos o métodos puramente numéricos (pruebas de hipótesis). No obstante el diagnóstico gráfico permite al analista descubrir no solo cuándo el modelo ajustado presenta problemas, sino que también permite detectar cuál puede ser la causa del mismo, lo cual sería casi imposible a través de los métodos numéricos.
+
+El objetivo de este capitulo consiste en introducir al lector los distintos métodos de diagnostico del modelo, los cuales permitiran identificar aquel modelo que represente sus datos con una mayor precisión.
+
+## Los residuos
+
+
+
+## El método gráfico
+
