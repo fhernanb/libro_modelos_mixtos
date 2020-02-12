@@ -15,11 +15,23 @@ description: "Este libro es para ....."
 
 # Bienvenido {-}
 
-```{r include=FALSE}
+```{r include=FALSE, eval=T}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown', 'nlme', 'lme4', 'MPV', 'scatterplot3d', 'plotly', 'packages.bib', 'MASS', 'brms', 'MCMCglmm', 'glmmADMB'))
+  .packages(), 
+  'bookdown', 'knitr', 'rmarkdown', 'nlme', 'lme4', 'MPV', 'scatterplot3d', 
+  'plotly', 'packages.bib', 'MASS', 'brms', 'MCMCglmm', 
+  'glmmADMB', 'RLRsim'), 
+  "packages.bib")
 ```
+
+```{r echo=FALSE, eval=FALSE}
+# lista de paquetes necesarios para compilar el libro
+list.of.packages <- c("MPV", "scatterplot3d", "kableExtra", "RLRsim")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+```
+
 
 ```{r echo=FALSE, out.width="50%", fig.align='center'}
 knitr::include_graphics("images/Portada.jpg")

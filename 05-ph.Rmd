@@ -9,5 +9,163 @@ t = \frac{\hat{\beta}_k - \beta_{k0}}{se(\hat{\beta}_k)},
 $$
 donde $se(\hat{\beta}_k)$ corresponde al error estándar de la estimación $\hat{\beta}_k$, todo esto disponible en el summary del modelo ajustado. Si $H_0$ es verdadera, $t \sim t_{n-p}$, siendo $n$ el número de observaciones y $p$ el número de efectos fijos estimados (no el número de variables) en el modelo.
 
-## Prueba de hipótesis sobre un conjunto de parámetros (varios $\beta_k$)
+## Prueba de hipótesis sobre un conjunto de parámetros fijos (varios $\beta_k$)
+Luego un ejemplo.
+
+## Prueba razón de verosimilitud
+Supongamos que queremos estudiar $H_0: \theta \in \boldsymbol{\Theta}_0$ versus $H_A: \theta \in \boldsymbol{\Theta}$. La prueba razón de verosimilitud ($LR$) para $H_0$ está dada por:
+
+$$
+LR = -2 \log \left( \frac{ sup_{\theta \in \boldsymbol{\Theta}_0} L(\theta)}{ sup_{\theta \in \boldsymbol{\Theta}} L(\theta)} \right)
+$$
+
+Usualmente la prueba de razón de verosimilitud se expresa en función de los valores de log-verosimilitud del modelo asi:
+
+$$
+LR = -2 ( l(\Theta_0) - l(\hat{\Theta}) )
+$$
+
+y el estadístico $LR \sim \chi^2_{k-k_0}$, donde $k$ es el número de parámetros del modelo estimado y $k_0$ el número de parámetros del modelo asumiendo $H_0$ verdadera.
+
+## Prueba de hipótesis sobre componentes de varianza
+Las componentes de varianza corresponden a las varianzas y covarianzas del vector de efectos aleatorios. Para hacer pruebas de hipótesis sobre las componentes de varianza se tienen dos casos que se explican en las siguientes subsecciones.
+
+### Componentes de varianza lejos del borde
+Luego un ejemplo.
+
+### Componentes de varianza en el borde
+Este caso se presenta cuando la hipótesis nula considera que uno o varios parámetros están justo en el borde del dominio del parámetro en cuestion. Por ejemplo, si queremos estudiar la inclusión del intercepto aleatorio $b_0$ en un modelo de regresión clásico, tendríamos las siguientes hipótesis: $H_0: \sigma^2_{b0} = 0$ versus $H_A: \sigma^2_{b0} > 0$. Debido a la condición de $\sigma^2_{b0}$ en $H_0$, se dice que esa componente de varianza está en el borde de su dominio, ya que $\sigma^2_{b0}$ no puede ser negativa. En este ejemplo particular, rechazar $H_0$ implicaría que es apropiado incluir $b_0$ en el modelo.
+
+### Ejemplo {-}
+Simule 10 observaciones para cada uno de los 10 grupos siguiendo el siguiente modelo y luego aplique la prueba de razón de verosimilitud para estudiar $H_0: \sigma^2_{b0} = 0$ versus $H_A: \sigma^2_{b0} > 0$.
+
+\begin{align*} 
+y_{ij} &\sim  N(\mu_{ij}, \sigma^2) \\ 
+\mu_{ij} &= 4 - 6 x_{ij} + b_{0i} \\
+\sigma^2_y &= 4 \\
+b_{0} &\sim N(0, \sigma^2_{b0}=4) \\
+x_{ij} &\sim U(0, 10)
+\end{align*}
+
+__Solución__
+
+La función `gen_dat_b0` de abajo permite simular `m` observaciones de `n` grupos con intercepto aleatorio $b_0 \sim N(0, \sigma^2_{b0})$. Adicionalmente, es posible elegir los efectos fijos `beta0`, `beta_1` y la varianza `sigma` de la variable respuesta.
+
+```{r}
+gen_dat_b0 <- function(n, m, beta0, beta1, sigmay, sigmab0, seed=NULL) {
+  if(is.null(seed)) seed <- as.integer(runif(1)*2e9)
+  group <- rep(1:n, each=m)
+  set.seed(seed)
+  b0 <- rep(rnorm(n=n, mean=0, sd=sigmab0), each=m)
+  set.seed(seed)
+  x <- runif(n=n*m, min=0, max=10)
+  set.seed(seed)
+  y <- rnorm(n=n*m, mean=beta0 + beta1 * x + b0, sd=sigmay)
+  data.frame(group=group, x=x, y=y)
+}
+```
+
+Vamos ahora a generar 10 observaciones para 10 grupos con intercepto aleatorio con una varianza $\sigma^2_{b0}=2^2=4$. La semilla se va a fijar en un valor de 1220872376 por cuestiones didácticas.
+
+```{r}
+datos <- gen_dat_b0(n=10, m=10, 
+                    beta0=4, beta1=-6, 
+                    sigmay=2, sigmab0=2, seed=1220872376)
+head(datos)
+```
+
+Vamos a ajustar dos modelos, el primero sin incluir $b_0$ y el segundo incluyendo $b_0$.
+
+```{r}
+library(nlme)
+fit1 <- gls(y ~ x, data=datos, method="REML") # Igual resultado con lm
+fit2 <- lme(y ~ x, random = ~ 1| group, data=datos, method="REML")
+```
+
+Resultados del primer modelo.
+
+```{r}
+summary(fit1)
+```
+
+Resultados del segundo modelo.
+
+```{r}
+summary(fit2)
+```
+
+Ahora vamos a calcular el estadístico y su valor-P.
+
+```{r}
+lrt <- -2 * (logLik(fit1) - logLik(fit2))
+lrt
+my_p.value <- pchisq(q=3.04712, df=1, lower.tail=FALSE)
+my_p.value
+```
+
+De la salida anterior se tiene que $valor-P = 0.0809$ y como $\alpha=0.05$, por lo tanto NO hay evidencias para rechazar $H_0: \sigma^2_{b0} = 0$. ¿No es extraña esta conclusión &#129300;?
+
+Los resultados anteriores se pueden obtener por medio de la función `anova` así.
+
+```{r}
+anova(fit1, fit2)
+```
+
+Ahora vamos a simular 50 conjuntos de datos suponiendo $H_0$ verdadera y luego calcularemos los `lrt` para así tener la distribución empírica de los `lrt` bajo la hipótesis nula $H_0: \sigma^2_{b0} = 0$ verdadera. En un aplicación se deberían generar más conjuntos de pero aquí vamos a usar sólo 50 por comodidad.
+
+```{r}
+pseudo_gen_dat <- function(nobs, beta0, beta1, sigmay) {
+  group <- datos$group # Aqui la diferencia
+  x <- datos$x         # Aqui la diferencia
+  y <- rnorm(n=nobs, mean=beta0 + beta1 * x, sd=sigmay)
+  data.frame(group=group, x=x, y=y)
+}
+
+nrep <- 50
+lrts <- numeric(nrep)
+for (i in 1:nrep) {
+  pseudo_datos <- pseudo_gen_dat(nobs=100, beta0=4.64931, 
+                                 beta1=-6.00175, sigma=2.50842)
+  m1 <- gls(y ~ x, data=pseudo_datos, method="REML")
+  m2 <- lme(y ~ x, random = ~ 1| group, data=pseudo_datos, method="REML")
+  lrts[i] <- -2 * (logLik(m1) - logLik(m2))
+}
+```
+
+Dibujando la densidad de los `lrt`.
+
+```{r}
+plot(density(lrts), main='Densidad empírica de los lrts')
+```
+
+Calculando el valor-P.
+
+```{r}
+acumulada <- ecdf(x=lrts) # F(x) para los valores LRT
+1 - acumulada(3.04712)    # Valor-P
+```
+
+De la salida anterior se tiene que $valor-P < \alpha$ por lo tanto SI hay evidencias para rechazar $H_0: \sigma^2_{b0} = 0$. ¿Es esto coherente ahora &#128578;?
+
+```{block2, type='rmdwarning'}
+Los resultados anteriores se obtuvieron usando `nrep <- 50`, en la práctica ese número de repeticiones debería subir al menos a 1000. Repita el procedimiento anterior con `nrep <- 5000` y observe lo que sucede.
+```
+
+El paquete **RLRsim** [@R-RLRsim] tiene la función `exactRLRT` que permite extraer el valor-P mediante simulación. Abajo un ejemplo de como usarla en el presente ejemplo.
+
+```{r}
+library(RLRsim)
+exactRLRT(m=fit2, nsim=1000)
+```
+
+```{block2, type='rmdtip'}
+Consulte la ayuda de la función `exactRLRT` para que conozca sus posibilidades y limitaciones.
+```
+
+## Ejercicios {-}
+
+1. Considere el ejemplo del capítulo \@ref(apli-nlme) sobre el estudio de crecimiento de un grupo de jóvenes. Aplique la prueba razón de verosimilitud para estudiar $H_0: \sigma^2_{b0} = 0$ versus $H_A: \sigma^2_{b0} > 0$, es decir, ajuste un modelo lineal simple para explicar la estatura en función de la edad y luego un modelo mixto con intercepto aleatorio. ¿Cuál de los dos modelos parece explicar mejor los datos? Use $\alpha=0.06$.
+
+
+
 
