@@ -25,7 +25,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2020-02-11" />
+<meta name="date" content="2020-02-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -208,7 +208,7 @@ donde <span class="math inline">\(se(\hat{\beta}_k)\)</span> corresponde al erro
 </div>
 <div id="prueba-razón-de-verosimilitud" class="section level2">
 <h2><span class="header-section-number">5.3</span> Prueba razón de verosimilitud</h2>
-<p>Supongamos que queremos estudiar <span class="math inline">\(H_0: \theta \in \boldsymbol{\Theta}_0\)</span> versus <span class="math inline">\(H_A: \theta \in \boldsymbol{\Theta}^c\)</span>. La prueba razón de verosimilitud (<span class="math inline">\(LR\)</span>) para <span class="math inline">\(H_0\)</span> está dada por:</p>
+<p>Supongamos que queremos estudiar <span class="math inline">\(H_0: \theta \in \boldsymbol{\Theta}_0\)</span> versus <span class="math inline">\(H_A: \theta \in \boldsymbol{\Theta}\)</span>. La prueba razón de verosimilitud (<span class="math inline">\(LR\)</span>) para <span class="math inline">\(H_0\)</span> está dada por:</p>
 <p><span class="math display">\[
 LR = -2 \log \left( \frac{ sup_{\theta \in \boldsymbol{\Theta}_0} L(\theta)}{ sup_{\theta \in \boldsymbol{\Theta}} L(\theta)} \right)
 \]</span></p>
@@ -330,25 +330,23 @@ x_{ij} &amp;\sim U(0, 10)
 <pre><code>##      Model df      AIC      BIC    logLik   Test L.Ratio p-value
 ## fit1     1  3 475.8248 483.5797 -234.9124                       
 ## fit2     2  4 474.7777 485.1175 -233.3888 1 vs 2 3.04712  0.0809</code></pre>
-<p>Ahora vamos a simular 50 conjuntos de datos bajo <span class="math inline">\(H_0\)</span> verdadera y luego calcularemos los <code>lrt</code> para así tener la distribución real de ellos bajo la hipótesis nula <span class="math inline">\(H_0: \sigma^2_{b0} = 0\)</span> verdadera.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1">pseudo_gen_dat &lt;-<span class="st"> </span><span class="cf">function</span>(n, m, beta0, beta1, sigmay) {</a>
-<a class="sourceLine" id="cb38-2" title="2">  group &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>n, <span class="dt">each=</span>m)</a>
-<a class="sourceLine" id="cb38-3" title="3">  x &lt;-<span class="st"> </span>datos<span class="op">$</span>x  <span class="co"># Aqui la diferencia ;)</span></a>
-<a class="sourceLine" id="cb38-4" title="4">  mu &lt;-<span class="st"> </span>beta0 <span class="op">+</span><span class="st"> </span>beta1 <span class="op">*</span><span class="st"> </span>x</a>
-<a class="sourceLine" id="cb38-5" title="5">  y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n=</span>n<span class="op">*</span>m, <span class="dt">mean=</span>mu, <span class="dt">sd=</span>sigmay)</a>
-<a class="sourceLine" id="cb38-6" title="6">  <span class="kw">data.frame</span>(<span class="dt">group=</span>group, <span class="dt">x=</span>x, <span class="dt">y=</span>y)</a>
-<a class="sourceLine" id="cb38-7" title="7">}</a>
-<a class="sourceLine" id="cb38-8" title="8"></a>
-<a class="sourceLine" id="cb38-9" title="9">k &lt;-<span class="st"> </span><span class="dv">50</span></a>
-<a class="sourceLine" id="cb38-10" title="10">lrts &lt;-<span class="st"> </span><span class="kw">numeric</span>(k)</a>
-<a class="sourceLine" id="cb38-11" title="11"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>k) {</a>
-<a class="sourceLine" id="cb38-12" title="12">  pseudo_datos &lt;-<span class="st"> </span><span class="kw">pseudo_gen_dat</span>(<span class="dt">n=</span><span class="dv">10</span>, <span class="dt">m=</span><span class="dv">10</span>, </a>
-<a class="sourceLine" id="cb38-13" title="13">                                 <span class="dt">beta0=</span><span class="fl">4.64931</span>, <span class="dt">beta1=</span><span class="op">-</span><span class="fl">6.00175</span>, </a>
-<a class="sourceLine" id="cb38-14" title="14">                                 <span class="dt">sigma=</span><span class="fl">2.50842</span>)</a>
-<a class="sourceLine" id="cb38-15" title="15">  m1 &lt;-<span class="st"> </span><span class="kw">gls</span>(y <span class="op">~</span><span class="st"> </span>x, <span class="dt">data=</span>pseudo_datos, <span class="dt">method=</span><span class="st">&quot;REML&quot;</span>)</a>
-<a class="sourceLine" id="cb38-16" title="16">  m2 &lt;-<span class="st"> </span><span class="kw">lme</span>(y <span class="op">~</span><span class="st"> </span>x, <span class="dt">random =</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span><span class="op">|</span><span class="st"> </span>group, <span class="dt">data=</span>pseudo_datos, <span class="dt">method=</span><span class="st">&quot;REML&quot;</span>)</a>
-<a class="sourceLine" id="cb38-17" title="17">  lrts[i] &lt;-<span class="st"> </span><span class="dv">-2</span> <span class="op">*</span><span class="st"> </span>(<span class="kw">logLik</span>(m1) <span class="op">-</span><span class="st"> </span><span class="kw">logLik</span>(m2))</a>
-<a class="sourceLine" id="cb38-18" title="18">}</a></code></pre></div>
+<p>Ahora vamos a simular 50 conjuntos de datos suponiendo <span class="math inline">\(H_0\)</span> verdadera y luego calcularemos los <code>lrt</code> para así tener la distribución empírica de los <code>lrt</code> bajo la hipótesis nula <span class="math inline">\(H_0: \sigma^2_{b0} = 0\)</span> verdadera. En un aplicación se deberían generar más conjuntos de pero aquí vamos a usar sólo 50 por comodidad.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1">pseudo_gen_dat &lt;-<span class="st"> </span><span class="cf">function</span>(nobs, beta0, beta1, sigmay) {</a>
+<a class="sourceLine" id="cb38-2" title="2">  group &lt;-<span class="st"> </span>datos<span class="op">$</span>group <span class="co"># Aqui la diferencia</span></a>
+<a class="sourceLine" id="cb38-3" title="3">  x &lt;-<span class="st"> </span>datos<span class="op">$</span>x         <span class="co"># Aqui la diferencia</span></a>
+<a class="sourceLine" id="cb38-4" title="4">  y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n=</span>nobs, <span class="dt">mean=</span>beta0 <span class="op">+</span><span class="st"> </span>beta1 <span class="op">*</span><span class="st"> </span>x, <span class="dt">sd=</span>sigmay)</a>
+<a class="sourceLine" id="cb38-5" title="5">  <span class="kw">data.frame</span>(<span class="dt">group=</span>group, <span class="dt">x=</span>x, <span class="dt">y=</span>y)</a>
+<a class="sourceLine" id="cb38-6" title="6">}</a>
+<a class="sourceLine" id="cb38-7" title="7"></a>
+<a class="sourceLine" id="cb38-8" title="8">nrep &lt;-<span class="st"> </span><span class="dv">50</span></a>
+<a class="sourceLine" id="cb38-9" title="9">lrts &lt;-<span class="st"> </span><span class="kw">numeric</span>(nrep)</a>
+<a class="sourceLine" id="cb38-10" title="10"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>nrep) {</a>
+<a class="sourceLine" id="cb38-11" title="11">  pseudo_datos &lt;-<span class="st"> </span><span class="kw">pseudo_gen_dat</span>(<span class="dt">nobs=</span><span class="dv">100</span>, <span class="dt">beta0=</span><span class="fl">4.64931</span>, </a>
+<a class="sourceLine" id="cb38-12" title="12">                                 <span class="dt">beta1=</span><span class="op">-</span><span class="fl">6.00175</span>, <span class="dt">sigma=</span><span class="fl">2.50842</span>)</a>
+<a class="sourceLine" id="cb38-13" title="13">  m1 &lt;-<span class="st"> </span><span class="kw">gls</span>(y <span class="op">~</span><span class="st"> </span>x, <span class="dt">data=</span>pseudo_datos, <span class="dt">method=</span><span class="st">&quot;REML&quot;</span>)</a>
+<a class="sourceLine" id="cb38-14" title="14">  m2 &lt;-<span class="st"> </span><span class="kw">lme</span>(y <span class="op">~</span><span class="st"> </span>x, <span class="dt">random =</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span><span class="op">|</span><span class="st"> </span>group, <span class="dt">data=</span>pseudo_datos, <span class="dt">method=</span><span class="st">&quot;REML&quot;</span>)</a>
+<a class="sourceLine" id="cb38-15" title="15">  lrts[i] &lt;-<span class="st"> </span><span class="dv">-2</span> <span class="op">*</span><span class="st"> </span>(<span class="kw">logLik</span>(m1) <span class="op">-</span><span class="st"> </span><span class="kw">logLik</span>(m2))</a>
+<a class="sourceLine" id="cb38-16" title="16">}</a></code></pre></div>
 <p>Dibujando la densidad de los <code>lrt</code>.</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1"><span class="kw">plot</span>(<span class="kw">density</span>(lrts), <span class="dt">main=</span><span class="st">&#39;Densidad empírica de los lrts&#39;</span>)</a></code></pre></div>
 <p><img src="libro_mod_pred_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
@@ -357,9 +355,14 @@ x_{ij} &amp;\sim U(0, 10)
 <a class="sourceLine" id="cb40-2" title="2"><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">acumulada</span>(<span class="fl">3.04712</span>)    <span class="co"># Valor-P</span></a></code></pre></div>
 <pre><code>## [1] 0.04</code></pre>
 <p>De la salida anterior se tiene que <span class="math inline">\(valor-P &lt; \alpha\)</span> por lo tanto SI hay evidencias para rechazar <span class="math inline">\(H_0: \sigma^2_{b0} = 0\)</span>. ¿Es esto coherente ahora 🙂?</p>
-<p>Los resultados anteriores se pueden obtener por medio de la función <code>exactRLRT</code> así.</p>
+
+<div class="rmdwarning">
+Los resultados anteriores se obtuvieron usando <code>nrep &lt;- 50</code>, en la práctica ese número de repeticiones debería subir al menos a 1000. Repita el procedimiento anterior con <code>nrep &lt;- 5000</code> y observe lo que sucede.
+</div>
+
+<p>El paquete <strong>RLRsim</strong> <span class="citation">(Scheipl and Bolker <a href="#ref-R-RLRsim" role="doc-biblioref">2016</a>)</span> tiene la función <code>exactRLRT</code> que permite extraer el valor-P mediante simulación. Abajo un ejemplo de como usarla en el presente ejemplo.</p>
 <div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1"><span class="kw">library</span>(RLRsim)</a>
-<a class="sourceLine" id="cb42-2" title="2"><span class="kw">exactRLRT</span>(fit2, <span class="dt">nsim=</span><span class="dv">1000</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb42-2" title="2"><span class="kw">exactRLRT</span>(<span class="dt">m=</span>fit2, <span class="dt">nsim=</span><span class="dv">1000</span>)</a></code></pre></div>
 <pre><code>## Warning in model.matrix.default(~m$groups[[n.levels - i + 1]] - 1, contrasts.arg
 ## = c(&quot;contr.treatment&quot;, : non-list contrasts argument ignored</code></pre>
 <pre><code>## 
@@ -369,6 +372,11 @@ x_{ij} &amp;\sim U(0, 10)
 ## 
 ## data:  
 ## RLRT = 3.0471, p-value = 0.039</code></pre>
+
+<div class="rmdtip">
+Consulte la ayuda de la función <code>exactRLRT</code> para que conozca sus posibilidades y limitaciones.
+</div>
+
 </div>
 </div>
 <div id="ejercicios" class="section level2 unnumbered">
@@ -377,6 +385,12 @@ x_{ij} &amp;\sim U(0, 10)
 <li>Considere el ejemplo del capítulo <a href="apli-nlme.html#apli-nlme">6</a> sobre el estudio de crecimiento de un grupo de jóvenes. Aplique la prueba razón de verosimilitud para estudiar <span class="math inline">\(H_0: \sigma^2_{b0} = 0\)</span> versus <span class="math inline">\(H_A: \sigma^2_{b0} &gt; 0\)</span>, es decir, ajuste un modelo lineal simple para explicar la estatura en función de la edad y luego un modelo mixto con intercepto aleatorio. ¿Cuál de los dos modelos parece explicar mejor los datos? Use <span class="math inline">\(\alpha=0.06\)</span>.</li>
 </ol>
 
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-R-RLRsim">
+<p>Scheipl, Fabian, and Ben Bolker. 2016. <em>RLRsim: Exact (Restricted) Likelihood Ratio Tests for Mixed and Additive Models</em>. <a href="https://CRAN.R-project.org/package=RLRsim">https://CRAN.R-project.org/package=RLRsim</a>.</p>
 </div>
 </div>
             </section>

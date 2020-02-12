@@ -13,7 +13,7 @@ donde $se(\hat{\beta}_k)$ corresponde al error estándar de la estimación $\hat
 Luego un ejemplo.
 
 ## Prueba razón de verosimilitud
-Supongamos que queremos estudiar $H_0: \theta \in \boldsymbol{\Theta}_0$ versus $H_A: \theta \in \boldsymbol{\Theta}^c$. La prueba razón de verosimilitud ($LR$) para $H_0$ está dada por:
+Supongamos que queremos estudiar $H_0: \theta \in \boldsymbol{\Theta}_0$ versus $H_A: \theta \in \boldsymbol{\Theta}$. La prueba razón de verosimilitud ($LR$) para $H_0$ está dada por:
 
 $$
 LR = -2 \log \left( \frac{ sup_{\theta \in \boldsymbol{\Theta}_0} L(\theta)}{ sup_{\theta \in \boldsymbol{\Theta}} L(\theta)} \right)
@@ -111,23 +111,21 @@ Los resultados anteriores se pueden obtener por medio de la función `anova` as�
 anova(fit1, fit2)
 ```
 
-Ahora vamos a simular 50 conjuntos de datos bajo $H_0$ verdadera y luego calcularemos los `lrt` para así tener la distribución real de ellos bajo la hipótesis nula $H_0: \sigma^2_{b0} = 0$ verdadera.
+Ahora vamos a simular 50 conjuntos de datos suponiendo $H_0$ verdadera y luego calcularemos los `lrt` para así tener la distribución empírica de los `lrt` bajo la hipótesis nula $H_0: \sigma^2_{b0} = 0$ verdadera. En un aplicación se deberían generar más conjuntos de pero aquí vamos a usar sólo 50 por comodidad.
 
 ```{r}
-pseudo_gen_dat <- function(n, m, beta0, beta1, sigmay) {
-  group <- rep(1:n, each=m)
-  x <- datos$x  # Aqui la diferencia ;)
-  mu <- beta0 + beta1 * x
-  y <- rnorm(n=n*m, mean=mu, sd=sigmay)
+pseudo_gen_dat <- function(nobs, beta0, beta1, sigmay) {
+  group <- datos$group # Aqui la diferencia
+  x <- datos$x         # Aqui la diferencia
+  y <- rnorm(n=nobs, mean=beta0 + beta1 * x, sd=sigmay)
   data.frame(group=group, x=x, y=y)
 }
 
-k <- 50
-lrts <- numeric(k)
-for (i in 1:k) {
-  pseudo_datos <- pseudo_gen_dat(n=10, m=10, 
-                                 beta0=4.64931, beta1=-6.00175, 
-                                 sigma=2.50842)
+nrep <- 50
+lrts <- numeric(nrep)
+for (i in 1:nrep) {
+  pseudo_datos <- pseudo_gen_dat(nobs=100, beta0=4.64931, 
+                                 beta1=-6.00175, sigma=2.50842)
   m1 <- gls(y ~ x, data=pseudo_datos, method="REML")
   m2 <- lme(y ~ x, random = ~ 1| group, data=pseudo_datos, method="REML")
   lrts[i] <- -2 * (logLik(m1) - logLik(m2))
@@ -149,11 +147,19 @@ acumulada <- ecdf(x=lrts) # F(x) para los valores LRT
 
 De la salida anterior se tiene que $valor-P < \alpha$ por lo tanto SI hay evidencias para rechazar $H_0: \sigma^2_{b0} = 0$. ¿Es esto coherente ahora &#128578;?
 
-Los resultados anteriores se pueden obtener por medio de la función `exactRLRT` así.
+```{block2, type='rmdwarning'}
+Los resultados anteriores se obtuvieron usando `nrep <- 50`, en la práctica ese número de repeticiones debería subir al menos a 1000. Repita el procedimiento anterior con `nrep <- 5000` y observe lo que sucede.
+```
+
+El paquete **RLRsim** [@R-RLRsim] tiene la función `exactRLRT` que permite extraer el valor-P mediante simulación. Abajo un ejemplo de como usarla en el presente ejemplo.
 
 ```{r}
 library(RLRsim)
-exactRLRT(fit2, nsim=1000)
+exactRLRT(m=fit2, nsim=1000)
+```
+
+```{block2, type='rmdtip'}
+Consulte la ayuda de la función `exactRLRT` para que conozca sus posibilidades y limitaciones.
 ```
 
 ## Ejercicios {-}
