@@ -2,16 +2,6 @@
 
 En este capítulo se muestran las pruebas de hipótesis para comparar modelo mixtos.
 
-## Prueba de hipótesis sobre un parámetro fijo $\beta_k$
-Si el interés es estudiar $H_0: \beta_k = \beta_{k0}$ contra $H_0: \beta_k \neq \beta_{k0}$ se puede usar la prueba de Wald que tiene el siguiente estadístico:
-$$
-t = \frac{\hat{\beta}_k - \beta_{k0}}{se(\hat{\beta}_k)},
-$$
-donde $se(\hat{\beta}_k)$ corresponde al error estándar de la estimación $\hat{\beta}_k$, todo esto disponible en el summary del modelo ajustado. Si $H_0$ es verdadera, $t \sim t_{n-p}$, siendo $n$ el número de observaciones y $p$ el número de efectos fijos estimados (no el número de variables) en el modelo.
-
-## Prueba de hipótesis sobre un conjunto de parámetros fijos (varios $\beta_k$)
-Luego un ejemplo.
-
 ## Prueba razón de verosimilitud
 Supongamos que queremos estudiar $H_0: \theta \in \boldsymbol{\Theta}_0$ versus $H_A: \theta \in \boldsymbol{\Theta}$. La prueba razón de verosimilitud ($LR$) para $H_0$ está dada por:
 
@@ -26,6 +16,89 @@ LR = -2 ( l(\Theta_0) - l(\hat{\Theta}) )
 $$
 
 y el estadístico $LR \sim \chi^2_{k-k_0}$, donde $k$ es el número de parámetros del modelo estimado y $k_0$ el número de parámetros del modelo asumiendo $H_0$ verdadera.
+
+## Prueba de hipótesis sobre un parámetro fijo $\beta_k$
+Si el interés es estudiar $H_0: \beta_k = \beta_{k0}$ contra $H_0: \beta_k \neq \beta_{k0}$ se puede usar la prueba de Wald que tiene el siguiente estadístico:
+$$
+t = \frac{\hat{\beta}_k - \beta_{k0}}{se(\hat{\beta}_k)},
+$$
+donde $se(\hat{\beta}_k)$ corresponde al error estándar de la estimación $\hat{\beta}_k$, todo esto disponible en el summary del modelo ajustado. Si $H_0$ es verdadera, $t \sim t_{n-p}$, siendo $n$ el número de observaciones y $p$ el número de efectos fijos estimados (no el número de variables) en el modelo.
+
+### Ejemplo {-}
+La base de datos `ChickWeight` contiene información sobre el peso de un grupo de pollos versus el tiempo con diferentes dietas. Abajo una ilustración de los datos.
+
+```{r fig.height=10, fig.width=10}
+library(ggplot2)
+ggplot(data = ChickWeight, aes(x = Time, y = weight, color = Diet)) +
+  geom_point() +
+  theme_bw() +
+  facet_wrap(~ Chick)
+```
+
+El objetivo es comparar los siguientes dos modelos.
+
+Modelo 1
+
+\begin{align*} 
+Weight_{ij} &\sim  N(\mu_{ij}, \sigma^2_{weight}) \\ 
+\mu_{ij} &= \beta_0 + \beta_1 tiempo_{ij} + b_{0i} \\
+b_{0} &\sim N(0, \sigma^2_{b0})
+\end{align*}
+
+Modelo 2
+
+\begin{align*} 
+Weight_{ij} &\sim  N(\mu_{ij}, \sigma^2_{weight}) \\ 
+\mu_{ij} &= \beta_0 + \beta_1 tiempo_{ij} + \beta_2 dieta2_{i} + \beta_3 dieta3_{i} + \beta_4 dieta4_{i} + b_{0i} \\
+b_{0} &\sim N(0, \sigma^2_{b0})
+\end{align*}
+
+__Solución__
+
+El problema de este ejercicio se puede resumir con $H_0:$ la variable Dieta no aporta al modelo, versus, $H_A:$ la variable Dieta si aporta al modelo.
+
+Para ajustar ambos modelos se usa el siguiente código.
+
+```{r}
+library(nlme)
+mod1 <- lme(weight ~ Time, data = ChickWeight, random = ~ 1 | Chick, method='ML')
+mod2 <- lme(weight ~ Time + Diet, data = ChickWeight, random = ~ 1 | Chick, method='ML')
+```
+
+Para calcular la prueba razón de verosimilitud se usa el siguiente código.
+
+```{r}
+lrt <- -2 * (logLik(mod1) - logLik(mod2))
+lrt
+pchisq(q=lrt, df=7-4, lower.tail=FALSE)
+```
+
+De la salida anterior se tiene que el valor-P = 0.000660304 y menor que cualquier $\alpha$. Sin embargo, como este valor-P puede ser "anticonservativo" (más pequeño de lo que debería ser), es mejor no sacar conclusiones apresuradas y rechazar $H_0$ &#128533;.
+
+La prueba de verosimilitud se puede obtener también así:
+
+```{r}
+anova(mod1, mod2)
+```
+
+Para obtener un valor-P más acorde al problema podemos usar simulación. La función `simulate.lme` simula datos de modelos especificados por medio de los argumentos `object` y `m2`, ajusta los modelos, y entrega los valores de log-verosimilitud, con los se puede obtener el estadístico de la prueba de razón de verosimilitud. A continuación el código para obtener el valor-P con simulación.
+
+```{r, eval=FALSE}
+simul <- simulate.lme(object=mod1, m2=mod2, method = 'ML', nsim=1000)
+lrts_nlme <- -2 * (simul$null$ML[, 2] - simul$alt$ML[, 2])
+acumulada1 <- ecdf(x=lrts_nlme) # F(x) para los valores LRT
+1 - acumulada1(17.14349)
+```
+
+```{r, echo=FALSE}
+0.001
+```
+
+De la salida anterior se tiene que el valor-P = 0.001 y ya no es tan pequeño como el valor-P anterior. Por esta razón hay evidencias rechazar $H_0$ y por lo tanto la variable Dieta si aporta al modelo &#128528;.
+
+
+## Prueba de hipótesis sobre un conjunto de parámetros fijos (varios $\beta_k$)
+Luego un ejemplo.
 
 ## Prueba de hipótesis sobre componentes de varianza
 Las componentes de varianza corresponden a las varianzas y covarianzas del vector de efectos aleatorios. Para hacer pruebas de hipótesis sobre las componentes de varianza se tienen dos casos que se explican en las siguientes subsecciones.
@@ -165,7 +238,6 @@ Consulte la ayuda de la función `exactRLRT` para que conozca sus posibilidades 
 ## Ejercicios {-}
 
 1. Considere el ejemplo del capítulo \@ref(apli-nlme) sobre el estudio de crecimiento de un grupo de jóvenes. Aplique la prueba razón de verosimilitud para estudiar $H_0: \sigma^2_{b0} = 0$ versus $H_A: \sigma^2_{b0} > 0$, es decir, ajuste un modelo lineal simple para explicar la estatura en función de la edad y luego un modelo mixto con intercepto aleatorio. ¿Cuál de los dos modelos parece explicar mejor los datos? Use $\alpha=0.06$.
-
 
 
 
