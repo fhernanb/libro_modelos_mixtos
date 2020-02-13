@@ -25,7 +25,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2020-02-12" />
+<meta name="date" content="2020-02-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -139,74 +139,63 @@
 <p>El objetivo de este capitulo consiste en introducir al lector los distintos métodos de diagnostico del modelo, los cuales permitiran identificar aquel modelo que represente sus datos con una mayor precisión.</p>
 <div id="los-residuos" class="section level2">
 <h2><span class="header-section-number">6.1</span> Los residuos</h2>
-<p><img src="libro_mod_pred_files/figure-html/Representaci%C3%B3n%20gr%C3%A1fica%20de%20los%20que%20es%20un%20residuo-1.png" width="100%" /></p>
+<p>Los residuos son la base de la mayoría de los métodos de diagnóstico. Estos pueden ser de distinto tipo. El residuo más básico es el denominado <em>residuo original</em>, <span class="math inline">\(\hat{\epsilon}_{i}\)</span>, el cual se define como la diferencia entre el valor observado, <span class="math inline">\(y_{i}\)</span>, y su correspondiente valor estimado por el modelo, <span class="math inline">\(\hat{\mu}_{i}\)</span>, así:</p>
+<p><span class="math display">\[\begin{align*}
+\hat{\epsilon}_{i} = y_{i} - \hat{\mu}_{i}, i = 1, 2, ..., n
+\end{align*}\]</span></p>
+<p>donde <span class="math inline">\(\hat{\mu}_{i}\)</span> es igual a <span class="math inline">\(x^{&#39;}_{i}\hat{\beta}\)</span>. A continuación, una representación gráfica de <span class="math inline">\(\hat{\epsilon}_{i}\)</span>:</p>
+<p><img src="libro_mod_pred_files/figure-html/Representaci%C3%B3n%20gr%C3%A1fica%20de%20los%20que%20es%20un%20residuo-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p>Luego los residuos originales se escalan con el fin de que su interpretación no dependa de las unidades de medida de la variable dependiente. El proceso de estandarización consiste en dividir al residuo original, <span class="math inline">\(\hat{\epsilon}_{i}\)</span>, su desviación estandar, <span class="math inline">\({\sigma}\)</span>, así: <span class="math inline">\(\frac{\hat{\epsilon}_{i}}{\sigma}\)</span>. Los residuos obtenidos de esta manera se denominan como <em>residuos estandarizados</em>.</p>
+<p>Sin embargo la verdadera desviación estándar rara vez se conoce. Por lo tanto, el escalado se realiza utilizando un estimador del mismo, <span class="math inline">\(\hat{\sigma}\)</span>, y dependiendo del estimador utilizado se distinguen otros dos tipos de residuos: los <em>residuos internamente estudentizados</em> y los <em>residuos externamente estudentizados</em>. La tabla a continuación, resume las formas básicas de los residuos escalados:</p>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
 </th>
 <th style="text-align:left;">
-x
-</th>
-<th style="text-align:left;">
-y
+Formula matemática
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
-Estandarizado
+Estandarizado por <span class="math inline">\(\sigma\)</span>
 </td>
 <td style="text-align:left;">
-<ul>
-<li></td>
-<td style="text-align:left;">
-<ul>
-<li></td>
+<span class="math inline">\(\frac{\hat\epsilon_i}{\sigma}\)</span>
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Estudentizado 1
+Internamente estudentizado
 </td>
 <td style="text-align:left;">
-<ul>
-<li></td>
-<td style="text-align:left;">
-<ul>
-<li></td>
+<span class="math inline">\(\frac{\hat\epsilon_i}{\hat\sigma}\)</span>
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Estudentizado 2
+Externamente estudentizado
 </td>
 <td style="text-align:left;">
-<ul>
-<li></td>
-<td style="text-align:left;">
-<ul>
-<li></td>
+<span class="math inline">\(\frac{\hat\epsilon_i}{\hat\sigma_{(-i)}}\)</span>
+</td>
 </tr>
 </tbody>
 <tfoot>
 <tr>
 <td style="padding: 0; border: 0;" colspan="100%">
-<sup>*</sup> Nota;
+<sup>*</sup> En el residuo internamente estudentizado, <span class="math inline">\(\hat\sigma\)</span> denota<br> una estimación de <span class="math inline">\(\sigma\)</span> basada en todas las observaciones;
 </td>
 </tr>
 <tr>
 <td style="padding: 0; border: 0;" colspan="100%">
-<sup>†</sup> Nota.
+<sup>†</sup> En el residuo externamente estudentizado, <span class="math inline">\(\hat\sigma_{(-i)}\)</span> es una<br> estimación obtenida luego de excluir la i-ésima observación<br> de los cálculos.
 </td>
 </tr>
 </tfoot>
-</table></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul>
+</table>
 </div>
 <div id="el-método-gráfico" class="section level2">
 <h2><span class="header-section-number">6.2</span> El método gráfico</h2>

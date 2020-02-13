@@ -6,7 +6,15 @@ El objetivo de este capitulo consiste en introducir al lector los distintos mét
 
 ## Los residuos
 
-```{r Representación gráfica de los que es un residuo, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE, fig.showtext = TRUE, out.width = "100%"}
+Los residuos son la base de la mayoría de los métodos de diagnóstico. Estos pueden ser de distinto tipo. El residuo más básico es el denominado _residuo original_, $\hat{\epsilon}_{i}$, el cual se define como la diferencia entre el valor observado, $y_{i}$, y su correspondiente valor estimado por el modelo, $\hat{\mu}_{i}$, así:
+
+\begin{align*}
+\hat{\epsilon}_{i} = y_{i} - \hat{\mu}_{i}, i = 1, 2, ..., n
+\end{align*}
+
+donde $\hat{\mu}_{i}$ es igual a $x^{'}_{i}\hat{\beta}$. A continuación, una representación gráfica de $\hat{\epsilon}_{i}$: 
+
+```{r Representación gráfica de los que es un residuo, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE, fig.showtext = TRUE, out.width = "80%", fig.align = "center"}
 
 library(dplyr)
 library(ggplot2)
@@ -36,11 +44,11 @@ Residuos <- tibble::tribble(
   annotate(geom = 'rect', xmin = 0.75, xmax = 0.75, ymin = 0.97, ymax = 0.93, colour = 'black', fill = 'black', alpha = 0.4, size = 0.8, linetype = 'dashed') +
   annotate(geom = 'rect', xmin = 1.0, xmax = 1.0, ymin = 1.23, ymax = 1.15, colour = 'black', fill = 'black', alpha = 0.4, size = 0.8, linetype = 'dashed') +
   geom_curve(x = 0.5, xend = 0.5, y = 0.58, yend = 0.72, arrow = arrow(length = unit(0.1, 'inch')), size = 0.5, color = 'black', curvature = -0.5) +
-  annotate(geom = 'text', x = 0.6, y = 0.58, label = 'Valor predicho', family = 'gochi', size = 8.8, colour = 'black') +
+  annotate(geom = 'text', x = 0.6, y = 0.58, label = 'Valor estimado', family = 'gochi', size = 8.8, colour = 'black') +
   geom_curve(x = 0.5, xend = 0.5, y = 1.18, yend = 1.03, arrow = arrow(length = unit(0.1, 'inch')), size = 0.5, color = 'black', curvature = -0.5) +
-  annotate(geom = 'text', x = 0.43, y = 1.18, label = 'Valor real', family = 'gochi', size = 8.8, colour = 'black') +
+  annotate(geom = 'text', x = 0.39, y = 1.18, label = 'Valor observado', family = 'gochi', size = 8.8, colour = 'black') +
   geom_curve(x = 0.42, xend = 0.49, y = 0.88, yend = 0.88, arrow = arrow(length = unit(0.1, 'inch')), size = 0.5, color = 'black', curvature = -0.2) +
-  annotate(geom = 'text', x = 0.37, y = 0.88, label = 'Residuo', family = 'gochi', size = 8.8, colour = 'black') +
+  annotate(geom = 'text', x = 0.32, y = 0.88, label = 'Residuo original', family = 'gochi', size = 8.8, colour = 'black') +
   theme_bw() +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank(),
@@ -48,23 +56,28 @@ Residuos <- tibble::tribble(
 Residuos
 ```
 
+Luego los residuos originales se escalan con el fin de que su interpretación no dependa de las unidades de medida de la variable dependiente. El proceso de estandarización consiste en dividir al residuo original, $\hat{\epsilon}_{i}$, su desviación estandar, ${\sigma}$, así: $\frac{\hat{\epsilon}_{i}}{\sigma}$. Los residuos obtenidos de esta manera se denominan como _residuos estandarizados_.
+
+Sin embargo la verdadera desviación estándar rara vez se conoce. Por lo tanto, el escalado se realiza utilizando un estimador del mismo, $\hat{\sigma}$, y dependiendo del estimador utilizado se distinguen otros dos tipos de residuos: los _residuos internamente estudentizados_ y los _residuos externamente estudentizados_. La tabla a continuación, resume las formas básicas de los residuos escalados:
+
 ```{r Tabla de tipos de residuos, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 
 library(kableExtra)
 
-
 Tabla_1 <- tibble::tribble(
-  ~x, ~y,
-  '-', '-',
-  '-', '-',
-  '-', '-'
+  ~x,
+  '$\\frac{\\hat\\epsilon_i}{\\sigma}$',
+  '$\\frac{\\hat\\epsilon_i}{\\hat\\sigma}$',
+  '$\\frac{\\hat\\epsilon_i}{\\hat\\sigma_{(-i)}}$',
 )
-rownames(Tabla_1) <- c('Estandarizado', 'Estudentizado 1', 'Estudentizado 2')
+rownames(Tabla_1) <- c('Estandarizado por $\\sigma$', 'Internamente estudentizado', 'Externamente estudentizado')
 
-kable(Tabla_1) %>%
+kable(Tabla_1, col.names = 'Formula matemática') %>%
   kable_styling(full_width = FALSE) %>%
-  footnote(symbol = c('Nota; ', 'Nota. '))
+  footnote(symbol = c('En el residuo internamente estudentizado, $\\hat\\sigma$ denota\n una estimación de $\\sigma$ basada en todas las observaciones;', 'En el residuo externamente estudentizado, $\\hat\\sigma_{(-i)}$ es una\n estimación obtenida luego de excluir la i-ésima observación\n de los cálculos.'))
 ```
+
+
 
 ## El método gráfico
 
