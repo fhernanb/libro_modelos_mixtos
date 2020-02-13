@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para ….." />
-  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
@@ -25,7 +25,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2020-02-12" />
+<meta name="date" content="2020-02-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -51,6 +51,7 @@
 
 
 
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
 
 
 <style type="text/css">
@@ -70,7 +71,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+  { content: attr(title);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -153,13 +154,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="pac-nlme.html"><a href="pac-nlme.html#ejemplo-modelo-con-intercepto-aleatorio-1"><i class="fa fa-check"></i>Ejemplo: modelo con intercepto aleatorio</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="ph.html"><a href="ph.html"><i class="fa fa-check"></i><b>5</b> Pruebas de hipótesis</a><ul>
-<li class="chapter" data-level="5.1" data-path="ph.html"><a href="ph.html#prueba-de-hipótesis-sobre-un-parámetro-fijo-beta_k"><i class="fa fa-check"></i><b>5.1</b> Prueba de hipótesis sobre un parámetro fijo <span class="math inline">\(\beta_k\)</span></a></li>
-<li class="chapter" data-level="5.2" data-path="ph.html"><a href="ph.html#prueba-de-hipótesis-sobre-un-conjunto-de-parámetros-fijos-varios-beta_k"><i class="fa fa-check"></i><b>5.2</b> Prueba de hipótesis sobre un conjunto de parámetros fijos (varios <span class="math inline">\(\beta_k\)</span>)</a></li>
-<li class="chapter" data-level="5.3" data-path="ph.html"><a href="ph.html#prueba-razón-de-verosimilitud"><i class="fa fa-check"></i><b>5.3</b> Prueba razón de verosimilitud</a></li>
+<li class="chapter" data-level="5.1" data-path="ph.html"><a href="ph.html#prueba-razón-de-verosimilitud"><i class="fa fa-check"></i><b>5.1</b> Prueba razón de verosimilitud</a></li>
+<li class="chapter" data-level="5.2" data-path="ph.html"><a href="ph.html#prueba-de-wald"><i class="fa fa-check"></i><b>5.2</b> Prueba de Wald</a></li>
+<li class="chapter" data-level="5.3" data-path="ph.html"><a href="ph.html#prueba-de-hipótesis-sobre-los-efectos-fijos"><i class="fa fa-check"></i><b>5.3</b> Prueba de hipótesis sobre los efectos fijos</a><ul>
+<li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejemplo-1"><i class="fa fa-check"></i>Ejemplo</a></li>
+<li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejemplo-2"><i class="fa fa-check"></i>Ejemplo</a></li>
+</ul></li>
 <li class="chapter" data-level="5.4" data-path="ph.html"><a href="ph.html#prueba-de-hipótesis-sobre-componentes-de-varianza"><i class="fa fa-check"></i><b>5.4</b> Prueba de hipótesis sobre componentes de varianza</a><ul>
 <li class="chapter" data-level="5.4.1" data-path="ph.html"><a href="ph.html#componentes-de-varianza-lejos-del-borde"><i class="fa fa-check"></i><b>5.4.1</b> Componentes de varianza lejos del borde</a></li>
 <li class="chapter" data-level="5.4.2" data-path="ph.html"><a href="ph.html#componentes-de-varianza-en-el-borde"><i class="fa fa-check"></i><b>5.4.2</b> Componentes de varianza en el borde</a></li>
-<li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejemplo-1"><i class="fa fa-check"></i>Ejemplo</a></li>
+<li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejemplo-3"><i class="fa fa-check"></i>Ejemplo</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejercicios"><i class="fa fa-check"></i>Ejercicios</a></li>
 </ul></li>
@@ -198,7 +202,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1 class="title">Modelos Mixtos con R</h1>
 <p class="author"><em>Freddy Hernández Barajas</em></p>
 <p class="author"><em>Jorge Leonardo López Martínez</em></p>
-<p class="date"><em>2020-02-12</em></p>
+<p class="date"><em>2020-02-13</em></p>
 </div>
 <div id="bienvenido" class="section level1 unnumbered">
 <h1>Bienvenido</h1>
@@ -212,12 +216,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="software-y-convenciones" class="section level2 unnumbered">
 <h2>Software y convenciones</h2>
-<p>Para realizar este libro usamos los paquetes <strong>knitr</strong> <span class="citation">(Xie <a href="#ref-xie2015">2015</a>)</span> y <strong>bookdown</strong> <span class="citation">(Xie <a href="#ref-R-bookdown">2019</a>)</span> que permiten unir la ventajas de LaTeX y R en un mismo archivo.</p>
+<p>Para realizar este libro usamos los paquetes <strong>knitr</strong> <span class="citation">(Xie <a href="#ref-xie2015" role="doc-biblioref">2015</a>)</span> y <strong>bookdown</strong> <span class="citation">(Xie <a href="#ref-R-bookdown" role="doc-biblioref">2020</a>)</span> que permiten unir la ventajas de LaTeX y R en un mismo archivo.</p>
 <p>En todo el libro se presentarán códigos que el lector puede copiar y pegar en su consola de R para obtener los mismos resultados aquí del libro. Los códigos se destacan en una caja de color similar a la mostrada a continuación.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="dv">4</span> <span class="op">+</span><span class="st"> </span><span class="dv">6</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">a &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">6</span>)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="dv">5</span> <span class="op">*</span><span class="st"> </span>a</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="dv">4</span> <span class="op">+</span><span class="st"> </span><span class="dv">6</span></a>
+<a class="sourceLine" id="cb1-2" title="2">a &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="dv">5</span> <span class="op">*</span><span class="st"> </span>a</a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></a></code></pre></div>
 <p>Los resultados o salidas obtenidos de cualquier código se destacan con dos símbolos de númeral (<code>##</code>) al inicio de cada línea o renglón, esto quiere decir que todo lo que inicie con <code>##</code> son resultados obtenidos y <strong>NO</strong> los debe copiar. Abajo se muestran los resultados obtenidos luego de correr el código anterior.</p>
 <pre><code>## [1] 10</code></pre>
 <pre><code>## [1]  5 25 30</code></pre>
@@ -250,7 +254,7 @@ Advertencia.
 <p>Xie, Yihui. 2015. <em>Dynamic Documents with R and Knitr</em>. 2nd ed. Boca Raton, Florida: Chapman; Hall/CRC. <a href="http://yihui.name/knitr/">http://yihui.name/knitr/</a>.</p>
 </div>
 <div id="ref-R-bookdown">
-<p>Xie, Yihui. 2019. <em>Bookdown: Authoring Books and Technical Documents with R Markdown</em>. <a href="https://CRAN.R-project.org/package=bookdown">https://CRAN.R-project.org/package=bookdown</a>.</p>
+<p>Xie, Yihui. 2020. <em>Bookdown: Authoring Books and Technical Documents with R Markdown</em>. <a href="https://CRAN.R-project.org/package=bookdown">https://CRAN.R-project.org/package=bookdown</a>.</p>
 </div>
 </div>
             </section>
