@@ -180,6 +180,8 @@ for (i in 1:nrep) {
   aux1 <- lmer(new_y_h0 ~ age + Sex + (1|Subject), data=Orthodont, REML=FALSE)
   lrts_lme4[i] <- -2 * (logLik(aux0) - logLik(aux1))
 }
+acumulada2 <- ecdf(x=lrts_lme4) # F(x) para los valores LRT
+1 - acumulada1(8.533057)
 ```
 
 ```{r, echo=FALSE}
