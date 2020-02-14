@@ -394,12 +394,25 @@ Escriba las hipótesis del problema en forma simbólica y en lenguaje sencillo. 
 - ¿Cuántos elementos tiene el vector de parámetros del modelo de Patrick?
 - ¿Cuáles son los valores de los parámetros?
 
-5. En este [enlace](https://stats.stackexchange.com/questions/4858/how-to-test-random-effects-in-a-multilevel-model-in-r) está la pregunta de usuario biostat_newbie.
+5. En este [enlace](https://stats.stackexchange.com/questions/4858/how-to-test-random-effects-in-a-multilevel-model-in-r) está la pregunta del usuario biostat_newbie.
 - ¿Qué nombre recibe el modelo que le interesa a biostat_newbie?
 - ¿Qué es lo que necesita 0.7494974?
 - ¿Cuál es el mensaje de primer párrafo de que respondió Fabians?
 - En la respuesta que Fabians dió hay un código de R. ¿Para qué sirve ese código tan extraño?
 
-6. ¿Quién es Ben Bolker?
+6. ¿Quién es Ben Bolker? ¿En cuáles paquetes de R ha participado Ben Bolker?
 
+7. En este [enlace](https://stats.stackexchange.com/questions/141746/comparing-mixed-effects-and-fixed-effects-models-testing-significance-of-random) está la pregunta del usuario user9171.
+- ¿Cuál es el error que comete user9171 al usar el siguiente código?
+```{r, eval=FALSE}
+ > anova(fit.fe, fit.me)
+ Error: $ operator not defined for this S4 class
+```
+- ¿Qué le respondió  Karl Ove Hufthammer?
+- Karl le agrega en su respuesta "And really the choice of whether to include the random effects should be based on theory (e.g., the sampling plan), not on a statistical test". ¿Qué quiere decir eso?
+
+8. Ben Bolker escribió unas notas sobre pruebas de hipótesis, revise este [enlace](https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#testing-significance-of-random-effects) para consultarlas.
+- En el ejemplo de Ben Bolker hay tres modelos: `m2`, `m1` y `m0`. ¿Cuál es el "full model" y cuál es el "reduced model"?
+- ¿Para qué sirve la función `update`? ¿Usted la ha usado alguna vez? ¿No? Pues úsela de aquí en adelante.
+- Ben escribe "which has a fast implementation of simulation-based tests of null hypotheses about zero variances, for simple tests." ¿A qué paquete se refiere con esa frase?
 
