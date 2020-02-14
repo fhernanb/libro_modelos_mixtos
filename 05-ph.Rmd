@@ -27,7 +27,7 @@ $$
 donde $se(\hat{\beta}_k)$ corresponde al error estándar de la estimación $\hat{\beta}_k$, todo esto disponible en el summary del modelo ajustado. Si $H_0$ es verdadera, $t \sim t_{n-p}$, siendo $n$ el número de observaciones y $p$ el número de efectos fijos estimados (no el número de variables) en el modelo.
 
 ## Prueba de hipótesis sobre los efectos fijos
-La prueba razón de verosimilitud puede ser usada para comparar modelos ajustados por el método ML, sin embargo, no se recomienda usarla porque los valores-P pueden ser anticonservativos, es decir, más pequeños de los normal y por lo tanto se podría rechazar $H_0$ más fácilmente [@PinhieroBates2000]. En lugar de usar la distribución $\chi^2$ para el estadístico de la prueba razón de verosimilitud, se recomienda usar la distribución empírica del estadístico, obtenida al ajustar los modelos nulo y alternativo con múltiples conjuntos de datos simulados [@Galecki2012].
+La prueba razón de verosimilitud puede ser usada para comparar modelos ajustados por el método ML y que difieran en su estructura de efectos fijos, pero con la mismas componentes de varianza. Los valores-P de la prueba pueden ser anticonservativos, es decir, más pequeños de lo normal y por lo tanto se podría rechazar $H_0$ más fácilmente [@PinhieroBates2000]. En lugar de usar la distribución $\chi^2$ para el estadístico de la prueba razón de verosimilitud, se recomienda usar la distribución empírica del estadístico, obtenida al ajustar los modelos nulo y alternativo con múltiples conjuntos de datos simulados [@Galecki2012].
 
 ### Ejemplo {-}
 ```{r echo=FALSE, out.width="80%", fig.align='center'}
@@ -191,7 +191,9 @@ acumulada2 <- ecdf(x=lrts_lme4) # F(x) para los valores LRT
 De la salida anterior se tiene que el valor-P = 0.005 y ya no es tan pequeño como el valor-P anterior. Por esta razón hay evidencias rechazar $H_0$ y por lo tanto la variable Sexo si aporta al modelo.
 
 ## Prueba de hipótesis sobre componentes de varianza
-Las componentes de varianza corresponden a las varianzas y covarianzas del vector de efectos aleatorios. Para hacer pruebas de hipótesis sobre las componentes de varianza se tienen dos casos que se explican en las siguientes subsecciones.
+Las componentes de varianza corresponden a las varianzas y covarianzas del vector de efectos aleatorios. La prueba razón de verosimilitud puede ser usada para comparar modelos ajustados por el método REML y que difieran en sus componentes de varianza, pero que tenga igual estructura de efectos fijos.
+
+Para hacer pruebas de hipótesis sobre las componentes de varianza se tienen dos casos que se explican en las siguientes subsecciones.
 
 ### Componentes de varianza lejos del borde
 Luego un ejemplo.
