@@ -2,6 +2,10 @@
 
 En este capítulo se mostrará como usar el paquete `lme4` para la aplicación de modelos mixtos con la base de datos `sleepstudy` del mismo paquete.
 
+```{r echo=FALSE, out.width="40%", fig.align='center'}
+knitr::include_graphics("images/sleep_study.png")
+```
+
 A continuación la base de datos a utilizar.
 
 ```{r, message = FALSE}

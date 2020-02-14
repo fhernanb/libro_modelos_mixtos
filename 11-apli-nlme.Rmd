@@ -2,6 +2,10 @@
 
 En este capítulo se mostrará como usar el paquete `nlme` para la aplicación de modelos mixtos con la base de datos `Oxboys` del mismo paquete.
 
+```{r echo=FALSE, out.width="80%", fig.align='center'}
+knitr::include_graphics("images/crecimiento_chicos.png")
+```
+
 A continuación la base de datos a utilizar.
 
 ```{r}
