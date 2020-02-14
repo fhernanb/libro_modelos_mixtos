@@ -223,7 +223,7 @@ t = \frac{\hat{\beta}_k - \beta_{k0}}{se(\hat{\beta}_k)},
 </div>
 <div id="prueba-de-hipótesis-sobre-los-efectos-fijos" class="section level2">
 <h2><span class="header-section-number">5.3</span> Prueba de hipótesis sobre los efectos fijos</h2>
-<p>La prueba razón de verosimilitud puede ser usada para comparar modelos ajustados por el método ML, sin embargo, no se recomienda usarla porque los valores-P tienden a ser anticonservativos, es decir, más pequeños de los normal y por lo tanto se podría rechazar <span class="math inline">\(H_0\)</span> más fácilmente <span class="citation">(Pinheiro and Bates <a href="#ref-PinhieroBates2000" role="doc-biblioref">2000</a>)</span>. En lugar de usar la distribución <span class="math inline">\(\chi^2\)</span> para el estadístico de la prueba razón de verosimilitud, se recomienda usar la distribución empírica del estadístico, obtenida al ajustar los modelos nulo y alternativo con múltiples conjuntos de datos simulados <span class="citation">(Galecki and Burzykowski <a href="#ref-Galecki2012" role="doc-biblioref">2012</a>)</span>.</p>
+<p>La prueba razón de verosimilitud puede ser usada para comparar modelos ajustados por el método ML, sin embargo, no se recomienda usarla porque los valores-P pueden ser anticonservativos, es decir, más pequeños de los normal y por lo tanto se podría rechazar <span class="math inline">\(H_0\)</span> más fácilmente <span class="citation">(Pinheiro and Bates <a href="#ref-PinhieroBates2000" role="doc-biblioref">2000</a>)</span>. En lugar de usar la distribución <span class="math inline">\(\chi^2\)</span> para el estadístico de la prueba razón de verosimilitud, se recomienda usar la distribución empírica del estadístico, obtenida al ajustar los modelos nulo y alternativo con múltiples conjuntos de datos simulados <span class="citation">(Galecki and Burzykowski <a href="#ref-Galecki2012" role="doc-biblioref">2012</a>)</span>.</p>
 <div id="ejemplo-1" class="section level3 unnumbered">
 <h3>Ejemplo</h3>
 <p><img src="images/chicks_growth.png" width="80%" style="display: block; margin: auto;" /></p>
@@ -348,12 +348,27 @@ b_{0} &amp;\sim N(0, \sigma^2_{b0})
 <div id="componentes-de-varianza-en-el-borde" class="section level3">
 <h3><span class="header-section-number">5.4.2</span> Componentes de varianza en el borde</h3>
 <p>Este caso se presenta cuando la hipótesis nula considera que uno o varios parámetros están justo en el borde del dominio del parámetro en cuestion. Por ejemplo, si queremos estudiar la inclusión del intercepto aleatorio <span class="math inline">\(b_0\)</span> en un modelo de regresión clásico, tendríamos las siguientes hipótesis: <span class="math inline">\(H_0: \sigma^2_{b0} = 0\)</span> versus <span class="math inline">\(H_A: \sigma^2_{b0} &gt; 0\)</span>. Debido a la condición de <span class="math inline">\(\sigma^2_{b0}\)</span> en <span class="math inline">\(H_0\)</span>, se dice que esa componente de varianza está en el borde de su dominio, ya que <span class="math inline">\(\sigma^2_{b0}\)</span> no puede ser negativa. En este ejemplo particular, rechazar <span class="math inline">\(H_0\)</span> implicaría que es apropiado incluir <span class="math inline">\(b_0\)</span> en el modelo.</p>
+<p>En el caso de componentes de varianza cerca de la frontera la distribución del estadístico razón de verosimilitud no es una <span class="math inline">\(\chi^2\)</span> <span class="citation">(Galecki and Burzykowski <a href="#ref-Galecki2012" role="doc-biblioref">2012</a>)</span>. En la sección 6.3.4 de <span class="citation">(Verbeke and Molenberghs <a href="#ref-Verbeke2000" role="doc-biblioref">2000</a>)</span> se listan 4 casos en los cuales se tienen mezclas de distribuciones para calcular el valor-P de la prueba razón de verosimilitud. Los 4 casos son los siguientes:</p>
+<ul>
+<li>Sin efecto aleatorio versus 1 efecto aleatorio: en este caso lo que interesa es <span class="math inline">\(H_0: \sigma^2_{b} = 0\)</span> versus <span class="math inline">\(H_0: \sigma^2_{b} &gt; 0\)</span>, la distribución asintótica del estadístico de razon de verosimilitud es una mezcla de <span class="math inline">\(\chi^2_1\)</span> y <span class="math inline">\(\chi^2_0\)</span> con pesos iguales a 0.5.</li>
+<li>1 efecto aleatorio versus 2 efectos aleatorios: en este caso lo que interesa es <span class="math inline">\(H_0: \boldsymbol{D} = \begin{pmatrix} d_{11} &amp; 0 \\ 0 &amp; 0 \end{pmatrix}\)</span>
+versus <span class="math inline">\(H_0: \boldsymbol{D} \neq \boldsymbol{0}\)</span> para un <span class="math inline">\(d_{11}&gt;0\)</span>, en este caso la distrubución asintótica del estadístico razón de verosimilitud es una mezcla de <span class="math inline">\(\chi^2_2\)</span> y <span class="math inline">\(\chi^2_1\)</span> con pesos iguales a 0.5.</li>
+<li><span class="math inline">\(q\)</span> efectos aleatorios versus <span class="math inline">\(q+1\)</span> efectos aleatorios: en este caso lo que interesa es
+<span class="math inline">\(H_0: \boldsymbol{D} = \begin{pmatrix} \boldsymbol{D_{11}} &amp; \boldsymbol{0}\\ \boldsymbol{0}^\top &amp; 0 \end{pmatrix}\)</span>
+donde <span class="math inline">\(\boldsymbol{D_{11}}\)</span> es una matriz de covarianzas (positiva definida) de dimensión <span class="math inline">\(q \times q\)</span> versus que <span class="math inline">\(\boldsymbol{D}\)</span> es una matriz general de dimensión <span class="math inline">\(q+1 \times q+1\)</span>. En este caso la distribución asintótica del estadística razón de verosimilitud es una mezcla de <span class="math inline">\(\chi^2_{q+1}\)</span> y <span class="math inline">\(\chi^2_q\)</span> con pesos iguales a 0.5.</li>
+<li><span class="math inline">\(q\)</span> efectos aleatorios versus <span class="math inline">\(q+k\)</span> efectos aleatorios: en este caso lo que interesa es
+<span class="math inline">\(H_0: \boldsymbol{D} = \begin{pmatrix} \boldsymbol{D_{11}} &amp; \boldsymbol{0}\\ \boldsymbol{0}^\top &amp; \boldsymbol{0} \end{pmatrix}\)</span>
+donde <span class="math inline">\(\boldsymbol{D}\)</span> es una matriz de covarianzas (positiva definida) de dimensión <span class="math inline">\(q+k \times q+k\)</span> versus que
+<span class="math inline">\(H_A: \boldsymbol{D} = \begin{pmatrix} \boldsymbol{D_{11}} &amp; \boldsymbol{D_{12}}\\ \boldsymbol{D_{12}}^\top &amp; \boldsymbol{D_{22}} \end{pmatrix}\)</span>
+es una matriz general de dimensión <span class="math inline">\(q+k \times q+k\)</span>. En este caso la distribución asintótica del estadística razón de verosimilitud es una mezcla de <span class="math inline">\(\chi^2_{q+k}\)</span> y <span class="math inline">\(\chi^2_q\)</span> con pesos iguales a 0.5.</li>
+</ul>
+<p>Si la distribución nula del estadístico razón de verosimilitud no puede ser obtenida analíticamente, una posible solución es usar la distribución empírica del estadístico obtenida al ajustar múltiples modelos nulos y alternativos <span class="citation">(Galecki and Burzykowski <a href="#ref-Galecki2012" role="doc-biblioref">2012</a>)</span>.</p>
 </div>
 <div id="ejemplo-3" class="section level3 unnumbered">
 <h3>Ejemplo</h3>
 <p>Simule 10 observaciones para cada uno de los 10 grupos siguiendo el siguiente modelo y luego aplique la prueba de razón de verosimilitud para estudiar <span class="math inline">\(H_0: \sigma^2_{b0} = 0\)</span> versus <span class="math inline">\(H_A: \sigma^2_{b0} &gt; 0\)</span>.</p>
 <p><span class="math display">\[\begin{align*} 
-y_{ij} &amp;\sim  N(\mu_{ij}, \sigma^2) \\ 
+y_{ij} &amp;\sim  N(\mu_{ij}, \sigma^2_y) \\ 
 \mu_{ij} &amp;= 4 - 6 x_{ij} + b_{0i} \\
 \sigma^2_y &amp;= 4 \\
 b_{0} &amp;\sim N(0, \sigma^2_{b0}=4) \\
@@ -533,6 +548,9 @@ Reaction_{ij} &amp;\sim  N(\mu_{ij}, \sigma^2_{reaction}) \\
 </div>
 <div id="ref-R-RLRsim">
 <p>Scheipl, Fabian, and Ben Bolker. 2016. <em>RLRsim: Exact (Restricted) Likelihood Ratio Tests for Mixed and Additive Models</em>. <a href="https://CRAN.R-project.org/package=RLRsim">https://CRAN.R-project.org/package=RLRsim</a>.</p>
+</div>
+<div id="ref-Verbeke2000">
+<p>Verbeke, G., and G Molenberghs. 2000. <em>Linear Mixed Models for Longitudinal Data</em>. 1st ed. New York: Springer.</p>
 </div>
 </div>
             </section>

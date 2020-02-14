@@ -27,7 +27,7 @@ $$
 donde $se(\hat{\beta}_k)$ corresponde al error estándar de la estimación $\hat{\beta}_k$, todo esto disponible en el summary del modelo ajustado. Si $H_0$ es verdadera, $t \sim t_{n-p}$, siendo $n$ el número de observaciones y $p$ el número de efectos fijos estimados (no el número de variables) en el modelo.
 
 ## Prueba de hipótesis sobre los efectos fijos
-La prueba razón de verosimilitud puede ser usada para comparar modelos ajustados por el método ML, sin embargo, no se recomienda usarla porque los valores-P tienden a ser anticonservativos, es decir, más pequeños de los normal y por lo tanto se podría rechazar $H_0$ más fácilmente [@PinhieroBates2000]. En lugar de usar la distribución $\chi^2$ para el estadístico de la prueba razón de verosimilitud, se recomienda usar la distribución empírica del estadístico, obtenida al ajustar los modelos nulo y alternativo con múltiples conjuntos de datos simulados [@Galecki2012].
+La prueba razón de verosimilitud puede ser usada para comparar modelos ajustados por el método ML, sin embargo, no se recomienda usarla porque los valores-P pueden ser anticonservativos, es decir, más pequeños de los normal y por lo tanto se podría rechazar $H_0$ más fácilmente [@PinhieroBates2000]. En lugar de usar la distribución $\chi^2$ para el estadístico de la prueba razón de verosimilitud, se recomienda usar la distribución empírica del estadístico, obtenida al ajustar los modelos nulo y alternativo con múltiples conjuntos de datos simulados [@Galecki2012].
 
 ### Ejemplo {-}
 ```{r echo=FALSE, out.width="80%", fig.align='center'}
@@ -199,11 +199,42 @@ Luego un ejemplo.
 ### Componentes de varianza en el borde
 Este caso se presenta cuando la hipótesis nula considera que uno o varios parámetros están justo en el borde del dominio del parámetro en cuestion. Por ejemplo, si queremos estudiar la inclusión del intercepto aleatorio $b_0$ en un modelo de regresión clásico, tendríamos las siguientes hipótesis: $H_0: \sigma^2_{b0} = 0$ versus $H_A: \sigma^2_{b0} > 0$. Debido a la condición de $\sigma^2_{b0}$ en $H_0$, se dice que esa componente de varianza está en el borde de su dominio, ya que $\sigma^2_{b0}$ no puede ser negativa. En este ejemplo particular, rechazar $H_0$ implicaría que es apropiado incluir $b_0$ en el modelo.
 
+En el caso de componentes de varianza cerca de la frontera la distribución del estadístico razón de verosimilitud no es una $\chi^2$ [@Galecki2012]. En la sección 6.3.4 de [@Verbeke2000] se listan 4 casos en los cuales se tienen mezclas de distribuciones para calcular el valor-P de la prueba razón de verosimilitud. Los 4 casos son los siguientes:
+
+- Sin efecto aleatorio versus 1 efecto aleatorio: en este caso lo que interesa es $H_0: \sigma^2_{b} = 0$ versus $H_0: \sigma^2_{b} > 0$, la distribución asintótica del estadístico de razon de verosimilitud es una mezcla de $\chi^2_1$ y $\chi^2_0$ con pesos iguales a 0.5.
+- 1 efecto aleatorio versus 2 efectos aleatorios: en este caso lo que interesa es  $H_0: \boldsymbol{D} = 
+\begin{pmatrix} d_{11} & 0 \\ 
+0 & 0
+\end{pmatrix}$ 
+versus $H_0: \boldsymbol{D} \neq \boldsymbol{0}$ para un $d_{11}>0$, en este caso la distrubución asintótica del estadístico razón de verosimilitud es una mezcla de $\chi^2_2$ y $\chi^2_1$ con pesos iguales a 0.5.
+- $q$ efectos aleatorios versus $q+1$ efectos aleatorios: en este caso lo que interesa es 
+$H_0: \boldsymbol{D} = 
+\begin{pmatrix}
+\boldsymbol{D_{11}} & \boldsymbol{0}\\ 
+\boldsymbol{0}^\top & 0
+\end{pmatrix}$ 
+donde $\boldsymbol{D_{11}}$ es una matriz de covarianzas (positiva definida) de dimensión $q \times q$ versus que $\boldsymbol{D}$ es una matriz general de dimensión $q+1 \times q+1$. En este caso la distribución asintótica del estadística razón de verosimilitud es una mezcla de $\chi^2_{q+1}$ y $\chi^2_q$ con pesos iguales a 0.5.
+- $q$ efectos aleatorios versus $q+k$ efectos aleatorios: en este caso lo que interesa es 
+$H_0: \boldsymbol{D} = 
+\begin{pmatrix}
+\boldsymbol{D_{11}} & \boldsymbol{0}\\ 
+\boldsymbol{0}^\top & \boldsymbol{0}
+\end{pmatrix}$ 
+donde $\boldsymbol{D}$ es una matriz de covarianzas (positiva definida) de dimensión $q+k \times q+k$ versus que
+$H_A: \boldsymbol{D} = 
+\begin{pmatrix}
+\boldsymbol{D_{11}} & \boldsymbol{D_{12}}\\ 
+\boldsymbol{D_{12}}^\top & \boldsymbol{D_{22}}
+\end{pmatrix}$ 
+es una matriz general de dimensión $q+k \times q+k$. En este caso la distribución asintótica del estadística razón de verosimilitud es una mezcla de $\chi^2_{q+k}$ y $\chi^2_q$ con pesos iguales a 0.5.
+
+Si la distribución nula del estadístico razón de verosimilitud no puede ser obtenida analíticamente, una posible solución es usar la distribución empírica del estadístico obtenida al ajustar múltiples modelos nulos y alternativos [@Galecki2012].
+
 ### Ejemplo {-}
 Simule 10 observaciones para cada uno de los 10 grupos siguiendo el siguiente modelo y luego aplique la prueba de razón de verosimilitud para estudiar $H_0: \sigma^2_{b0} = 0$ versus $H_A: \sigma^2_{b0} > 0$.
 
 \begin{align*} 
-y_{ij} &\sim  N(\mu_{ij}, \sigma^2) \\ 
+y_{ij} &\sim  N(\mu_{ij}, \sigma^2_y) \\ 
 \mu_{ij} &= 4 - 6 x_{ij} + b_{0i} \\
 \sigma^2_y &= 4 \\
 b_{0} &\sim N(0, \sigma^2_{b0}=4) \\

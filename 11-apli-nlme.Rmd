@@ -41,7 +41,7 @@ N\left ( \left ( \begin{matrix}
 \right )
 \end{align*}
 
-El vector de parámetros para este modelo sería $\boldsymbol{\Theta}=(\beta_0, \beta_1, \sigma_y, \sigma_{b0}, \sigma_{b1}, \sigma_{b0b1})^\top$.
+El vector de parámetros para este modelo sería $\boldsymbol{\Theta}=(\beta_0, \beta_1, \sigma_{height}, \sigma_{b0}, \sigma_{b1}, \sigma_{b0b1})^\top$.
 
 Para ajustar este modelo a los datos con el paquete `nlme` podemos usar el siguiente código.
 
@@ -55,7 +55,7 @@ Para obtener la tabla de resumen usamos:
 summary(fit)
 ```
 
-De la salida anterior se obtiene que $\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=149.37, \hat{\beta}_1=6.53, \hat{\sigma}_y=0.66, \hat{\sigma}_{b0}=8.08, \hat{\sigma}_{b1}=1.68, \hat{\sigma}_{b0b1}=8.71)^\top$. La estimación $\hat{\sigma}_{b0b1}$ no aparece directamente en el summary pero se obtiene utilizando la ecuación $Cor=Cov/(\sigma_1 \sigma_2)$ que relaciona [correlación](https://en.wikipedia.org/wiki/Correlation_and_dependence), covarianza y desviaciones de los efectos aleatorios.
+De la salida anterior se obtiene que $\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=149.37, \hat{\beta}_1=6.53, \hat{\sigma}_{height}=0.66, \hat{\sigma}_{b0}=8.08, \hat{\sigma}_{b1}=1.68, \hat{\sigma}_{b0b1}=8.71)^\top$. La estimación $\hat{\sigma}_{b0b1}$ no aparece directamente en el summary pero se obtiene utilizando la ecuación $Cor=Cov/(\sigma_1 \sigma_2)$ que relaciona [correlación](https://en.wikipedia.org/wiki/Correlation_and_dependence), covarianza y desviaciones de los efectos aleatorios.
 
 Usando la información anterior se puede escribir el modelo ajustado de la siguiente manera.
 

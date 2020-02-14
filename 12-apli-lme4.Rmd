@@ -43,9 +43,9 @@ N\left ( \left [ \begin{matrix}
 \right )
 \end{align*}
 
-Aquí, los individuos ($i$) varían en el tiempo de reacción promedio tanto en su intercepto ($b_{0i}$) como en su pendiente ($b_{1i}$), que en conjunto componen la varianza total en dicho tiempo atribuible a la variación entre individuos. Esta contribución individual se cuantifica usando un modelo de intercepto y pendiente aleatoria con distribución normal ($N$). La variación entre individuos en intercepto y pendiente es $\sigma^2_{b0}$ y $\sigma²_{b1}$, respectivamente. La covarianza entre el intercepto y la pendiente esta dada por $\sigma_{b01}$.
+Aquí, los individuos ($i$) varían en el tiempo de reacción promedio tanto en su intercepto ($b_{0i}$) como en su pendiente ($b_{1i}$), que en conjunto componen la varianza total en dicho tiempo atribuible a la variación entre individuos. Esta contribución individual se cuantifica usando un modelo de intercepto y pendiente aleatoria con distribución normal ($N$). La variación entre individuos en intercepto y pendiente es $\sigma^2_{b0}$ y $\sigma^2_{b1}$, respectivamente. La covarianza entre el intercepto y la pendiente esta dada por $\sigma_{b01}$.
 
-El vector de parámetros para este modelo sería $\boldsymbol{\Theta}=(\beta_0, \beta_1, \sigma_y, \sigma_{b0}, \sigma_{b1}, \sigma_{b0b1})^\top$.
+El vector de parámetros para este modelo sería $\boldsymbol{\Theta}=(\beta_0, \beta_1, \sigma_{reaction}, \sigma_{b0}, \sigma_{b1}, \sigma_{b0b1})^\top$.
 
 Para ajustar el modelo de intercepto y pendiente aleatoria planteado usando el paquete `lme4` podemos usar el siguiente código:
 
@@ -76,7 +76,7 @@ Tabla_1 <- tibble::tribble(
   5.92,
   10.25
 )
-rownames(Tabla_1) <- c("$\\beta_{0}$", "$\\beta_{1}$", "$\\sigma_{y}$", "$\\sigma_{b0}$", "$\\sigma_{b1}$", "$\\sigma_{b0b1}$")
+rownames(Tabla_1) <- c("$\\beta_{0}$", "$\\beta_{1}$", "$\\sigma_{reaction}$", "$\\sigma_{b0}$", "$\\sigma_{b1}$", "$\\sigma_{b0b1}$")
 
 knitr::kable(Tabla_1, col.names = "$\\Theta$") %>%
   kable_styling(full_width = FALSE) %>%
