@@ -360,7 +360,9 @@ Consulte la ayuda de la función `exactRLRT` para que conozca sus posibilidades 
 
 ## Ejercicios {-}
 
-1. Considere la base de datos `sleepstudy` del paquete __lme4__. El objetivo es comparar los siguientes dos modelos.
+1. ¿Qué son modelos anidados? ¿Son modelos que usan datos relacionados con aves?
+
+2. Considere la base de datos `sleepstudy` del paquete __lme4__. El objetivo es comparar los siguientes dos modelos.
 
 Modelo 1
 
@@ -380,6 +382,24 @@ Reaction_{ij} &\sim  N(\mu_{ij}, \sigma^2_{reaction}) \\
 
 Escriba las hipótesis del problema en forma simbólica y en lenguaje sencillo. Aplique la prueba razón de verosimilitud usando simulación y concluya. Rta: el valor-P $\approx$ 0.136.
 
-2. Considere el ejemplo del capítulo \@ref(apli-nlme) sobre el estudio de crecimiento de un grupo de jóvenes. Aplique la prueba razón de verosimilitud para estudiar $H_0: \sigma^2_{b0} = 0$ versus $H_A: \sigma^2_{b0} > 0$, es decir, ajuste un modelo lineal simple para explicar la estatura en función de la edad y luego un modelo mixto con intercepto aleatorio. ¿Cuál de los dos modelos parece explicar mejor los datos? Use $\alpha=0.06$.
+3. Considere el ejemplo del capítulo \@ref(apli-nlme) sobre el estudio de crecimiento de un grupo de jóvenes. Aplique la prueba razón de verosimilitud para estudiar $H_0: \sigma^2_{b0} = 0$ versus $H_A: \sigma^2_{b0} > 0$, es decir, ajuste un modelo lineal simple para explicar la estatura en función de la edad y luego un modelo mixto con intercepto aleatorio. ¿Cuál de los dos modelos parece explicar mejor los datos? Use $\alpha=0.06$.
+
+3. En este [enlace](https://stats.stackexchange.com/questions/161394/testing-the-variance-component-in-a-mixed-effects-model) está la pregunta de un usuario de StackExange sobre prueba de hipótesis (PH).  
+- ¿Fue la pregunta sobre PH sobre efectos fijos o PH sobre componentes de varianza?
+- ¿Quería el usuario un PH asintótica o una PH basada en bootstrap (relacionado con simulación)?
+- Mire el ejemplo que dió YaronZ, ¿por qué no definió el método REML dentro de las funciones `lmer` y `lm`?
+
+4. En este [enlace](https://stats.stackexchange.com/questions/361681/mixed-effects-model-compare-random-variance-component-across-levels-of-a-groupi) está la extensa pregunta del usuario Patrick. 
+- En el primer cajón de código Patrick escribió un código para simular observaciones de un modelo mixto. ¿Cómo le parece esa forma de simular?
+- ¿Cuántos elementos tiene el vector de parámetros del modelo de Patrick?
+- ¿Cuáles son los valores de los parámetros?
+
+5. En este [enlace](https://stats.stackexchange.com/questions/4858/how-to-test-random-effects-in-a-multilevel-model-in-r) está la pregunta de usuario biostat_newbie.
+- ¿Qué nombre recibe el modelo que le interesa a biostat_newbie?
+- ¿Qué es lo que necesita 0.7494974?
+- ¿Cuál es el mensaje de primer párrafo de que respondió Fabians?
+- En la respuesta que Fabians dió hay un código de R. ¿Para qué sirve ese código tan extraño?
+
+6. ¿Quién es Ben Bolker?
 
 

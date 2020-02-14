@@ -518,7 +518,8 @@ Consulte la ayuda de la función <code>exactRLRT</code> para que conozca sus pos
 <div id="ejercicios" class="section level2 unnumbered">
 <h2>Ejercicios</h2>
 <ol style="list-style-type: decimal">
-<li>Considere la base de datos <code>sleepstudy</code> del paquete <strong>lme4</strong>. El objetivo es comparar los siguientes dos modelos.</li>
+<li><p>¿Qué son modelos anidados? ¿Son modelos que usan datos relacionados con aves?</p></li>
+<li><p>Considere la base de datos <code>sleepstudy</code> del paquete <strong>lme4</strong>. El objetivo es comparar los siguientes dos modelos.</p></li>
 </ol>
 <p>Modelo 1</p>
 <p><span class="math display">\[\begin{align*} 
@@ -533,8 +534,35 @@ Reaction_{ij} &amp;\sim  N(\mu_{ij}, \sigma^2_{reaction}) \\
 (b_0, b_1)^\top &amp;\sim N(\boldsymbol{0}, \boldsymbol{D})
 \end{align*}\]</span></p>
 <p>Escriba las hipótesis del problema en forma simbólica y en lenguaje sencillo. Aplique la prueba razón de verosimilitud usando simulación y concluya. Rta: el valor-P <span class="math inline">\(\approx\)</span> 0.136.</p>
-<ol start="2" style="list-style-type: decimal">
-<li>Considere el ejemplo del capítulo <a href="apli-nlme.html#apli-nlme">7</a> sobre el estudio de crecimiento de un grupo de jóvenes. Aplique la prueba razón de verosimilitud para estudiar <span class="math inline">\(H_0: \sigma^2_{b0} = 0\)</span> versus <span class="math inline">\(H_A: \sigma^2_{b0} &gt; 0\)</span>, es decir, ajuste un modelo lineal simple para explicar la estatura en función de la edad y luego un modelo mixto con intercepto aleatorio. ¿Cuál de los dos modelos parece explicar mejor los datos? Use <span class="math inline">\(\alpha=0.06\)</span>.</li>
+<ol start="3" style="list-style-type: decimal">
+<li><p>Considere el ejemplo del capítulo <a href="apli-nlme.html#apli-nlme">7</a> sobre el estudio de crecimiento de un grupo de jóvenes. Aplique la prueba razón de verosimilitud para estudiar <span class="math inline">\(H_0: \sigma^2_{b0} = 0\)</span> versus <span class="math inline">\(H_A: \sigma^2_{b0} &gt; 0\)</span>, es decir, ajuste un modelo lineal simple para explicar la estatura en función de la edad y luego un modelo mixto con intercepto aleatorio. ¿Cuál de los dos modelos parece explicar mejor los datos? Use <span class="math inline">\(\alpha=0.06\)</span>.</p></li>
+<li><p>En este <a href="https://stats.stackexchange.com/questions/161394/testing-the-variance-component-in-a-mixed-effects-model">enlace</a> está la pregunta de un usuario de StackExange sobre prueba de hipótesis (PH).<br />
+</p></li>
+</ol>
+<ul>
+<li>¿Fue la pregunta sobre PH sobre efectos fijos o PH sobre componentes de varianza?</li>
+<li>¿Quería el usuario un PH asintótica o una PH basada en bootstrap (relacionado con simulación)?</li>
+<li>Mire el ejemplo que dió YaronZ, ¿por qué no definió el método REML dentro de las funciones <code>lmer</code> y <code>lm</code>?</li>
+</ul>
+<ol start="4" style="list-style-type: decimal">
+<li>En este <a href="https://stats.stackexchange.com/questions/361681/mixed-effects-model-compare-random-variance-component-across-levels-of-a-groupi">enlace</a> está la extensa pregunta del usuario Patrick.</li>
+</ol>
+<ul>
+<li>En el primer cajón de código Patrick escribió un código para simular observaciones de un modelo mixto. ¿Cómo le parece esa forma de simular?</li>
+<li>¿Cuántos elementos tiene el vector de parámetros del modelo de Patrick?</li>
+<li>¿Cuáles son los valores de los parámetros?</li>
+</ul>
+<ol start="5" style="list-style-type: decimal">
+<li>En este <a href="https://stats.stackexchange.com/questions/4858/how-to-test-random-effects-in-a-multilevel-model-in-r">enlace</a> está la pregunta de usuario biostat_newbie.</li>
+</ol>
+<ul>
+<li>¿Qué nombre recibe el modelo que le interesa a biostat_newbie?</li>
+<li>¿Qué es lo que necesita 0.7494974?</li>
+<li>¿Cuál es el mensaje de primer párrafo de que respondió Fabians?</li>
+<li>En la respuesta que Fabians dió hay un código de R. ¿Para qué sirve ese código tan extraño?</li>
+</ul>
+<ol start="6" style="list-style-type: decimal">
+<li>¿Quién es Ben Bolker?</li>
 </ol>
 
 </div>
