@@ -1,18 +1,20 @@
 # Diagnóstico del modelo de regresión de efectos mixtos {#reg-diagnos}
 
-El diagnóstico del modelo de regresión es un método que permite determinar si un modelo de regresión ajustado representa adecuadamente los datos. Dicho diagnóstico puede ser de dos tipos: mediante métodos gráficos o métodos puramente numéricos (pruebas de hipótesis). No obstante el diagnóstico gráfico permite al analista descubrir no solo cuándo el modelo ajustado presenta problemas, sino que también permite detectar cuál puede ser la causa del mismo, lo cual sería casi imposible a través de los métodos numéricos.
+El diagnóstico del modelo de regresión es un método que permite determinar si un modelo de regresión ajustado representa adecuadamente los datos. El objetivo de este capitulo consiste en introducir al lector los distintos métodos de diagnostico del modelo, los cuales permitiran identificar aquel modelo que represente sus datos con una mayor precisión.
 
-El objetivo de este capitulo consiste en introducir al lector los distintos métodos de diagnostico del modelo, los cuales permitiran identificar aquel modelo que represente sus datos con una mayor precisión.
+<!-- Cuando se violan los supuestos, las estimaciones y predicciones pueden comportarse mal e incluso pueden tergiversar por completo los datos. El diagnóstico de regresión puede reverlar problema y, a menudo, señalar el camino hacia las soluciones -->
+
+<!-- Los métodos utilizados comúnmente en el diagnóstico residual son gráficos, que se evalúan informalmente con respecto a la presencia o ausencia de patrones específicos y/o puntos de datos periféricos. Dichos gráficos pueden basarse en varios tipos de residuos, que se presentan en esta sección. -->
 
 ## Los residuos
 
-Los residuos son la base de la mayoría de los métodos de diagnóstico. Estos pueden ser de distinto tipo. El residuo más básico es el denominado _residuo original_, $\hat{\epsilon}_{i}$, el cual se define como la diferencia entre el valor observado, $y_{i}$, y su correspondiente valor estimado por el modelo, $\hat{\mu}_{i}$, así:
+Los residuos son la base de la mayoría de los métodos de diagnóstico. Estos pueden ser de distinto tipo. Los residuos más básicos son los denominados _residuos ordinarios_, $\hat{\epsilon}_{i}$, el cual se define como la diferencia entre el valor observado, $y_{i}$, y su correspondiente valor estimado por el modelo, $\hat{\mu}_{i}$, así:
 
 \begin{align*}
 \hat{\epsilon}_{i} = y_{i} - \hat{\mu}_{i}, i = 1, 2, ..., n
 \end{align*}
 
-donde $\hat{\mu}_{i}$ es igual a $x^{'}_{i}\hat{\beta}$. A continuación, una representación gráfica de $\hat{\epsilon}_{i}$: 
+donde $\hat{\mu}_{i}$ es igual a $x^{'}_{i}\hat{\beta}$. A continuación, se presenta una representación gráfica de $\hat{\epsilon}_{i}$: 
 
 ```{r Representación gráfica de los que es un residuo, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE, fig.showtext = TRUE, out.width = "80%", fig.align = "center"}
 
@@ -48,7 +50,7 @@ Residuos <- tibble::tribble(
   geom_curve(x = 0.5, xend = 0.5, y = 1.18, yend = 1.03, arrow = arrow(length = unit(0.1, 'inch')), size = 0.5, color = 'black', curvature = -0.5) +
   annotate(geom = 'text', x = 0.39, y = 1.18, label = 'Valor observado', family = 'gochi', size = 8.8, colour = 'black') +
   geom_curve(x = 0.42, xend = 0.49, y = 0.88, yend = 0.88, arrow = arrow(length = unit(0.1, 'inch')), size = 0.5, color = 'black', curvature = -0.2) +
-  annotate(geom = 'text', x = 0.32, y = 0.88, label = 'Residuo original', family = 'gochi', size = 8.8, colour = 'black') +
+  annotate(geom = 'text', x = 0.32, y = 0.88, label = 'Residuo ordinario', family = 'gochi', size = 8.8, colour = 'black') +
   theme_bw() +
   theme(axis.text = element_blank(),
         axis.ticks = element_blank(),
@@ -56,9 +58,9 @@ Residuos <- tibble::tribble(
 Residuos
 ```
 
-Luego los residuos originales se escalan con el fin de que su interpretación no dependa de las unidades de medida de la variable dependiente. El proceso de estandarización consiste en dividir al residuo original, $\hat{\epsilon}_{i}$, su desviación estandar, ${\sigma}$, así: $\frac{\hat{\epsilon}_{i}}{\sigma}$. Los residuos obtenidos de esta manera se denominan como _residuos estandarizados_.
+Luego los residuos ordinarios se escalan con el fin de que su interpretación no dependa de las unidades de medida de la variable dependiente. El proceso de estandarización consiste en dividir el residuo ordinario, $\hat{\epsilon}_{i}$, por la expresión $\sigma\sqrt{(1-h_{i})}$, donde ${\sigma}$ corresponde a la desviación estandar verdadera y $h_{i}$ al ~~apalancamiento o valor de sombrero~~. Los residuos obtenidos de esta manera se denominan como _residuos estandarizados_.
 
-Sin embargo la verdadera desviación estándar rara vez se conoce. Por lo tanto, el escalado se realiza utilizando un estimador del mismo, $\hat{\sigma}$, y dependiendo del estimador utilizado se distinguen otros dos tipos de residuos: los _residuos internamente estudentizados_ y los _residuos externamente estudentizados_. La tabla a continuación, resume las formas básicas de los residuos escalados:
+Sin embargo la verdadera desviación estándar rara vez se conoce. Por lo tanto, el escalado se puede realizar utilizando un estimador del mismo, es decir $\hat{\sigma}$. Los residuos obtenidos de esta manera se denominan como _residuos estudentizados_, los cuales a su vez se dividen en dos: los _residuos internamente estudentizados_ y los _residuos externamente estudentizados_. La tabla a continuación, resume las formas básicas de los residuos escalados:
 
 ```{r Tabla de tipos de residuos, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 
@@ -66,18 +68,153 @@ library(kableExtra)
 
 Tabla_1 <- tibble::tribble(
   ~x,
-  '$\\frac{\\hat\\epsilon_i}{\\sigma}$',
-  '$\\frac{\\hat\\epsilon_i}{\\hat\\sigma}$',
-  '$\\frac{\\hat\\epsilon_i}{\\hat\\sigma_{(-i)}}$',
+  '$\\frac{\\hat\\epsilon_i}{\\sigma\\sqrt{(1-h_i)}}$',
+  '$\\frac{\\hat\\epsilon_i}{\\hat\\sigma\\sqrt{(1-h_i)}}$',
+  '$\\frac{\\hat\\epsilon_i}{\\hat\\sigma_{(-i)}\\sqrt{(1-h_i)}}$',
 )
-rownames(Tabla_1) <- c('Estandarizado por $\\sigma$', 'Internamente estudentizado', 'Externamente estudentizado')
+rownames(Tabla_1) <- c('Estandarizado', 'Internamente estudentizado', 'Externamente estudentizado')
 
 kable(Tabla_1, col.names = 'Formula matemática') %>%
   kable_styling(full_width = FALSE) %>%
   footnote(symbol = c('En el residuo internamente estudentizado, $\\hat\\sigma$ denota\n una estimación de $\\sigma$ basada en todas las observaciones;', 'En el residuo externamente estudentizado, $\\hat\\sigma_{(-i)}$ es una\n estimación obtenida luego de excluir la i-ésima observación\n de los cálculos.'))
 ```
+<!--
+~~Para obtener los residuos ordinarios, se puede emplear la función general `residuals()`. Luego las funciones `rstandard()` y `rstudent()` devuelven los residuos estandarizados y estudentizados, respectivamente. Para ello, es necesario ajustar inicialmente el modelo de regresión.~~
+-->
+Se usara la base de datos `hsb` del paquete `merTools` para entender mejor de que tratan los residuos, así como también los métodos de diagnosticos que explicaremos más adelante en este capitulo. A continuación podra ver la base de datos a usar:
+
+<!--
+Los datos a usar fueron recopilados por Raudenbush y Bryk (2012). Estos consisten en una encuesta realizada a 7185 estudiantes de secundaria en Estados Unidos de 160 escuelas (alrededor de 45 estudiantes por escuela). Las variables son las siguientes:
+
+schid: un vector numérico que corresponde a 160 valores únicos (las 160 escuelas);
+mathach: un vector numérico que corresponde al rendimiento en una evaluación estandarizada de matemáticas;
+female: un vector numérico codificado en 0 para masculino y 1 para femenino;
+ses -> una medida numerica del estatus socioeconómico del estudiante;
+minority: un vector numérico codificado en 0 para estudiantes blancos y 1 para estudiantes no blancos;
+schtype: un vector numérico codificado en 0 para escuelas públicas y 1 para escuelas privadas;
+meanses: un valor numérico, el SES promedio para cada escuela en el conjunto de datos;
+size: un número que indica la cantidad de estudiantes en cada escuela.
+-->
+
+```{r Se carga la base de datos a usar, echo = FALSE, eval = TRUE, message = FALSE, fig.align = "center"}
+
+library(merTools) # Paquete que contiene la base de datos a usar en los ejemplos
+data('hsb')
+
+library(DT)
+datatable(hsb, filter = 'top', options = list(autoWidth = TRUE),
+  caption = htmltools::tags$caption(
+    style = 'caption-side: bottom; text-align: center;',
+    'Tabla 1: ', htmltools::em('Conjunto de datos de una encuenta realizado a 7185 estudiantes de secundaria en Estados Unidos de 160 escuelas.')
+  )
+)
+```
+
+<br>
+
+Se puede entender bien la lógica de los que son los residuos ajustando un modelo de regresión simple.
+
+```{block2, type='rmdnote'}
+
+El diagnóstico del modelo de regresión aborda la adecuación de un modelo estadístico una vez se han ajustado los datos. De hecho, el ajuste de un modelo debe verse como un proceso iterativo en el que se ajusta el modelo, se evalúan sus residuos y se mejora. Así hasta llegar a un modelo óptimo.
+```
+
+Suponga que se quiere poner en relación dos variables: la variable $x_{1}$ que representa el nivel socio-económico de los alumnos (`ses`), y la variable $y$, que es el rendimiento de los mismos alumnos en una prueba de matemáticas (`mathach`). Para facilitar este análisis (y los posteriores) se asumira que $x_{1}$ es una variable continua que toma valores entre `-4` y `+4`, donde cero indica nivel socio-económico medio, `+4` indica nivel socio-económico alto y `-4` indica nivel socio-económico bajo.
+
+El modelo de regresión simple aplicado a este ejemplo se puede representar así:
+
+\begin{align} \label{mod2}
+y_i &\sim N(\mu_i, \sigma^2), \\ 
+\mu_i &= \beta_0 + \beta_1 x_{1i}, \\
+\sigma^2 &= \text{constante}
+\end{align}
+
+El codigó en `R` para ajustar el anterior modelo se presenta a continuación:
+
+```{r Modelo de regresión simple para entender lo que son los residuos, echo = TRUE, eval = FALSE, message = FALSE}
+
+Modelo_simple <- lm(mathach ~ ses, data = hsb)
+```
+
+Luego, los residuos (en este caso los residuos ordinarios) se pueden obtener con las siguientes funciones genericas:
+
+```{r Funciones para obtener los valores residuales, echo = TRUE, eval = FALSE, message = FALSE}
+
+muestra_aleatoria$val_predicho <- predict(Modelo_simple)
+muestra_aleatoria$res_ordinario <- residuals(Modelo_simple)
+```
 
 
+```{block2, type='rmdwarning'}
 
-## El método gráfico
+Tenga en cuenta que se bien el modelo se ajusto con las 7185 valores observados, la gráfica a continuación solo presenta 150 valores. Esto debido a que al no restringir por este valor, la gráfica se presentaba muy saturada de valores observados y estimados.
+```
+
+```{r Obtención de los residuos del modelo anterior, echo = FALSE, eval = TRUE, message = FALSE, fig.align = "center"}
+
+muestra_aleatoria <- hsb %>%
+  distinct %>% 
+  sample_n(150) # Se eligio al azar 150 filas debido a que si dejabamos todos los 7185 datos, no se veia bien la gráfica
+
+Modelo_simple <- lm(mathach ~ ses, data = muestra_aleatoria)
+
+muestra_aleatoria$val_predicho <- predict(Modelo_simple)
+muestra_aleatoria$res_ordinario <- residuals(Modelo_simple)
+
+# Se gráfica los valores reales y predichos
+ggplot(data = muestra_aleatoria, aes(x = ses, y = mathach)) +
+  geom_smooth(method = 'lm', se = FALSE, color = 'lightgrey', size = 1.8) + # Se incluye la línea de regresión
+  geom_segment(aes(xend = ses, yend = val_predicho), alpha = 0.4) + # Se conectan los valores reales de los predichos con lineas verticales
+  geom_point(aes(alpha = abs(res_ordinario)), size = 3.2) + # Se incluyen los valores observados, indicando (con la claridad en el color) el valor del residuo
+  guides(alpha = FALSE) + # Se quita la leyenda por la opción anterior de dar claridad con base al valor del residuo
+  geom_point(aes(y = val_predicho), shape = 1, size = 2.4) + # Se incluyen los valores estimados
+  theme_bw() +
+  labs(x = 'Rendimiento de alumnos en la prueba', y = 'Valores observados y estimados') +
+  theme(axis.text = element_text(size = 12, color = 'black', face = 'bold'), 
+        axis.title = element_text(size = 12, face = 'bold'))
+```
+
+```{r Grafica de, echo = FALSE, eval = TRUE, message = FALSE, fig.align = "center"}
+
+Grafica_1 <- ggplot(data = muestra_aleatoria, aes(x = ses, y = mathach)) +
+  geom_smooth(method = 'lm', se = FALSE, color = 'lightgrey', size = 1.8) + # Se incluye la línea de regresión
+  geom_segment(aes(xend = ses, yend = val_predicho), alpha = 0.4) + # Se conectan los valores reales de los predichos con lineas verticales
+  geom_point(aes(alpha = abs(res_ordinario)), size = 3.2) + # Se incluyen los valores observados, indicando (con la claridad en el color) el valor del residuo
+  guides(alpha = FALSE) + # Se quita la leyenda por la opción anterior de dar claridad con base al valor del residuo
+  geom_point(aes(y = val_predicho), shape = 1, size = 2.4) + # Se incluyen los valores estimados
+  theme_bw() +
+  labs(x = 'Rendimiento de alumnos en la prueba', y = 'Valores observados y estimados') +
+  theme(axis.text = element_text(size = 12, color = 'black', face = 'bold'), 
+        axis.title = element_text(size = 12, face = 'bold'))
+
+Grafica_2 <-ggplot(data = muestra_aleatoria, aes(x = val_predicho, y = res_ordinario)) +
+  geom_point(aes(alpha = abs(res_ordinario)), size = 3.2) +
+  guides(alpha = FALSE) +
+  stat_smooth(method = 'loess', se = FALSE, color = 'red', size = 1.4) +
+  geom_hline(yintercept = 0, color = 'black', linetype = 'dashed', size = 1.4) +
+  labs(x = 'Valores estimados', y = 'Residuos ordinarios') +
+  theme_bw() +
+  theme(axis.text = element_text(size = 12, color = 'black', face = 'bold'), 
+        axis.title = element_text(size = 12, face = 'bold'))
+
+library(gridExtra)
+
+grid.arrange(Grafica_1, Grafica_2, ncol = 2)
+```
+
+
+<!--
+Un tipo de análisis de datos podría ser si los puntajes en el rendimiento de las pruebas matemáticas de los estudiantes (mathach) puede variar según el estado socioeconómico familiar (ses). Se considera también la posibilidad de que el nivel general de...
+-->
+
+## Iniciando con el diagnóstico: prueba de hipótesis e inferencia visual
+
+Como es sabido, la inferencia estadística clásica consiste en formular inicialmente un juego de hipótesis (hipótesis nula y alternativa), y calcular posteriormente un estadístico de prueba del cual se deriva un `valor p` que permitira concluir en relación a las hipótesis planteadas. Este proceso tiene su análogo en inferencia visual.
+
+Suponga que el interés consiste en verificar alguna suposición sobre el modelo ajustado: por ejemplo, la homogeneidad de la varianza residual. Para ello se plantea como hipótesis nula el cumplimiento de dicha homogeneidad, mientras que la hipótesis alternativa abarca cualquier violación de este supuesto. Para la inferencia visual, el estadístico de prueba corresponde a una gráfica que muestra un aspecto del supuesto que se desea verifcar, y permite al observador distinguir entre escenarios bajo la hipótesis nula y la alternativa.
+
+No obstante los métodos gráficos permiten al analista descubrir no solo cuándo el modelo ajustado no cumple con el supuesto planteado, sino que también permite detectar cuál puede ser la causa del mismo, lo cual sería casi imposible a través de unicamente pruebas de hipótesis. 
+
+Existe una gran variedad de gráficos (como los presentados a continuación) lo que refleja el hecho de que ningún gráfico de diagnóstico es apropiado para todos los propósitos.
+
 
