@@ -203,12 +203,12 @@ Este caso se presenta cuando la hipótesis nula considera que uno o varios pará
 
 En el caso de componentes de varianza cerca de la frontera la distribución del estadístico razón de verosimilitud no es una $\chi^2$ [@Galecki2012]. En la sección 6.3.4 de [@Verbeke2000] se listan 4 casos en los cuales se tienen mezclas de distribuciones para calcular el valor-P de la prueba razón de verosimilitud. Los 4 casos son los siguientes:
 
-- Sin efecto aleatorio versus 1 efecto aleatorio: en este caso lo que interesa es $H_0: \sigma^2_{b} = 0$ versus $H_0: \sigma^2_{b} > 0$, la distribución asintótica del estadístico de razon de verosimilitud es una mezcla de $\chi^2_1$ y $\chi^2_0$ con pesos iguales a 0.5.
+- Sin efecto aleatorio versus 1 efecto aleatorio: en este caso lo que interesa es $H_0: \sigma^2_{b} = 0$ versus $H_A: \sigma^2_{b} > 0$, la distribución asintótica del estadístico de razon de verosimilitud es una mezcla de $\chi^2_1$ y $\chi^2_0$ con pesos iguales a 0.5.
 - 1 efecto aleatorio versus 2 efectos aleatorios: en este caso lo que interesa es  $H_0: \boldsymbol{D} = 
 \begin{pmatrix} d_{11} & 0 \\ 
 0 & 0
 \end{pmatrix}$ 
-versus $H_0: \boldsymbol{D} \neq \boldsymbol{0}$ para un $d_{11}>0$, en este caso la distrubución asintótica del estadístico razón de verosimilitud es una mezcla de $\chi^2_2$ y $\chi^2_1$ con pesos iguales a 0.5.
+versus $H_A: \boldsymbol{D} \neq \boldsymbol{0}$ para un $d_{11}>0$, en este caso la distribución asintótica del estadístico razón de verosimilitud es una mezcla de $\chi^2_2$ y $\chi^2_1$ con pesos iguales a 0.5.
 - $q$ efectos aleatorios versus $q+1$ efectos aleatorios: en este caso lo que interesa es 
 $H_0: \boldsymbol{D} = 
 \begin{pmatrix}
