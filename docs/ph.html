@@ -52,6 +52,18 @@
 
 
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.9/datatables.js"></script>
+<link href="libs/dt-core-1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.19/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.19/js/jquery.dataTables.min.js"></script>
+<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="libs/selectize-0.12.0/selectize.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
@@ -169,7 +181,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6" data-path="reg-diagnos.html"><a href="reg-diagnos.html"><i class="fa fa-check"></i><b>6</b> Diagnóstico del modelo de regresión de efectos mixtos</a><ul>
 <li class="chapter" data-level="6.1" data-path="reg-diagnos.html"><a href="reg-diagnos.html#los-residuos"><i class="fa fa-check"></i><b>6.1</b> Los residuos</a></li>
-<li class="chapter" data-level="6.2" data-path="reg-diagnos.html"><a href="reg-diagnos.html#el-metodo-grafico"><i class="fa fa-check"></i><b>6.2</b> El método gráfico</a></li>
+<li class="chapter" data-level="6.2" data-path="reg-diagnos.html"><a href="reg-diagnos.html#iniciando-con-el-diagnostico-prueba-de-hipotesis-e-inferencia-visual"><i class="fa fa-check"></i><b>6.2</b> Iniciando con el diagnóstico: prueba de hipótesis e inferencia visual</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="apli-nlme.html"><a href="apli-nlme.html"><i class="fa fa-check"></i><b>7</b> Aplicación con <code>nlme</code></a><ul>
 <li class="chapter" data-level="" data-path="apli-nlme.html"><a href="apli-nlme.html#ejercicios-1"><i class="fa fa-check"></i>Ejercicios</a></li>
@@ -349,7 +361,7 @@ b_{0} &amp;\sim N(0, \sigma^2_{b0})
 <div id="componentes-de-varianza-en-el-borde" class="section level3">
 <h3><span class="header-section-number">5.4.2</span> Componentes de varianza en el borde</h3>
 <p>Este caso se presenta cuando la hipótesis nula considera que uno o varios parámetros están justo en el borde del dominio del parámetro en cuestion. Por ejemplo, si queremos estudiar la inclusión del intercepto aleatorio <span class="math inline">\(b_0\)</span> en un modelo de regresión clásico, tendríamos las siguientes hipótesis: <span class="math inline">\(H_0: \sigma^2_{b0} = 0\)</span> versus <span class="math inline">\(H_A: \sigma^2_{b0} &gt; 0\)</span>. Debido a la condición de <span class="math inline">\(\sigma^2_{b0}\)</span> en <span class="math inline">\(H_0\)</span>, se dice que esa componente de varianza está en el borde de su dominio, ya que <span class="math inline">\(\sigma^2_{b0}\)</span> no puede ser negativa. En este ejemplo particular, rechazar <span class="math inline">\(H_0\)</span> implicaría que es apropiado incluir <span class="math inline">\(b_0\)</span> en el modelo.</p>
-<p>En el caso de componentes de varianza cerca de la frontera la distribución del estadístico razón de verosimilitud no es una <span class="math inline">\(\chi^2\)</span> <span class="citation">(Galecki and Burzykowski <a href="#ref-Galecki2012" role="doc-biblioref">2012</a>)</span>. En la sección 6.3.4 de <span class="citation">(Verbeke and Molenberghs <a href="#ref-Verbeke2000" role="doc-biblioref">2000</a>)</span> se listan 4 casos en los cuales se tienen mezclas de distribuciones para calcular el valor-P de la prueba razón de verosimilitud. Los 4 casos son los siguientes:</p>
+<p>En el caso de componentes de varianza cerca de la frontera la distribución del estadístico razón de verosimilitud no es exactamente una <span class="math inline">\(\chi^2\)</span> <span class="citation">(Galecki and Burzykowski <a href="#ref-Galecki2012" role="doc-biblioref">2012</a>)</span>. En la sección 6.3.4 de <span class="citation">(Verbeke and Molenberghs <a href="#ref-Verbeke2000" role="doc-biblioref">2000</a>)</span> se listan cuatro casos en los cuales se usan mezclas de distribuciones corregir la distribución del estadístico y así calcular el valor-P corregido en la prueba razón de verosimilitud. Los cuatro casos son los siguientes:</p>
 <ul>
 <li>Sin efecto aleatorio versus 1 efecto aleatorio: en este caso lo que interesa es <span class="math inline">\(H_0: \sigma^2_{b} = 0\)</span> versus <span class="math inline">\(H_A: \sigma^2_{b} &gt; 0\)</span>, la distribución asintótica del estadístico de razon de verosimilitud es una mezcla de <span class="math inline">\(\chi^2_1\)</span> y <span class="math inline">\(\chi^2_0\)</span> con pesos iguales a 0.5.</li>
 <li>1 efecto aleatorio versus 2 efectos aleatorios: en este caso lo que interesa es <span class="math inline">\(H_0: \boldsymbol{D} = \begin{pmatrix} d_{11} &amp; 0 \\ 0 &amp; 0 \end{pmatrix}\)</span>
