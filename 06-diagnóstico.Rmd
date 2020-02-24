@@ -2,10 +2,6 @@
 
 El diagnóstico del modelo de regresión es un método que permite determinar si un modelo de regresión ajustado representa adecuadamente los datos. El objetivo de este capitulo consiste en introducir al lector los distintos métodos de diagnostico del modelo, los cuales permitiran identificar aquel modelo que represente sus datos con una mayor precisión.
 
-<!-- Cuando se violan los supuestos, las estimaciones y predicciones pueden comportarse mal e incluso pueden tergiversar por completo los datos. El diagnóstico de regresión puede reverlar problema y, a menudo, señalar el camino hacia las soluciones -->
-
-<!-- Los métodos utilizados comúnmente en el diagnóstico residual son gráficos, que se evalúan informalmente con respecto a la presencia o ausencia de patrones específicos y/o puntos de datos periféricos. Dichos gráficos pueden basarse en varios tipos de residuos, que se presentan en esta sección. -->
-
 ## Los residuos
 
 Los residuos son la base de la mayoría de los métodos de diagnóstico. Estos pueden ser de distinto tipo. Los residuos más básicos son los denominados _residuos ordinarios_, $\hat{\epsilon}_{i}$, el cual se define como la diferencia entre el valor observado, $y_{i}$, y su correspondiente valor estimado por el modelo, $\hat{\mu}_{i}$, así:
@@ -119,7 +115,7 @@ Se puede entender bien la lógica de los que son los residuos ajustando un model
 El diagnóstico del modelo de regresión aborda la adecuación de un modelo estadístico una vez se han ajustado los datos. De hecho, el ajuste de un modelo debe verse como un proceso iterativo en el que se ajusta el modelo, se evalúan sus residuos y se mejora. Así hasta llegar a un modelo óptimo.
 ```
 
-Suponga que se quiere poner en relación dos variables: la variable $x_{1}$ que representa el nivel socio-económico de los alumnos (`ses`), y la variable $y$, que es el rendimiento de los mismos alumnos en una prueba de matemáticas (`mathach`). Para facilitar este análisis (y los posteriores) se asumira que $x_{1}$ es una variable continua que toma valores entre `-4` y `+4`, donde valores cercanos a `0` indican nivel socio-económico medio, cercanos a `+4` indican nivel socio-económico alto y cercanos a `-4` indican nivel socio-económico bajo.
+Suponga que se quiere poner en relación dos variables: la variable $x_{1}$ que representa el nivel socio-económico de los estudiantes (`ses`), y la variable $y$, que es el rendimiento de los mismos estudiantes en una prueba de matemáticas (`mathach`). Para facilitar este análisis (y los posteriores) se asumira que $x_{1}$ es una variable continua que toma valores entre `-4` y `+4`, donde valores cercanos a `0` indican nivel socio-económico medio, cercanos a `+4` indican nivel socio-económico alto y cercanos a `-4` indican nivel socio-económico bajo.
 
 El modelo de regresión simple aplicado a este ejemplo se puede representar así:
 
@@ -131,10 +127,10 @@ y_i &\sim N(\mu_i, \sigma^2), \\
 
 El codigó en `R` para ajustar el anterior modelo se presenta a continuación:
 
-```{r Modelo de regresión simple para entender lo que son los residuos, echo = TRUE, eval = FALSE, message = FALSE}
+```{r Modelo de regresión simple para entender lo que son los residuos, echo = TRUE, eval = TRUE, message = FALSE}
 
 Modelo_simple <- lm(mathach ~ ses, data = hsb)
-#summary(Modelo_simple)
+summary(Modelo_simple)
 ```
 
 Luego, los residuos (en este caso los residuos ordinarios) se pueden obtener con las siguientes funciones genericas:
@@ -145,7 +141,7 @@ muestra_aleatoria$val_predicho <- predict(Modelo_simple)
 muestra_aleatoria$res_ordinario <- residuals(Modelo_simple)
 ```
 
-La gráfica a continuación presenta los valores observados y estimados en el rendimiento de los alumnos en una prueba de matemáticas según su nivel socio-económico, siendo la misma una representación gráfica similar a la presentada en la **Figura 6.1**:
+La gráfica a continuación presenta los valores observados y estimados en el rendimiento de los estudiantes en una prueba de matemáticas según su nivel socio-económico, siendo la misma una representación gráfica similar a la presentada en la **Figura 6.1**:
 
 ```{block2, type='rmdwarning'}
 
@@ -171,12 +167,12 @@ ggplot(data = muestra_aleatoria, aes(x = ses, y = mathach)) +
   guides(alpha = FALSE) + # Se quita la leyenda por la opción anterior de dar claridad con base al valor del residuo
   geom_point(aes(y = val_predicho), shape = 1, size = 2.4) + # Se incluyen los valores estimados
   theme_bw() +
-  labs(x = 'Nivel socio-económico', y = 'Valores observados y estimados para el\n rendimiento de alumnos en la prueba') +
+  labs(x = 'Nivel socio-económico', y = 'Valores observados y estimados para el\n rendimiento de estudiantes en la prueba') +
   theme(axis.text = element_text(size = 12, color = 'black', face = 'bold'), 
         axis.title = element_text(size = 12, face = 'bold'))
 ```
 
-La gráfica anterior representa la relación existente entre el rendimiento académico y el nivel socio-económico del alumno. Claramente se puede observar que a mayor nivel socio-económico, mejor es el rendimiento del alumno. Una vez ajustado el modelo de regresión, y como se puede observar en la anterior gráfica, se tienen los valores observados (puntos con relleno), los valores estimados (puntos sin relleno) y el residuo (representado por una línea vertical que une a los valores observados con los estimados). Por tanto, puede imaginar ahora que cada dato (valor observado) tiene un valor estimado y un residuo (residuo ordinario en este caso) como se detalla a continuación:
+La gráfica anterior representa la relación existente entre el rendimiento académico y el nivel socio-económico del estudiante. Claramente se puede observar que a mayor nivel socio-económico, mejor es el rendimiento del estudiante. Una vez ajustado el modelo de regresión, y como se puede observar en la anterior gráfica, se tienen los valores observados (puntos con relleno), los valores estimados (puntos sin relleno) y el residuo (representado por una línea vertical que une a los valores observados con los estimados). Por tanto, puede imaginar ahora que cada dato (valor observado) tiene un valor estimado y un residuo (residuo ordinario en este caso) como se detalla a continuación:
 
 ```{r Tabla de valores obtenidos con el modelo de regresión ajustado, echo = FALSE, eval = TRUE, message = FALSE, fig.align = "center"}
 
@@ -189,7 +185,7 @@ kable(Tabla_2, col.names = c('Rendimiento real', 'Rendimiento estimado', 'Residu
 
 Luego dichos residuos se consideran como elementos clave en la evaluación del modelo ajustado. Estos suelen emplearse en los métodos de diagnosticos del modelo de regresión mediante pruebas de hipótesis acompañadas de inferencia visual (gráficos). Por ejemplo, la figura a continuación muestra una de las gráficas comunmente usadas en los métodos de diagnostico:
 
-```{r Grafica de residuos, echo = FALSE, eval = TRUE, message = FALSE, fig.align = "center", out.width = "80%"}
+```{r, echo = FALSE, eval = TRUE, message = FALSE, fig.align = "center", out.width = "80%", fig.cap = " Grafica de residuos ordinarios vs Valores estimados."}
 
 ggplot(data = muestra_aleatoria, aes(x = val_predicho, y = res_ordinario)) +
   geom_point(aes(alpha = abs(res_ordinario)), size = 3.2) +
@@ -213,14 +209,100 @@ Veremos la interpretación de la misma con más detalle a continuación.
 Un tipo de análisis de datos podría ser si los puntajes en el rendimiento de las pruebas matemáticas de los estudiantes (mathach) puede variar según el estado socioeconómico familiar (ses). Se considera también la posibilidad de que el nivel general de...
 -->
 
-## Iniciando con el diagnóstico: prueba de hipótesis e inferencia visual
+## Diagnóstico del modelo de regresión: prueba de hipótesis e inferencia visual
 
 Como es sabido, la inferencia estadística clásica consiste en formular inicialmente un juego de hipótesis (hipótesis nula y alternativa), y calcular posteriormente un estadístico de prueba del cual se deriva un `valor p` que permitira concluir en relación a las hipótesis planteadas. Este proceso tiene su análogo en inferencia visual.
 
-Suponga que el interés consiste en verificar alguna suposición sobre el modelo ajustado: por ejemplo, la homogeneidad de la varianza residual. Para ello se plantea como hipótesis nula el cumplimiento de dicha homogeneidad, mientras que la hipótesis alternativa abarca cualquier violación de este supuesto. Para la inferencia visual, el estadístico de prueba corresponde a una gráfica que muestra un aspecto del supuesto que se desea verifcar, y permite al observador distinguir entre escenarios bajo la hipótesis nula y la alternativa.
+Suponga que el interés consiste en verificar alguna suposición sobre el modelo ajustado, por ejemplo, la homogeneidad de la varianza residual. Para ello se plantea como hipótesis nula el cumplimiento de dicha homogeneidad, mientras que la hipótesis alternativa abarca cualquier violación de este supuesto. Para la inferencia visual, el estadístico de prueba corresponde a una gráfica que muestra un aspecto del supuesto que se desea verifcar, y permite al observador distinguir entre escenarios bajo la hipótesis nula y la alternativa.
 
+A continuación se mostrará como llevar a cabo el diagnónostico del modelo de regresión empleando tanto pruebas de hipótesis como inferencia visual. Para ello, haremos uso de nuevo de la base de datos anteriormente mencionada `hsb`.
+
+### Ajustando el modelo
+
+Vimos anteriormente en este capitulo que era posible determinar si el rendimiento de los estudiantes en una prueba de matemáticas (`mathach`) estaba relacionada con su nivel socio-económico (`ses`). Se considerará ahora la posibilidad de que la relación entre el rendimiento y el nivel socio-económico del estudiante varien según las características de la escuela, específicamente, si la escuela es una escuela pública o una escuela privada (`schtype`). Un buen punto de partida consiste es ver la relación entre el rendimiento y el nivel socio-económico por separado para cada escuela:
+
+```{r, echo = FALSE, eval = TRUE, message = FALSE, fig.align = "center", out.width = "80%", fig.cap = "Diagrama de dispersión del rendimiento matemático según el nivel socio-económico en escuelas públicas."}
+
+Grafica_1 <- hsb %>%
+  filter(schtype == 0) %>%
+  distinct(schid) %>%
+  sample_n(12) %>% # Se eligio al azar 12 escuelas públicas
+  left_join(hsb, 'schid') %>%
+  ggplot(aes(x = ses, y = mathach, color = schid, fill = schid)) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method = 'lm', se = FALSE, color = 'gray64') +
+  facet_wrap(~ schid) +
+  theme_bw() +
+  theme(legend.position = 'none') +
+  labs(x = 'Nivel socio-económico', y = 'Rendimiento del estudiante en\n la prueba de matemáticas', title = 'Escuelas públicas') +
+  theme(axis.text = element_text(size = 8, color = 'black', face = 'bold'), 
+        axis.title = element_text(size = 10, face = 'bold'),
+        plot.title = element_text(size = 10, face = 'bold'))
+Grafica_1  
+```
+
+```{r, echo = FALSE, eval = TRUE, message = FALSE, fig.align = "center", out.width = "80%", fig.cap = "Diagrama de dispersión del rendimiento matemático según el nivel socio-económico en escuelas privadas."}
+
+Grafica_2 <- hsb %>%
+  filter(schtype == 1) %>%
+  distinct(schid) %>%
+  sample_n(12) %>% # Se eligio al azar 12 escuelas privadas
+  left_join(hsb, 'schid') %>%
+  ggplot(aes(x = ses, y = mathach, color = schid, fill = schid)) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method = 'lm', se = FALSE, color = 'gray64') +
+  facet_wrap(~ schid) +
+  theme_bw() +
+  theme(legend.position = 'none') +
+  labs(x = 'Nivel socio-económico', y = 'Rendimiento del estudiante en\n la prueba de matemáticas', title = 'Escuelas privadas') +
+  theme(axis.text = element_text(size = 8, color = 'black', face = 'bold'), 
+        axis.title = element_text(size = 10, face = 'bold'),
+        plot.title = element_text(size = 10, face = 'bold'))
+Grafica_2
+```
+
+En cada panel, la línea representa un ajuste lineal por mínimos cuadrados a los datos. El número en la parte superior corresponde a la identificación de la escuela (en este caso se han elegido doce escuelas para cada tipo). Claramente parece haber una diferencia entre la escuelas públicas y privadas: las líneas para las escuelas públicas parecen tener pendientes más pronunciadas. Esto hace pensar que un modelo de efectos mixtos con intercepto y pendiente aleatoria podría ser adecuado para modelar este tipo de datos.
+
+Por tal motivo, el modelo de regresión mixto aplicado a este ejemplo se puede representar así:
+
+\begin{align*} 
+y_{ij} &\sim  N(\mu_{ij}, \sigma^2), \\ 
+\mu_{ij} &= \beta_0 + \beta_1 x_{ij} + b_{0i} + b_{1i} x_{ij}, \\
+\left (
+\begin{matrix}
+b_{0} \\ b_{1}
+\end{matrix} 
+\right ) &\sim 
+N\left ( \left [ \begin{matrix}
+0 \\ 0
+\end{matrix} \right ],
+\left [ \begin{matrix}
+\sigma^2_{b0} & \sigma_{b01} \\ 
+\sigma_{b01} & \sigma^2_{b1}
+\end{matrix} \right ]
+\right )
+\end{align*}
+
+Esta ecuación representa la relación existente entre el rendimiento acádemico y el nivel socio-económico de los estudiantes. La variable respuesta, $y_{ij}$, es el rendimiento del estudiante, $i$, en la escuela $j$.
+
+El codigó en `R` para ajustar el anterior modelo se presenta a continuación:
+
+```{r Modelo de regresión mixto ajustado, echo = TRUE, eval = FALSE, message = FALSE}
+
+library(lme4)
+
+Modelo_mixto <- lmer(
+  mathach ~ ses + (ses | schtype),
+  REML = TRUE,
+  data = hsb
+)
+```
+
+<!--
 No obstante los métodos gráficos permiten al analista descubrir no solo cuándo el modelo ajustado no cumple con el supuesto planteado, sino que también permite detectar cuál puede ser la causa del mismo, lo cual sería casi imposible a través de unicamente pruebas de hipótesis. 
+-->
 
+<!-- Cuando se violan los supuestos, las estimaciones y predicciones pueden comportarse mal e incluso pueden tergiversar por completo los datos. El diagnóstico de regresión puede reverlar problema y, a menudo, señalar el camino hacia las soluciones -->
 
-
+<!-- Los métodos utilizados comúnmente en el diagnóstico residual son gráficos, que se evalúan informalmente con respecto a la presencia o ausencia de patrones específicos y/o puntos de datos periféricos. Dichos gráficos pueden basarse en varios tipos de residuos, que se presentan en esta sección. -->
 
