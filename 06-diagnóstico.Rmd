@@ -16,6 +16,7 @@ donde $\hat{\mu}_{i}$ es igual a $x^{'}_{i}\hat{\beta}$. A continuación, se pre
 
 library(dplyr)
 library(ggplot2)
+library(gridExtra)
 library(showtext) # Link donde hay varias fuentes de ejemplo (https://github.com/yixuan/showtext)
 font_add_google('Gochi Hand', 'gochi')
 showtext_auto()
@@ -150,6 +151,7 @@ Tenga en cuenta que se bien el modelo se ajusto con las 7185 valores observados,
 
 ```{r, echo = FALSE, eval = TRUE, message = FALSE, fig.align = "center", fig.cap = "Valores obserados y estimados en el rendimiento en una prueba matemática según el nivel socio-económico del estudiante."}
 
+set.seed(1234)
 muestra_aleatoria <- hsb %>%
   distinct %>% 
   sample_n(150) # Se eligio al azar 150 filas debido a que si dejabamos todos los 7185 datos, no se veia bien la gráfica
@@ -223,6 +225,7 @@ Vimos anteriormente en este capitulo que era posible determinar si el rendimient
 
 ```{r, echo = FALSE, eval = TRUE, message = FALSE, fig.align = "center", out.width = "80%", fig.cap = "Diagrama de dispersión del rendimiento matemático según el nivel socio-económico en escuelas públicas."}
 
+set.seed(1234)
 Grafica_1 <- hsb %>%
   filter(schtype == 0) %>%
   distinct(schid) %>%
@@ -243,6 +246,7 @@ Grafica_1
 
 ```{r, echo = FALSE, eval = TRUE, message = FALSE, fig.align = "center", out.width = "80%", fig.cap = "Diagrama de dispersión del rendimiento matemático según el nivel socio-económico en escuelas privadas."}
 
+set.seed(1234)
 Grafica_2 <- hsb %>%
   filter(schtype == 1) %>%
   distinct(schid) %>%
@@ -263,7 +267,7 @@ Grafica_2
 
 En cada panel, la línea representa un ajuste lineal por mínimos cuadrados a los datos. El número en la parte superior corresponde a la identificación de la escuela (en este caso se han elegido doce escuelas para cada tipo). Claramente parece haber una diferencia entre la escuelas públicas y privadas: las líneas para las escuelas públicas parecen tener pendientes más pronunciadas. Esto hace pensar que un modelo de efectos mixtos con intercepto y pendiente aleatoria podría ser adecuado para modelar este tipo de datos.
 
-Por tal motivo, el modelo de regresión mixto aplicado a este ejemplo se puede representar así:
+Por tal motivo, el modelo de regresión de efectos mixtos aplicado a este ejemplo se puede representar así:
 
 \begin{align*} 
 y_{ij} &\sim  N(\mu_{ij}, \sigma^2), \\ 
@@ -285,17 +289,128 @@ N\left ( \left [ \begin{matrix}
 
 Esta ecuación representa la relación existente entre el rendimiento acádemico y el nivel socio-económico de los estudiantes. La variable respuesta, $y_{ij}$, es el rendimiento del estudiante, $i$, en la escuela $j$.
 
-El codigó en `R` para ajustar el anterior modelo se presenta a continuación:
+El codigó en `R` para ajustar el anterior modelo se presenta a continuación. Se hara uso del paquete `lme4` ya mencionado en el capitulo 3 del presente libro:
 
-```{r Modelo de regresión mixto ajustado, echo = TRUE, eval = FALSE, message = FALSE}
+```{r Cambio en la variable tipo de escuela, echo=FALSE, eval=TRUE, message=FALSE}
+
+hsb <- hsb %>% # Necesite hacer este cambió
+  mutate(schtype = case_when(
+    schtype == 0 ~ 'Pública',
+    schtype == 1 ~ 'Privada'
+  ))
+```
+
+```{r Modelo de regresión mixto ajustado, echo = TRUE, eval = TRUE, message = FALSE}
 
 library(lme4)
+Modelo_mixto <- lmer(mathach ~ ses + (ses | schtype),
+                     REML = TRUE,
+                     data = hsb)
+```
 
-Modelo_mixto <- lmer(
-  mathach ~ ses + (ses | schtype),
-  REML = TRUE,
-  data = hsb
-)
+La siguiente figura, obtenida a partir del modelo anteriormente ajustado, pone de manifiesto la posibilidad real y plausible de que el intercepto y la pendiente varíen según las características de cada escuela (privada o pública): 
+
+```{r, echo = FALSE, eval = TRUE, message = FALSE, fig.align = "center", fig.cap = "Grafica del modelo de regresión ajustado para dos escuelas."}
+
+hsb$pred_inter_pend_aleato <- predict(Modelo_mixto)
+
+Grafica_mixta <- ggplot(data = hsb, aes(x = ses, y = pred_inter_pend_aleato, color = schtype, fill = schtype)) +
+  geom_point(aes(x = ses, y = mathach, color = schtype), alpha = 0.4) +
+  geom_line(size = 1.4) +
+  geom_vline(xintercept = 0, linetype = 'dashed') +
+  #geom_curve(x = -2.4, xend = 0.0, y = 15.0, yend = 14.0, arrow = arrow(length = unit(0.1, 'inch')), size = 0.5, color = 'black', curvature = 0.0) +
+  #annotate(geom = 'text', x = -2.5, y = 15.2, label = 'beta[0]', parse = TRUE, colour = 'black', size = 5.4) +
+  #scale_color_manual(values = c('yellow', 'cyan')) +
+  #scale_fill_manual(values = c('yellow', 'cyan')) +
+  theme_bw() +
+  #facet_wrap(~ schtype) +
+  labs(x = 'Nivel socio-económico', y = 'Rendimiento del estudiante en\n la prueba de matemáticas') +
+  theme(axis.text = element_text(size = 10, color = 'black', face = 'bold'), 
+        axis.title = element_text(size = 12, color = 'black', face = 'bold'),
+        legend.text = element_text(size = 7, color = 'black'),
+        legend.title = element_text(size = 10, color = 'black', face = 'bold'))
+Grafica_mixta
+```
+
+### Gráfica básica de diagnóstico
+
+La gráfica de residuos contra los valores ajustados se considera la gráfica de diagnótico más básica.
+
+```{r Tipos de Residuos y valores esimados, echo = FALSE, eval = TRUE, message = FALSE}
+
+hsb$val_estimado <- fitted(Modelo_mixto)
+hsb$res_ordinario <- resid(Modelo_mixto, type = "response")
+hsb$res_pearson <- resid(Modelo_mixto, type = "pearson")
+```
+
+```{r, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE, fig.align = "center", fig.cap = "Gráficos residuales para el modelo de efectos mixtos (a) entre los residuos ordinarios contra los valores estimados (b) residuos ordinarios en cada tipo de escuela (c) residuos pearson contra los valores estimados (d) residuos pearson en cada tipo de escuela."}
+
+library(demoR)
+
+demo_code('
+Grafica_A <- ggplot(data = hsb, aes(x = val_estimado, y = res_ordinario)) +
+  geom_point(alpha = 0.4, size = 2.0) +
+  stat_smooth(method = "loess", se = FALSE, color = "red", size = 0.8) +
+  geom_hline(yintercept = 0, color = "black", linetype = "dashed", size = 0.8) +
+  labs(x = "Valores estimados", y = "Residuos ordinarios", title = "A") +
+  theme_bw() +
+  theme(axis.text = element_text(size = 8, face = "bold"), 
+        axis.title = element_text(size = 8, face = "bold"),
+        plot.title = element_text(size = 8, face = "bold"))
+') %>%
+  hlt_args(color = 'gray') %>%
+  hlt_funs(color = 'deeppink', underline = TRUE) %>%
+  hlt_regexp('val_estimado', background = 'cyan') %>%
+  hlt_regexp('res_ordinario', background = 'yellow') %>%
+  hlt_fixed('stat_smooth')
+
+demo_code('
+Grafica_B <- ggplot(data = hsb, aes(x = schtype, y = res_ordinario, color = schtype, fill = schtype)) +
+  geom_boxplot(alpha = 0.4) +
+  scale_color_manual(values = c("black", "yellow")) +
+  scale_fill_manual(values = c("black", "yellow")) +
+  theme(legend.position = "none") +
+  labs(x = "Característica de la escuela", y = "Residuos ordinarios", title = "B") +
+  theme_bw() +
+  theme(axis.text = element_text(size = 8, face = "bold"), 
+        axis.title = element_text(size = 8, face = "bold"),
+        plot.title = element_text(size = 8, face = "bold"),
+        legend.text = element_text(size = 6, face = "bold"),
+        legend.title = element_text(size = 6, face = "bold"))
+') %>%
+  hlt_args(color = 'gray') %>%
+  hlt_funs(color = 'deeppink', underline = TRUE) %>%
+  hlt_regexp('res_ordinario', background = 'yellow')
+
+Grafica_C <- ggplot(data = hsb, aes(x = val_estimado, y = res_pearson)) +
+  geom_point(alpha = 0.4, size = 2.0) +
+  stat_smooth(method = "loess", se = FALSE, color = "red", size = 0.8) +
+  geom_hline(yintercept = 0, color = "black", linetype = "dashed", size = 0.8) +
+  labs(x = "Valores estimados", y = "Residuos Pearson", title = "C") +
+  theme_bw() +
+  theme(axis.text = element_text(size = 8, face = "bold"), 
+        axis.title = element_text(size = 8, face = "bold"),
+        plot.title = element_text(size = 8, face = "bold"))
+
+Grafica_D <- ggplot(data = hsb, aes(x = schtype, y = res_pearson, color = schtype, fill = schtype)) +
+  geom_boxplot(alpha = 0.4) +
+  scale_color_manual(values = c("black", "yellow")) +
+  scale_fill_manual(values = c("black", "yellow")) +
+  theme(legend.position = "none") +
+  labs(x = "Característica de la escuela", y = "Residuos pearson", title = "D") +
+  theme_bw() +
+  theme(axis.text = element_text(size = 8, face = "bold"), 
+        axis.title = element_text(size = 8, face = "bold"),
+        plot.title = element_text(size = 8, face = "bold"),
+        legend.text = element_text(size = 6, face = "bold"),
+        legend.title = element_text(size = 6, face = "bold"))
+
+grid.arrange(Grafica_A, Grafica_B, Grafica_C, Grafica_D, ncol = 2)
+```
+
+```{block2, type='rmdnote'}
+
+Los métodos utilizados comúnmente en el diagnóstico residual son gráficos, que se evalúan informalmente con respecto a la presencia o ausencia de patrones específicos y/o puntos de datos periféricos. Dichos gráficos pueden basarse en varios tipos de residuos, como los residuos ordinarios o pearson.
 ```
 
 <!--
@@ -304,5 +419,5 @@ No obstante los métodos gráficos permiten al analista descubrir no solo cuánd
 
 <!-- Cuando se violan los supuestos, las estimaciones y predicciones pueden comportarse mal e incluso pueden tergiversar por completo los datos. El diagnóstico de regresión puede reverlar problema y, a menudo, señalar el camino hacia las soluciones -->
 
-<!-- Los métodos utilizados comúnmente en el diagnóstico residual son gráficos, que se evalúan informalmente con respecto a la presencia o ausencia de patrones específicos y/o puntos de datos periféricos. Dichos gráficos pueden basarse en varios tipos de residuos, que se presentan en esta sección. -->
+
 
