@@ -1,6 +1,18 @@
 # Diagnóstico del modelo de regresión de efectos mixtos {#reg-diagnos}
 
-El diagnóstico del modelo de regresión es un método que permite determinar si un modelo de regresión ajustado representa adecuadamente los datos. El objetivo de este capitulo consiste en introducir al lector los distintos métodos de diagnostico del modelo, los cuales permitiran identificar aquel modelo que represente sus datos con una mayor precisión.
+El diagnóstico del modelo de regresión es uno de un conjunto de procedimientos disponibles para el análisis de regresión que buscan evaluar la validez de un modelo previamente ajustado. Esta evaluación puede ser una exploración de los supuestos estadísticos del modelo. El objetivo de este capitulo consiste en introducir al lector los distintos métodos de diagnostico del modelo, los cuales permitiran identificar aquel modelo que represente sus datos con una mayor precisión.
+
+## Supuestos del modelo de regresión
+
+Existen un conjunto de supuestos cuando se modela la relación entre una variable respuesta y un regresor. Estos supuestos son esencialmente condiciones que deben cumplirse. Cuando no es el caso, las estimaciones y predicciones pueden comportarse mal e incluso pueden tergiversar por completo los datos. El diagnóstico de regresión puede revelar el problema y, a menudo, señalar el camino hacia las soluciones.
+
+Si un modelo de regresión ajustado representa adecuadamente los datos, sus residuos deberan:
+
+1. Tener varianza constante (homogeneidad de la varianza);
+2. Estar aproximadamente distribuidos de forma normal y;
+3. Ser independientes el uno del otro.
+
+Por tanto los supuestos del modelo de regresión se examinan a partir de los residuos que resultan del ajuste previo.
 
 ## Los residuos
 
@@ -55,7 +67,7 @@ Residuos <- tibble::tribble(
 Residuos
 ```
 
-Luego los residuos ordinarios se escalan con el fin de que su interpretación no dependa de las unidades de medida de la variable dependiente. El proceso de estandarización consiste en dividir el residuo ordinario, $\hat{\epsilon}_{i}$, por la expresión $\sigma\sqrt{(1-h_{i})}$, donde ${\sigma}$ corresponde a la desviación estandar verdadera y $h_{i}$ al ~~apalancamiento o valor de sombrero~~. Los residuos obtenidos de esta manera se denominan como _residuos estandarizados_.
+Luego los residuos ordinarios se escalan con el fin de que su interpretación no dependa de las unidades de medida de la variable respuesta. El proceso de estandarización consiste en dividir el residuo ordinario, $\hat{\epsilon}_{i}$, por la expresión $\sigma\sqrt{(1-h_{i})}$, donde ${\sigma}$ corresponde a la desviación estandar verdadera y $h_{i}$ al ~~apalancamiento o valor de sombrero~~. Los residuos obtenidos de esta manera se denominan como _residuos estandarizados_.
 
 Sin embargo la verdadera desviación estándar rara vez se conoce. Por lo tanto, el escalado se puede realizar utilizando un estimador del mismo, es decir $\hat{\sigma}$. Los residuos obtenidos de esta manera se denominan como _residuos estudentizados_, los cuales a su vez se dividen en dos: los _residuos internamente estudentizados_ y los _residuos externamente estudentizados_. La tabla a continuación, resume las formas básicas de los residuos escalados:
 
@@ -217,7 +229,7 @@ Como es sabido, la inferencia estadística clásica consiste en formular inicial
 
 Suponga que el interés consiste en verificar alguna suposición sobre el modelo ajustado, por ejemplo, la homogeneidad de la varianza residual. Para ello se plantea como hipótesis nula el cumplimiento de dicha homogeneidad, mientras que la hipótesis alternativa abarca cualquier violación de este supuesto. Para la inferencia visual, el estadístico de prueba corresponde a una gráfica que muestra un aspecto del supuesto que se desea verifcar, y permite al observador distinguir entre escenarios bajo la hipótesis nula y la alternativa.
 
-A continuación se mostrará como llevar a cabo el diagnónostico del modelo de regresión empleando tanto pruebas de hipótesis como inferencia visual. Para ello, haremos uso de nuevo de la base de datos anteriormente mencionada `hsb`.
+A continuación se mostrará como llevar a cabo el diagnóstico del modelo de regresión empleando tanto pruebas de hipótesis como inferencia visual. Para ello, haremos uso de nuevo de la base de datos anteriormente mencionada `hsb`.
 
 ### Ajustando el modelo
 
@@ -332,9 +344,85 @@ Grafica_mixta <- ggplot(data = hsb, aes(x = ses, y = pred_inter_pend_aleato, col
 Grafica_mixta
 ```
 
+Luego de ajustado el modelo de regresión, el procedimiento a seguir corresponde a evaluar el cumplimiento de los supuestos del mismo mediante métodos de diagnóstico.
+
 ### Gráfica básica de diagnóstico
 
-La gráfica de residuos contra los valores estimados se considera la gráfica de diagnóstico más básica. En el ejemplo planteado, esta se muestra en la parte superior e inferior izquierda de la siguiente figura, basados en dos tipos de residuos (ordinarios y pearson):
+La gráfica de residuos contra los valores estimados se considera la gráfica de diagnóstico más básica. A continuación podrá observar un ejemplo de la misma:
+
+```{r, echo = FALSE, eval = TRUE, message = FALSE, fig.align = "center", fig.cap = "Representación visual de la gráfica de residuos contra los valores estimados."}
+
+library(jpeg)
+library(gridGraphics)
+
+Imagen_1 <- readJPEG('images/Graf_correcta.jpg', native = TRUE)
+Imagen_1 <- rasterGrob(Imagen_1, interpolate=FALSE)
+
+Graf_imagen_1 <- data.frame(
+  x = c(1:2), y = c(1:2)
+) %>%
+  ggplot(aes(x, y)) +
+  geom_blank() +
+  theme_void() +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title = element_blank()) +
+  annotation_custom(Imagen_1, xmin = 1.0, xmax = 2.0, ymin = 1.0, ymax = 2.0)
+
+Imagen_2 <- readJPEG('images/Graf_incorrecta_1.jpg', native = TRUE)
+Imagen_2 <- rasterGrob(Imagen_2, interpolate=FALSE)
+
+Graf_imagen_2 <- data.frame(
+  x = c(1:2), y = c(1:2)
+) %>%
+  ggplot(aes(x, y)) +
+  geom_blank() +
+  theme_void() +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title = element_blank()) +
+  annotation_custom(Imagen_2, xmin = 1.0, xmax = 2.0, ymin = 1.0, ymax = 2.0)
+
+Imagen_3 <- readJPEG('images/Graf_incorrecta_2.jpg', native = TRUE)
+Imagen_3 <- rasterGrob(Imagen_3, interpolate=FALSE)
+
+Graf_imagen_3 <- data.frame(
+  x = c(1:2), y = c(1:2)
+) %>%
+  ggplot(aes(x, y)) +
+  geom_blank() +
+  theme_void() +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title = element_blank()) +
+  annotation_custom(Imagen_3, xmin = 1.0, xmax = 2.0, ymin = 1.0, ymax = 2.0)
+
+Imagen_4 <- readJPEG('images/Graf_incorrecta_3.jpg', native = TRUE)
+Imagen_4 <- rasterGrob(Imagen_4, interpolate=FALSE)
+
+Graf_imagen_4 <- data.frame(
+  x = c(1:2), y = c(1:2)
+) %>%
+  ggplot(aes(x, y)) +
+  geom_blank() +
+  theme_void() +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title = element_blank()) +
+  annotation_custom(Imagen_4, xmin = 1.0, xmax = 2.0, ymin = 1.0, ymax = 2.0)
+
+grid.arrange(Graf_imagen_1, Graf_imagen_2, Graf_imagen_3, Graf_imagen_4, ncol = 2)
+```
+
+Si se cumplen los supuestos, los residuos se dispersarán de forma aleatoria alrededor de la línea central como si se tratara de una nube de puntos, sin un patrón obvio, al igual a lo observado anteriormente en la gráfica superior izquierda.
+
+Si hay un patrón no aleatorio, su naturaleza puede identificar posibles problemas con el modelo. Por ejemplo si hay una curvatura presente (al igual a lo observado en la gráfica superior derecha), es posible que la relación entre la variable respuesta y el regresor no sea de forma lineal. Por lo tanto un modelo lineal, si este fuera el caso, no describiria adecuadamente la relación entre dichas variables.
+
+Luego si los residuos cambian de forma abrupta a medida que aumenta los valores estimados (como la gráfica inferior izquierda), este sería un claro de ejemplo de falta de homogeneidad de la varianza.
+
+Por último, un patrón inusual también puede ser causado por un valor atípico. En el ejemplo visual anterior (gráfica inferior derecha), se muestra un valor atípico obvio.
+
+En el ejemplo planteado usando la base de datos `hsb`, esta gráfica se muestra en la parte superior e inferior izquierda de la siguiente figura, basados en dos tipos de residuos (ordinarios y pearson):
 
 ```{r Tipos de Residuos y valores esimados, echo = FALSE, eval = TRUE, message = FALSE}
 
@@ -424,11 +512,22 @@ En general, los gráficos anteriores se evalúan de forma informal con respecto 
 La gráfica de residuos anterior es útil para revelar problemas, pero menos útil para determinar la naturaleza exacta del problema. En consecuencia, se presentaran otras gráficas de diagnóstico para sugerir mejoras a un modelo.
 ```
 
+### Gráfica... 
+
+Una variación de la gráfica residual básica es la gráfica...
+
+```{r Imagen distribución normal, fig.align = 'center', eval = TRUE, echo = FALSE, message = FALSE}
+
+library(knitr)
+include_graphics('images/Graf_correcta_2.gif')
+```
+
+
 <!--
 No obstante los métodos gráficos permiten al analista descubrir no solo cuándo el modelo ajustado no cumple con el supuesto planteado, sino que también permite detectar cuál puede ser la causa del mismo, lo cual sería casi imposible a través de unicamente pruebas de hipótesis. 
 -->
 
-<!-- Cuando se violan los supuestos, las estimaciones y predicciones pueden comportarse mal e incluso pueden tergiversar por completo los datos. El diagnóstico de regresión puede reverlar problema y, a menudo, señalar el camino hacia las soluciones -->
+<!--  -->
 
 
 
