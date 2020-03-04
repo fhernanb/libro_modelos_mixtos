@@ -277,14 +277,14 @@ y_{ij} &\sim  N(\mu_{ij}, \sigma^2), \\
 b_{0} \\ b_{1}
 \end{matrix} 
 \right ) &\sim 
-N\left ( \left [ \begin{matrix}
+N\left [ \left ( \begin{matrix}
 0 \\ 0
-\end{matrix} \right ],
-\left [ \begin{matrix}
+\end{matrix} \right ),
+\left ( \begin{matrix}
 \sigma^2_{b0} & \sigma_{b01} \\ 
 \sigma_{b01} & \sigma^2_{b1}
-\end{matrix} \right ]
-\right )
+\end{matrix} \right )
+\right ]
 \end{align*}
 
 Esta ecuación representa la relación existente entre el rendimiento acádemico y el nivel socio-económico de los estudiantes. La variable respuesta, $y_{ij}$, es el rendimiento del estudiante, $i$, en la escuela $j$.
@@ -334,7 +334,7 @@ Grafica_mixta
 
 ### Gráfica básica de diagnóstico
 
-La gráfica de residuos contra los valores ajustados se considera la gráfica de diagnótico más básica.
+La gráfica de residuos contra los valores estimados se considera la gráfica de diagnóstico más básica. En el ejemplo planteado, esta se muestra en la parte superior e inferior izquierda de la siguiente figura, basados en dos tipos de residuos (ordinarios y pearson):
 
 ```{r Tipos de Residuos y valores esimados, echo = FALSE, eval = TRUE, message = FALSE}
 
@@ -361,7 +361,8 @@ Grafica_A <- ggplot(data = hsb, aes(x = val_estimado, y = res_ordinario)) +
   hlt_args(color = 'gray') %>%
   hlt_funs(color = 'deeppink', underline = TRUE) %>%
   hlt_regexp('val_estimado', background = 'cyan') %>%
-  hlt_regexp('res_ordinario', background = 'yellow') %>%
+  hlt_regexp('res_ordinario', background = 'cyan') %>%
+  hlt_fixed('ggplot') %>%
   hlt_fixed('stat_smooth')
 
 demo_code('
@@ -370,7 +371,7 @@ Grafica_B <- ggplot(data = hsb, aes(x = schtype, y = res_ordinario, color = scht
   scale_color_manual(values = c("black", "yellow")) +
   scale_fill_manual(values = c("black", "yellow")) +
   theme(legend.position = "none") +
-  labs(x = "Característica de la escuela", y = "Residuos ordinarios", title = "B") +
+  labs(x = "Tipo de escuela", y = "Residuos ordinarios", title = "B") +
   theme_bw() +
   theme(axis.text = element_text(size = 8, face = "bold"), 
         axis.title = element_text(size = 8, face = "bold"),
@@ -380,7 +381,8 @@ Grafica_B <- ggplot(data = hsb, aes(x = schtype, y = res_ordinario, color = scht
 ') %>%
   hlt_args(color = 'gray') %>%
   hlt_funs(color = 'deeppink', underline = TRUE) %>%
-  hlt_regexp('res_ordinario', background = 'yellow')
+  hlt_regexp('res_ordinario', background = 'cyan') %>%
+  hlt_fixed('ggplot')
 
 Grafica_C <- ggplot(data = hsb, aes(x = val_estimado, y = res_pearson)) +
   geom_point(alpha = 0.4, size = 2.0) +
@@ -397,7 +399,7 @@ Grafica_D <- ggplot(data = hsb, aes(x = schtype, y = res_pearson, color = schtyp
   scale_color_manual(values = c("black", "yellow")) +
   scale_fill_manual(values = c("black", "yellow")) +
   theme(legend.position = "none") +
-  labs(x = "Característica de la escuela", y = "Residuos pearson", title = "D") +
+  labs(x = "Tipo de escuela", y = "Residuos pearson", title = "D") +
   theme_bw() +
   theme(axis.text = element_text(size = 8, face = "bold"), 
         axis.title = element_text(size = 8, face = "bold"),
@@ -408,9 +410,18 @@ Grafica_D <- ggplot(data = hsb, aes(x = schtype, y = res_pearson, color = schtyp
 grid.arrange(Grafica_A, Grafica_B, Grafica_C, Grafica_D, ncol = 2)
 ```
 
+En relación al código presentado anteriormente, tenga en cuenta lo siguiente:
+
++ Las gráficas se realizaron usando la función `ggplot()` (aquí subrayado en color amarillo) del paquete `ggplot2`;
++ Luego en la asignación estética (`aes`), se proporcionó los valores estimados y los residuos pearson u ordinarios (aquí subrayados en color azul), datos que se obtuvieron mediante previo ajuste del modelo;
++ La línea discontinua en las gráficas superior e inferior izquierda, es la línea horizontal a través de $\hat{\epsilon}_{i} = 0$ (es decir, donde la diferencia entre los valores observados y estimados son iguales a cero), siendo el mismo el caso ideal;
++ La línea continua en rojo en las gráficas superior e inferior izquierda, obtenidas a partir de la función `stat_smoot` (aquí subrayado en amarillo), representan una curva suave ajustada mediante el método `loess`, que indica la relación de los valores estimados con los residuos.
+
+En general, los gráficos anteriores se evalúan de forma informal con respecto a la presencia o ausencia de patrones específicos y/o puntos de datos periféricos o aislados. Respecto a la línea de referencia en cero y la línea ajustada mediante el método de `loess`, estas deberían parecerse. Por otro lado en cuanto al gráfico de caja y bigotes (parte superior e inferior derecha de la anterior figura), estas deberian tener aproximadamente el mismo centro y distancia intercuartil.
+
 ```{block2, type='rmdnote'}
 
-Los métodos utilizados comúnmente en el diagnóstico residual son gráficos, que se evalúan informalmente con respecto a la presencia o ausencia de patrones específicos y/o puntos de datos periféricos. Dichos gráficos pueden basarse en varios tipos de residuos, como los residuos ordinarios o pearson.
+La gráfica de residuos anterior es útil para revelar problemas, pero menos útil para determinar la naturaleza exacta del problema. En consecuencia, se presentaran otras gráficas de diagnóstico para sugerir mejoras a un modelo.
 ```
 
 <!--
