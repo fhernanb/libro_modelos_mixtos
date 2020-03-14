@@ -28,7 +28,6 @@ donde $\hat{\mu}_{i}$ es igual a $x^{'}_{i}\hat{\beta}$. A continuación, se pre
 
 library(dplyr)
 library(ggplot2)
-library(gridExtra)
 library(ggforce)
 library(patchwork)
 library(showtext) # Link donde hay varias fuentes de ejemplo (https://github.com/yixuan/showtext)
@@ -411,9 +410,9 @@ Graf_residuo_3 <- Normal(200) %>%
 ```
 
 
-Si se cumplen los supuestos, los residuos se dispersarán de forma aleatoria alrededor de la línea central como si se tratara de una nube de puntos, sin un patrón obvio, al igual a lo observado anteriormente en la gráfica superior izquierda. Si hay un patrón no aleatorio, su naturaleza puede identificar posibles problemas con el modelo. Por ejemplo si hay una curvatura presente (al igual a lo observado en la gráfica superior derecha), es posible que la relación entre la variable respuesta y el regresor no sea de forma lineal. O bien, si los residuos cambian de forma abrupta a medida que aumenta los valores estimados, este sería un claro de ejemplo de falta de homogeneidad de la varianza. Finalmente, un patrón inusual también puede ser causado por un valor atípico. En el ejemplo visual anterior (gráfica inferior), se muestra un valor atípico obvio.
+Si se cumplen los supuestos, los residuos se dispersarán de forma aleatoria alrededor de la línea central como si se tratara de una nube de puntos, sin un patrón obvio (figura 6.7 __A__). Si hay un patrón no aleatorio, su naturaleza puede identificar posibles problemas con el modelo. Por ejemplo si hay una curvatura presente (figura 6.7 __B__), es posible que la relación entre la variable respuesta y el regresor no sea de forma lineal. O bien, si los residuos cambian de forma abrupta a medida que aumenta los valores estimados, este sería un claro de ejemplo de falta de homogeneidad de la varianza. Finalmente, un patrón inusual también puede ser causado por un valor atípico. En el ejemplo visual anterior (figura 6.7 __C__), se muestra un valor atípico obvio.
 
-En el ejemplo planteado usando la base de datos `hsb`, esta gráfica se muestra en la parte superior e inferior izquierda de la siguiente figura, basados en dos tipos de residuos (ordinarios y pearson):
+En el ejemplo planteado usando la base de datos `hsb`, esta gráfica se muestra en las figuras 6.8 __A__ y 6.8 __C__, basados en dos tipos de residuos (ordinarios y pearson):
 
 ```{r Tipos de Residuos y valores esimados, echo = FALSE, eval = TRUE, message = FALSE}
 
@@ -484,7 +483,7 @@ Grafica_D <- ggplot(data = hsb, aes(x = schtype, y = res_pearson, color = schtyp
         legend.text = element_text(size = 6, face = "bold"),
         legend.title = element_text(size = 6, face = "bold"))
 
-grid.arrange(Grafica_A, Grafica_B, Grafica_C, Grafica_D, ncol = 2)
+(Grafica_A | Grafica_B) / (Grafica_C | Grafica_D)
 ```
 
 En relación al código presentado anteriormente, tenga en cuenta lo siguiente:
@@ -501,12 +500,53 @@ En general, los gráficos anteriores se evalúan de forma informal con respecto 
 La gráfica de residuos anterior es útil para revelar problemas, pero menos útil para determinar la naturaleza exacta del problema. En consecuencia, se presentaran otras gráficas de diagnóstico para sugerir mejoras a un modelo.
 ```
 
-### Gráfica... 
+### Gráfica marginal del modelo
 
-Una variación de la gráfica residual básica es la gráfica...
+Una variación de la gráfica residual básica anterior es una donde se muestre la distribución condicional de la variable respuesta dado el ajuste del modelo. A esta se le conoce como gráfica marginal, en el sentido de que muestra la relación marginal entre la variable respuesta y los valores estimados previo ajuste del modelo.
 
+En el ejemplo planteado usando la base de datos `hsb`, esta gráfica se muestra en la figura 6.9 <!--__B__ a continuación:
 
+```{r eval=TRUE, echo=FALSE, fig.align="center", fig.cap=".", message=FALSE, warning=FALSE}
 
+demo_code('
+Grafica_A <- ggplot(data = hsb, aes(x = res_pearson)) +
+  geom_histogram(aes(y = ..density..), colour = "gray47", fill = "gray80", binwidth = 5) +
+  stat_function(fun = dnorm, colour = "black", size = 1.4,
+                args = list(mean = mean(hsb$res_pearson), sd = sd(hsb$res_pearson))) +
+  labs(x = "Residuos Pearson", y = "Frecuencia", title = "A") +
+  theme_bw() +
+  theme(axis.text = element_text(size = 8, face = "bold"), 
+        axis.title = element_text(size = 8, face = "bold"),
+        plot.title = element_text(size = 8, face = "bold"))
+') %>%
+  hlt_args(color = 'gray') %>%
+  hlt_funs(color = 'deeppink', underline = TRUE) %>%
+  hlt_regexp('res_pearson', background = 'cyan') %>%
+  hlt_fixed('stat_function')
+
+demo_code('
+Grafica_B <- ggplot(data = hsb, aes(sample = res_pearson)) +
+  stat_qq(distribution = qnorm, color = "gray54", alpha = 0.4, size = 4) +
+  stat_qq_line(distribution = qnorm, color = "black", size = 1.8) +
+  labs(x = "Cuantiles teóricos de una distribución normal", y = "Cuantiles de la distribución observada", title = "B") +
+  theme_bw() +
+  theme(axis.text = element_text(size = 8, face = "bold"), 
+        axis.title = element_text(size = 8, face = "bold"),
+        plot.title = element_text(size = 8, face = "bold"))
+') %>%
+  hlt_args(color = 'gray') %>%
+  hlt_funs(color = 'deeppink', underline = TRUE) %>%
+  hlt_regexp('res_pearson', background = 'cyan') %>%
+  hlt_fixed('stat_qq') %>%
+  hlt_fixed('stat_qq_line')
+
+(Grafica_A | Grafica_B)
+```
+
+En relación al código presentado anteriormente, tenga en cuenta lo siguiente:
+
++ En la asignación estética (`aes`) usando el paquete `ggplot2`, se proporcionó los residuos pearson (aquí subrayados en color azul), datos que se obtuvieron mediante previo ajuste del modelo;
++.
 
 <!--
 No obstante los métodos gráficos permiten al analista descubrir no solo cuándo el modelo ajustado no cumple con el supuesto planteado, sino que también permite detectar cuál puede ser la causa del mismo, lo cual sería casi imposible a través de unicamente pruebas de hipótesis. 

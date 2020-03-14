@@ -19,7 +19,7 @@ Esta base de datos sobre crecimiento contiene la información sobre altura (`hei
 plot(Oxboys)
 ```
 
-```{block2, type='rmdnote'}
+```{block2, type='rmdtip'}
 Es posible convertir un data.frame para que tenga la clase groupedData, consulte la ayuda de la función `groupedData` del paquete `nlme` para más detalles.
 ```
 

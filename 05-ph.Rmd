@@ -62,8 +62,9 @@ Weight_{ij} &\sim  N(\mu_{ij}, \sigma^2_{weight}) \\
 b_{0} &\sim N(0, \sigma^2_{b0})
 \end{align*}
 
-__Solución__
-
+```{block2, type='rmdexercise'}
+Solución.
+```
 El problema de este ejercicio se puede resumir con $H_0:$ la variable Dieta no aporta al modelo, versus, $H_A:$ la variable Dieta si aporta al modelo.
 
 Para ajustar ambos modelos se usa el siguiente código.
@@ -140,7 +141,9 @@ Distance_{ij} &\sim  N(\mu_{ij}, \sigma^2_{distance}) \\
 b_{0} &\sim N(0, \sigma^2_{b0})
 \end{align*}
 
-__Solución__
+```{block2, type='rmdexercise'}
+Solución.
+```
 
 El problema de este ejercicio se puede resumir con $H_0:$ la variable Sexo no aporta al modelo, versus, $H_A:$ la variable Sexo si aporta al modelo.
 
@@ -243,7 +246,9 @@ b_{0} &\sim N(0, \sigma^2_{b0}=4) \\
 x_{ij} &\sim U(0, 10)
 \end{align*}
 
-__Solución__
+```{block2, type='rmdexercise'}
+Solución.
+```
 
 La función `gen_dat_b0` de abajo permite simular `m` observaciones de `n` grupos con intercepto aleatorio $b_0 \sim N(0, \sigma^2_{b0})$. Adicionalmente, es posible elegir los efectos fijos `beta0`, `beta_1` y la varianza `sigma` de la variable respuesta.
 

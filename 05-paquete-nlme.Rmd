@@ -31,7 +31,9 @@ x_{ij} &\sim U(-5, 6)
 
 El vector de parámetros de este modelo es $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma_y=4, \sigma_{b0}=25)^\top$.
 
-__Solución__
+```{block2, type='rmdexercise'}
+Solución.
+```
 
 El código para simular las 500 observaciones se muestra a continuación. Observe que se fijó la semilla en dos ocasiones para que el lector pueda replicar el ejemplo y obtener los mismos resultados.
 

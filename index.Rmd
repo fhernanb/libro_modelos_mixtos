@@ -84,3 +84,7 @@ Sugerencia.
 ```{block2, type='rmdwarning'}
 Advertencia.
 ```
+
+```{block2, type='rmdexercise'}
+Solución a ejemplos.
+```
