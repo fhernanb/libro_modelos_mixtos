@@ -29,6 +29,8 @@ donde $\hat{\mu}_{i}$ es igual a $x^{'}_{i}\hat{\beta}$. A continuación, se pre
 library(dplyr)
 library(ggplot2)
 library(gridExtra)
+library(ggforce)
+library(patchwork)
 library(showtext) # Link donde hay varias fuentes de ejemplo (https://github.com/yixuan/showtext)
 font_add_google('Gochi Hand', 'gochi')
 showtext_auto()
@@ -352,75 +354,64 @@ La gráfica de residuos contra los valores estimados se considera la gráfica de
 
 ```{r, echo = FALSE, eval = TRUE, message = FALSE, fig.align = "center", fig.cap = "Representación visual de la gráfica de residuos contra los valores estimados."}
 
-library(jpeg)
-library(gridGraphics)
+set.seed (100)
 
-Imagen_1 <- readJPEG('images/Graf_correcta.jpg', native = TRUE)
-Imagen_1 <- rasterGrob(Imagen_1, interpolate=FALSE)
+Normal <- function(n, Lower, Upper) { # Función para simular datos con distribución normal
+    x = rnorm(n, 5, 1)
+    y = rnorm(n, 0, 1)
+    data.frame(x, y)
+}
 
-Graf_imagen_1 <- data.frame(
-  x = c(1:2), y = c(1:2)
-) %>%
-  ggplot(aes(x, y)) +
-  geom_blank() +
-  theme_void() +
-  theme(axis.text = element_blank(),
-        axis.ticks = element_blank(),
-        axis.title = element_blank()) +
-  annotation_custom(Imagen_1, xmin = 1.0, xmax = 2.0, ymin = 1.0, ymax = 2.0)
+Graf_residuo_1 <- Normal(200) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_hline(yintercept = 0, color = "black", linetype = "dashed", size = 0.8) +
+  geom_point(colour = 'black', size = 2.8, alpha = 0.4) +
+  labs(x = 'Valores estimados', y = 'Residuos', title = 'A') +
+  theme_bw() +
+  theme(axis.text = element_blank(), 
+        axis.title = element_text(size = 12, face = 'bold'),
+        plot.title = element_text(size = 12, face = 'bold'),
+        axis.ticks = element_blank())
 
-Imagen_2 <- readJPEG('images/Graf_incorrecta_1.jpg', native = TRUE)
-Imagen_2 <- rasterGrob(Imagen_2, interpolate=FALSE)
+No_lineal <- function(n, Lower, Upper) { # Función para simular datos con valores no lineales
+    x = rnorm(n, 5, 1)
+    y = (x-3)^3/10 + rnorm(n, 0, 1)
+    data.frame(x, y)
+}
 
-Graf_imagen_2 <- data.frame(
-  x = c(1:2), y = c(1:2)
-) %>%
-  ggplot(aes(x, y)) +
-  geom_blank() +
-  theme_void() +
-  theme(axis.text = element_blank(),
-        axis.ticks = element_blank(),
-        axis.title = element_blank()) +
-  annotation_custom(Imagen_2, xmin = 1.0, xmax = 2.0, ymin = 1.0, ymax = 2.0)
+Graf_residuo_2 <- No_lineal(200) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_hline(yintercept = 0, color = "black", linetype = "dashed", size = 0.8) +
+  geom_point(colour = 'black', size = 2.8, alpha = 0.4) +
+  labs(x = 'Valores estimados', y = 'Residuos', title = 'B') +
+  theme_bw() +
+  theme(axis.text = element_blank(), 
+        axis.title = element_text(size = 12, face = 'bold'),
+        plot.title = element_text(size = 12, face = 'bold'),
+        axis.ticks = element_blank())
 
-Imagen_3 <- readJPEG('images/Graf_incorrecta_2.jpg', native = TRUE)
-Imagen_3 <- rasterGrob(Imagen_3, interpolate=FALSE)
+Val_atipico <- tibble::tribble(
+  ~x, ~y,
+  2, 4.0)
 
-Graf_imagen_3 <- data.frame(
-  x = c(1:2), y = c(1:2)
-) %>%
-  ggplot(aes(x, y)) +
-  geom_blank() +
-  theme_void() +
-  theme(axis.text = element_blank(),
-        axis.ticks = element_blank(),
-        axis.title = element_blank()) +
-  annotation_custom(Imagen_3, xmin = 1.0, xmax = 2.0, ymin = 1.0, ymax = 2.0)
+Graf_residuo_3 <- Normal(200) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_hline(yintercept = 0, color = 'black', linetype = 'dashed', size = 0.8) +
+  geom_point(colour = 'black', size = 2.8, alpha = 0.4) +
+  geom_point(data = Val_atipico, aes(x = x, y = y), colour = 'red', size = 2.8, alpha = 0.4) +
+  facet_zoom(xlim = c(0.0, 4.0), ylim = c(3.0, 5.0)) +
+  labs(x = 'Valores estimados', y = 'Residuos', title = 'C') +
+  theme_bw() +
+  theme(axis.text = element_blank(), 
+        axis.title = element_text(size = 12, face = 'bold'),
+        plot.title = element_text(size = 12, face = 'bold'),
+        axis.ticks = element_blank())
 
-Imagen_4 <- readJPEG('images/Graf_incorrecta_3.jpg', native = TRUE)
-Imagen_4 <- rasterGrob(Imagen_4, interpolate=FALSE)
-
-Graf_imagen_4 <- data.frame(
-  x = c(1:2), y = c(1:2)
-) %>%
-  ggplot(aes(x, y)) +
-  geom_blank() +
-  theme_void() +
-  theme(axis.text = element_blank(),
-        axis.ticks = element_blank(),
-        axis.title = element_blank()) +
-  annotation_custom(Imagen_4, xmin = 1.0, xmax = 2.0, ymin = 1.0, ymax = 2.0)
-
-grid.arrange(Graf_imagen_1, Graf_imagen_2, Graf_imagen_3, Graf_imagen_4, ncol = 2)
+(Graf_residuo_1 | Graf_residuo_2) / Graf_residuo_3
 ```
 
-Si se cumplen los supuestos, los residuos se dispersarán de forma aleatoria alrededor de la línea central como si se tratara de una nube de puntos, sin un patrón obvio, al igual a lo observado anteriormente en la gráfica superior izquierda.
 
-Si hay un patrón no aleatorio, su naturaleza puede identificar posibles problemas con el modelo. Por ejemplo si hay una curvatura presente (al igual a lo observado en la gráfica superior derecha), es posible que la relación entre la variable respuesta y el regresor no sea de forma lineal. Por lo tanto un modelo lineal, si este fuera el caso, no describiria adecuadamente la relación entre dichas variables.
-
-Luego si los residuos cambian de forma abrupta a medida que aumenta los valores estimados (como la gráfica inferior izquierda), este sería un claro de ejemplo de falta de homogeneidad de la varianza.
-
-Por último, un patrón inusual también puede ser causado por un valor atípico. En el ejemplo visual anterior (gráfica inferior derecha), se muestra un valor atípico obvio.
+Si se cumplen los supuestos, los residuos se dispersarán de forma aleatoria alrededor de la línea central como si se tratara de una nube de puntos, sin un patrón obvio, al igual a lo observado anteriormente en la gráfica superior izquierda. Si hay un patrón no aleatorio, su naturaleza puede identificar posibles problemas con el modelo. Por ejemplo si hay una curvatura presente (al igual a lo observado en la gráfica superior derecha), es posible que la relación entre la variable respuesta y el regresor no sea de forma lineal. O bien, si los residuos cambian de forma abrupta a medida que aumenta los valores estimados, este sería un claro de ejemplo de falta de homogeneidad de la varianza. Finalmente, un patrón inusual también puede ser causado por un valor atípico. En el ejemplo visual anterior (gráfica inferior), se muestra un valor atípico obvio.
 
 En el ejemplo planteado usando la base de datos `hsb`, esta gráfica se muestra en la parte superior e inferior izquierda de la siguiente figura, basados en dos tipos de residuos (ordinarios y pearson):
 
@@ -458,7 +449,6 @@ Grafica_B <- ggplot(data = hsb, aes(x = schtype, y = res_ordinario, color = scht
   geom_boxplot(alpha = 0.4) +
   scale_color_manual(values = c("black", "yellow")) +
   scale_fill_manual(values = c("black", "yellow")) +
-  theme(legend.position = "none") +
   labs(x = "Tipo de escuela", y = "Residuos ordinarios", title = "B") +
   theme_bw() +
   theme(axis.text = element_text(size = 8, face = "bold"), 
@@ -486,7 +476,6 @@ Grafica_D <- ggplot(data = hsb, aes(x = schtype, y = res_pearson, color = schtyp
   geom_boxplot(alpha = 0.4) +
   scale_color_manual(values = c("black", "yellow")) +
   scale_fill_manual(values = c("black", "yellow")) +
-  theme(legend.position = "none") +
   labs(x = "Tipo de escuela", y = "Residuos pearson", title = "D") +
   theme_bw() +
   theme(axis.text = element_text(size = 8, face = "bold"), 
@@ -505,7 +494,7 @@ En relación al código presentado anteriormente, tenga en cuenta lo siguiente:
 + La línea discontinua en las gráficas superior e inferior izquierda, es la línea horizontal a través de $\hat{\epsilon}_{i} = 0$ (es decir, donde la diferencia entre los valores observados y estimados son iguales a cero), siendo el mismo el caso ideal;
 + La línea continua en rojo en las gráficas superior e inferior izquierda, obtenidas a partir de la función `stat_smoot` (aquí subrayado en amarillo), representan una curva suave ajustada mediante el método `loess`, que indica la relación de los valores estimados con los residuos.
 
-En general, los gráficos anteriores se evalúan de forma informal con respecto a la presencia o ausencia de patrones específicos y/o puntos de datos periféricos o aislados. Respecto a la línea de referencia en cero y la línea ajustada mediante el método de `loess`, estas deberían parecerse. Por otro lado en cuanto al gráfico de caja y bigotes (parte superior e inferior derecha de la anterior figura), estas deberian tener aproximadamente el mismo centro y distancia intercuartil.
+En general, los gráficos anteriores se evalúan de forma informal con respecto a la presencia o ausencia de patrones específicos y/o puntos de datos periféricos o aislados. Respecto a la línea de referencia en cero y la línea ajustada mediante el método de `loess`, estas deberían parecerse. Por otro lado en cuanto al gráfico de caja y bigotes (parte superior e inferior derecha de la anterior figura), estas deberian tener aproximadamente el mismo centro y distancia intercuartil, como es el caso aquí.
 
 ```{block2, type='rmdnote'}
 
@@ -516,11 +505,7 @@ La gráfica de residuos anterior es útil para revelar problemas, pero menos út
 
 Una variación de la gráfica residual básica es la gráfica...
 
-```{r Imagen distribución normal, fig.align = 'center', eval = TRUE, echo = FALSE, message = FALSE}
 
-library(knitr)
-include_graphics('images/Graf_correcta_2.gif')
-```
 
 
 <!--
