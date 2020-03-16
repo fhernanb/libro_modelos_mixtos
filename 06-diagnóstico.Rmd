@@ -2,6 +2,22 @@
 
 El diagnóstico del modelo de regresión es uno de un conjunto de procedimientos disponibles para el análisis de regresión que buscan evaluar la validez de un modelo previamente ajustado. Esta evaluación puede ser una exploración de los supuestos estadísticos del modelo. El objetivo de este capitulo consiste en introducir al lector los distintos métodos de diagnostico del modelo, los cuales permitiran identificar aquel modelo que represente sus datos con una mayor precisión.
 
+```{r Paquetes usados, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+
+library(dplyr)
+library(ggplot2)
+library(ggforce)
+library(kableExtra)
+library(DT)
+library(patchwork)
+library(demoR)
+library(ggeffects)
+library(showtext) # Link donde hay varias fuentes de ejemplo (https://github.com/yixuan/showtext)
+font_add_google('Gochi Hand', 'gochi')
+showtext_auto()
+```
+
+
 ## Supuestos del modelo de regresión
 
 Existen un conjunto de supuestos cuando se modela la relación entre una variable respuesta y un regresor. Estos supuestos son esencialmente condiciones que deben cumplirse. Cuando no es el caso, las estimaciones y predicciones pueden comportarse mal e incluso pueden tergiversar por completo los datos. El diagnóstico de regresión puede revelar el problema y, a menudo, señalar el camino hacia las soluciones.
@@ -25,14 +41,6 @@ Los residuos son la base de la mayoría de los métodos de diagnóstico. Estos p
 donde $\hat{\mu}_{i}$ es igual a $x^{'}_{i}\hat{\beta}$. A continuación, se presenta una representación gráfica de $\hat{\epsilon}_{i}$: 
 
 ```{r, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE, fig.showtext = TRUE, out.width = "80%", fig.align = "center", fig.cap = "Representación gráfica de los residuos, del valor estimado y del valor observado."}
-
-library(dplyr)
-library(ggplot2)
-library(ggforce)
-library(patchwork)
-library(showtext) # Link donde hay varias fuentes de ejemplo (https://github.com/yixuan/showtext)
-font_add_google('Gochi Hand', 'gochi')
-showtext_auto()
 
 Residuos <- tibble::tribble(
   ~x, ~y, ~z,
@@ -74,8 +82,6 @@ Sin embargo la verdadera desviación estándar rara vez se conoce. Por lo tanto,
 
 ```{r Tabla de tipos de residuos, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 
-library(kableExtra)
-
 Tabla_1 <- tibble::tribble(
   ~x,
   '$\\frac{\\hat\\epsilon_i}{\\sigma\\sqrt{(1-h_i)}}$',
@@ -111,7 +117,6 @@ size: un número que indica la cantidad de estudiantes en cada escuela.
 library(merTools) # Paquete que contiene la base de datos a usar en los ejemplos
 data('hsb')
 
-library(DT)
 datatable(hsb, filter = 'top', options = list(autoWidth = TRUE),
   caption = htmltools::tags$caption(
     style = 'caption-side: bottom; text-align: center;',
@@ -423,8 +428,6 @@ hsb$res_pearson <- resid(Modelo_mixto, type = "pearson")
 
 ```{r, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE, fig.align = "center", fig.cap = "Gráficos residuales para el modelo de efectos mixtos (a) entre los residuos ordinarios contra los valores estimados (b) residuos ordinarios en cada tipo de escuela (c) residuos pearson contra los valores estimados (d) residuos pearson en cada tipo de escuela."}
 
-library(demoR)
-
 demo_code('
 Grafica_A <- ggplot(data = hsb, aes(x = val_estimado, y = res_ordinario)) +
   geom_point(alpha = 0.4, size = 2.0) +
@@ -502,11 +505,11 @@ La gráfica de residuos anterior es útil para revelar problemas, pero menos út
 
 ### Gráfica marginal del modelo
 
-Una variación de la gráfica residual básica anterior es una donde se muestre la distribución condicional de la variable respuesta dado el ajuste del modelo. A esta se le conoce como gráfica marginal, en el sentido de que muestra la relación marginal entre la variable respuesta y los valores estimados previo ajuste del modelo.
+Una variación de la gráfica residual básica anterior es una donde se muestre la distribución condicional de la variable respuesta dado el ajuste del modelo. A esta se le conoce como gráfica marginal, en el sentido de que muestra la relación marginal entre la variable respuesta y cada regresor, y entre la variable respuesta y los valores estimados, previo ajuste del modelo.
+<!--
+En el ejemplo planteado usando la base de datos `hsb`, esta gráfica se muestra en la figuras 6.9 __A__ y 6.9 __B__ a continuación.
 
-En el ejemplo planteado usando la base de datos `hsb`, esta gráfica se muestra en la figura 6.9 <!--__B__ a continuación:
-
-```{r eval=TRUE, echo=FALSE, fig.align="center", fig.cap=".", message=FALSE, warning=FALSE}
+```{r, eval=TRUE, echo=FALSE, fig.align="center", fig.cap=".", message=FALSE, warning=FALSE}
 
 demo_code('
 Grafica_A <- ggplot(data = hsb, aes(x = res_pearson)) +
