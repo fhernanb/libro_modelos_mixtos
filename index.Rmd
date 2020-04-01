@@ -72,19 +72,42 @@ a <- c(1, 5, 6)
 
 ## Bloques informativos {-}
 En varias partes del libro usaremos bloques informativos para resaltar algún aspecto importante. Abajo se encuentra un ejemplo de los bloques y su significado.
+<div style="-moz-box-shadow: 1px 1px 3px 2px #ffff00;
+  -webkit-box-shadow: 1px 1px 3px 2px #ffff00;
+  box-shadow:         1px 1px 3px 2px #ffff00;">
 
 ```{block2, type='rmdnote'}
 Nota aclaratoria.
 ```
 
+</div>
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #00ffff;
+  -webkit-box-shadow: 1px 1px 3px 2px #00ffff;
+  box-shadow:         1px 1px 3px 2px #00ffff;">
+
 ```{block2, type='rmdtip'}
 Sugerencia.
 ```
+
+</div>
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #808080;
+  -webkit-box-shadow: 1px 1px 3px 2px #808080;
+  box-shadow:         1px 1px 3px 2px #808080;">
 
 ```{block2, type='rmdwarning'}
 Advertencia.
 ```
 
+</div>
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
 ```{block2, type='rmdexercise'}
 Solución a ejemplos.
 ```
+
+</div>

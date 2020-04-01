@@ -25,7 +25,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2020-03-14" />
+<meta name="date" content="2020-04-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -171,7 +171,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.2" data-path="reg-diagnos.html"><a href="reg-diagnos.html#los-residuos"><i class="fa fa-check"></i><b>6.2</b> Los residuos</a></li>
 <li class="chapter" data-level="6.3" data-path="reg-diagnos.html"><a href="reg-diagnos.html#diagnóstico-del-modelo-de-regresión-prueba-de-hipótesis-e-inferencia-visual"><i class="fa fa-check"></i><b>6.3</b> Diagnóstico del modelo de regresión: prueba de hipótesis e inferencia visual</a><ul>
 <li class="chapter" data-level="6.3.1" data-path="reg-diagnos.html"><a href="reg-diagnos.html#ajustando-el-modelo"><i class="fa fa-check"></i><b>6.3.1</b> Ajustando el modelo</a></li>
-<li class="chapter" data-level="6.3.2" data-path="reg-diagnos.html"><a href="reg-diagnos.html#gráfica-básica-de-diagnóstico"><i class="fa fa-check"></i><b>6.3.2</b> Gráfica básica de diagnóstico</a></li>
+<li class="chapter" data-level="6.3.2" data-path="reg-diagnos.html"><a href="reg-diagnos.html#varianza-constante-de-los-residuos"><i class="fa fa-check"></i><b>6.3.2</b> Varianza constante de los residuos</a></li>
 <li class="chapter" data-level="6.3.3" data-path="reg-diagnos.html"><a href="reg-diagnos.html#gráfica-marginal-del-modelo"><i class="fa fa-check"></i><b>6.3.3</b> Gráfica marginal del modelo</a></li>
 </ul></li>
 </ul></li>
@@ -230,11 +230,14 @@ b_{0} &amp;\sim N(0, \sigma^2_{b0}=625) \\
 x_{ij} &amp;\sim U(-5, 6)
 \end{align*}\]</span></p>
 <p>El vector de parámetros de este modelo es <span class="math inline">\(\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma_y=4, \sigma_{b0}=25)^\top\)</span>.</p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
 
 <div class="rmdexercise">
 Solución.
 </div>
-
+</div>
 <p>El código para simular las 500 observaciones se muestra a continuación. Observe que se fijó la semilla en dos ocasiones para que el lector pueda replicar el ejemplo y obtener los mismos resultados.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">ni &lt;-<span class="st"> </span><span class="dv">50</span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">G &lt;-<span class="st"> </span><span class="dv">10</span></a>
@@ -263,12 +266,15 @@ Solución.
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">summary</span>(fit)</a></code></pre></div>
 <p><img src="images/summary_fit_lme.png" width="110%" style="display: block; margin: auto;" /></p>
 <p>Según el resultado anterior <span class="math inline">\(\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=3.533631, \hat{\beta}_1=-5.978053, \hat{\sigma}_y=4.01157, \hat{\sigma}_{b0}=21.50711)^\top\)</span> mientras que el vector real de parámetros es <span class="math inline">\(\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma_y=4, \sigma_{b0}=25)^\top\)</span>.</p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #00ffff;
+  -webkit-box-shadow: 1px 1px 3px 2px #00ffff;
+  box-shadow:         1px 1px 3px 2px #00ffff;">
 
 <div class="rmdtip">
 <p>Compare los resultados de la tabla anterior obtenida con la función <code>lme</code> anterior con los resultados obtenidos con la función <code>lmer</code> de capítulo <a href="pac-lme4.html#pac-lme4">3</a>.</p>
 ¿Hay alguna similitud?
 </div>
-
+</div>
 
 </div>
 </div>

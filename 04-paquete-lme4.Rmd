@@ -36,9 +36,15 @@ x_{ij} &\sim U(-5, 6)
 
 El vector de parámetros de este modelo es $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma_y=4, \sigma_{bo}=25)^\top$.
 
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
 ```{block2, type='rmdexercise'}
 Solución.
 ```
+
+</div>
 
 El código para simular las 500 observaciones se muestra a continuación. Observe que se fijó la semilla en dos ocasiones para que el lector pueda replicar el ejemplo y obtener los mismos resultados.
 
@@ -88,8 +94,14 @@ knitr::include_graphics("images/summary_fit_lmer.png")
 
 Según el resultado anterior $\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=3.53363, \hat{\beta}_1=-5.97805, \hat{\sigma}_y=4.012, \hat{\sigma}_{bo}=21.507)^\top$ mientras que el vector real de parámetros es $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma_y=4, \sigma_{bo}=25)^\top$.
 
+<div style="-moz-box-shadow: 1px 1px 3px 2px #00ffff;
+  -webkit-box-shadow: 1px 1px 3px 2px #00ffff;
+  box-shadow:         1px 1px 3px 2px #00ffff;">
+
 ```{block2, type='rmdtip'}
 Compare los resultados de la tabla anterior obtenida con la función `lmer` anterior con los resultados obtenidos con la función `lme` de capítulo \@ref(pac-nlme).
 
 ¿Hay alguna similitud?
 ```
+
+</div>

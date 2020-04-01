@@ -19,9 +19,15 @@ Esta base de datos sobre crecimiento contiene la información sobre altura (`hei
 plot(Oxboys)
 ```
 
+<div style="-moz-box-shadow: 1px 1px 3px 2px #00ffff;
+  -webkit-box-shadow: 1px 1px 3px 2px #00ffff;
+  box-shadow:         1px 1px 3px 2px #00ffff;">
+
 ```{block2, type='rmdtip'}
 Es posible convertir un data.frame para que tenga la clase groupedData, consulte la ayuda de la función `groupedData` del paquete `nlme` para más detalles.
 ```
+
+</div>
 
 De la figura anterior vemos que las curvas de crecimiento inician a diferente altura (intercepto) y que la pendiente del crecimiento no son todas iguales, por ejemplo, el individuo 21 creció más rápido que el individuo 3. Esto nos hace pensar que un modelo con intercepto y pendiente aleatoria podrían ser adecuados para modelar el crecimiento.
 

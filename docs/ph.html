@@ -25,7 +25,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2020-03-14" />
+<meta name="date" content="2020-04-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -171,7 +171,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.2" data-path="reg-diagnos.html"><a href="reg-diagnos.html#los-residuos"><i class="fa fa-check"></i><b>6.2</b> Los residuos</a></li>
 <li class="chapter" data-level="6.3" data-path="reg-diagnos.html"><a href="reg-diagnos.html#diagnóstico-del-modelo-de-regresión-prueba-de-hipótesis-e-inferencia-visual"><i class="fa fa-check"></i><b>6.3</b> Diagnóstico del modelo de regresión: prueba de hipótesis e inferencia visual</a><ul>
 <li class="chapter" data-level="6.3.1" data-path="reg-diagnos.html"><a href="reg-diagnos.html#ajustando-el-modelo"><i class="fa fa-check"></i><b>6.3.1</b> Ajustando el modelo</a></li>
-<li class="chapter" data-level="6.3.2" data-path="reg-diagnos.html"><a href="reg-diagnos.html#gráfica-básica-de-diagnóstico"><i class="fa fa-check"></i><b>6.3.2</b> Gráfica básica de diagnóstico</a></li>
+<li class="chapter" data-level="6.3.2" data-path="reg-diagnos.html"><a href="reg-diagnos.html#varianza-constante-de-los-residuos"><i class="fa fa-check"></i><b>6.3.2</b> Varianza constante de los residuos</a></li>
 <li class="chapter" data-level="6.3.3" data-path="reg-diagnos.html"><a href="reg-diagnos.html#gráfica-marginal-del-modelo"><i class="fa fa-check"></i><b>6.3.3</b> Gráfica marginal del modelo</a></li>
 </ul></li>
 </ul></li>
@@ -251,11 +251,14 @@ Weight_{ij} &amp;\sim  N(\mu_{ij}, \sigma^2_{weight}) \\
 \mu_{ij} &amp;= \beta_0 + \beta_1 tiempo_{ij} + \beta_2 dieta2_{i} + \beta_3 dieta3_{i} + \beta_4 dieta4_{i} + b_{0i} \\
 b_{0} &amp;\sim N(0, \sigma^2_{b0})
 \end{align*}\]</span></p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
 
 <div class="rmdexercise">
 Solución.
 </div>
-
+</div>
 <p>El problema de este ejercicio se puede resumir con <span class="math inline">\(H_0:\)</span> la variable Dieta no aporta al modelo, versus, <span class="math inline">\(H_A:\)</span> la variable Dieta si aporta al modelo.</p>
 <p>Para ajustar ambos modelos se usa el siguiente código.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(nlme)</a>
@@ -306,11 +309,14 @@ Distance_{ij} &amp;\sim  N(\mu_{ij}, \sigma^2_{distance}) \\
 \mu_{ij} &amp;= \beta_0 + \beta_1 age_{ij} + \beta_2 SexFemale_i + b_{0i} \\
 b_{0} &amp;\sim N(0, \sigma^2_{b0})
 \end{align*}\]</span></p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
 
 <div class="rmdexercise">
 Solución.
 </div>
-
+</div>
 <p>El problema de este ejercicio se puede resumir con <span class="math inline">\(H_0:\)</span> la variable Sexo no aporta al modelo, versus, <span class="math inline">\(H_A:\)</span> la variable Sexo si aporta al modelo.</p>
 <p>Para ajustar ambos modelos se usa el siguiente código.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">library</span>(lme4)</a></code></pre></div>
@@ -393,11 +399,14 @@ y_{ij} &amp;\sim  N(\mu_{ij}, \sigma^2_y) \\
 b_{0} &amp;\sim N(0, \sigma^2_{b0}=4) \\
 x_{ij} &amp;\sim U(0, 10)
 \end{align*}\]</span></p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
 
 <div class="rmdexercise">
 Solución.
 </div>
-
+</div>
 <p>La función <code>gen_dat_b0</code> de abajo permite simular <code>m</code> observaciones de <code>n</code> grupos con intercepto aleatorio <span class="math inline">\(b_0 \sim N(0, \sigma^2_{b0})\)</span>. Adicionalmente, es posible elegir los efectos fijos <code>beta0</code>, <code>beta_1</code> y la varianza <code>sigma</code> de la variable respuesta.</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">gen_dat_b0 &lt;-<span class="st"> </span><span class="cf">function</span>(n, m, beta0, beta1, sigmay, sigmab0, <span class="dt">seed=</span><span class="ot">NULL</span>) {</a>
 <a class="sourceLine" id="cb25-2" data-line-number="2">  <span class="cf">if</span>(<span class="kw">is.null</span>(seed)) seed &lt;-<span class="st"> </span><span class="kw">as.integer</span>(<span class="kw">runif</span>(<span class="dv">1</span>)<span class="op">*</span><span class="fl">2e9</span>)</a>
@@ -513,11 +522,14 @@ Solución.
 <a class="sourceLine" id="cb41-2" data-line-number="2"><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">acumulada</span>(<span class="fl">3.04712</span>)    <span class="co"># Valor-P</span></a></code></pre></div>
 <pre><code>## [1] 0.04</code></pre>
 <p>De la salida anterior se tiene que <span class="math inline">\(valor-P &lt; \alpha\)</span> por lo tanto SI hay evidencias para rechazar <span class="math inline">\(H_0: \sigma^2_{b0} = 0\)</span>. ¿Es esto coherente ahora 🙂?</p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #808080;
+  -webkit-box-shadow: 1px 1px 3px 2px #808080;
+  box-shadow:         1px 1px 3px 2px #808080;">
 
 <div class="rmdwarning">
 Los resultados anteriores se obtuvieron usando <code>nrep &lt;- 50</code>, en la práctica ese número de repeticiones debería subir al menos a 1000. Repita el procedimiento anterior con <code>nrep &lt;- 5000</code> y observe lo que sucede.
 </div>
-
+</div>
 <p>El paquete <strong>RLRsim</strong> <span class="citation">(Scheipl and Bolker <a href="#ref-R-RLRsim">2016</a>)</span> tiene la función <code>exactRLRT</code> que permite extraer el valor-P mediante simulación. Abajo un ejemplo de como usarla en el presente ejemplo.</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw">library</span>(RLRsim)</a>
 <a class="sourceLine" id="cb43-2" data-line-number="2"><span class="kw">exactRLRT</span>(<span class="dt">m=</span>fit2, <span class="dt">nsim=</span><span class="dv">1000</span>)</a></code></pre></div>
@@ -530,11 +542,14 @@ Los resultados anteriores se obtuvieron usando <code>nrep &lt;- 50</code>, en la
 ## 
 ## data:  
 ## RLRT = 3.0471, p-value = 0.039</code></pre>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #00ffff;
+  -webkit-box-shadow: 1px 1px 3px 2px #00ffff;
+  box-shadow:         1px 1px 3px 2px #00ffff;">
 
 <div class="rmdtip">
 Consulte la ayuda de la función <code>exactRLRT</code> para que conozca sus posibilidades y limitaciones.
 </div>
-
+</div>
 </div>
 </div>
 <div id="ejercicios" class="section level2 unnumbered">

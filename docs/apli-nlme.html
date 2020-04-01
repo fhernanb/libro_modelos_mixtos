@@ -25,7 +25,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2020-03-14" />
+<meta name="date" content="2020-04-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -171,7 +171,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.2" data-path="reg-diagnos.html"><a href="reg-diagnos.html#los-residuos"><i class="fa fa-check"></i><b>6.2</b> Los residuos</a></li>
 <li class="chapter" data-level="6.3" data-path="reg-diagnos.html"><a href="reg-diagnos.html#diagnóstico-del-modelo-de-regresión-prueba-de-hipótesis-e-inferencia-visual"><i class="fa fa-check"></i><b>6.3</b> Diagnóstico del modelo de regresión: prueba de hipótesis e inferencia visual</a><ul>
 <li class="chapter" data-level="6.3.1" data-path="reg-diagnos.html"><a href="reg-diagnos.html#ajustando-el-modelo"><i class="fa fa-check"></i><b>6.3.1</b> Ajustando el modelo</a></li>
-<li class="chapter" data-level="6.3.2" data-path="reg-diagnos.html"><a href="reg-diagnos.html#gráfica-básica-de-diagnóstico"><i class="fa fa-check"></i><b>6.3.2</b> Gráfica básica de diagnóstico</a></li>
+<li class="chapter" data-level="6.3.2" data-path="reg-diagnos.html"><a href="reg-diagnos.html#varianza-constante-de-los-residuos"><i class="fa fa-check"></i><b>6.3.2</b> Varianza constante de los residuos</a></li>
 <li class="chapter" data-level="6.3.3" data-path="reg-diagnos.html"><a href="reg-diagnos.html#gráfica-marginal-del-modelo"><i class="fa fa-check"></i><b>6.3.3</b> Gráfica marginal del modelo</a></li>
 </ul></li>
 </ul></li>
@@ -220,11 +220,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Esta base de datos sobre crecimiento contiene la información sobre altura (<code>heigth</code>), edad estandarizada (<code>age</code>) de un grupo de 26 jóvenes. Como la base de datos <code>Oxboys</code> es de la clase groupedData, es posible aplicar un <code>plot</code> directamente y el resultado se muestra continuación.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">plot</span>(Oxboys)</a></code></pre></div>
 <p><img src="libro_mod_pred_files/figure-html/plot_oxboys_nlme-1.png" width="672" /></p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #00ffff;
+  -webkit-box-shadow: 1px 1px 3px 2px #00ffff;
+  box-shadow:         1px 1px 3px 2px #00ffff;">
 
 <div class="rmdtip">
 Es posible convertir un data.frame para que tenga la clase groupedData, consulte la ayuda de la función <code>groupedData</code> del paquete <code>nlme</code> para más detalles.
 </div>
-
+</div>
 <p>De la figura anterior vemos que las curvas de crecimiento inician a diferente altura (intercepto) y que la pendiente del crecimiento no son todas iguales, por ejemplo, el individuo 21 creció más rápido que el individuo 3. Esto nos hace pensar que un modelo con intercepto y pendiente aleatoria podrían ser adecuados para modelar el crecimiento.</p>
 <p>En las siguientes ecuaciones se resume el modelo matemático que interesa en esta situación.</p>
 <p><span class="math display">\[\begin{align*} 

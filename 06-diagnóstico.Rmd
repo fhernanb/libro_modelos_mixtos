@@ -129,10 +129,16 @@ datatable(hsb, filter = 'top', options = list(autoWidth = TRUE),
 
 Se puede entender bien la lógica de los que son los residuos ajustando un modelo de regresión simple.
 
+<div style="-moz-box-shadow: 1px 1px 3px 2px #ffff00;
+  -webkit-box-shadow: 1px 1px 3px 2px #ffff00;
+  box-shadow:         1px 1px 3px 2px #ffff00;">
+
 ```{block2, type='rmdnote'}
 
 El diagnóstico del modelo de regresión aborda la adecuación de un modelo estadístico una vez se han ajustado los datos. De hecho, el ajuste de un modelo debe verse como un proceso iterativo en el que se ajusta el modelo, se evalúan sus residuos y se mejora. Así hasta llegar a un modelo óptimo.
 ```
+
+</div>
 
 Suponga que se quiere poner en relación dos variables: la variable $x_{1}$ que representa el nivel socio-económico de los estudiantes (`ses`), y la variable $y$, que es el rendimiento de los mismos estudiantes en una prueba de matemáticas (`mathach`). Para facilitar este análisis (y los posteriores) se asumira que $x_{1}$ es una variable continua que toma valores entre `-4` y `+4`, donde valores cercanos a `0` indican nivel socio-económico medio, cercanos a `+4` indican nivel socio-económico alto y cercanos a `-4` indican nivel socio-económico bajo.
 
@@ -162,10 +168,16 @@ muestra_aleatoria$res_ordinario <- residuals(Modelo_simple)
 
 La gráfica a continuación presenta los valores observados y estimados en el rendimiento de los estudiantes en una prueba de matemáticas según su nivel socio-económico, siendo la misma una representación gráfica similar a la presentada en la **Figura 6.1**:
 
+<div style="-moz-box-shadow: 1px 1px 3px 2px #808080;
+  -webkit-box-shadow: 1px 1px 3px 2px #808080;
+  box-shadow:         1px 1px 3px 2px #808080;">
+
 ```{block2, type='rmdwarning'}
 
 Tenga en cuenta que se bien el modelo se ajusto con las 7185 valores observados, la gráfica a continuación solo presenta 150 valores. Esto debido a que al no restringir por este valor, la gráfica se presentaba muy saturada de valores observados y estimados.
 ```
+
+</div>
 
 ```{r, echo = FALSE, eval = TRUE, message = FALSE, fig.align = "center", fig.cap = "Valores obserados y estimados en el rendimiento en una prueba matemática según el nivel socio-económico del estudiante."}
 
@@ -218,16 +230,18 @@ ggplot(data = muestra_aleatoria, aes(x = val_predicho, y = res_ordinario)) +
         axis.title = element_text(size = 12, face = 'bold'))
 ```
 
+<div style="-moz-box-shadow: 1px 1px 3px 2px #ffff00;
+  -webkit-box-shadow: 1px 1px 3px 2px #ffff00;
+  box-shadow:         1px 1px 3px 2px #ffff00;">
+
 ```{block2, type='rmdnote'}
 
 Existe una gran variedad de gráficos (como la presentada anteriormente) lo que refleja el hecho de que ningún gráfico de diagnóstico es apropiado para todos los propósitos.
 ```
 
-Veremos la interpretación de la misma con más detalle a continuación.
+</div>
 
-<!--
-Un tipo de análisis de datos podría ser si los puntajes en el rendimiento de las pruebas matemáticas de los estudiantes (mathach) puede variar según el estado socioeconómico familiar (ses). Se considera también la posibilidad de que el nivel general de...
--->
+Veremos la interpretación de la misma con más detalle a continuación.
 
 ## Diagnóstico del modelo de regresión: prueba de hipótesis e inferencia visual
 
@@ -352,9 +366,13 @@ Grafica_mixta
 
 Luego de ajustado el modelo de regresión, el procedimiento a seguir corresponde a evaluar el cumplimiento de los supuestos del mismo mediante métodos de diagnóstico.
 
-### Gráfica básica de diagnóstico
+### Varianza constante de los residuos mediante prueba de hipótesis
 
-La gráfica de residuos contra los valores estimados se considera la gráfica de diagnóstico más básica. A continuación podrá observar un ejemplo de la misma:
+
+
+### Varianza constante de los residuos mediante inferencia visual
+
+Uno de los supuestos del modelo de regresión es la varianza constante de los residuos. Para comprobar dicho supuesto, se suele emplear la gráfica de residuos contra los valores estimados. La misma es considerada como la gráfica de diagnóstico más básica. A continuación podrá observar varios ejemplos de la misma:
 
 ```{r, echo = FALSE, eval = TRUE, message = FALSE, fig.align = "center", fig.cap = "Representación visual de la gráfica de residuos contra los valores estimados."}
 
@@ -414,8 +432,7 @@ Graf_residuo_3 <- Normal(200) %>%
 (Graf_residuo_1 | Graf_residuo_2) / Graf_residuo_3
 ```
 
-
-Si se cumplen los supuestos, los residuos se dispersarán de forma aleatoria alrededor de la línea central como si se tratara de una nube de puntos, sin un patrón obvio (figura 6.7 __A__). Si hay un patrón no aleatorio, su naturaleza puede identificar posibles problemas con el modelo. Por ejemplo si hay una curvatura presente (figura 6.7 __B__), es posible que la relación entre la variable respuesta y el regresor no sea de forma lineal. O bien, si los residuos cambian de forma abrupta a medida que aumenta los valores estimados, este sería un claro de ejemplo de falta de homogeneidad de la varianza. Finalmente, un patrón inusual también puede ser causado por un valor atípico. En el ejemplo visual anterior (figura 6.7 __C__), se muestra un valor atípico obvio.
+Si se cumple el supuesto de varianza constante de los residuos, estos se dispersarían de forma aleatoria alrededor de la línea central (como si se tratara de una nube de puntos) sin un patrón obvio, como se puede observar en la figura 6.7 __A__. La varianza no constante se diagnosticaría si la variabilidad de los residuos en el gráfico mostraran un patrón no aleatorio, como por ejemplo, si hubiera una curvatura presente (figura 6.7 __B__), o bien, si los residuos cambiaran de forma abrupta a medida que aumentan los valores estimados. Finalmente, un patrón inusual puede ser causado por un valor atípico. En el ejemplo visual anterior (figura 6.7 __C__), se muestra un valor atípico obvio.
 
 En el ejemplo planteado usando la base de datos `hsb`, esta gráfica se muestra en las figuras 6.8 __A__ y 6.8 __C__, basados en dos tipos de residuos (ordinarios y pearson):
 
@@ -496,16 +513,24 @@ En relación al código presentado anteriormente, tenga en cuenta lo siguiente:
 + La línea discontinua en las gráficas superior e inferior izquierda, es la línea horizontal a través de $\hat{\epsilon}_{i} = 0$ (es decir, donde la diferencia entre los valores observados y estimados son iguales a cero), siendo el mismo el caso ideal;
 + La línea continua en rojo en las gráficas superior e inferior izquierda, obtenidas a partir de la función `stat_smoot` (aquí subrayado en amarillo), representan una curva suave ajustada mediante el método `loess`, que indica la relación de los valores estimados con los residuos.
 
-En general, los gráficos anteriores se evalúan de forma informal con respecto a la presencia o ausencia de patrones específicos y/o puntos de datos periféricos o aislados. Respecto a la línea de referencia en cero y la línea ajustada mediante el método de `loess`, estas deberían parecerse. Por otro lado en cuanto al gráfico de caja y bigotes (parte superior e inferior derecha de la anterior figura), estas deberian tener aproximadamente el mismo centro y distancia intercuartil, como es el caso aquí.
-
-```{block2, type='rmdnote'}
-
-La gráfica de residuos anterior es útil para revelar problemas, pero menos útil para determinar la naturaleza exacta del problema. En consecuencia, se presentaran otras gráficas de diagnóstico para sugerir mejoras a un modelo.
-```
+En general, los gráficos anteriores se evalúan de forma informal con respecto a la presencia o ausencia de patrones específicos y/o puntos de datos periféricos o aislados. Respecto a la línea de referencia en cero y la línea ajustada mediante el método de `loess`, estas deberían parecerse. Por otro lado en cuanto al gráfico de caja y bigotes (parte superior e inferior derecha de la anterior figura), si estas tienen aproximadamente el mismo centro y distancia intercuartil, como es el caso aquí, indicarían el cumplimiento de varianza constante de los residuos.
 
 ### Gráfica marginal del modelo
 
 Una variación de la gráfica residual básica anterior es una donde se muestre la distribución condicional de la variable respuesta dado el ajuste del modelo. A esta se le conoce como gráfica marginal, en el sentido de que muestra la relación marginal entre la variable respuesta y cada regresor, y entre la variable respuesta y los valores estimados, previo ajuste del modelo.
+
+```{r, echo = FALSE, eval = FALSE}
+
+summary(Modelo_mixto)
+
+library(car)
+
+residualPlots(Modelo_simple)
+
+marginalModelPlots(Modelo_mixto)
+```
+
+
 <!--
 En el ejemplo planteado usando la base de datos `hsb`, esta gráfica se muestra en la figuras 6.9 __A__ y 6.9 __B__ a continuación.
 
