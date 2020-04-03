@@ -89,6 +89,12 @@ summary(mod2)
 
 De la salida anterior vemos que el vector de parámetros estimados del modelo es $\hat{\boldsymbol{\theta}}=(2.34, 1.62, 0.01, 3.26)^\top$.
 
+<div style="-moz-box-shadow: 1px 1px 3px 2px #00ffff;
+  -webkit-box-shadow: 1px 1px 3px 2px #00ffff;
+  box-shadow:         1px 1px 3px 2px #00ffff;">
+
 ```{block2, type='rmdtip'}
 Para profundizar en el modelo de regresion lineal se recomienda consultar libro [Modelos de Regresión con R](https://fhernanb.github.io/libro_regresion/index.html)
 ```
+
+</div>

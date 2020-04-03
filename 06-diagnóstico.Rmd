@@ -76,7 +76,7 @@ Residuos <- tibble::tribble(
 Residuos
 ```
 
-Luego los residuos ordinarios se escalan con el fin de que su interpretación no dependa de las unidades de medida de la variable respuesta. El proceso de estandarización consiste en dividir el residuo ordinario, $\hat{\epsilon}_{i}$, por la expresión $\sigma\sqrt{(1-h_{i})}$, donde ${\sigma}$ corresponde a la desviación estandar verdadera y $h_{i}$ al ~~apalancamiento o valor de sombrero~~. Los residuos obtenidos de esta manera se denominan como _residuos estandarizados_.
+Luego los residuos ordinarios se escalan con el fin de que su interpretación no dependa de las unidades de medida de la variable respuesta. El proceso de estandarización consiste en dividir el residuo ordinario, $\hat{\epsilon}_{i}$, por la expresión $\sigma\sqrt{(1-h_{i})}$, donde ${\sigma}$ corresponde a la desviación estandar verdadera y $h_{i}$ al leverage (en inglés). Los residuos obtenidos de esta manera se denominan como _residuos estandarizados_.
 
 Sin embargo la verdadera desviación estándar rara vez se conoce. Por lo tanto, el escalado se puede realizar utilizando un estimador del mismo, es decir $\hat{\sigma}$. Los residuos obtenidos de esta manera se denominan como _residuos estudentizados_, los cuales a su vez se dividen en dos: los _residuos internamente estudentizados_ y los _residuos externamente estudentizados_. La tabla a continuación, resume las formas básicas de los residuos escalados:
 
@@ -92,7 +92,7 @@ rownames(Tabla_1) <- c('Estandarizado', 'Internamente estudentizado', 'Extername
 
 kable(Tabla_1, col.names = 'Formula matemática') %>%
   kable_styling(full_width = FALSE) %>%
-  footnote(symbol = c('En el residuo internamente estudentizado, $\\hat\\sigma$ denota\n una estimación de $\\sigma$ basada en todas las observaciones;', 'En el residuo externamente estudentizado, $\\hat\\sigma_{(-i)}$ es una\n estimación obtenida luego de excluir la i-ésima observación\n de los cálculos.'))
+  footnote(symbol = c('En el residuo internamente estudentizado, $\\hat\\sigma$ denota una estimación de $\\sigma$ basada en todas las observaciones;', 'En el residuo externamente estudentizado, $\\hat\\sigma_{(-i)}$ es una estimación obtenida luego de excluir la i-ésima observación de los cálculos.'))
 ```
 <!--
 ~~Para obtener los residuos ordinarios, se puede emplear la función general `residuals()`. Luego las funciones `rstandard()` y `rstudent()` devuelven los residuos estandarizados y estudentizados, respectivamente. Para ello, es necesario ajustar inicialmente el modelo de regresión.~~
@@ -366,10 +366,6 @@ Grafica_mixta
 
 Luego de ajustado el modelo de regresión, el procedimiento a seguir corresponde a evaluar el cumplimiento de los supuestos del mismo mediante métodos de diagnóstico.
 
-### Varianza constante de los residuos mediante prueba de hipótesis
-
-
-
 ### Varianza constante de los residuos mediante inferencia visual
 
 Uno de los supuestos del modelo de regresión es la varianza constante de los residuos. Para comprobar dicho supuesto, se suele emplear la gráfica de residuos contra los valores estimados. La misma es considerada como la gráfica de diagnóstico más básica. A continuación podrá observar varios ejemplos de la misma:
@@ -515,6 +511,59 @@ En relación al código presentado anteriormente, tenga en cuenta lo siguiente:
 
 En general, los gráficos anteriores se evalúan de forma informal con respecto a la presencia o ausencia de patrones específicos y/o puntos de datos periféricos o aislados. Respecto a la línea de referencia en cero y la línea ajustada mediante el método de `loess`, estas deberían parecerse. Por otro lado en cuanto al gráfico de caja y bigotes (parte superior e inferior derecha de la anterior figura), si estas tienen aproximadamente el mismo centro y distancia intercuartil, como es el caso aquí, indicarían el cumplimiento de varianza constante de los residuos.
 
+### Varianza constante de los residuos mediante prueba de hipótesis
+
+Por lo general, es suficiente con interpretar de forma visual una gráfica de residuos contra valores estimados para comprobar la validez del supuesto de varianza constante de los residuos. Sin embargo, existen pruebas que pueden proporcionar una justificación adicional al análisis. Dichas pruebas plantean el siguiente constraste de hipótesis: 
+
+$$H_{0}: \sigma^{2}_{e_{1}} = \sigma^{2}_{e_{2}}$$
+
+$$H_{A}: \sigma^{2}_{e_{1}} \ne \sigma^{2}_{e_{2}}$$
+
+Así, $H_{0}$ (la hipótesis nula) sugiere una varianza constante de los residuos. A continuación se describen algunas de estas pruebas:
+
+```{r Pruebas de homogeneidad de varianzas, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+
+Tabla_1 <- tibble::tribble(
+  ~x, ~y,
+  'Contraste de razón de varianzas', 'var.test( )',
+  'Prueba de Levene', 'leveneTest( )',
+  'Prueba de Bartlett', 'bartlett.test( )',
+  'Prueba de Brown-Forsyth', 'hov( )',
+  'Prueba de Fligner-Killeen', 'fligner.test( )'
+)
+
+kable(Tabla_1, col.names = c('Prueba', 'Función en R')) %>%
+  kable_styling(full_width = FALSE) %>%
+  footnote(symbol = 'La diferencias entre estas pruebas es el estadístico de centralidad que utilizan, así como también la sensibilidad o no al cumplimiento del supuesto de normalidad.')
+```
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #ffff00;
+  -webkit-box-shadow: 1px 1px 3px 2px #ffff00;
+  box-shadow:         1px 1px 3px 2px #ffff00;">
+
+```{block2, type='rmdnote'}
+
+Para el contraste de hipótesis, cada una de las pruebas entrega un valor-P. Si el valor-P cumple con la condición de ser menor que un nivel de significancia impuesto arbitrariamente, este se considera como un resultado estadisticamente significativo y, por lo tanto, permite rechazar la hipótesis nula, dando como resultado el no cumplimiento de la varianza constante de los residuos.
+```
+
+</div>
+
+### Ejemplo {-}
+
+
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+```{block2, type='rmdexercise'}
+
+Solución.
+```
+
+</div>
+
+<!--
 ### Gráfica marginal del modelo
 
 Una variación de la gráfica residual básica anterior es una donde se muestre la distribución condicional de la variable respuesta dado el ajuste del modelo. A esta se le conoce como gráfica marginal, en el sentido de que muestra la relación marginal entre la variable respuesta y cada regresor, y entre la variable respuesta y los valores estimados, previo ajuste del modelo.
@@ -528,8 +577,11 @@ library(car)
 residualPlots(Modelo_simple)
 
 marginalModelPlots(Modelo_mixto)
-```
 
+(test.t1 <- ncvTest(Modelo_mixto))
+
+```
+-->
 
 <!--
 En el ejemplo planteado usando la base de datos `hsb`, esta gráfica se muestra en la figuras 6.9 __A__ y 6.9 __B__ a continuación.
