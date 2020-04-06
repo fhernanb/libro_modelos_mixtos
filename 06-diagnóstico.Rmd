@@ -584,7 +584,7 @@ Por lo tanto como el valor-P (7.456e-06) fue menor al nivel de significancia (0.
 
 ### Distribución normal de los residuos mediante inferencia visual
 
-Los análisis de normalidad, también denominados como contraste de normalidad, son otro tipo de supuesto del modelo de regresión. Al igual que el supuesto de varianza constante de los residuos, en el análisis de normalidad se suele emplear representaciones gráficas. A continuación podrá observar un ejemplo de dichas representaciones en el caso del cumplimiento o no del supuesto de normalidad:
+Los análisis de normalidad, también denominados como contraste de normalidad, son otro tipo de supuesto del modelo de regresión. Al igual que el supuesto de varianza constante de los residuos, en el análisis de normalidad se suele emplear representaciones gráficas. Esta representación consiste en la gráfica de probabilidad normal de los residuos. A continuación podrá observar un ejemplo de dichas representaciones en el caso del cumplimiento o no del supuesto de normalidad:
 
 ```{r, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE, fig.showtext = TRUE, out.width = "100%", fig.align = "center", fig.cap = "Ejemplo de distribución normal de los residuos y de aquellos residuos que no cumplen con este supuesto."}
 
@@ -677,7 +677,15 @@ Grafica_3_a <- No_Normal_2(200) %>%
 (Grafica_1_a | Grafica_1_b) / (Grafica_2_a | Grafica_2_b) / (Grafica_3_a | Grafica_3_b)
 ```
 
-En el ejemplo planteado usando la base de datos `hsb`, esta gráfica se muestra en la figura a continuación.
+Si se cumple el supuesto de normalidad de los residuos, los puntos que constituyen la gráfica de probabilidad normal deberían alinearse entorno a la línea recta, como se puede observar en la figura 6.9 __A__ (a la izquierda). Esta interpretación se evidencia al representar su equivalente mediante un histograma (figura 6.9 __A__ a la derecha).
+
+Las posibles causas de alejamiento a la normalidad se mencionan a continuación:
+
++ La variable respuesta podría tener muchos valores pequeños y pocos valores grandes, dando una representación de asimetría positiva (figura 6.9 __B__), o lo contrario, pocos valores pequeños y muchos valores grandes (asimetría negativa);
+
++ Al ajustarse el modelo y representar los residuos resultantes mediante un histograma, se podría observar  una distribución de colas livianas producto de obtener pocos residuos de gran magnitud (figura 6.9 __C__), o bien, muchos residuos de gran magnitud podría conducir a una distribución de colas pesadas.
+
+En el ejemplo planteado usando la base de datos `hsb`, la gráfica de probabilidad normal de los residuos se muestra en la figura a continuación.
 
 ```{r, eval=TRUE, echo=FALSE, fig.align="center", fig.cap=".", message=FALSE, warning=FALSE}
 
