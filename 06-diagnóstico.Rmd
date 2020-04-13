@@ -95,7 +95,7 @@ kable(Tabla_1, col.names = 'Formula matemática') %>%
   footnote(symbol = c('En el residuo internamente estudentizado, $\\hat\\sigma$ denota una estimación de $\\sigma$ basada en todas las observaciones;', 'En el residuo externamente estudentizado, $\\hat\\sigma_{(-i)}$ es una estimación obtenida luego de excluir la i-ésima observación de los cálculos.'))
 ```
 <!--
-~~Para obtener los residuos ordinarios, se puede emplear la función general `residuals()`. Luego las funciones `rstandard()` y `rstudent()` devuelven los residuos estandarizados y estudentizados, respectivamente. Para ello, es necesario ajustar inicialmente el modelo de regresión.~~
+~~Para obtener los residuos ordinarios, se puede emplear la función general `residuals`. Luego las funciones `rstandard` y `rstudent` devuelven los residuos estandarizados y estudentizados, respectivamente. Para ello, es necesario ajustar inicialmente el modelo de regresión.~~
 -->
 Se usara la base de datos `hsb` del paquete `merTools` para entender mejor de que tratan los residuos, así como también los métodos de diagnosticos que explicaremos más adelante en este capitulo. A continuación podra ver la base de datos a usar:
 
@@ -504,7 +504,7 @@ Grafica_D <- ggplot(data = hsb, aes(x = schtype, y = res_pearson, color = schtyp
 
 En relación al código presentado anteriormente, tenga en cuenta lo siguiente:
 
-+ Las gráficas se realizaron usando la función `ggplot()` (aquí subrayado en color amarillo) del paquete `ggplot2`;
++ Las gráficas se realizaron usando la función `ggplot` (aquí subrayado en color amarillo) del paquete `ggplot2`;
 + Luego en la asignación estética (`aes`), se proporcionó los valores estimados y los residuos pearson u ordinarios (aquí subrayados en color azul), datos que se obtuvieron mediante previo ajuste del modelo;
 + La línea discontinua en las gráficas superior e inferior izquierda, es la línea horizontal a través de $\hat{\epsilon}_{i} = 0$ (es decir, donde la diferencia entre los valores observados y estimados son iguales a cero), siendo el mismo el caso ideal;
 + La línea continua en rojo en las gráficas superior e inferior izquierda, obtenidas a partir de la función `stat_smoot` (aquí subrayado en amarillo), representan una curva suave ajustada mediante el método `loess`, que indica la relación de los valores estimados con los residuos.
@@ -584,7 +584,7 @@ Por lo tanto como el valor-P (7.456e-06) fue menor al nivel de significancia (0.
 
 ### Distribución normal de los residuos mediante inferencia visual
 
-Los análisis de normalidad, también denominados como contraste de normalidad, son otro tipo de supuesto del modelo de regresión. Al igual que el supuesto de varianza constante de los residuos, en el análisis de normalidad se suele emplear representaciones gráficas. Esta representación consiste en la gráfica de probabilidad normal de los residuos. A continuación podrá observar un ejemplo de dichas representaciones en el caso del cumplimiento o no del supuesto de normalidad:
+Los análisis de normalidad, también denominados como contraste de normalidad, son otro tipo de supuesto del modelo de regresión. Al igual que el supuesto de varianza constante de los residuos, en el análisis de normalidad se suele emplear representaciones gráficas. Esta representación consiste en la gráfica de probabilidad normal de los residuos, también denominada como gráfico cuantil cuantil. A continuación podrá observar un ejemplo de dichas representaciones en el caso del cumplimiento o no del supuesto de normalidad:
 
 ```{r, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE, fig.showtext = TRUE, out.width = "100%", fig.align = "center", fig.cap = "Ejemplo de distribución normal de los residuos y de aquellos residuos que no cumplen con este supuesto."}
 
@@ -685,9 +685,22 @@ Las posibles causas de alejamiento a la normalidad se mencionan a continuación:
 
 + Al ajustarse el modelo y representar los residuos resultantes mediante un histograma, se podría observar  una distribución de colas livianas producto de obtener pocos residuos de gran magnitud (figura 6.9 __C__), o bien, muchos residuos de gran magnitud podría conducir a una distribución de colas pesadas.
 
+<div style="-moz-box-shadow: 1px 1px 3px 2px #00ffff;
+  -webkit-box-shadow: 1px 1px 3px 2px #00ffff;
+  box-shadow:         1px 1px 3px 2px #00ffff;">
+
+```{block2, type='rmdtip'}
+
+El gráfico cuantil cuantil tiene dos ejes, uno para los cuantiles que se generan a partir del conjunto de datos (cuantiles de la distribución observada) y uno para los cuantiles generados a partir de la distribución normal (cuantiles teóricos de la distribución normal).
+```
+
+<!-- En este link https://www.youtube.com/watch?v=okjYjClSjOg explican muy bien como construir el gráfico cuantil cuantil -->
+
+</div>
+
 En el ejemplo planteado usando la base de datos `hsb`, la gráfica de probabilidad normal de los residuos se muestra en la figura a continuación.
 
-```{r, eval=TRUE, echo=FALSE, fig.align="center", fig.cap=".", message=FALSE, warning=FALSE}
+```{r, eval=TRUE, echo=FALSE, fig.align="center", fig.cap=" Gráfico cuantil cuantil para el modelo de efectos mixtos previamente ajustado.", message=FALSE, warning=FALSE}
 
 #demo_code('
 #Grafica_A <- ggplot(data = hsb, aes(x = res_pearson)) +
@@ -708,7 +721,7 @@ demo_code('
 Grafica_A <- ggplot(data = hsb, aes(sample = res_pearson)) +
   stat_qq(distribution = qnorm, color = "yellow", alpha = 0.4, size = 4) +
   stat_qq_line(distribution = qnorm, color = "black", size = 1.2) +
-  labs(x = "Cuantiles teóricos de una distribución normal", y = "Cuantiles de la distribución observada") +
+  labs(x = "Cuantiles teóricos de la distribución normal", y = "Cuantiles de la distribución observada") +
   theme_bw() +
   theme(axis.text = element_text(size = 12, face = "bold"), 
         axis.title = element_text(size = 12, face = "bold"),
@@ -717,8 +730,8 @@ Grafica_A <- ggplot(data = hsb, aes(sample = res_pearson)) +
   hlt_args(color = 'gray') %>%
   hlt_funs(color = 'deeppink', underline = TRUE) %>%
   hlt_regexp('res_pearson', background = 'cyan') %>%
-  hlt_fixed('stat_qq') %>%
-  hlt_fixed('stat_qq_line')
+  hlt_fixed('stat_qq_line') %>%
+  hlt_fixed('stat_qq')
 
 Grafica_A
 ```
@@ -726,7 +739,10 @@ Grafica_A
 En relación al código presentado anteriormente, tenga en cuenta lo siguiente:
 
 + En la asignación estética (`aes`) usando el paquete `ggplot2`, se proporcionó los residuos pearson (aquí subrayados en color azul), datos que se obtuvieron mediante previo ajuste del modelo;
-+.
++ A partir de la función `stat_qq` (aquí subrayado en color amarillo), se dibuja la línea de puntos el cual indica la ubicación de los datos de acuerdo a los cuantiles de la distribución normal y de la distribución observada;
++ Con la función `stat_qq_line` (aquí subrayado en color amarillo), se dibuja una línea recta. Si los puntos estan cerca a la misma, significa que los datos y la distribución normal tienen cuantiles comparables y se cumple el supuesto de normalidad de los residuos.
+
+### Distribución normal de los residuos mediante prueba de hipótesis
 
 <!--
 No obstante los métodos gráficos permiten al analista descubrir no solo cuándo el modelo ajustado no cumple con el supuesto planteado, sino que también permite detectar cuál puede ser la causa del mismo, lo cual sería casi imposible a través de unicamente pruebas de hipótesis. 
