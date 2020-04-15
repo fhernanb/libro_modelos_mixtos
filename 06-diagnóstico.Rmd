@@ -1,6 +1,6 @@
 # Diagnóstico del modelo de regresión de efectos mixtos {#reg-diagnos}
 
-El diagnóstico del modelo de regresión es uno de un conjunto de procedimientos disponibles para el análisis de regresión que buscan evaluar la validez de un modelo previamente ajustado. Esta evaluación puede ser una exploración de los supuestos estadísticos del modelo. El objetivo de este capitulo consiste en introducir al lector los distintos métodos de diagnostico del modelo, los cuales permitiran identificar aquel modelo que represente sus datos con una mayor precisión.
+El diagnóstico del modelo de regresión es uno de un conjunto de procedimientos disponibles para el análisis de regresión que buscan evaluar la validez de un modelo previamente ajustado. Esta evaluación puede ser una exploración de los supuestos estadísticos del modelo. El objetivo de este capitulo consiste en introducir al lector los distintos métodos de diagnostico del modelo de regresión.
 
 ```{r Paquetes usados, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 
@@ -525,11 +525,11 @@ Así, $H_{0}$ (la hipótesis nula) sugiere una varianza constante de los residuo
 
 Tabla_1 <- tibble::tribble(
   ~x, ~y, ~z,
-  'Contraste de razón de varianzas', 'var.test( )', 'stats',
-  'Prueba de Levene', 'leveneTest( )', 'car',
-  'Prueba de Bartlett', 'bartlett.test( )', 'stats',
-  'Prueba de Brown-Forsyth', 'hov( )', 'HH',
-  'Prueba de Fligner-Killeen', 'fligner.test( )', 'stats'
+  'Contraste de razón de varianzas', 'var.test', 'stats',
+  'Prueba de Levene', 'leveneTest', 'car',
+  'Prueba de Bartlett', 'bartlett.test', 'stats',
+  'Prueba de Brown-Forsyth', 'hov', 'HH',
+  'Prueba de Fligner-Killeen', 'fligner.test', 'stats'
 )
 
 kable(Tabla_1, col.names = c('Prueba', 'Función en R', 'Paquete en R')) %>%
@@ -550,9 +550,9 @@ Para el contraste de hipótesis, cada una de las pruebas entrega un valor-P. Si 
 
 ### Ejemplo {-}
 
-La función `help( )` y el operador de ayuda `?` en `R` proporcionan acceso a las páginas de documentación para funciones de `R`, conjuntos de datos y otros objetos, así por ejemplo para acceder a la documentación de la función `var.test( )` del paquete `stats`, se puede ingresar el comando `help(var.test)` o `help("var.test")`, o `?var.test` o `?"var.test"` (por tanto, las comillas son opcionales).
+La función `help` y el operador de ayuda `?` en `R` proporcionan acceso a las páginas de documentación para funciones de `R`, conjuntos de datos y otros objetos, así por ejemplo para acceder a la documentación de la función `var.test` del paquete `stats`, se puede ingresar el comando `help(var.test)` o `help("var.test")`, o `?var.test` o `?"var.test"` (por tanto, las comillas son opcionales).
 
-Haciendo uso de cualquiera de los dos comandos de ayuda anteriores, se plantea como ejemplo acceder a la documentación de la función `leveneTest( )` del paquete `car`, y con ella evaluar por medio de la prueba de Brown-Forsyth si las varianzas de los errores de los dos tipos de escuela (privada y pública) de la base de datos `hsb` cumplen con el supuesto de varianza constante de los errores. Suponga un nivel de significancia igual a 0.05.
+Haciendo uso de cualquiera de los dos comandos de ayuda anteriores, se plantea como ejemplo acceder a la documentación de la función `leveneTest` del paquete `car`, y con ella evaluar por medio de la prueba de Brown-Forsyth si las varianzas de los errores de los dos tipos de escuela (privada y pública) de la base de datos `hsb` cumplen con el supuesto de varianza constante de los errores. Suponga un nivel de significancia igual a 0.05.
 
 <div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
   -webkit-box-shadow: 1px 1px 3px 2px #000000;
@@ -565,7 +565,7 @@ Solución.
 
 </div>
 
-Para acceder a la documentación de ayuda de la función `leveneTest( )` del paquete `car`:
+Para acceder a la documentación de ayuda de la función `leveneTest` del paquete `car`:
 
 ```{r Solución a ejemplo de homogeneidad de varianza de los errores, echo = TRUE, eval = FALSE}
 
@@ -743,6 +743,41 @@ En relación al código presentado anteriormente, tenga en cuenta lo siguiente:
 + Con la función `stat_qq_line` (aquí subrayado en color amarillo), se dibuja una línea recta. Si los puntos estan cerca a la misma, significa que los datos y la distribución normal tienen cuantiles comparables y se cumple el supuesto de normalidad de los residuos.
 
 ### Distribución normal de los residuos mediante prueba de hipótesis
+
+En el supuesto de normalidad de los residuos es posible realizar contraste de hipótesis que determinan si los datos siguen una distribución normal. Al igual que el supuesto de varianza constante, la prueba de distribución normal tiene una hipótesis nula ($H_{0}$) y una hipótesis alternativa ($H_{A}$):
+
+$$H_{0}: e \sim N(0, \sigma^{2})$$
+
+$$H_{A}: e \nsim N(0, \sigma^{2})$$
+
+Así, $H_{0}$ (la hipótesis nula) sugiere una distribución normal de los residuos. A continuación se mencionan algunas de las pruebas estadísticas usadas para comprobar la validez del supuesto de normalidad de los residuos:
+
+```{r Pruebas de normalidad, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+
+Tabla_1 <- tibble::tribble(
+  ~x, ~y, ~z,
+  'Shapiro-Wilk', 'shapiro.test', 'stats',
+  'Kolmogorov-Smirnov', 'ks.test', 'stats',
+  'Lillefors', 'lillie.test', 'nortest',
+  'Jarque-Bera', 'jarque.bera.test', 'tseries'
+)
+
+kable(Tabla_1, col.names = c('Prueba', 'Función en R', 'Paquete en R')) %>%
+  kable_styling(full_width = FALSE)
+```
+
+De las anteriores pruebas de distribución, un valor-P menor a un nivel de significancia previamente definido indica el rechazo de la hipótesis nula, lo que permite concluir que los datos no siguen la distribución normal de los residuos.
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #ffff00;
+  -webkit-box-shadow: 1px 1px 3px 2px #ffff00;
+  box-shadow:         1px 1px 3px 2px #ffff00;">
+
+```{block2, type='rmdnote'}
+
+En relación a los resultados de las pruebas de normalidad, es importante tener en cuenta que al tratarse de valores-P, cuanto mayor es el tamaño de la muestra más poder estadístico tienen y más fácil es encontrar evidencias en contra de la hipótesis nula. Al mismo tiempo, cuanto mayor es el tamaño de la muestra, menos sensible es la prueba a la falta de normalidad. Por esta razón, es importante no basar las conclusiones únicamente en el valor-P de la prueba, sino también considerar la representación gráfica y el tamaño de la muestra.
+```
+
+</div>
 
 <!--
 No obstante los métodos gráficos permiten al analista descubrir no solo cuándo el modelo ajustado no cumple con el supuesto planteado, sino que también permite detectar cuál puede ser la causa del mismo, lo cual sería casi imposible a través de unicamente pruebas de hipótesis. 
