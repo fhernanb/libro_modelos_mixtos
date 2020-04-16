@@ -700,7 +700,7 @@ El gráfico cuantil cuantil tiene dos ejes, uno para los cuantiles que se genera
 
 En el ejemplo planteado usando la base de datos `hsb`, la gráfica de probabilidad normal de los residuos se muestra en la figura a continuación.
 
-```{r, eval=TRUE, echo=FALSE, fig.align="center", fig.cap=" Gráfico cuantil cuantil para el modelo de efectos mixtos previamente ajustado.", message=FALSE, warning=FALSE}
+```{r, eval=TRUE, echo=FALSE, fig.align="center", fig.cap="Gráfico cuantil cuantil para el modelo de efectos mixtos previamente ajustado.", message=FALSE, warning=FALSE}
 
 #demo_code('
 #Grafica_A <- ggplot(data = hsb, aes(x = res_pearson)) +
@@ -779,6 +779,118 @@ En relación a los resultados de las pruebas de normalidad, es importante tener 
 
 </div>
 
+### Ejemplo {-}
+
+En algunos casos es deseable identificar la distribución que siguen los datos en lugar de identificar la distribución que no siguen. 
+
+```{r, eval = TRUE, echo = FALSE, fig.align = "center", fig.cap = "Elección del tipo de distribución.", message = FALSE, warning = FALSE, fig.showtext = TRUE}
+
+data.frame(
+  x = c(2.0:9.0), y = c(-1.0:6.0)
+) %>%
+  ggplot(aes(x, y)) +
+  geom_blank() +
+  annotate(geom = 'rect', xmin = 2.4, xmax = 4.6, ymin = 5.3, ymax = 5.9, colour = 'yellow', fill = 'yellow', alpha = 0.4) +
+  annotate(geom = 'text', x = 3.5, y = 5.7, label = '¿Los datos son discretos', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'text', x = 3.5, y = 5.5, label = 'o continuos?', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'text', x = 2.7, y = 4.9, label = 'Discretos', family = 'gochi', size = 7.4, colour = 'black') +
+  annotate(geom = 'text', x = 4.3, y = 4.9, label = 'Continuos', family = 'gochi', size = 7.4, colour = 'black') +
+  geom_curve(x = 3.4, xend = 2.8, y = 5.2, yend = 4.5, arrow = arrow(length = unit(0.1, 'inch')), size = 1.2, color = 'black', curvature = 0.0) +
+  geom_curve(x = 3.6, xend = 4.2, y = 5.2, yend = 4.5, arrow = arrow(length = unit(0.1, 'inch')), size = 1.2, color = 'black', curvature = 0.0) +
+  annotate(geom = 'rect', xmin = 3.5, xmax = 5.7, ymin = 3.8, ymax = 4.4, colour = 'yellow', fill = 'yellow', alpha = 0.4) +
+  annotate(geom = 'text', x = 4.6, y = 4.2, label = '¿Los datos son simétricos', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'text', x = 4.6, y = 4.0, label = 'o asimétricos?', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'text', x = 2.8, y = 4.4, label = '...', family = 'gochi', size = 16.4, colour = 'black') +
+  geom_curve(x = 4.5, xend = 3.9, y = 3.7, yend = 3.0, arrow = arrow(length = unit(0.1, 'inch')), size = 1.2, color = 'black', curvature = 0.0) +
+  geom_curve(x = 4.8, xend = 5.4, y = 3.7, yend = 3.0, arrow = arrow(length = unit(0.1, 'inch')), size = 1.2, color = 'black', curvature = 0.0) +
+  annotate(geom = 'text', x = 3.7, y = 3.4, label = 'Simétricos', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'text', x = 5.6, y = 3.4, label = 'Asimétricos', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'rect', xmin = 1.9, xmax = 4.7, ymin = 2.3, ymax = 2.9, colour = 'yellow', fill = 'yellow', alpha = 0.4) +
+  annotate(geom = 'rect', xmin = 5.0, xmax = 7.0, ymin = 2.3, ymax = 2.9, colour = 'yellow', fill = 'yellow', alpha = 0.4) +
+  annotate(geom = 'text', x = 3.3, y = 2.7, label = '¿Los datos estan agrupados', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'text', x = 3.3, y = 2.5, label = 'alrededor de un valor central?', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'text', x = 6.0, y = 2.7, label = '¿Dónde se encuentran', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'text', x = 6.0, y = 2.5, label = 'los valores atípicos?', family = 'gochi', size = 8.4, colour = 'black') +
+  geom_curve(x = 2.5, xend = 2.5, y = 2.2, yend = -0.2, arrow = arrow(length = unit(0.1, 'inch')), size = 1.2, color = 'black', curvature = 0.0) +
+  annotate(geom = 'text', x = 2.3, y = 1.0, label = 'No', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'rect', xmin = 1.8, xmax = 3.0, ymin = -0.3, ymax = -0.9, colour = 'gray54', fill = 'gray54', alpha = 0.4) +
+  annotate(geom = 'text', x = 2.4, y = -0.5, label = 'Uniforme o', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'text', x = 2.4, y = -0.7, label = 'multimodal', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'rect', xmin = 2.8, xmax = 4.8, ymin = 0.8, ymax = 1.4, colour = 'yellow', fill = 'yellow', alpha = 0.4) +
+  annotate(geom = 'text', x = 3.8, y = 1.2, label = '¿Qué tan probable son', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'text', x = 3.8, y = 1.0, label = 'los valores atípicos?', family = 'gochi', size = 8.4, colour = 'black') +
+  geom_curve(x = 2.7, xend = 3.5, y = 2.2, yend = 1.5, arrow = arrow(length = unit(0.1, 'inch')), size = 1.2, color = 'black', curvature = 0.0) +
+  annotate(geom = 'text', x = 3.3, y = 1.94, label = 'Si', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'rect', xmin = 3.1, xmax = 4.1, ymin = -0.3, ymax = -0.9, colour = 'gray54', fill = 'gray54', alpha = 0.4) +
+  annotate(geom = 'text', x = 3.6, y = -0.6, label = 'Triangular', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'rect', xmin = 4.2, xmax = 4.9, ymin = -0.3, ymax = -0.9, colour = 'gray54', fill = 'gray54', alpha = 0.4) +
+  annotate(geom = 'text', x = 4.54, y = -0.6, label = 'Normal', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'rect', xmin = 5.0, xmax = 5.9, ymin = -0.3, ymax = -0.9, colour = 'gray54', fill = 'gray54', alpha = 0.4) +
+  annotate(geom = 'text', x = 5.45, y = -0.5, label = 'Logística', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'text', x = 5.45, y = -0.7, label = 'Cauchy', family = 'gochi', size = 8.4, colour = 'black') +
+  geom_curve(x = 3.7, xend = 3.5, y = 0.7, yend = -0.2, arrow = arrow(length = unit(0.1, 'inch')), size = 1.2, color = 'black', curvature = 0.0) +
+  annotate(geom = 'text', x = 3.1, y = 0.5, label = 'Sin valores', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'text', x = 3.1, y = 0.3, label = 'atípicos', family = 'gochi', size = 8.4, colour = 'black') +
+  geom_curve(x = 3.8, xend = 4.4, y = 0.7, yend = -0.2, arrow = arrow(length = unit(0.1, 'inch')), size = 1.2, color = 'black', curvature = 0.0) +
+  annotate(geom = 'text', x = 4.4, y = 0.5, label = 'Muy', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'text', x = 4.4, y = 0.3, label = 'bajo', family = 'gochi', size = 8.4, colour = 'black') +
+  geom_curve(x = 4.7, xend = 5.4, y = 0.7, yend = -0.2, arrow = arrow(length = unit(0.1, 'inch')), size = 1.2, color = 'black', curvature = 0.0) +
+  annotate(geom = 'text', x = 5.3, y = 0.4, label = 'Bajo', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'rect', xmin = 6.0, xmax = 7.2, ymin = 0.8, ymax = 1.4, colour = 'yellow', fill = 'yellow', alpha = 0.4) +
+  annotate(geom = 'text', x = 6.6, y = 1.1, label = 'Solo positivos', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'rect', xmin = 6.05, xmax = 7.2, ymin = -0.3, ymax = -0.9, colour = 'gray54', fill = 'gray54', alpha = 0.4) +
+  annotate(geom = 'text', x = 6.6, y = -0.6, label = 'Exponencial', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'rect', xmin = 7.3, xmax = 8.5, ymin = 0.8, ymax = 1.4, colour = 'yellow', fill = 'yellow', alpha = 0.4) +
+  annotate(geom = 'text', x = 7.9, y = 1.2, label = 'Mayormente', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'text', x = 7.9, y = 1.0, label = 'positivos', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'rect', xmin = 7.4, xmax = 8.4, ymin = -0.1, ymax = -0.98, colour = 'gray54', fill = 'gray54', alpha = 0.4) +
+  annotate(geom = 'text', x = 7.9, y = -0.7, label = 'Lognormal', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'text', x = 7.9, y = -0.5, label = 'Gamma', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'text', x = 7.9, y = -0.3, label = 'Weibull', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'rect', xmin = 8.6, xmax = 9.8, ymin = 0.8, ymax = 1.4, colour = 'yellow', fill = 'yellow', alpha = 0.4) +
+  annotate(geom = 'text', x = 9.2, y = 1.2, label = 'Mayormente', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'text', x = 9.2, y = 1.0, label = 'negativos', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'rect', xmin = 8.7, xmax = 9.7, ymin = -0.3, ymax = -0.9, colour = 'gray54', fill = 'gray54', alpha = 0.4) +
+  annotate(geom = 'text', x = 9.2, y = -0.5, label = 'Mínimo', family = 'gochi', size = 8.4, colour = 'black') +
+  annotate(geom = 'text', x = 9.2, y = -0.7, label = 'extremo', family = 'gochi', size = 8.4, colour = 'black') +
+  geom_curve(x = 5.8, xend = 6.6, y = 2.2, yend = 1.5, arrow = arrow(length = unit(0.1, 'inch')), size = 1.2, color = 'black', curvature = 0.0) +
+  geom_curve(x = 6.2, xend = 7.9, y = 2.2, yend = 1.5, arrow = arrow(length = unit(0.1, 'inch')), size = 1.2, color = 'black', curvature = 0.0) +
+  geom_curve(x = 6.6, xend = 9.2, y = 2.2, yend = 1.5, arrow = arrow(length = unit(0.1, 'inch')), size = 1.2, color = 'black', curvature = 0.0) +
+  geom_curve(x = 6.6, xend = 6.6, y = 0.8, yend = -0.2, arrow = arrow(length = unit(0.1, 'inch')), size = 1.2, color = 'black', curvature = 0.0) +
+  geom_curve(x = 7.9, xend = 7.9, y = 0.8, yend = -0.1, arrow = arrow(length = unit(0.1, 'inch')), size = 1.2, color = 'black', curvature = 0.0) +
+  geom_curve(x = 9.2, xend = 9.2, y = 0.8, yend = -0.2, arrow = arrow(length = unit(0.1, 'inch')), size = 1.2, color = 'black', curvature = 0.0) +
+  theme_void() +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title = element_blank())
+```
+
+
+Claramente al observar la figura 6.10 se concluye que la base de datos `hsb` no cumple el supuesto de normalidad. En este sentido, haga uso de la función...
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+```{block2, type='rmdexercise'}
+
+Solución.
+```
+
+</div>
+
+```{r, eval=TRUE, echo=FALSE, fig.align="center", fig.cap=".", message=FALSE, warning=FALSE, out.width="70%"}
+
+ggplot(data = hsb, aes(x = res_pearson)) +
+  geom_histogram(aes(y = ..density..), bins = 8, colour = "yellow", fill = "yellow", alpha = 0.4) +
+  geom_density(size = 1.0, colour = "black") +
+  labs(x = "Residuos Pearson", y = "Frecuencia") +
+  theme_bw() +
+  theme(axis.text = element_text(size = 12, face = "bold"), 
+        axis.title = element_text(size = 12, face = "bold"),
+        plot.title = element_text(size = 12, face = "bold"))
+```
+
 <!--
 No obstante los métodos gráficos permiten al analista descubrir no solo cuándo el modelo ajustado no cumple con el supuesto planteado, sino que también permite detectar cuál puede ser la causa del mismo, lo cual sería casi imposible a través de unicamente pruebas de hipótesis. 
 -->
@@ -788,6 +900,4 @@ No obstante los métodos gráficos permiten al analista descubrir no solo cuánd
 
 Una variación de la gráfica residual básica anterior es una donde se muestre la distribución condicional de la variable respuesta dado el ajuste del modelo. A esta se le conoce como gráfica marginal, en el sentido de que muestra la relación marginal entre la variable respuesta y cada regresor, y entre la variable respuesta y los valores estimados, previo ajuste del modelo.
 -->
-
-
 
