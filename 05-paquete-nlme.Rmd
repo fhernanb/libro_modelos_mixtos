@@ -18,7 +18,7 @@ Los principales argumentos de la función son:
 - `correlation`: es un parámetro opcional para indicar la estructura de correlación entre las observaciones de cada grupo. Para más detalles consulte la ayuda de la función `corClasses`.
 - `method`: valor lógico que sirve para indicar si queremos estimaciones maximizando la [verosimilitud restringida](https://en.wikipedia.org/wiki/Restricted_maximum_likelihood) o la verosimilitud usual, las dos opciones son `ML` o `REML`.  
 
-## Ejemplo: modelo con intercepto aleatorio {-}
+## Ejemplo: modelo normal con intercepto aleatorio {-}
 En este ejemplo vamos a simular observaciones $ni=50$ observaciones para $G=10$ grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `lmer` para estimar los parámetros del modelo.
 
 \begin{align*} 
@@ -52,11 +52,18 @@ obs <- rep(x=1:ni, times=G)
 set.seed(1234567)
 x <- runif(n=nobs, min=-5, max=6)
 b0 <- rnorm(n=G, mean=0, sd=sqrt(625)) # Intercepto aleatorio
-b0 <- rep(x=b0, each=ni)  # El mismo intercepto aleatorio pero repetido
+b0 <- rep(x=b0, each=ni)               # El mismo intercepto aleatorio pero repetido
 media <- 4 - 6 * x + b0
 set.seed(123456)
 y <- rnorm(n=nobs, mean=media, sd=sqrt(16))
-datos <- data.frame(grupo, obs, b0, x, media, y)
+datos <- data.frame(obs, grupo, b0, x, media, y)
+```
+
+Vamos a explorar los datos simulados.
+
+```{r}
+library(rmarkdown)
+paged_table(datos, options = list(rows.print = 6))
 ```
 
 El siguiente paso es dibujar los datos para explorar si sería apropiado usar un modelo con intercepto aleatorio (obvio porque así se simularon los datos). El código para dibujar los datos se muestra abajo.

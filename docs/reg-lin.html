@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>1 Regresión lineal | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para ….." />
-  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
   <meta property="og:title" content="1 Regresión lineal | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
   
-  <meta property="og:image" content="images/cover.png" />
+  <meta property="og:image" content="/images/cover.png" />
   <meta property="og:description" content="Este libro es para ….." />
   <meta name="github-repo" content="fhernanb/libro_mod_pred" />
 
@@ -19,13 +19,13 @@
   <meta name="twitter:title" content="1 Regresión lineal | Modelos Mixtos con R" />
   
   <meta name="twitter:description" content="Este libro es para ….." />
-  <meta name="twitter:image" content="images/cover.png" />
+  <meta name="twitter:image" content="/images/cover.png" />
 
 <meta name="author" content="Freddy Hernández Barajas" />
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2020-04-01" />
+<meta name="date" content="2021-11-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -34,7 +34,8 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="mod-mix.html"/>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -51,28 +52,50 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.19/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="libs/selectize-0.12.0/selectize.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -81,9 +104,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -116,6 +139,29 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
@@ -132,57 +178,76 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Modelos Mixtos con R</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Bienvenido</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Bienvenido</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#estructura-del-libro"><i class="fa fa-check"></i>Estructura del libro</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#software-y-convenciones"><i class="fa fa-check"></i>Software y convenciones</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#bloques-informativos"><i class="fa fa-check"></i>Bloques informativos</a></li>
 </ul></li>
-<li class="chapter" data-level="1" data-path="reg-lin.html"><a href="reg-lin.html"><i class="fa fa-check"></i><b>1</b> Regresión lineal</a><ul>
+<li class="chapter" data-level="1" data-path="reg-lin.html"><a href="reg-lin.html"><i class="fa fa-check"></i><b>1</b> Regresión lineal</a>
+<ul>
 <li class="chapter" data-level="1.1" data-path="reg-lin.html"><a href="reg-lin.html#modelo-estadístico"><i class="fa fa-check"></i><b>1.1</b> Modelo estadístico</a></li>
-<li class="chapter" data-level="1.2" data-path="reg-lin.html"><a href="reg-lin.html#verosimilitud-del-modelo"><i class="fa fa-check"></i><b>1.2</b> Verosimilitud del modelo</a><ul>
+<li class="chapter" data-level="1.2" data-path="reg-lin.html"><a href="reg-lin.html#verosimilitud-del-modelo"><i class="fa fa-check"></i><b>1.2</b> Verosimilitud del modelo</a>
+<ul>
 <li class="chapter" data-level="" data-path="reg-lin.html"><a href="reg-lin.html#ejemplo"><i class="fa fa-check"></i>Ejemplo</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="mod-mix.html"><a href="mod-mix.html"><i class="fa fa-check"></i><b>2</b> Modelos Mixtos</a></li>
-<li class="chapter" data-level="3" data-path="pac-lme4.html"><a href="pac-lme4.html"><i class="fa fa-check"></i><b>3</b> Paquete <strong>lme4</strong></a><ul>
+<li class="chapter" data-level="2" data-path="mod-mix.html"><a href="mod-mix.html"><i class="fa fa-check"></i><b>2</b> Modelos Lineales Mixtos</a></li>
+<li class="chapter" data-level="3" data-path="pac-lme4.html"><a href="pac-lme4.html"><i class="fa fa-check"></i><b>3</b> Paquete <strong>lme4</strong></a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="pac-lme4.html"><a href="pac-lme4.html#función-lmer"><i class="fa fa-check"></i><b>3.1</b> Función <code>lmer</code></a></li>
-<li class="chapter" data-level="" data-path="pac-lme4.html"><a href="pac-lme4.html#ejemplo-modelo-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo con intercepto aleatorio</a></li>
+<li class="chapter" data-level="" data-path="pac-lme4.html"><a href="pac-lme4.html#ejemplo-modelo-normal-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo normal con intercepto aleatorio</a></li>
+<li class="chapter" data-level="" data-path="pac-lme4.html"><a href="pac-lme4.html#ejemplo-recuperando-los-interceptos-aleatorios"><i class="fa fa-check"></i>Ejemplo: recuperando los interceptos aleatorios</a></li>
+<li class="chapter" data-level="3.2" data-path="pac-lme4.html"><a href="pac-lme4.html#función-glmer"><i class="fa fa-check"></i><b>3.2</b> Función <code>glmer</code></a></li>
+<li class="chapter" data-level="" data-path="pac-lme4.html"><a href="pac-lme4.html#ejemplo-modelo-gamma-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo gamma con intercepto aleatorio</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="pac-nlme.html"><a href="pac-nlme.html"><i class="fa fa-check"></i><b>4</b> Paquete <strong>nlme</strong></a><ul>
+<li class="chapter" data-level="4" data-path="pac-nlme.html"><a href="pac-nlme.html"><i class="fa fa-check"></i><b>4</b> Paquete <strong>nlme</strong></a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="pac-nlme.html"><a href="pac-nlme.html#función-lme"><i class="fa fa-check"></i><b>4.1</b> Función <code>lme</code></a></li>
-<li class="chapter" data-level="" data-path="pac-nlme.html"><a href="pac-nlme.html#ejemplo-modelo-con-intercepto-aleatorio-1"><i class="fa fa-check"></i>Ejemplo: modelo con intercepto aleatorio</a></li>
+<li class="chapter" data-level="" data-path="pac-nlme.html"><a href="pac-nlme.html#ejemplo-modelo-normal-con-intercepto-aleatorio-1"><i class="fa fa-check"></i>Ejemplo: modelo normal con intercepto aleatorio</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="ph.html"><a href="ph.html"><i class="fa fa-check"></i><b>5</b> Pruebas de hipótesis</a><ul>
+<li class="chapter" data-level="5" data-path="ph.html"><a href="ph.html"><i class="fa fa-check"></i><b>5</b> Pruebas de hipótesis</a>
+<ul>
 <li class="chapter" data-level="5.1" data-path="ph.html"><a href="ph.html#prueba-razón-de-verosimilitud"><i class="fa fa-check"></i><b>5.1</b> Prueba razón de verosimilitud</a></li>
 <li class="chapter" data-level="5.2" data-path="ph.html"><a href="ph.html#prueba-de-wald"><i class="fa fa-check"></i><b>5.2</b> Prueba de Wald</a></li>
-<li class="chapter" data-level="5.3" data-path="ph.html"><a href="ph.html#prueba-de-hipótesis-sobre-los-efectos-fijos"><i class="fa fa-check"></i><b>5.3</b> Prueba de hipótesis sobre los efectos fijos</a><ul>
+<li class="chapter" data-level="5.3" data-path="ph.html"><a href="ph.html#prueba-de-hipótesis-sobre-los-efectos-fijos"><i class="fa fa-check"></i><b>5.3</b> Prueba de hipótesis sobre los efectos fijos</a>
+<ul>
 <li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejemplo-1"><i class="fa fa-check"></i>Ejemplo</a></li>
 <li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejemplo-2"><i class="fa fa-check"></i>Ejemplo</a></li>
 </ul></li>
-<li class="chapter" data-level="5.4" data-path="ph.html"><a href="ph.html#prueba-de-hipótesis-sobre-componentes-de-varianza"><i class="fa fa-check"></i><b>5.4</b> Prueba de hipótesis sobre componentes de varianza</a><ul>
+<li class="chapter" data-level="5.4" data-path="ph.html"><a href="ph.html#prueba-de-hipótesis-sobre-componentes-de-varianza"><i class="fa fa-check"></i><b>5.4</b> Prueba de hipótesis sobre componentes de varianza</a>
+<ul>
 <li class="chapter" data-level="5.4.1" data-path="ph.html"><a href="ph.html#componentes-de-varianza-lejos-del-borde"><i class="fa fa-check"></i><b>5.4.1</b> Componentes de varianza lejos del borde</a></li>
 <li class="chapter" data-level="5.4.2" data-path="ph.html"><a href="ph.html#componentes-de-varianza-en-el-borde"><i class="fa fa-check"></i><b>5.4.2</b> Componentes de varianza en el borde</a></li>
 <li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejemplo-3"><i class="fa fa-check"></i>Ejemplo</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejercicios"><i class="fa fa-check"></i>Ejercicios</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="reg-diagnos.html"><a href="reg-diagnos.html"><i class="fa fa-check"></i><b>6</b> Diagnóstico del modelo de regresión de efectos mixtos</a><ul>
+<li class="chapter" data-level="6" data-path="reg-diagnos.html"><a href="reg-diagnos.html"><i class="fa fa-check"></i><b>6</b> Diagnóstico del modelo de regresión de efectos mixtos</a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="reg-diagnos.html"><a href="reg-diagnos.html#supuestos-del-modelo-de-regresión"><i class="fa fa-check"></i><b>6.1</b> Supuestos del modelo de regresión</a></li>
 <li class="chapter" data-level="6.2" data-path="reg-diagnos.html"><a href="reg-diagnos.html#los-residuos"><i class="fa fa-check"></i><b>6.2</b> Los residuos</a></li>
-<li class="chapter" data-level="6.3" data-path="reg-diagnos.html"><a href="reg-diagnos.html#diagnóstico-del-modelo-de-regresión-prueba-de-hipótesis-e-inferencia-visual"><i class="fa fa-check"></i><b>6.3</b> Diagnóstico del modelo de regresión: prueba de hipótesis e inferencia visual</a><ul>
+<li class="chapter" data-level="6.3" data-path="reg-diagnos.html"><a href="reg-diagnos.html#diagnóstico-del-modelo-de-regresión-prueba-de-hipótesis-e-inferencia-visual"><i class="fa fa-check"></i><b>6.3</b> Diagnóstico del modelo de regresión: prueba de hipótesis e inferencia visual</a>
+<ul>
 <li class="chapter" data-level="6.3.1" data-path="reg-diagnos.html"><a href="reg-diagnos.html#ajustando-el-modelo"><i class="fa fa-check"></i><b>6.3.1</b> Ajustando el modelo</a></li>
-<li class="chapter" data-level="6.3.2" data-path="reg-diagnos.html"><a href="reg-diagnos.html#varianza-constante-de-los-residuos-mediante-prueba-de-hipótesis"><i class="fa fa-check"></i><b>6.3.2</b> Varianza constante de los residuos mediante prueba de hipótesis</a></li>
-<li class="chapter" data-level="6.3.3" data-path="reg-diagnos.html"><a href="reg-diagnos.html#varianza-constante-de-los-residuos-mediante-inferencia-visual"><i class="fa fa-check"></i><b>6.3.3</b> Varianza constante de los residuos mediante inferencia visual</a></li>
-<li class="chapter" data-level="6.3.4" data-path="reg-diagnos.html"><a href="reg-diagnos.html#gráfica-marginal-del-modelo"><i class="fa fa-check"></i><b>6.3.4</b> Gráfica marginal del modelo</a></li>
+<li class="chapter" data-level="6.3.2" data-path="reg-diagnos.html"><a href="reg-diagnos.html#varianza-constante-de-los-residuos-mediante-inferencia-visual"><i class="fa fa-check"></i><b>6.3.2</b> Varianza constante de los residuos mediante inferencia visual</a></li>
+<li class="chapter" data-level="6.3.3" data-path="reg-diagnos.html"><a href="reg-diagnos.html#varianza-constante-de-los-residuos-mediante-prueba-de-hipótesis"><i class="fa fa-check"></i><b>6.3.3</b> Varianza constante de los residuos mediante prueba de hipótesis</a></li>
+<li class="chapter" data-level="" data-path="reg-diagnos.html"><a href="reg-diagnos.html#ejemplo-4"><i class="fa fa-check"></i>Ejemplo</a></li>
+<li class="chapter" data-level="6.3.4" data-path="reg-diagnos.html"><a href="reg-diagnos.html#distribución-normal-de-los-residuos-mediante-inferencia-visual"><i class="fa fa-check"></i><b>6.3.4</b> Distribución normal de los residuos mediante inferencia visual</a></li>
+<li class="chapter" data-level="" data-path="reg-diagnos.html"><a href="reg-diagnos.html#ejemplo-5"><i class="fa fa-check"></i>Ejemplo</a></li>
+<li class="chapter" data-level="6.3.5" data-path="reg-diagnos.html"><a href="reg-diagnos.html#distribución-normal-de-los-residuos-mediante-prueba-de-hipótesis"><i class="fa fa-check"></i><b>6.3.5</b> Distribución normal de los residuos mediante prueba de hipótesis</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="apli-nlme.html"><a href="apli-nlme.html"><i class="fa fa-check"></i><b>7</b> Aplicación con <code>nlme</code></a><ul>
+<li class="chapter" data-level="7" data-path="apli-nlme.html"><a href="apli-nlme.html"><i class="fa fa-check"></i><b>7</b> Aplicación con <code>nlme</code></a>
+<ul>
 <li class="chapter" data-level="" data-path="apli-nlme.html"><a href="apli-nlme.html#ejercicios-1"><i class="fa fa-check"></i>Ejercicios</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="apli-lme4.html"><a href="apli-lme4.html"><i class="fa fa-check"></i><b>8</b> Aplicación con <code>lme4</code></a><ul>
+<li class="chapter" data-level="8" data-path="apli-lme4.html"><a href="apli-lme4.html"><i class="fa fa-check"></i><b>8</b> Aplicación con <code>lme4</code></a>
+<ul>
 <li class="chapter" data-level="" data-path="apli-lme4.html"><a href="apli-lme4.html#ejercicios-2"><i class="fa fa-check"></i>Ejercicios</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="9" data-path="hola.html"><a href="hola.html"><i class="fa fa-check"></i><b>9</b> Hola</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -203,10 +268,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="reg-lin" class="section level1">
+<div id="reg-lin" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Regresión lineal</h1>
 <p>En este capítulo se presenta el modelo de regresión lineal clásico.</p>
-<div id="modelo-estadístico" class="section level2">
+<div id="modelo-estadístico" class="section level2" number="1.1">
 <h2><span class="header-section-number">1.1</span> Modelo estadístico</h2>
 <p>El modelo estadístico en regresión lineal clásico permite modelar la media de una variable <span class="math inline">\(Y\)</span> en función de <span class="math inline">\(k\)</span> covariables. El modelo se puede expresar como sigue.</p>
 <p><span class="math display">\[\begin{align} \label{mod2}
@@ -216,7 +281,7 @@ y_i &amp;\sim N(\mu_i, \sigma^2), \\
 \end{align}\]</span></p>
 <p>donde <span class="math inline">\(i=1, 2, \ldots, n\)</span> es el índice que identifica las <span class="math inline">\(n\)</span> observaciones del conjunto de entrenamiento. El vector de parámetros del modelo es <span class="math inline">\(\boldsymbol{\theta}=(\beta_0, \beta_1, \cdots, \beta_k, \sigma)^\top\)</span>.</p>
 </div>
-<div id="verosimilitud-del-modelo" class="section level2">
+<div id="verosimilitud-del-modelo" class="section level2" number="1.2">
 <h2><span class="header-section-number">1.2</span> Verosimilitud del modelo</h2>
 <p>La función de verosimilitud <span class="math inline">\(L\)</span> para el modelo es la siguiente:</p>
 <p><span class="math display">\[
@@ -231,9 +296,9 @@ l(\boldsymbol{\theta}) = \sum_i^n \log(f(y_i \vert \beta_0, \beta_1, \cdots, \be
 <h3>Ejemplo</h3>
 <p>Como ilustración vamos a usar los datos del ejemplo 3.1 del libro de <a href="https://www.amazon.com/Introduccion-analisis-regresion-lineal-Spanish/dp/9702403278">Montgomery, Peck and Vining (2003)</a>. En el ejemplo 3.1 los autores ajustaron un modelo de regresión lineal múltiple para explicar el <strong>Tiempo</strong> necesario para que un trabajador haga el mantenimiento y surta una máquina dispensadora de refrescos en función de las variables <strong>Número de Cajas</strong> y <strong>Distancia</strong>.</p>
 <p>Los datos del ejemplo están disponibles en el paquete <strong>MPV</strong> (por los apellidos de los autores). A continuación el código para cargar los datos y una muestra de las 6 primeras observaciones de la base de datos, en total se disponen de 20 observaciones.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">require</span>(MPV)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">colnames</span>(softdrink) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;tiempo&#39;</span>, <span class="st">&#39;cantidad&#39;</span>, <span class="st">&#39;distancia&#39;</span>)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">head</span>(softdrink)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="reg-lin.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(MPV)</span>
+<span id="cb5-2"><a href="reg-lin.html#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(softdrink) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;tiempo&#39;</span>, <span class="st">&#39;cantidad&#39;</span>, <span class="st">&#39;distancia&#39;</span>)</span>
+<span id="cb5-3"><a href="reg-lin.html#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(softdrink)</span></code></pre></div>
 <pre><code>##   tiempo cantidad distancia
 ## 1  16.68        7       560
 ## 2  11.50        3       220
@@ -242,29 +307,29 @@ l(\boldsymbol{\theta}) = \sum_i^n \log(f(y_i \vert \beta_0, \beta_1, \cdots, \be
 ## 5  13.75        6       150
 ## 6  18.11        7       330</code></pre>
 <p>Un gráfico en 3d es obligratorio para explorar la relación entre las variables, este diagrama de puede obtener usando el paquete <strong>scatterplot3d</strong>. A continuación el código para construirlo.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(scatterplot3d)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">attach</span>(softdrink)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">scatterplot3d</span>(<span class="dt">x=</span>cantidad, <span class="dt">y=</span>distancia, <span class="dt">z=</span>tiempo, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex.lab=</span><span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">              <span class="dt">highlight.3d=</span><span class="ot">TRUE</span>, <span class="dt">type=</span><span class="st">&quot;h&quot;</span>, <span class="dt">xlab=</span><span class="st">&#39;Cantidad de cajas&#39;</span>,</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">              <span class="dt">ylab=</span><span class="st">&#39;Distancia (pies)&#39;</span>, <span class="dt">zlab=</span><span class="st">&#39;Tiempo (min)&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="reg-lin.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scatterplot3d)</span>
+<span id="cb7-2"><a href="reg-lin.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(softdrink)</span>
+<span id="cb7-3"><a href="reg-lin.html#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">scatterplot3d</span>(<span class="at">x=</span>cantidad, <span class="at">y=</span>distancia, <span class="at">z=</span>tiempo, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">cex.lab=</span><span class="dv">1</span>,</span>
+<span id="cb7-4"><a href="reg-lin.html#cb7-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">highlight.3d=</span><span class="cn">TRUE</span>, <span class="at">type=</span><span class="st">&quot;h&quot;</span>, <span class="at">xlab=</span><span class="st">&#39;Cantidad de cajas&#39;</span>,</span>
+<span id="cb7-5"><a href="reg-lin.html#cb7-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">ylab=</span><span class="st">&#39;Distancia (pies)&#39;</span>, <span class="at">zlab=</span><span class="st">&#39;Tiempo (min)&#39;</span>)</span></code></pre></div>
 <p><img src="libro_mod_pred_files/figure-html/3d_refrescos_01-1.png" width="672" /></p>
 <p>De la figura anterior se ve claramente que a medida que aumenta el número de cajas y la distancia los tiempos tienden a ser mayores.</p>
 <p>A continuación se define la función de <strong>menos</strong> log-verosimilitud para el modelo anterior. A pesar de que nos interesa maximizar la función de log-verosimilitud hemos creado su negativo, esto porque la mayoría de las funciones de optimización minimizan y no maximizan; maximizar <span class="math inline">\(f(x)\)</span> es equivalente a minimizar <span class="math inline">\(-f(x)\)</span>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">minusll &lt;-<span class="st"> </span><span class="cf">function</span>(theta, y, x1, x2) {</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">  media &lt;-<span class="st"> </span>theta[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>theta[<span class="dv">2</span>] <span class="op">*</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>theta[<span class="dv">3</span>] <span class="op">*</span><span class="st"> </span>x2  <span class="co"># Se define la media</span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">  desvi &lt;-<span class="st"> </span>theta[<span class="dv">4</span>]                             <span class="co"># Se define la desviación.</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">  <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(<span class="kw">dnorm</span>(<span class="dt">x=</span>y, <span class="dt">mean=</span>media, <span class="dt">sd=</span>desvi, <span class="dt">log=</span><span class="ot">TRUE</span>))</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">}</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="reg-lin.html#cb8-1" aria-hidden="true" tabindex="-1"></a>minusll <span class="ot">&lt;-</span> <span class="cf">function</span>(theta, y, x1, x2) {</span>
+<span id="cb8-2"><a href="reg-lin.html#cb8-2" aria-hidden="true" tabindex="-1"></a>  media <span class="ot">&lt;-</span> theta[<span class="dv">1</span>] <span class="sc">+</span> theta[<span class="dv">2</span>] <span class="sc">*</span> x1 <span class="sc">+</span> theta[<span class="dv">3</span>] <span class="sc">*</span> x2  <span class="co"># Se define la media</span></span>
+<span id="cb8-3"><a href="reg-lin.html#cb8-3" aria-hidden="true" tabindex="-1"></a>  desvi <span class="ot">&lt;-</span> theta[<span class="dv">4</span>]                             <span class="co"># Se define la desviación.</span></span>
+<span id="cb8-4"><a href="reg-lin.html#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">dnorm</span>(<span class="at">x=</span>y, <span class="at">mean=</span>media, <span class="at">sd=</span>desvi, <span class="at">log=</span><span class="cn">TRUE</span>))</span>
+<span id="cb8-5"><a href="reg-lin.html#cb8-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Ahora vamos a usar la función <code>optim</code> para encontrar los valores que maximizan la función de log-verosimilitud, el código para hacer eso se muestra a continuación. En el parámetro <code>par</code> se coloca un vector de posibles valores de <span class="math inline">\(\boldsymbol{\Theta}\)</span> para iniciar la búsqueda, en <code>fn</code> se coloca la función de interés, en <code>lower</code> y <code>upper</code> se colocan vectores que indican los límites de búsqueda de cada parámetro, los <span class="math inline">\(\beta_k\)</span> pueden variar entre <span class="math inline">\(-\infty\)</span> y <span class="math inline">\(\infty\)</span> mientras que el parámetro <span class="math inline">\(\sigma\)</span> toma valores en el intervalo <span class="math inline">\((0, \infty)\)</span>. Como la función <code>minusll</code> tiene argumentos adicionales <code>y</code>, <code>x1</code> y <code>x2</code>, estos pasan a la función <code>optim</code> al final como se muestra en el código.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">mod1 &lt;-<span class="st"> </span><span class="kw">optim</span>(<span class="dt">par=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">fn=</span>minusll,</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">              <span class="dt">method=</span><span class="st">&#39;L-BFGS-B&#39;</span>,</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">              <span class="dt">lower=</span><span class="kw">c</span>(<span class="op">-</span><span class="ot">Inf</span>, <span class="op">-</span><span class="ot">Inf</span>, <span class="op">-</span><span class="ot">Inf</span>, <span class="dv">0</span>),</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">              <span class="dt">upper=</span><span class="kw">c</span>(<span class="ot">Inf</span>, <span class="ot">Inf</span>, <span class="ot">Inf</span>, <span class="ot">Inf</span>), </a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">              <span class="dt">y=</span>softdrink<span class="op">$</span>tiempo, </a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">              <span class="dt">x1=</span>softdrink<span class="op">$</span>cantidad, </a>
-<a class="sourceLine" id="cb5-7" data-line-number="7">              <span class="dt">x2=</span>softdrink<span class="op">$</span>distancia)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="reg-lin.html#cb9-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">optim</span>(<span class="at">par=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="at">fn=</span>minusll,</span>
+<span id="cb9-2"><a href="reg-lin.html#cb9-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">method=</span><span class="st">&#39;L-BFGS-B&#39;</span>,</span>
+<span id="cb9-3"><a href="reg-lin.html#cb9-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">lower=</span><span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="sc">-</span><span class="cn">Inf</span>, <span class="sc">-</span><span class="cn">Inf</span>, <span class="dv">0</span>),</span>
+<span id="cb9-4"><a href="reg-lin.html#cb9-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">upper=</span><span class="fu">c</span>(<span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="cn">Inf</span>, <span class="cn">Inf</span>), </span>
+<span id="cb9-5"><a href="reg-lin.html#cb9-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">y=</span>softdrink<span class="sc">$</span>tiempo, </span>
+<span id="cb9-6"><a href="reg-lin.html#cb9-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">x1=</span>softdrink<span class="sc">$</span>cantidad, </span>
+<span id="cb9-7"><a href="reg-lin.html#cb9-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">x2=</span>softdrink<span class="sc">$</span>distancia)</span></code></pre></div>
 <p>En el objeto <code>res1</code> está el resultado de la optimización, para explorar los resultados usamos</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">mod1</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="reg-lin.html#cb10-1" aria-hidden="true" tabindex="-1"></a>mod1</span></code></pre></div>
 <pre><code>## $par
 ## [1] 2.34103296 1.61590757 0.01438512 3.05769678
 ## 
@@ -282,8 +347,8 @@ l(\boldsymbol{\theta}) = \sum_i^n \log(f(y_i \vert \beta_0, \beta_1, \cdots, \be
 ## [1] &quot;CONVERGENCE: REL_REDUCTION_OF_F &lt;= FACTR*EPSMCH&quot;</code></pre>
 <p>De esta forma el vector de parámetros estimados del modelo es <span class="math inline">\(\hat{\boldsymbol{\theta}}=(2.34, 1.62, 0.01, 3.06)^\top\)</span>.</p>
 <p>Usualmente en la práctica se usa la función <code>lm</code> para estimar el vector de parámetros, a continuación el código necesario para usar la funcion <code>lm</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">mod2 &lt;-<span class="st"> </span><span class="kw">lm</span>(tiempo <span class="op">~</span><span class="st"> </span>cantidad <span class="op">+</span><span class="st"> </span>distancia, <span class="dt">data=</span>softdrink)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw">summary</span>(mod2)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="reg-lin.html#cb12-1" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(tiempo <span class="sc">~</span> cantidad <span class="sc">+</span> distancia, <span class="at">data=</span>softdrink)</span>
+<span id="cb12-2"><a href="reg-lin.html#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod2)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = tiempo ~ cantidad + distancia, data = softdrink)
@@ -345,6 +410,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -365,6 +431,10 @@ gitbook.start({
 "text": null
 },
 "download": null,
+"search": {
+"engine": "lunr",
+"options": null
+},
 "toc": {
 "collapse": "subsection"
 }
