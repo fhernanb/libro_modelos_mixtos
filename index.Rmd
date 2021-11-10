@@ -48,8 +48,6 @@ Este libro está destinado para usuarios de R interesados en aplicar modelos mix
 
 En el capítulo \@ref(reg-lin) se hace un repaso básico del modelo de regresión lineal clásico. En el capítulo \@ref(mod-mix) se presentan los modelos mixtos. En el capítulo \@ref(pac-lme4) se presenta el paquete `lme4` y sus principales funciones para modelación, mientras que en el capítulo \@ref(pac-nlme) se presenta el paquete `nlme` y sus principales funciones para modelación.
 
-
-
 ## Software y convenciones {-}
 
 Para realizar este libro usamos los paquetes **knitr**\index{knitr} [@xie2015] y **bookdown**\index{bookdown} [@R-bookdown] que permiten unir la ventajas de LaTeX y R en un mismo archivo.

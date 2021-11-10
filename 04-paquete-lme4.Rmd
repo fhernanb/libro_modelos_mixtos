@@ -116,9 +116,15 @@ Compare los resultados de la tabla anterior obtenida con la función `lmer` ante
 ## Ejemplo: recuperando los interceptos aleatorios {-}
 ¿Cómo se pueden obtener los interceptos aleatorios a partir del modelo ajustado en la sección anterior?
 
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
 ```{block2, type='rmdexercise'}
 Solución.
 ```
+
+</div>
 
 Para obtener los interceptos aleatorios se usa la función `ranef` del paquete **lme4** [@R-lme4]. A continuación vamos a obtener los interceptos aleatorios y los vamos a comparar con los $b_0$ simulados.
 
@@ -128,9 +134,15 @@ cbind(interceptos_aleatorios$grupo, b0=unique(b0))
 ```
 De la salida anterior vemos que los $\tilde{b}_0$ son cercanos a los valores reales de $b_0$. 
 
+<div style="-moz-box-shadow: 1px 1px 3px 2px #808080;
+  -webkit-box-shadow: 1px 1px 3px 2px #808080;
+  box-shadow:         1px 1px 3px 2px #808080;">
+
 ```{block2, type='rmdwarning'}
 La comparación anterior solo es posible cuando usamos datos simulados. Cuando se usan datos de un fenómeno real no se tienen los valores de $b_0$.
 ```
+
+</div>
 
 ## Función `glmer`
 La función `glmer` es la función del paquete [@R-lme4] para ajustar modelo lineales generalizados mixtos y su estructura es la siguiente:
@@ -160,11 +172,17 @@ b_{0} &\sim N(0, \sigma^2_{b0}=9) \\
 x_{ij} &\sim U(0, 1)
 \end{align*}
 
-El vector de parámetros de este modelo es $\boldsymbol{\Theta}=(\beta_0=2, \beta_1=-8, \phi=0.55, \sigma_{b0}=3)^\top$.
+El vector de parámetros de este modelo es $\boldsymbol{\Theta}=(\beta_0=2, \beta_1=-8, \phi=0.5, \sigma_{b0}=3)^\top$.
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
 
 ```{block2, type='rmdexercise'}
 Solución.
 ```
+
+</div>
 
 La función `rgamma_glm` que se muestra a continuación es una modificación de la función `rgamma` para tener la parametrización usada en los glm.
 
