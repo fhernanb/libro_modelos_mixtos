@@ -37,5 +37,5 @@ distribución-normal-de-los-residuos-mediante-inferencia-visual
 distribución-normal-de-los-residuos-mediante-prueba-de-hipótesis
 apli-nlme
 apli-lme4
-hola
 gráfica-marginal-del-modelo
+entrevista-con-jim-ware-y-nan-laird
