@@ -196,10 +196,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="2.1" data-path="lmm.html"><a href="lmm.html#entrevista-con-jim-ware-y-nan-laird"><i class="fa fa-check"></i><b>2.1</b> Entrevista con Jim Ware y Nan Laird</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>3</b> Modelos Lineales Mixtos</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="glmm.html"><a href="glmm.html#entrevista-con-jim-ware-y-nan-laird-1"><i class="fa fa-check"></i><b>3.1</b> Entrevista con Jim Ware y Nan Laird</a></li>
-</ul></li>
+<li class="chapter" data-level="3" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>3</b> Modelos Lineales Generalizados Mixtos</a></li>
 <li class="chapter" data-level="4" data-path="pac-lme4.html"><a href="pac-lme4.html"><i class="fa fa-check"></i><b>4</b> Paquete <strong>lme4</strong></a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="pac-lme4.html"><a href="pac-lme4.html#función-lmer"><i class="fa fa-check"></i><b>4.1</b> Función <code>lmer</code></a></li>
@@ -337,7 +334,7 @@ Solución.
 <span id="cb33-2"><a href="pac-nlme.html#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(x, y, <span class="at">color=</span>grupo) ) <span class="sc">+</span> </span>
 <span id="cb33-3"><a href="pac-nlme.html#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
 <span id="cb33-4"><a href="pac-nlme.html#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">colour=</span><span class="st">&quot;Grupo/Cluster&quot;</span>)</span></code></pre></div>
-<p><img src="libro_mod_pred_files/figure-html/plot_simul_b0_nlme-1.png" width="672" /></p>
+<p><img src="libro_mod_mixtos_files/figure-html/plot_simul_b0_nlme-1.png" width="672" /></p>
 <p>En la figura anterior se observa un patrón claro, todas las 10 nubes de puntos tienen la misma pendiente pero diferente intercepto con el eje vertical, eso se debe a que en la simulación se incluyó un <span class="math inline">\(b_0\)</span>.</p>
 <p>Para estimar los parámetros del modelos se usa la función <code>mler</code> de la siguiente forma.</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="pac-nlme.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>

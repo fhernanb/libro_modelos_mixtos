@@ -196,10 +196,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="2.1" data-path="lmm.html"><a href="lmm.html#entrevista-con-jim-ware-y-nan-laird"><i class="fa fa-check"></i><b>2.1</b> Entrevista con Jim Ware y Nan Laird</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>3</b> Modelos Lineales Mixtos</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="glmm.html"><a href="glmm.html#entrevista-con-jim-ware-y-nan-laird-1"><i class="fa fa-check"></i><b>3.1</b> Entrevista con Jim Ware y Nan Laird</a></li>
-</ul></li>
+<li class="chapter" data-level="3" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>3</b> Modelos Lineales Generalizados Mixtos</a></li>
 <li class="chapter" data-level="4" data-path="pac-lme4.html"><a href="pac-lme4.html"><i class="fa fa-check"></i><b>4</b> Paquete <strong>lme4</strong></a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="pac-lme4.html"><a href="pac-lme4.html#función-lmer"><i class="fa fa-check"></i><b>4.1</b> Función <code>lmer</code></a></li>
@@ -296,7 +293,7 @@ div.csl-indent {
 \end{align*}\]</span></p>
 <p>donde <span class="math inline">\(\hat{\mu}_{i}\)</span> es igual a <span class="math inline">\(x^{&#39;}_{i}\hat{\beta}\)</span>. A continuación, se presenta una representación gráfica de <span class="math inline">\(\hat{\epsilon}_{i}\)</span>:</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-81"></span>
-<img src="libro_mod_pred_files/figure-html/unnamed-chunk-81-1.png" alt="Representación gráfica de los residuos, del valor estimado y del valor observado." width="100%" />
+<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-81-1.png" alt="Representación gráfica de los residuos, del valor estimado y del valor observado." width="100%" />
 <p class="caption">
 Figure 9.1: Representación gráfica de los residuos, del valor estimado y del valor observado.
 </p>
@@ -423,7 +420,7 @@ Tenga en cuenta que se bien el modelo se ajusto con las 7185 valores observados,
 <pre><code>## Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =
 ## &quot;none&quot;)` instead.</code></pre>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-84"></span>
-<img src="libro_mod_pred_files/figure-html/unnamed-chunk-84-1.png" alt="Valores obserados y estimados en el rendimiento en una prueba matemática según el nivel socio-económico del estudiante." width="672" />
+<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-84-1.png" alt="Valores obserados y estimados en el rendimiento en una prueba matemática según el nivel socio-económico del estudiante." width="672" />
 <p class="caption">
 Figure 9.2: Valores obserados y estimados en el rendimiento en una prueba matemática según el nivel socio-económico del estudiante.
 </p>
@@ -494,7 +491,7 @@ Residuo ordinario
 <pre><code>## Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =
 ## &quot;none&quot;)` instead.</code></pre>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-85"></span>
-<img src="libro_mod_pred_files/figure-html/unnamed-chunk-85-1.png" alt=" Gráfica de residuos ordinarios vs Valores estimados." width="80%" />
+<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-85-1.png" alt=" Gráfica de residuos ordinarios vs Valores estimados." width="80%" />
 <p class="caption">
 Figure 9.3:  Gráfica de residuos ordinarios vs Valores estimados.
 </p>
@@ -518,13 +515,13 @@ Existe una gran variedad de gráficos (como la presentada anteriormente) lo que 
 <h3><span class="header-section-number">9.3.1</span> Ajustando el modelo</h3>
 <p>Vimos anteriormente en este capitulo que era posible determinar si el rendimiento de los estudiantes en una prueba de matemáticas (<code>mathach</code>) estaba relacionada con su nivel socio-económico (<code>ses</code>). Se considerará ahora la posibilidad de que la relación entre el rendimiento y el nivel socio-económico del estudiante varien según las características de la escuela, específicamente, si la escuela es una escuela pública o una escuela privada (<code>schtype</code>). Un buen punto de partida consiste es ver la relación entre el rendimiento y el nivel socio-económico por separado para cada escuela:</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-87"></span>
-<img src="libro_mod_pred_files/figure-html/unnamed-chunk-87-1.png" alt="Diagrama de dispersión del rendimiento matemático según el nivel socio-económico en escuelas públicas." width="80%" />
+<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-87-1.png" alt="Diagrama de dispersión del rendimiento matemático según el nivel socio-económico en escuelas públicas." width="80%" />
 <p class="caption">
 Figure 9.4: Diagrama de dispersión del rendimiento matemático según el nivel socio-económico en escuelas públicas.
 </p>
 </div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-88"></span>
-<img src="libro_mod_pred_files/figure-html/unnamed-chunk-88-1.png" alt="Diagrama de dispersión del rendimiento matemático según el nivel socio-económico en escuelas privadas." width="80%" />
+<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-88-1.png" alt="Diagrama de dispersión del rendimiento matemático según el nivel socio-económico en escuelas privadas." width="80%" />
 <p class="caption">
 Figure 9.5: Diagrama de dispersión del rendimiento matemático según el nivel socio-económico en escuelas privadas.
 </p>
@@ -556,7 +553,7 @@ N\left [ \left ( \begin{matrix}
 <span id="cb109-4"><a href="reg-diagnos.html#cb109-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">data =</span> hsb)</span></code></pre></div>
 <p>La siguiente figura, obtenida a partir del modelo anteriormente ajustado, pone de manifiesto la posibilidad real y plausible de que el intercepto y la pendiente varíen según las características de cada escuela (privada o pública):</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-89"></span>
-<img src="libro_mod_pred_files/figure-html/unnamed-chunk-89-1.png" alt="Grafica del modelo de regresión ajustado para dos escuelas." width="672" />
+<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-89-1.png" alt="Grafica del modelo de regresión ajustado para dos escuelas." width="672" />
 <p class="caption">
 Figure 9.6: Grafica del modelo de regresión ajustado para dos escuelas.
 </p>
@@ -567,7 +564,7 @@ Figure 9.6: Grafica del modelo de regresión ajustado para dos escuelas.
 <h3><span class="header-section-number">9.3.2</span> Varianza constante de los residuos mediante inferencia visual</h3>
 <p>Uno de los supuestos del modelo de regresión es la varianza constante de los residuos. Para comprobar dicho supuesto, se suele emplear la gráfica de residuos contra los valores estimados. La misma es considerada como la gráfica de diagnóstico más básica. A continuación podrá observar varios ejemplos de la misma:</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-90"></span>
-<img src="libro_mod_pred_files/figure-html/unnamed-chunk-90-1.png" alt="Representación visual de la gráfica de residuos contra los valores estimados." width="672" />
+<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-90-1.png" alt="Representación visual de la gráfica de residuos contra los valores estimados." width="672" />
 <p class="caption">
 Figure 9.7: Representación visual de la gráfica de residuos contra los valores estimados.
 </p>
@@ -575,7 +572,7 @@ Figure 9.7: Representación visual de la gráfica de residuos contra los valores
 <p>Si se cumple el supuesto de varianza constante de los residuos, estos se dispersarían de forma aleatoria alrededor de la línea central (como si se tratara de una nube de puntos) sin un patrón obvio, como se puede observar en la figura 6.7 <strong>A</strong>. La varianza no constante se diagnosticaría si la variabilidad de los residuos en el gráfico mostraran un patrón no aleatorio, como por ejemplo, si hubiera una curvatura presente (figura 6.7 <strong>B</strong>), o bien, si los residuos cambiaran de forma abrupta a medida que aumentan los valores estimados. Finalmente, un patrón inusual puede ser causado por un valor atípico. En el ejemplo visual anterior (figura 6.7 <strong>C</strong>), se muestra un valor atípico obvio.</p>
 <p>En el ejemplo planteado usando la base de datos <code>hsb</code>, esta gráfica se muestra en las figuras 6.8 <strong>A</strong> y 6.8 <strong>C</strong>, basados en dos tipos de residuos (ordinarios y pearson):</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-91"></span>
-<img src="libro_mod_pred_files/figure-html/unnamed-chunk-91-1.png" alt="Gráficos residuales para el modelo de efectos mixtos (a) entre los residuos ordinarios contra los valores estimados (b) residuos ordinarios en cada tipo de escuela (c) residuos pearson contra los valores estimados (d) residuos pearson en cada tipo de escuela." width="672" />
+<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-91-1.png" alt="Gráficos residuales para el modelo de efectos mixtos (a) entre los residuos ordinarios contra los valores estimados (b) residuos ordinarios en cada tipo de escuela (c) residuos pearson contra los valores estimados (d) residuos pearson en cada tipo de escuela." width="672" />
 <p class="caption">
 Figure 9.8: Gráficos residuales para el modelo de efectos mixtos (a) entre los residuos ordinarios contra los valores estimados (b) residuos ordinarios en cada tipo de escuela (c) residuos pearson contra los valores estimados (d) residuos pearson en cada tipo de escuela.
 </p>
@@ -712,7 +709,7 @@ Solución.
 <h3><span class="header-section-number">9.3.4</span> Distribución normal de los residuos mediante inferencia visual</h3>
 <p>Los análisis de normalidad, también denominados como contraste de normalidad, son otro tipo de supuesto del modelo de regresión. Al igual que el supuesto de varianza constante de los residuos, en el análisis de normalidad se suele emplear representaciones gráficas. Esta representación consiste en la gráfica de probabilidad normal de los residuos, también denominada como gráfico cuantil cuantil. A continuación podrá observar un ejemplo de dichas representaciones en el caso del cumplimiento o no del supuesto de normalidad:</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-94"></span>
-<img src="libro_mod_pred_files/figure-html/unnamed-chunk-94-1.png" alt="Ejemplo de distribución normal de los residuos y de aquellos residuos que no cumplen con este supuesto." width="100%" />
+<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-94-1.png" alt="Ejemplo de distribución normal de los residuos y de aquellos residuos que no cumplen con este supuesto." width="100%" />
 <p class="caption">
 Figure 9.9: Ejemplo de distribución normal de los residuos y de aquellos residuos que no cumplen con este supuesto.
 </p>
@@ -734,7 +731,7 @@ El gráfico cuantil cuantil tiene dos ejes, uno para los cuantiles que se genera
 </div>
 <p>En el ejemplo planteado usando la base de datos <code>hsb</code>, la gráfica de probabilidad normal de los residuos se muestra en la figura a continuación.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-96"></span>
-<img src="libro_mod_pred_files/figure-html/unnamed-chunk-96-1.png" alt="Gráfico cuantil cuantil para el modelo de efectos mixtos previamente ajustado." width="672" />
+<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-96-1.png" alt="Gráfico cuantil cuantil para el modelo de efectos mixtos previamente ajustado." width="672" />
 <p class="caption">
 Figure 9.10: Gráfico cuantil cuantil para el modelo de efectos mixtos previamente ajustado.
 </p>
@@ -750,7 +747,7 @@ Figure 9.10: Gráfico cuantil cuantil para el modelo de efectos mixtos previamen
 <h3>Ejemplo</h3>
 <p>En algunos casos es deseable identificar la distribución que siguen los datos en lugar de identificar la distribución que no siguen. Aswath Damodaran en el documento <a href="http://people.stern.nyu.edu/adamodar/pdfiles/papers/probabilistic.pdf">probabilistic approaches: scenario analysis, decision trees and simulation</a> discute las características clave de las distribuciones más comunes, y en una de las figuras presentadas en dicho documento proporciona un diagrama de árbol para elegir una distribución. Un ejemplo del mismo (para datos continuos) se presenta a continuación:</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-97"></span>
-<img src="libro_mod_pred_files/figure-html/unnamed-chunk-97-1.png" alt="Diagrama de árbol para elegir el tipo de distribución de los datos, adaptado de Aswath Damodaran." width="672" />
+<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-97-1.png" alt="Diagrama de árbol para elegir el tipo de distribución de los datos, adaptado de Aswath Damodaran." width="672" />
 <p class="caption">
 Figure 9.11: Diagrama de árbol para elegir el tipo de distribución de los datos, adaptado de Aswath Damodaran.
 </p>
@@ -773,7 +770,7 @@ Solución.
 <span id="cb113-7"><a href="reg-diagnos.html#cb113-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
 <span id="cb113-8"><a href="reg-diagnos.html#cb113-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-99"></span>
-<img src="libro_mod_pred_files/figure-html/unnamed-chunk-99-1.png" alt="." width="672" />
+<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-99-1.png" alt="." width="672" />
 <p class="caption">
 Figure 9.12: .
 </p>

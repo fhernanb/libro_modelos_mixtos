@@ -196,10 +196,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="2.1" data-path="lmm.html"><a href="lmm.html#entrevista-con-jim-ware-y-nan-laird"><i class="fa fa-check"></i><b>2.1</b> Entrevista con Jim Ware y Nan Laird</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>3</b> Modelos Lineales Mixtos</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="glmm.html"><a href="glmm.html#entrevista-con-jim-ware-y-nan-laird-1"><i class="fa fa-check"></i><b>3.1</b> Entrevista con Jim Ware y Nan Laird</a></li>
-</ul></li>
+<li class="chapter" data-level="3" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>3</b> Modelos Lineales Generalizados Mixtos</a></li>
 <li class="chapter" data-level="4" data-path="pac-lme4.html"><a href="pac-lme4.html"><i class="fa fa-check"></i><b>4</b> Paquete <strong>lme4</strong></a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="pac-lme4.html"><a href="pac-lme4.html#función-lmer"><i class="fa fa-check"></i><b>4.1</b> Función <code>lmer</code></a></li>
@@ -339,7 +336,7 @@ Solución.
 <span id="cb17-2"><a href="pac-lme4.html#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(x, y, <span class="at">color=</span>grupo) ) <span class="sc">+</span> </span>
 <span id="cb17-3"><a href="pac-lme4.html#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
 <span id="cb17-4"><a href="pac-lme4.html#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">colour=</span><span class="st">&quot;Grupo/Cluster&quot;</span>)</span></code></pre></div>
-<p><img src="libro_mod_pred_files/figure-html/plot_simul_b0_lme4-1.png" width="672" /></p>
+<p><img src="libro_mod_mixtos_files/figure-html/plot_simul_b0_lme4-1.png" width="672" /></p>
 <p>En la figura anterior se observa un patrón claro, todas las 10 nubes de puntos tienen la misma pendiente pero diferente intercepto con el eje vertical, eso se debe a que en la simulación se incluyó un <span class="math inline">\(b_0\)</span>.</p>
 <p>Para estimar los parámetros del modelos se usa la función <code>mler</code> de la siguiente forma.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="pac-lme4.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
@@ -460,7 +457,7 @@ Solución.
 <span id="cb26-2"><a href="pac-lme4.html#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(x, y, <span class="at">color=</span>grupo) ) <span class="sc">+</span> </span>
 <span id="cb26-3"><a href="pac-lme4.html#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
 <span id="cb26-4"><a href="pac-lme4.html#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">colour=</span><span class="st">&quot;Grupo/Cluster&quot;</span>)</span></code></pre></div>
-<p><img src="libro_mod_pred_files/figure-html/plot_simul_b0_gamma-1.png" width="672" /></p>
+<p><img src="libro_mod_mixtos_files/figure-html/plot_simul_b0_gamma-1.png" width="672" /></p>
 <p>Para estimar los parámetros del modelos se usa la función <code>glmer</code> de la siguiente forma.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="pac-lme4.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
 <span id="cb27-2"><a href="pac-lme4.html#cb27-2" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(y <span class="sc">~</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> grupo), <span class="at">family=</span><span class="fu">Gamma</span>(<span class="at">link=</span><span class="st">&quot;log&quot;</span>), <span class="at">data =</span> datos)</span></code></pre></div>

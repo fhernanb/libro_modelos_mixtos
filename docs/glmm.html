@@ -193,13 +193,25 @@ div.csl-indent {
 <div id="glmm" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Modelos Lineales Generalizados Mixtos</h1>
 <p>Los modelos lineales generalizados mixtos fueron propuestos por <span class="citation">(<a href="#ref-breslow_clayton_93" role="doc-biblioref">Breslow and Clayton 1993</a>)</span> y en ellos se asume que existe una relación entre el vector de observaciones <span class="math inline">\(\boldsymbol{Y}_i\)</span> del sujeto o grupo <span class="math inline">\(i\)</span> y las covariables por medio de la siguiente expresión</p>
-<p><span class="math display">\[\begin{equation}
-\begin{aligned} \label{glmm1}
-\boldsymbol{Y}_i \mid \boldsymbol{b}_i &amp;\sim \mathcal{EF}(\boldsymbol{X}_i \boldsymbol{\beta} + \boldsymbol{Z}_i \boldsymbol{b}_i, \phi), \\
+<p><span class="math display" id="eq:glmm1">\[\begin{equation}
+\begin{aligned}
+\boldsymbol{Y}_i \mid \boldsymbol{b}_i &amp;\sim \mathcal{F}(\boldsymbol{X}_i \boldsymbol{\beta} + \boldsymbol{Z}_i \boldsymbol{b}_i, \phi), \\
 \boldsymbol{b}_i &amp;\sim \mathcal{N}(\boldsymbol{0}, \boldsymbol{D}),
 \end{aligned}
+\tag{3.1}
 \end{equation}\]</span></p>
-<p>donde <span class="math inline">\(\mathcal{EF}\)</span> corresponde a una distribución de la familia exponencial que incluye las distribuciones normal, Poisson, binomial negativa, gamma e inversa gaussiana.</p>
+<p>donde <span class="math inline">\(\mathcal{F}\)</span> corresponde a una distribución de la familia exponencial que incluye las distribuciones normal, Poisson, binomial negativa, gamma e inversa gaussiana.</p>
+<p>Las matrices <span class="math inline">\(\boldsymbol{X}_i\)</span> y <span class="math inline">\(\boldsymbol{Z}_i\)</span> son matrices de diseño conocidas con la información de las covariables, siendo <span class="math inline">\(\boldsymbol{X}_i\)</span> de dimensión <span class="math inline">\(n_i \times p\)</span> y <span class="math inline">\(\boldsymbol{Z}_i\)</span> de dimensión <span class="math inline">\(n_i \times q\)</span>. El elemento <span class="math inline">\(\boldsymbol{\beta}\)</span> representa el vector de efectos fijos general, <span class="math inline">\(\boldsymbol{b}_i\)</span> el vector de efectos aleatorios exclusivo para el grupo <span class="math inline">\(i\)</span>.</p>
+<p>El vector <span class="math inline">\(\boldsymbol{b}_i\)</span> en la expresión <a href="glmm.html#eq:glmm1">(3.1)</a> es llamado efecto aleatorio porque éste cambia la media de sujeto a sujeto y su función es la de mejorar el ajuste general dado por el elemento <span class="math inline">\(\boldsymbol{X}_i \boldsymbol{\beta}\)</span> al agregar la cantidad <span class="math inline">\(\boldsymbol{Z}_i \boldsymbol{b}_i\)</span>. El modelo dado en la expresión <a href="glmm.html#eq:glmm1">(3.1)</a> es llamado también modelo mixto porque involucra tanto efectos fijos (<span class="math inline">\(\boldsymbol{\beta}\)</span>) como efectos aleatorios (<span class="math inline">\(\boldsymbol{b}_i\)</span>).</p>
+<p>La distribución marginal de <span class="math inline">\(\boldsymbol{Y}_i\)</span> está dada por</p>
+<p><span class="math display">\[\begin{equation}
+f_i(\boldsymbol{Y}_i) = \int f(\boldsymbol{Y}_i | \boldsymbol{b}_i) f(\boldsymbol{b}_i) \, d \boldsymbol{b}_i
+\end{equation}\]</span></p>
+<p>donde <span class="math inline">\(f(\boldsymbol{Y}_i | \boldsymbol{b}_i)\)</span> corresponde a la densidad normal, Poisson, binomial negativa, gamma o inversa gaussina y <span class="math inline">\(f(\boldsymbol{b}_i)\)</span> corresponde a la distribución normal bivariada mostrada en <a href="glmm.html#eq:glmm1">(3.1)</a>.</p>
+<p>La función de verosimilitud para el vector de parámetros <span class="math inline">\(\boldsymbol{\Theta}=(\boldsymbol{\beta}, \phi, \boldsymbol{D})^\top\)</span> se puede escribir como</p>
+<p><span class="math display">\[
+L(\boldsymbol{\Theta}) = \prod_{i=1}^{n} \int f(\boldsymbol{Y}_i | \boldsymbol{b}_i) f(\boldsymbol{b}_i) \, d \boldsymbol{b}_i .
+\]</span></p>
 
 </div>
 <h3>References</h3>

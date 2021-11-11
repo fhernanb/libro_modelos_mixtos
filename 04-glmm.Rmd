@@ -2,11 +2,30 @@
 Los modelos lineales generalizados mixtos fueron propuestos por [@breslow_clayton_93] y en ellos se asume que existe una relación entre el vector de observaciones $\boldsymbol{Y}_i$ del sujeto o grupo $i$ y las covariables por medio de la siguiente expresión 
 
 \begin{equation}
-\begin{aligned} \label{glmm1}
-\boldsymbol{Y}_i \mid \boldsymbol{b}_i &\sim \mathcal{EF}(\boldsymbol{X}_i \boldsymbol{\beta} + \boldsymbol{Z}_i \boldsymbol{b}_i, \phi), \\
+\begin{aligned}
+\boldsymbol{Y}_i \mid \boldsymbol{b}_i &\sim \mathcal{F}(\boldsymbol{X}_i \boldsymbol{\beta} + \boldsymbol{Z}_i \boldsymbol{b}_i, \phi), \\
 \boldsymbol{b}_i &\sim \mathcal{N}(\boldsymbol{0}, \boldsymbol{D}),
 \end{aligned}
+(\#eq:glmm1)
 \end{equation}
 
-donde $\mathcal{EF}$ corresponde a una distribución de la familia exponencial que incluye las distribuciones normal, Poisson, binomial negativa, gamma e inversa gaussiana.
+donde $\mathcal{F}$ corresponde a una distribución de la familia exponencial que incluye las distribuciones normal, Poisson, binomial negativa, gamma e inversa gaussiana.
+
+Las matrices $\boldsymbol{X}_i$ y $\boldsymbol{Z}_i$ son matrices de diseño conocidas con la información de las covariables, siendo $\boldsymbol{X}_i$ de dimensión $n_i \times p$ y $\boldsymbol{Z}_i$ de dimensión $n_i \times q$. El elemento $\boldsymbol{\beta}$ representa el vector de efectos fijos general, $\boldsymbol{b}_i$ el vector de efectos aleatorios exclusivo para el grupo $i$.
+
+El vector $\boldsymbol{b}_i$ en la expresión \@ref(eq:glmm1) es llamado efecto aleatorio porque éste cambia la media de sujeto a sujeto y su función es la de mejorar el ajuste general dado por el elemento $\boldsymbol{X}_i \boldsymbol{\beta}$ al agregar la cantidad $\boldsymbol{Z}_i \boldsymbol{b}_i$. El modelo dado en la expresión \@ref(eq:glmm1) es llamado también modelo mixto porque involucra tanto efectos fijos ($\boldsymbol{\beta}$) como efectos aleatorios ($\boldsymbol{b}_i$).
+
+La distribución marginal de $\boldsymbol{Y}_i$ está dada por
+
+\begin{equation}
+f_i(\boldsymbol{Y}_i) = \int f(\boldsymbol{Y}_i | \boldsymbol{b}_i) f(\boldsymbol{b}_i) \, d \boldsymbol{b}_i
+\end{equation}
+
+donde $f(\boldsymbol{Y}_i | \boldsymbol{b}_i)$ corresponde a la densidad normal, Poisson, binomial negativa, gamma o inversa gaussina y $f(\boldsymbol{b}_i)$ corresponde a la distribución normal bivariada mostrada en \@ref(eq:glmm1).
+
+La función de verosimilitud para el vector de parámetros $\boldsymbol{\Theta}=(\boldsymbol{\beta}, \phi, \boldsymbol{D})^\top$ se puede escribir como
+
+$$
+L(\boldsymbol{\Theta}) = \prod_{i=1}^{n} \int f(\boldsymbol{Y}_i | \boldsymbol{b}_i) f(\boldsymbol{b}_i) \, d \boldsymbol{b}_i .
+$$
 

@@ -196,10 +196,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="2.1" data-path="lmm.html"><a href="lmm.html#entrevista-con-jim-ware-y-nan-laird"><i class="fa fa-check"></i><b>2.1</b> Entrevista con Jim Ware y Nan Laird</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>3</b> Modelos Lineales Mixtos</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="glmm.html"><a href="glmm.html#entrevista-con-jim-ware-y-nan-laird-1"><i class="fa fa-check"></i><b>3.1</b> Entrevista con Jim Ware y Nan Laird</a></li>
-</ul></li>
+<li class="chapter" data-level="3" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>3</b> Modelos Lineales Generalizados Mixtos</a></li>
 <li class="chapter" data-level="4" data-path="pac-lme4.html"><a href="pac-lme4.html"><i class="fa fa-check"></i><b>4</b> Paquete <strong>lme4</strong></a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="pac-lme4.html"><a href="pac-lme4.html#función-lmer"><i class="fa fa-check"></i><b>4.1</b> Función <code>lmer</code></a></li>
@@ -318,7 +315,7 @@ l(\boldsymbol{\theta}) = \sum_i^n \log(f(y_i \vert \beta_0, \beta_1, \cdots, \be
 <span id="cb7-3"><a href="reg-lin.html#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">scatterplot3d</span>(<span class="at">x=</span>cantidad, <span class="at">y=</span>distancia, <span class="at">z=</span>tiempo, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">cex.lab=</span><span class="dv">1</span>,</span>
 <span id="cb7-4"><a href="reg-lin.html#cb7-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">highlight.3d=</span><span class="cn">TRUE</span>, <span class="at">type=</span><span class="st">&quot;h&quot;</span>, <span class="at">xlab=</span><span class="st">&#39;Cantidad de cajas&#39;</span>,</span>
 <span id="cb7-5"><a href="reg-lin.html#cb7-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">ylab=</span><span class="st">&#39;Distancia (pies)&#39;</span>, <span class="at">zlab=</span><span class="st">&#39;Tiempo (min)&#39;</span>)</span></code></pre></div>
-<p><img src="libro_mod_pred_files/figure-html/3d_refrescos_01-1.png" width="672" /></p>
+<p><img src="libro_mod_mixtos_files/figure-html/3d_refrescos_01-1.png" width="672" /></p>
 <p>De la figura anterior se ve claramente que a medida que aumenta el número de cajas y la distancia los tiempos tienden a ser mayores.</p>
 <p>A continuación se define la función de <strong>menos</strong> log-verosimilitud para el modelo anterior. A pesar de que nos interesa maximizar la función de log-verosimilitud hemos creado su negativo, esto porque la mayoría de las funciones de optimización minimizan y no maximizan; maximizar <span class="math inline">\(f(x)\)</span> es equivalente a minimizar <span class="math inline">\(-f(x)\)</span>.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="reg-lin.html#cb8-1" aria-hidden="true" tabindex="-1"></a>minusll <span class="ot">&lt;-</span> <span class="cf">function</span>(theta, y, x1, x2) {</span>

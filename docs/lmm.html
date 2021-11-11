@@ -196,10 +196,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="2.1" data-path="lmm.html"><a href="lmm.html#entrevista-con-jim-ware-y-nan-laird"><i class="fa fa-check"></i><b>2.1</b> Entrevista con Jim Ware y Nan Laird</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>3</b> Modelos Lineales Mixtos</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="glmm.html"><a href="glmm.html#entrevista-con-jim-ware-y-nan-laird-1"><i class="fa fa-check"></i><b>3.1</b> Entrevista con Jim Ware y Nan Laird</a></li>
-</ul></li>
+<li class="chapter" data-level="3" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>3</b> Modelos Lineales Generalizados Mixtos</a></li>
 <li class="chapter" data-level="4" data-path="pac-lme4.html"><a href="pac-lme4.html"><i class="fa fa-check"></i><b>4</b> Paquete <strong>lme4</strong></a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="pac-lme4.html"><a href="pac-lme4.html#función-lmer"><i class="fa fa-check"></i><b>4.1</b> Función <code>lmer</code></a></li>
@@ -276,20 +273,21 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="lmm" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Modelos Lineales Mixtos</h1>
-<p>Los modelos mixtos fueron propuestos por <span class="citation">(<a href="#ref-LairdWare82" role="doc-biblioref">Laird and Ware 1982</a>)</span> y en ellos se asume que existe una relación entre el vector de observaciones <span class="math inline">\(\boldsymbol{Y}_i\)</span> del sujeto o grupo <span class="math inline">\(i\)</span> y las covariables por medio de la siguiente expresión</p>
-<p><span class="math display">\[\begin{equation}
-\begin{aligned} \label{mixedmodel1}
+<p>Los modelos lineales mixtos fueron propuestos por <span class="citation">(<a href="#ref-LairdWare82" role="doc-biblioref">Laird and Ware 1982</a>)</span> y en ellos se asume que existe una relación entre el vector de observaciones <span class="math inline">\(\boldsymbol{Y}_i\)</span> del sujeto o grupo <span class="math inline">\(i\)</span> y las covariables por medio de la siguiente expresión</p>
+<p><span class="math display" id="eq:lmm1">\[\begin{equation}
+\begin{aligned}
 \boldsymbol{Y}_i \mid \boldsymbol{b}_i &amp;\sim \mathcal{N}(\boldsymbol{X}_i \boldsymbol{\beta} + \boldsymbol{Z}_i \boldsymbol{b}_i, \boldsymbol{\Sigma}_i), \\
 \boldsymbol{b}_i &amp;\sim \mathcal{N}(\boldsymbol{0}, \boldsymbol{D}),
 \end{aligned}
+\tag{2.1}
 \end{equation}\]</span></p>
-<p>donde <span class="math inline">\(\boldsymbol{X}_i\)</span> y <span class="math inline">\(\boldsymbol{Z}_i\)</span> son matrices de diseño conocidas con la información de las covariables, siendo <span class="math inline">\(\boldsymbol{X}_i\)</span> de dimensión <span class="math inline">\(n_i \times p\)</span> y <span class="math inline">\(\boldsymbol{Z}_i\)</span> de dimensión <span class="math inline">\(n_i \times q\)</span>. El elemento <span class="math inline">\(\boldsymbol{\beta}\)</span> representa el vector de efectos fijos general, <span class="math inline">\(\boldsymbol{b}_i\)</span> el vector de efectos aleatorios exclusivos para el grupo <span class="math inline">\(i\)</span> y las matrices.</p>
-<p>El vector <span class="math inline">\(\boldsymbol{b}_i\)</span> en la expresión  es llamado efecto aleatorio porque éste cambia la media de sujeto a sujeto y su función es la de mejorar el ajuste general dado por el elemento <span class="math inline">\(\boldsymbol{X}_i \boldsymbol{\beta}\)</span> al agregar la cantidad <span class="math inline">\(\boldsymbol{Z}_i \boldsymbol{b}_i\)</span>. El modelo dado en la expresión  es llamado también modelo mixto porque involucra tanto efectos fijos (<span class="math inline">\(\boldsymbol{\beta}\)</span>) como efectos aleatorios (<span class="math inline">\(\boldsymbol{b}_i\)</span>).</p>
+<p>donde <span class="math inline">\(\boldsymbol{X}_i\)</span> y <span class="math inline">\(\boldsymbol{Z}_i\)</span> son matrices de diseño conocidas con la información de las covariables, siendo <span class="math inline">\(\boldsymbol{X}_i\)</span> de dimensión <span class="math inline">\(n_i \times p\)</span> y <span class="math inline">\(\boldsymbol{Z}_i\)</span> de dimensión <span class="math inline">\(n_i \times q\)</span>. El elemento <span class="math inline">\(\boldsymbol{\beta}\)</span> representa el vector de efectos fijos general, <span class="math inline">\(\boldsymbol{b}_i\)</span> el vector de efectos aleatorios exclusivo para el grupo <span class="math inline">\(i\)</span>.</p>
+<p>El vector <span class="math inline">\(\boldsymbol{b}_i\)</span> en la expresión <a href="lmm.html#eq:lmm1">(2.1)</a> es llamado efecto aleatorio porque éste cambia la media de sujeto a sujeto y su función es la de mejorar el ajuste general dado por el elemento <span class="math inline">\(\boldsymbol{X}_i \boldsymbol{\beta}\)</span> al agregar la cantidad <span class="math inline">\(\boldsymbol{Z}_i \boldsymbol{b}_i\)</span>. El modelo dado en la expresión <a href="lmm.html#eq:lmm1">(2.1)</a> es llamado también modelo mixto porque involucra tanto efectos fijos (<span class="math inline">\(\boldsymbol{\beta}\)</span>) como efectos aleatorios (<span class="math inline">\(\boldsymbol{b}_i\)</span>).</p>
 <p>La distribución marginal de <span class="math inline">\(\boldsymbol{Y}_i\)</span> está dada por</p>
 <p><span class="math display">\[\begin{equation}
 f_i(\boldsymbol{Y}_i) = \int f(\boldsymbol{Y}_i | \boldsymbol{b}_i) f(\boldsymbol{b}_i) \, d \boldsymbol{b}_i
 \end{equation}\]</span></p>
-<p>donde <span class="math inline">\(f(\boldsymbol{Y}_i | \boldsymbol{b}_i)\)</span> y <span class="math inline">\(f(\boldsymbol{b}_i)\)</span> corresponden a las densidades normales mostradas en la expresión . Esta distribución marginal tiene forma cerrada y se puede mostrar fácilmente que la distribución de <span class="math inline">\(\boldsymbol{Y}_i\)</span> es una normal multivariada con vector de medias y matriz de covarianzas como se muestra a continuación.</p>
+<p>donde <span class="math inline">\(f(\boldsymbol{Y}_i | \boldsymbol{b}_i)\)</span> y <span class="math inline">\(f(\boldsymbol{b}_i)\)</span> corresponden a las densidades normales mostradas en la expresión <a href="lmm.html#eq:lmm1">(2.1)</a>. Esta distribución marginal tiene forma cerrada y se puede mostrar fácilmente que la distribución de <span class="math inline">\(\boldsymbol{Y}_i\)</span> es una normal multivariada con vector de medias y matriz de covarianzas como se muestra a continuación.</p>
 <p><span class="math display">\[\begin{equation}
 \boldsymbol{Y}_i \sim \mathcal{N}(\boldsymbol{X}_i \boldsymbol{\beta}, \boldsymbol{V}_i),
 \end{equation}\]</span></p>

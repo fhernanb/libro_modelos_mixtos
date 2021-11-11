@@ -196,10 +196,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="2.1" data-path="lmm.html"><a href="lmm.html#entrevista-con-jim-ware-y-nan-laird"><i class="fa fa-check"></i><b>2.1</b> Entrevista con Jim Ware y Nan Laird</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>3</b> Modelos Lineales Mixtos</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="glmm.html"><a href="glmm.html#entrevista-con-jim-ware-y-nan-laird-1"><i class="fa fa-check"></i><b>3.1</b> Entrevista con Jim Ware y Nan Laird</a></li>
-</ul></li>
+<li class="chapter" data-level="3" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>3</b> Modelos Lineales Generalizados Mixtos</a></li>
 <li class="chapter" data-level="4" data-path="pac-lme4.html"><a href="pac-lme4.html"><i class="fa fa-check"></i><b>4</b> Paquete <strong>lme4</strong></a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="pac-lme4.html"><a href="pac-lme4.html#función-lmer"><i class="fa fa-check"></i><b>4.1</b> Función <code>lmer</code></a></li>
@@ -291,7 +288,7 @@ div.csl-indent {
 ## 6       1  0.2466  150.2        6</code></pre>
 <p>Esta base de datos sobre crecimiento contiene la información sobre altura (<code>heigth</code>), edad estandarizada (<code>age</code>) de un grupo de 26 jóvenes. Como la base de datos <code>Oxboys</code> es de la clase groupedData, es posible aplicar un <code>plot</code> directamente y el resultado se muestra continuación.</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="apli-nlme.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Oxboys)</span></code></pre></div>
-<p><img src="libro_mod_pred_files/figure-html/plot_oxboys_nlme-1.png" width="672" /></p>
+<p><img src="libro_mod_mixtos_files/figure-html/plot_oxboys_nlme-1.png" width="672" /></p>
 <div style="-moz-box-shadow: 1px 1px 3px 2px #00ffff;
   -webkit-box-shadow: 1px 1px 3px 2px #00ffff;
   box-shadow:         1px 1px 3px 2px #00ffff;">
@@ -455,7 +452,7 @@ Height_{i=10, j} &amp;\sim  N(\hat{\mu}_{i=10, j}, \hat{\sigma}^2_{Height}) \\
 <span id="cb48-8"><a href="apli-nlme.html#cb48-8" aria-hidden="true" tabindex="-1"></a>         <span class="fu">panel.lines</span>(x, ypred, <span class="at">col=</span><span class="st">&quot;deepskyblue3&quot;</span>, <span class="at">lwd=</span><span class="dv">1</span>)</span>
 <span id="cb48-9"><a href="apli-nlme.html#cb48-9" aria-hidden="true" tabindex="-1"></a>       },</span>
 <span id="cb48-10"><a href="apli-nlme.html#cb48-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">ylab=</span><span class="st">&quot;Height (cm)&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Centered age&quot;</span>)</span></code></pre></div>
-<p><img src="libro_mod_pred_files/figure-html/evol_fit_nlme-1.png" width="672" /></p>
+<p><img src="libro_mod_mixtos_files/figure-html/evol_fit_nlme-1.png" width="672" /></p>
 <p>En la figura anterior se tienen las observaciones (crecimiento) representado por los puntos rojos, adicionalmente, aparece una recta de color azul que representa la recta de regresión para cada individuo. De la figura se observa que la linea logra explicar la evolución del crecimiento para cada individuo.</p>
 <div id="ejercicios" class="section level2 unnumbered">
 <h2>Ejercicios</h2>

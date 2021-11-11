@@ -196,10 +196,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="2.1" data-path="lmm.html"><a href="lmm.html#entrevista-con-jim-ware-y-nan-laird"><i class="fa fa-check"></i><b>2.1</b> Entrevista con Jim Ware y Nan Laird</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>3</b> Modelos Lineales Mixtos</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="glmm.html"><a href="glmm.html#entrevista-con-jim-ware-y-nan-laird-1"><i class="fa fa-check"></i><b>3.1</b> Entrevista con Jim Ware y Nan Laird</a></li>
-</ul></li>
+<li class="chapter" data-level="3" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>3</b> Modelos Lineales Generalizados Mixtos</a></li>
 <li class="chapter" data-level="4" data-path="pac-lme4.html"><a href="pac-lme4.html"><i class="fa fa-check"></i><b>4</b> Paquete <strong>lme4</strong></a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="pac-lme4.html"><a href="pac-lme4.html#función-lmer"><i class="fa fa-check"></i><b>4.1</b> Función <code>lmer</code></a></li>
@@ -309,7 +306,7 @@ t = \frac{\hat{\beta}_k - \beta_{k0}}{se(\hat{\beta}_k)},
 <span id="cb62-3"><a href="ph.html#cb62-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb62-4"><a href="ph.html#cb62-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb62-5"><a href="ph.html#cb62-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Chick)</span></code></pre></div>
-<p><img src="libro_mod_pred_files/figure-html/plot_ChickWeight-1.png" width="960" /></p>
+<p><img src="libro_mod_mixtos_files/figure-html/plot_ChickWeight-1.png" width="960" /></p>
 <p>El objetivo es comparar los siguientes dos modelos.</p>
 <p>Modelo 1</p>
 <p><span class="math display">\[\begin{align*} 
@@ -367,7 +364,7 @@ Solución.
 <span id="cb72-5"><a href="ph.html#cb72-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb72-6"><a href="ph.html#cb72-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb72-7"><a href="ph.html#cb72-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Subject)</span></code></pre></div>
-<p><img src="libro_mod_pred_files/figure-html/plot_Orthodont-1.png" width="768" /></p>
+<p><img src="libro_mod_mixtos_files/figure-html/plot_Orthodont-1.png" width="768" /></p>
 <p>El objetivo es comparar los siguientes dos modelos.</p>
 <p>Modelo 1</p>
 <p><span class="math display">\[\begin{align*} 
@@ -582,7 +579,7 @@ Solución.
 <span id="cb96-16"><a href="ph.html#cb96-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Dibujando la densidad de los <code>lrt</code>.</p>
 <div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="ph.html#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(lrts), <span class="at">main=</span><span class="st">&#39;Densidad empírica de los lrts&#39;</span>)</span></code></pre></div>
-<p><img src="libro_mod_pred_files/figure-html/dist_empirica_lrts-1.png" width="672" /></p>
+<p><img src="libro_mod_mixtos_files/figure-html/dist_empirica_lrts-1.png" width="672" /></p>
 <p>Calculando el valor-P.</p>
 <div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="ph.html#cb98-1" aria-hidden="true" tabindex="-1"></a>acumulada <span class="ot">&lt;-</span> <span class="fu">ecdf</span>(<span class="at">x=</span>lrts) <span class="co"># F(x) para los valores LRT</span></span>
 <span id="cb98-2"><a href="ph.html#cb98-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">acumulada</span>(<span class="fl">3.04712</span>)    <span class="co"># Valor-P</span></span></code></pre></div>

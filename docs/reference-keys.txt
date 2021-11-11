@@ -1,3 +1,5 @@
+eq:lmm1
+eq:glmm1
 fig:unnamed-chunk-81
 fig:unnamed-chunk-84
 fig:unnamed-chunk-85
@@ -16,7 +18,6 @@ verosimilitud-del-modelo
 lmm
 entrevista-con-jim-ware-y-nan-laird
 glmm
-entrevista-con-jim-ware-y-nan-laird-1
 pac-lme4
 función-lmer
 función-glmer

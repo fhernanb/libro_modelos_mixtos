@@ -196,10 +196,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="2.1" data-path="lmm.html"><a href="lmm.html#entrevista-con-jim-ware-y-nan-laird"><i class="fa fa-check"></i><b>2.1</b> Entrevista con Jim Ware y Nan Laird</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>3</b> Modelos Lineales Mixtos</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="glmm.html"><a href="glmm.html#entrevista-con-jim-ware-y-nan-laird-1"><i class="fa fa-check"></i><b>3.1</b> Entrevista con Jim Ware y Nan Laird</a></li>
-</ul></li>
+<li class="chapter" data-level="3" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>3</b> Modelos Lineales Generalizados Mixtos</a></li>
 <li class="chapter" data-level="4" data-path="pac-lme4.html"><a href="pac-lme4.html"><i class="fa fa-check"></i><b>4</b> Paquete <strong>lme4</strong></a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="pac-lme4.html"><a href="pac-lme4.html#función-lmer"><i class="fa fa-check"></i><b>4.1</b> Función <code>lmer</code></a></li>
@@ -296,7 +293,7 @@ div.csl-indent {
 <span id="cb51-5"><a href="apli-lme4.html#cb51-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb51-6"><a href="apli-lme4.html#cb51-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Subject) <span class="sc">+</span> </span>
 <span id="cb51-7"><a href="apli-lme4.html#cb51-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="libro_mod_pred_files/figure-html/plot_sleepstudy_lme4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="libro_mod_mixtos_files/figure-html/plot_sleepstudy_lme4-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>De la figura anterior vemos que el tiempo de reacción promedio, tanto en el día 0 como en los siguientes días de prueba (del día 1 al día 9), son distintos en cada uno de los individuos. Esta situación conlleva a probar la hipótesis de que el tiempo de reacción promedio en una serie de pruebas varía según los individuos. Esto es, ajustar un modelo donde el intercepto y la pendiente se consideran como efectos aleatorios.</p>
 <p>Un modelo lineal mixto que describe la anterior situación se puede escribir como:</p>
 <p><span class="math display">\[\begin{align*} 
@@ -509,10 +506,10 @@ Reaction_{i=308, j} &amp;\sim  N(\hat{\mu}_{i=308, j}, \hat{\sigma}^2_{Reaction}
 <span id="cb61-8"><a href="apli-lme4.html#cb61-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb61-9"><a href="apli-lme4.html#cb61-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Subject) <span class="sc">+</span> </span>
 <span id="cb61-10"><a href="apli-lme4.html#cb61-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="libro_mod_pred_files/figure-html/Gráfico con recta de regresión-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="libro_mod_mixtos_files/figure-html/Gráfico con recta de regresión-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>La figura anterior corresponde a un modelo de intercepto y pendiente aleatoria, en el que se permite que tanto los interceptos como las pendientes varíen según los individuos. Las líneas continuas corresponde a la recta de regresión ajustada a los datos. Los puntos representan las observaciones (tiempo de reacción promedio por día) medidas en cada uno de los individuos. La línea negra discontinua representa el valor medio global de la distribución de los efectos aleatorios.</p>
 <p>A continuación podra observar distintas figuras donde se ajustaron cuatro modelos distintos, entre ellos el modelo mixto con intercepto y pendiente aleatoria ya evaluado aquí (Figura 4). Con base en estas figuras, se plantean los ejercicios posteriores a las mismas figuras:</p>
-<p><img src="libro_mod_pred_files/figure-html/Graficos%20de%20los%20distintos%20modelo-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="libro_mod_mixtos_files/figure-html/Graficos%20de%20los%20distintos%20modelo-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div id="ejercicios-1" class="section level2 unnumbered">
 <h2>Ejercicios</h2>
 <ol style="list-style-type: decimal">
