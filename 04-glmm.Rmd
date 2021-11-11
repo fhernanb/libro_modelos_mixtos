@@ -1,0 +1,12 @@
+# Modelos Lineales Generalizados Mixtos {#glmm}
+Los modelos lineales generalizados mixtos fueron propuestos por [@breslow_clayton_93] y en ellos se asume que existe una relación entre el vector de observaciones $\boldsymbol{Y}_i$ del sujeto o grupo $i$ y las covariables por medio de la siguiente expresión 
+
+\begin{equation}
+\begin{aligned} \label{glmm1}
+\boldsymbol{Y}_i \mid \boldsymbol{b}_i &\sim \mathcal{EF}(\boldsymbol{X}_i \boldsymbol{\beta} + \boldsymbol{Z}_i \boldsymbol{b}_i, \phi), \\
+\boldsymbol{b}_i &\sim \mathcal{N}(\boldsymbol{0}, \boldsymbol{D}),
+\end{aligned}
+\end{equation}
+
+donde $\mathcal{EF}$ corresponde a una distribución de la familia exponencial que incluye las distribuciones normal, Poisson, binomial negativa, gamma e inversa gaussiana.
+

@@ -1,5 +1,5 @@
-# Modelos Lineales Mixtos {#mod-mix}
-Los modelos mixtos fueron propuestos por [@LairdWare82] y en ellos se asume que existe una relación entre el vector de observaciones $\boldsymbol{Y}_i$ del sujeto o grupo $i$ y las covariables por medio de la siguiente expresión 
+# Modelos Lineales Mixtos {#lmm}
+Los modelos lineales mixtos fueron propuestos por [@LairdWare82] y en ellos se asume que existe una relación entre el vector de observaciones $\boldsymbol{Y}_i$ del sujeto o grupo $i$ y las covariables por medio de la siguiente expresión 
 
 \begin{equation}
 \begin{aligned} \label{mixedmodel1}

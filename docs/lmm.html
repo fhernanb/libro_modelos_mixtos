@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>6 Aplicación con nlme | Modelos Mixtos con R</title>
+  <title>2 Modelos Lineales Mixtos | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para ….." />
   <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="6 Aplicación con nlme | Modelos Mixtos con R" />
+  <meta property="og:title" content="2 Modelos Lineales Mixtos | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:image" content="/images/cover.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="fhernanb/libro_mod_pred" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="6 Aplicación con nlme | Modelos Mixtos con R" />
+  <meta name="twitter:title" content="2 Modelos Lineales Mixtos | Modelos Mixtos con R" />
   
   <meta name="twitter:description" content="Este libro es para ….." />
   <meta name="twitter:image" content="/images/cover.png" />
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="pac-nlme.html"/>
-<link rel="next" href="apli-lme4.html"/>
+<link rel="prev" href="reg-lin.html"/>
+<link rel="next" href="glmm.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -274,198 +274,37 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="apli-nlme" class="section level1" number="6">
-<h1><span class="header-section-number">6</span> Aplicación con <code>nlme</code></h1>
-<p>En este capítulo se mostrará como usar el paquete <code>nlme</code> para la aplicación de modelos mixtos con la base de datos <code>Oxboys</code> del mismo paquete.</p>
-<p><img src="images/crecimiento_chicos.png" width="80%" style="display: block; margin: auto;" /></p>
-<p>A continuación la base de datos a utilizar.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="apli-nlme.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb36-2"><a href="apli-nlme.html#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Oxboys)</span></code></pre></div>
-<pre><code>## Grouped Data: height ~ age | Subject
-##   Subject     age height Occasion
-## 1       1 -1.0000  140.5        1
-## 2       1 -0.7479  143.4        2
-## 3       1 -0.4630  144.8        3
-## 4       1 -0.1643  147.1        4
-## 5       1 -0.0027  147.7        5
-## 6       1  0.2466  150.2        6</code></pre>
-<p>Esta base de datos sobre crecimiento contiene la información sobre altura (<code>heigth</code>), edad estandarizada (<code>age</code>) de un grupo de 26 jóvenes. Como la base de datos <code>Oxboys</code> es de la clase groupedData, es posible aplicar un <code>plot</code> directamente y el resultado se muestra continuación.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="apli-nlme.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Oxboys)</span></code></pre></div>
-<p><img src="libro_mod_pred_files/figure-html/plot_oxboys_nlme-1.png" width="672" /></p>
-<div style="-moz-box-shadow: 1px 1px 3px 2px #00ffff;
-  -webkit-box-shadow: 1px 1px 3px 2px #00ffff;
-  box-shadow:         1px 1px 3px 2px #00ffff;">
+<div id="lmm" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Modelos Lineales Mixtos</h1>
+<p>Los modelos mixtos fueron propuestos por <span class="citation">(<a href="#ref-LairdWare82" role="doc-biblioref">Laird and Ware 1982</a>)</span> y en ellos se asume que existe una relación entre el vector de observaciones <span class="math inline">\(\boldsymbol{Y}_i\)</span> del sujeto o grupo <span class="math inline">\(i\)</span> y las covariables por medio de la siguiente expresión</p>
+<p><span class="math display">\[\begin{equation}
+\begin{aligned} \label{mixedmodel1}
+\boldsymbol{Y}_i \mid \boldsymbol{b}_i &amp;\sim \mathcal{N}(\boldsymbol{X}_i \boldsymbol{\beta} + \boldsymbol{Z}_i \boldsymbol{b}_i, \boldsymbol{\Sigma}_i), \\
+\boldsymbol{b}_i &amp;\sim \mathcal{N}(\boldsymbol{0}, \boldsymbol{D}),
+\end{aligned}
+\end{equation}\]</span></p>
+<p>donde <span class="math inline">\(\boldsymbol{X}_i\)</span> y <span class="math inline">\(\boldsymbol{Z}_i\)</span> son matrices de diseño conocidas con la información de las covariables, siendo <span class="math inline">\(\boldsymbol{X}_i\)</span> de dimensión <span class="math inline">\(n_i \times p\)</span> y <span class="math inline">\(\boldsymbol{Z}_i\)</span> de dimensión <span class="math inline">\(n_i \times q\)</span>. El elemento <span class="math inline">\(\boldsymbol{\beta}\)</span> representa el vector de efectos fijos general, <span class="math inline">\(\boldsymbol{b}_i\)</span> el vector de efectos aleatorios exclusivos para el grupo <span class="math inline">\(i\)</span> y las matrices.</p>
+<p>El vector <span class="math inline">\(\boldsymbol{b}_i\)</span> en la expresión  es llamado efecto aleatorio porque éste cambia la media de sujeto a sujeto y su función es la de mejorar el ajuste general dado por el elemento <span class="math inline">\(\boldsymbol{X}_i \boldsymbol{\beta}\)</span> al agregar la cantidad <span class="math inline">\(\boldsymbol{Z}_i \boldsymbol{b}_i\)</span>. El modelo dado en la expresión  es llamado también modelo mixto porque involucra tanto efectos fijos (<span class="math inline">\(\boldsymbol{\beta}\)</span>) como efectos aleatorios (<span class="math inline">\(\boldsymbol{b}_i\)</span>).</p>
+<p>La distribución marginal de <span class="math inline">\(\boldsymbol{Y}_i\)</span> está dada por</p>
+<p><span class="math display">\[\begin{equation}
+f_i(\boldsymbol{Y}_i) = \int f(\boldsymbol{Y}_i | \boldsymbol{b}_i) f(\boldsymbol{b}_i) \, d \boldsymbol{b}_i
+\end{equation}\]</span></p>
+<p>donde <span class="math inline">\(f(\boldsymbol{Y}_i | \boldsymbol{b}_i)\)</span> y <span class="math inline">\(f(\boldsymbol{b}_i)\)</span> corresponden a las densidades normales mostradas en la expresión . Esta distribución marginal tiene forma cerrada y se puede mostrar fácilmente que la distribución de <span class="math inline">\(\boldsymbol{Y}_i\)</span> es una normal multivariada con vector de medias y matriz de covarianzas como se muestra a continuación.</p>
+<p><span class="math display">\[\begin{equation}
+\boldsymbol{Y}_i \sim \mathcal{N}(\boldsymbol{X}_i \boldsymbol{\beta}, \boldsymbol{V}_i),
+\end{equation}\]</span></p>
+<p>donde <span class="math inline">\(\boldsymbol{V}_i=\boldsymbol{Z}_i \boldsymbol{D} \boldsymbol{Z}_i^\top + \boldsymbol{\Sigma}_i\)</span>. El vector de parámetros en este caso es <span class="math inline">\(\boldsymbol{\theta}=(\boldsymbol{\beta}, \boldsymbol{\alpha})^\top\)</span> donde <span class="math inline">\(\boldsymbol{\alpha}\)</span> consiste de los <span class="math inline">\(q(q+1)/2\)</span> elementos diferentes de la matriz <span class="math inline">\(\boldsymbol{D}\)</span> y todos los elementos de la matriz <span class="math inline">\(\boldsymbol{\Sigma}_i\)</span>.</p>
+<div id="entrevista-con-jim-ware-y-nan-laird" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Entrevista con Jim Ware y Nan Laird</h2>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dUphXonH8do" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
 
-<div class="rmdtip">
-Es posible convertir un data.frame para que tenga la clase groupedData, consulte la ayuda de la función <code>groupedData</code> del paquete <code>nlme</code> para más detalles.
 </div>
 </div>
-<p>De la figura anterior vemos que las curvas de crecimiento inician a diferente altura (intercepto) y que la pendiente del crecimiento no son todas iguales, por ejemplo, el individuo 21 creció más rápido que el individuo 3. Esto nos hace pensar que un modelo con intercepto y pendiente aleatoria podrían ser adecuados para modelar el crecimiento.</p>
-<p>En las siguientes ecuaciones se resume el modelo matemático que interesa en esta situación.</p>
-<p><span class="math display">\[\begin{align*} 
-Height_{ij} &amp;\sim  N(\mu_{ij}, \sigma^2_{Heigth}) \\ 
-\mu_{ij} &amp;= \beta_0 + \beta_1 Age_{ij} + b_{0i} + b_{1i} Age_{ij} \\
-\left (
-\begin{matrix}
-b_{0} \\ b_{1}
-\end{matrix} 
-\right ) &amp;\sim 
-N\left ( \left ( \begin{matrix}
-0 \\ 0
-\end{matrix} \right ),
-\left ( \begin{matrix}
-\sigma^2_{b0} &amp; \sigma_{b01} \\ 
-\sigma_{b01} &amp; \sigma^2_{b1}
-\end{matrix} \right )
-\right )
-\end{align*}\]</span></p>
-<p>El vector de parámetros para este modelo sería <span class="math inline">\(\boldsymbol{\Theta}=(\beta_0, \beta_1, \sigma_{height}, \sigma_{b0}, \sigma_{b1}, \sigma_{b0b1})^\top\)</span>.</p>
-<p>Para ajustar este modelo a los datos con el paquete <code>nlme</code> podemos usar el siguiente código.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="apli-nlme.html#cb39-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lme</span>(height <span class="sc">~</span> age, <span class="at">random=</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> age <span class="sc">|</span> Subject, <span class="at">data=</span>Oxboys, <span class="at">method=</span><span class="st">&quot;REML&quot;</span>)</span></code></pre></div>
-<p>Para obtener la tabla de resumen usamos:</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="apli-nlme.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div>
-<pre><code>## Linear mixed-effects model fit by REML
-##   Data: Oxboys 
-##       AIC      BIC    logLik
-##   736.091 756.7714 -362.0455
-## 
-## Random effects:
-##  Formula: ~1 + age | Subject
-##  Structure: General positive-definite, Log-Cholesky parametrization
-##             StdDev   Corr  
-## (Intercept) 8.081077 (Intr)
-## age         1.680717 0.641 
-## Residual    0.659889       
-## 
-## Fixed effects:  height ~ age 
-##                 Value Std.Error  DF  t-value p-value
-## (Intercept) 149.37175 1.5854173 207 94.21605       0
-## age           6.52547 0.3363003 207 19.40370       0
-##  Correlation: 
-##     (Intr)
-## age 0.628 
-## 
-## Standardized Within-Group Residuals:
-##         Min          Q1         Med          Q3         Max 
-## -2.65092109 -0.57493341 -0.02842894  0.59604254  2.60496077 
-## 
-## Number of Observations: 234
-## Number of Groups: 26</code></pre>
-<p>De la salida anterior se obtiene que <span class="math inline">\(\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=149.37, \hat{\beta}_1=6.53, \hat{\sigma}_{height}=0.66, \hat{\sigma}_{b0}=8.08, \hat{\sigma}_{b1}=1.68, \hat{\sigma}_{b0b1}=8.71)^\top\)</span>. La estimación <span class="math inline">\(\hat{\sigma}_{b0b1}\)</span> no aparece directamente en el summary pero se obtiene utilizando la ecuación <span class="math inline">\(Cor=Cov/(\sigma_1 \sigma_2)\)</span> que relaciona <a href="https://en.wikipedia.org/wiki/Correlation_and_dependence">correlación</a>, covarianza y desviaciones de los efectos aleatorios.</p>
-<p>Usando la información anterior se puede escribir el modelo ajustado de la siguiente manera.</p>
-<p><span class="math display">\[\begin{align*} 
-Height_{ij} &amp;\sim  N(\hat{\mu}_{ij}, 0.66^2) \\ 
-\hat{\mu}_{ij} &amp;= 149.37 + 6.53 Age_{ij} + b_{0i} + b_{1i} Age_{ij} \\
-\left (
-\begin{matrix}
-b_{0} \\ b_{1}
-\end{matrix} 
-\right ) &amp;\sim 
-N\left ( \left ( \begin{matrix}
-0 \\ 0
-\end{matrix} \right ),
-\left ( \begin{matrix}
-8.08^2 &amp; 8.71 \\ 
-8.71 &amp; 1.68^2
-\end{matrix} \right )
-\right ).
-\end{align*}\]</span></p>
-<p>Los elementos <span class="math inline">\(b_{0i}\)</span> y <span class="math inline">\(b_{1i}\)</span> se deben substituir por sus respectivas predicciones <span class="math inline">\(\tilde{b}_{0i}\)</span> y <span class="math inline">\(\tilde{b}_{1i}\)</span> y se pueden obtener del modelo ajustado así:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="apli-nlme.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ranef</span>(fit)</span></code></pre></div>
-<pre><code>##    (Intercept)         age
-## 10 -19.0972476 -2.78657472
-## 26 -11.3675996 -0.97474075
-## 25 -10.1595528 -2.42702035
-## 9  -11.2213331 -0.58069044
-## 2   -6.5096277 -1.07136271
-## 6   -2.5902388 -2.41771656
-## 7   -3.2473132 -1.46379286
-## 17  -6.3744842  1.89443713
-## 16  -1.8344703 -1.86707015
-## 15  -5.0856366  0.51526141
-## 8   -1.0776201 -0.06615528
-## 20   2.0850836 -1.99239802
-## 1   -1.2464285  0.59919226
-## 18   1.8031920 -0.51486646
-## 5    2.0531168 -0.24308081
-## 23   1.6937341  0.63140824
-## 11   0.6839704  1.85733185
-## 21   1.1525543  0.91894343
-## 3    6.2613001 -1.58181075
-## 24   3.7645669  0.25652772
-## 22   5.1957592  1.50551719
-## 12   7.4308033  0.52297645
-## 13   6.7004368  1.89758007
-## 14  10.0986013  2.09367207
-## 19  15.1957040  2.50720025
-## 4   15.6927297  2.78723179</code></pre>
-<p>Los valores de los efectos fijos estimados se pueden obtener así:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="apli-nlme.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(fit)</span></code></pre></div>
-<pre><code>## (Intercept)         age 
-##  149.371753    6.525469</code></pre>
-<p>Usando la información de los efectos fijo y aleatorios obtenidos antes, es posible escribir la ecuación del modelo para cada individuo. Los efectos fijos estimados fueron <span class="math inline">\(\hat{\beta}_0 \approx 149.37\)</span> y <span class="math inline">\(\hat{\beta}_1\approx 6.53\)</span>. Para el sujeto # 10 se obtuvo <span class="math inline">\(\tilde{b}_{0, i=10} \approx -19.10\)</span> y <span class="math inline">\(\tilde{b}_{1, i=10} \approx -2.79\)</span>, así la media del individuo # 10 se calcula así:</p>
-<p><span class="math display">\[\begin{align*} 
-\hat{\mu}_{i=10, j} &amp;= \hat{\beta}_0 + \hat{\beta}_0 \, Age_{i=10, j} + \tilde{b}_{0, i=10} + \tilde{b}_{1, i=10} \, Age_{i=10, j} \\
-\hat{\mu}_{i=10, j} &amp;= 149.37 + 6.53 \, Age_{i=10, j} - 19.10 - 2.79 \, Age_{i=10, j} \\
-\hat{\mu}_{i=10, j} &amp;= 130.27 + 3.74 \, Age_{i=10, j}
-\end{align*}\]</span></p>
-<p>Lo anterior se puede resumir en el siguiente modelo.</p>
-<p><span class="math display">\[\begin{align*} 
-Height_{i=10, j} &amp;\sim  N(\hat{\mu}_{i=10, j}, \hat{\sigma}^2_{Height}) \\ 
-\hat{\mu}_{i=10, j} &amp;= 130.27 + 3.74 \, Age_{i=10, j} \\
-\hat{\sigma}_{Height} &amp;= 0.66
-\end{align*}\]</span></p>
-<p>La expresión anterior para cada individuo con los efectos finales (fijos y aleatorios) se puede obtener con R así:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="apli-nlme.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fit)</span></code></pre></div>
-<pre><code>##    (Intercept)      age
-## 10    130.2745 3.738894
-## 26    138.0042 5.550728
-## 25    139.2122 4.098448
-## 9     138.1504 5.944778
-## 2     142.8621 5.454106
-## 6     146.7815 4.107752
-## 7     146.1244 5.061676
-## 17    142.9973 8.419906
-## 16    147.5373 4.658399
-## 15    144.2861 7.040730
-## 8     148.2941 6.459313
-## 20    151.4568 4.533071
-## 1     148.1253 7.124661
-## 18    151.1749 6.010602
-## 5     151.4249 6.282388
-## 23    151.0655 7.156877
-## 11    150.0557 8.382801
-## 21    150.5243 7.444412
-## 3     155.6331 4.943658
-## 24    153.1363 6.781996
-## 22    154.5675 8.030986
-## 12    156.8026 7.048445
-## 13    156.0722 8.423049
-## 14    159.4704 8.619141
-## 19    164.5675 9.032669
-## 4     165.0645 9.312700</code></pre>
-<p>En la presente aplicación es posible incluir la recta de regresión para cada individuo al diagrama de dispersión original. El código de R para obtener esto es el siguiente.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="apli-nlme.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lattice)</span>
-<span id="cb48-2"><a href="apli-nlme.html#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xyplot</span>(height <span class="sc">~</span> age <span class="sc">|</span> Subject, <span class="at">data=</span>Oxboys, <span class="at">fit=</span>fit,</span>
-<span id="cb48-3"><a href="apli-nlme.html#cb48-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">strip=</span><span class="fu">strip.custom</span>(<span class="at">bg=</span><span class="st">&quot;white&quot;</span>), </span>
-<span id="cb48-4"><a href="apli-nlme.html#cb48-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch=</span><span class="dv">16</span>, <span class="at">cex=</span><span class="fl">0.7</span>, <span class="at">col=</span><span class="st">&#39;indianred1&#39;</span>,</span>
-<span id="cb48-5"><a href="apli-nlme.html#cb48-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">panel =</span> <span class="cf">function</span>(x, y, ..., fit, subscripts) {</span>
-<span id="cb48-6"><a href="apli-nlme.html#cb48-6" aria-hidden="true" tabindex="-1"></a>         <span class="fu">panel.xyplot</span>(x, y, ...)</span>
-<span id="cb48-7"><a href="apli-nlme.html#cb48-7" aria-hidden="true" tabindex="-1"></a>         ypred <span class="ot">&lt;-</span> <span class="fu">fitted</span>(fit)[subscripts]</span>
-<span id="cb48-8"><a href="apli-nlme.html#cb48-8" aria-hidden="true" tabindex="-1"></a>         <span class="fu">panel.lines</span>(x, ypred, <span class="at">col=</span><span class="st">&quot;deepskyblue3&quot;</span>, <span class="at">lwd=</span><span class="dv">1</span>)</span>
-<span id="cb48-9"><a href="apli-nlme.html#cb48-9" aria-hidden="true" tabindex="-1"></a>       },</span>
-<span id="cb48-10"><a href="apli-nlme.html#cb48-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">ylab=</span><span class="st">&quot;Height (cm)&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Centered age&quot;</span>)</span></code></pre></div>
-<p><img src="libro_mod_pred_files/figure-html/evol_fit_nlme-1.png" width="672" /></p>
-<p>En la figura anterior se tienen las observaciones (crecimiento) representado por los puntos rojos, adicionalmente, aparece una recta de color azul que representa la recta de regresión para cada individuo. De la figura se observa que la linea logra explicar la evolución del crecimiento para cada individuo.</p>
-<div id="ejercicios" class="section level2 unnumbered">
-<h2>Ejercicios</h2>
-<ol style="list-style-type: decimal">
-<li><p>Repita el ejercicio anterior considerando un modelo sólo con intercepto aleatorio. Dibuje las rectas de regresión para cada individuo. ¿Qué opina de este modelo?</p></li>
-<li><p>Repita el ejercicio anterior considerando un modelo sólo con pendiente aleatoria. Dibuje las rectas de regresión para cada individuo. ¿Qué opina de este modelo?</p></li>
-<li><p>Estime la estatura para el individuo # 3 cuando su edad centrada sea de 1.1.</p></li>
-<li><p>Replique los ejemplo <a href="https://socialsciences.mcmaster.ca/jfox/Books/Companion-1E/appendix-mixed-models.pdf">de este documento</a>.</p></li>
-</ol>
-
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-LairdWare82" class="csl-entry">
+Laird, Nan M., and James H. Ware. 1982. <span>“Random-Effects Models for Longitudinal Data.”</span> <em>Biometrics</em> 38 (4): 963–74. <a href="http://www.jstor.org/stable/2529876">http://www.jstor.org/stable/2529876</a>.
 </div>
 </div>
             </section>
@@ -473,8 +312,8 @@ Height_{i=10, j} &amp;\sim  N(\hat{\mu}_{i=10, j}, \hat{\sigma}^2_{Height}) \\
           </div>
         </div>
       </div>
-<a href="pac-nlme.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="apli-lme4.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="reg-lin.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="glmm.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -506,7 +345,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/11-apli-nlme.Rmd",
+"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/03-lmm.Rmd",
 "text": "Edit"
 },
 "history": {
