@@ -41,4 +41,3 @@ varianza-constante-de-los-residuos-mediante-inferencia-visual
 varianza-constante-de-los-residuos-mediante-prueba-de-hipótesis
 distribución-normal-de-los-residuos-mediante-inferencia-visual
 distribución-normal-de-los-residuos-mediante-prueba-de-hipótesis
-gráfica-marginal-del-modelo

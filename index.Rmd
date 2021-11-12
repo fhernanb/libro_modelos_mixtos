@@ -10,7 +10,7 @@ biblio-style: apalike
 link-citations: yes
 cover-image: images/cover.png
 github-repo: fhernanb/libro_mod_pred
-description: "Este libro es para ....."
+description: "Este libro es para los estudiantes interesados en usar Modelos Mixtos."
 ---
 
 # Bienvenido {-}

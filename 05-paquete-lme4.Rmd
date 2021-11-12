@@ -24,7 +24,7 @@ knitr::include_graphics("images/tabla2_viñeta2_paq_lmer.png")
 ```
 
 ## Ejemplo: modelo normal con intercepto aleatorio {-}
-En este ejemplo vamos a simular observaciones $ni=50$ observaciones para $G=10$ grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `lmer` para estimar los parámetros del modelo.
+En este ejemplo vamos a simular observaciones $n_i=50$ observaciones para $G=10$ grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `lmer` para estimar los parámetros del modelo.
 
 \begin{align*} 
 y_{ij} &\sim  N(\mu_{ij}, \sigma^2_y) \\ 
@@ -56,10 +56,11 @@ grupo <- factor(rep(x=1:G, each=ni))
 obs <- rep(x=1:ni, times=G)
 set.seed(1234567)
 x <- runif(n=nobs, min=-5, max=6)
+set.seed(1234567)
 b0 <- rnorm(n=G, mean=0, sd=sqrt(625)) # Intercepto aleatorio
 b0 <- rep(x=b0, each=ni)               # El mismo intercepto aleatorio pero repetido
 media <- 4 - 6 * x + b0
-set.seed(123456)
+set.seed(1234567)
 y <- rnorm(n=nobs, mean=media, sd=sqrt(16))
 datos <- data.frame(obs, grupo, b0, x, media, y)
 ```
@@ -99,7 +100,7 @@ summary(fit1)
 knitr::include_graphics("images/summary_fit_lmer.png")
 ```
 
-Según el resultado anterior $\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=3.53363, \hat{\beta}_1=-5.97805, \hat{\sigma}_y=4.012, \hat{\sigma}_{bo}=21.507)^\top$ mientras que el vector real de parámetros es $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma_y=4, \sigma_{b0}=25)^\top$.
+Según el resultado anterior $\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=2.2378, \hat{\beta}_1=-6.0264, \hat{\sigma}_y=3.9352, \hat{\sigma}_{b0}=25.369)^\top$ mientras que el vector real de parámetros es $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma_y=4, \sigma_{b0}=25)^\top$.
 
 <div style="-moz-box-shadow: 1px 1px 3px 2px #00ffff;
   -webkit-box-shadow: 1px 1px 3px 2px #00ffff;
@@ -162,7 +163,7 @@ Los principales argumentos de la función son:
 - `family`: argumento para seleccionar la distribución de la variable respuesta. Para más detalles de las distribuciones y funciones de enlace se recomienda ver la ayuda de la función `family` escribiendo esto en la consola `?family`. 
 
 ## Ejemplo: modelo gamma con intercepto aleatorio {-}
-En este ejemplo vamos a simular observaciones $ni=20$ observaciones para $G=10$ grupos (en total 200 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `glmer` para estimar los parámetros del modelo.
+En este ejemplo vamos a simular observaciones $n_i=20$ observaciones para $G=10$ grupos (en total 200 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `glmer` para estimar los parámetros del modelo.
 
 \begin{align*} 
 y_{ij} &\sim  Gamma(\mu_{ij}, \phi) \\ 
@@ -203,6 +204,7 @@ grupo <- factor(rep(x=1:G, each=ni))
 obs <- rep(x=1:ni, times=G)
 set.seed(123456)
 x <- runif(n=nobs, min=0, max=1)
+set.seed(123456)
 b0 <- rnorm(n=G, mean=0, sd=sqrt(9)) # Intercepto aleatorio
 b0 <- rep(x=b0, each=ni)             # El mismo intercepto aleatorio pero repetido
 media <- exp(2 - 8 * x + b0)
