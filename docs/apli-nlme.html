@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>7 Aplicación con nlme | Modelos Mixtos con R</title>
+  <title>8 Aplicación con nlme | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="7 Aplicación con nlme | Modelos Mixtos con R" />
+  <meta property="og:title" content="8 Aplicación con nlme | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:image" content="/images/cover.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="fhernanb/libro_mod_pred" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="7 Aplicación con nlme | Modelos Mixtos con R" />
+  <meta name="twitter:title" content="8 Aplicación con nlme | Modelos Mixtos con R" />
   
   <meta name="twitter:description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="twitter:image" content="/images/cover.png" />
@@ -25,14 +25,14 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2021-11-18" />
+<meta name="date" content="2021-12-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="pac-nlme.html"/>
+<link rel="prev" href="estim.html"/>
 <link rel="next" href="apli-lme4.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -211,46 +211,54 @@ div.csl-indent {
 <li class="chapter" data-level="6.1" data-path="pac-nlme.html"><a href="pac-nlme.html#función-lme"><i class="fa fa-check"></i><b>6.1</b> Función <code>lme</code></a></li>
 <li class="chapter" data-level="" data-path="pac-nlme.html"><a href="pac-nlme.html#ejemplo-modelo-normal-con-intercepto-aleatorio-1"><i class="fa fa-check"></i>Ejemplo: modelo normal con intercepto aleatorio</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="apli-nlme.html"><a href="apli-nlme.html"><i class="fa fa-check"></i><b>7</b> Aplicación con <code>nlme</code></a>
+<li class="chapter" data-level="7" data-path="estim.html"><a href="estim.html"><i class="fa fa-check"></i><b>7</b> Métodos de estimación</a>
 <ul>
-<li class="chapter" data-level="" data-path="apli-nlme.html"><a href="apli-nlme.html#ejercicios"><i class="fa fa-check"></i>Ejercicios</a></li>
+<li class="chapter" data-level="7.1" data-path="estim.html"><a href="estim.html#ml-y-reml"><i class="fa fa-check"></i><b>7.1</b> ML y REML</a></li>
+<li><a href="estim.html#ejemplo-comparando-reml-y-ml-usando-lme4">Ejemplo: comparando REML y ML usando <strong>lme4</strong></a></li>
+<li><a href="estim.html#ejemplo-comparando-reml-y-ml-usando-nlme">Ejemplo: comparando REML y ML usando <strong>nlme</strong></a></li>
+<li class="chapter" data-level="" data-path="estim.html"><a href="estim.html#ejercicios"><i class="fa fa-check"></i>Ejercicios</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="apli-lme4.html"><a href="apli-lme4.html"><i class="fa fa-check"></i><b>8</b> Aplicación con <code>lme4</code></a>
+<li class="chapter" data-level="8" data-path="apli-nlme.html"><a href="apli-nlme.html"><i class="fa fa-check"></i><b>8</b> Aplicación con <code>nlme</code></a>
 <ul>
-<li class="chapter" data-level="" data-path="apli-lme4.html"><a href="apli-lme4.html#ejercicios-1"><i class="fa fa-check"></i>Ejercicios</a></li>
+<li class="chapter" data-level="" data-path="apli-nlme.html"><a href="apli-nlme.html#ejercicios-1"><i class="fa fa-check"></i>Ejercicios</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="ph.html"><a href="ph.html"><i class="fa fa-check"></i><b>9</b> Pruebas de hipótesis</a>
+<li class="chapter" data-level="9" data-path="apli-lme4.html"><a href="apli-lme4.html"><i class="fa fa-check"></i><b>9</b> Aplicación con <code>lme4</code></a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="ph.html"><a href="ph.html#prueba-razón-de-verosimilitud"><i class="fa fa-check"></i><b>9.1</b> Prueba razón de verosimilitud</a></li>
-<li class="chapter" data-level="9.2" data-path="ph.html"><a href="ph.html#prueba-de-wald"><i class="fa fa-check"></i><b>9.2</b> Prueba de Wald</a></li>
-<li class="chapter" data-level="9.3" data-path="ph.html"><a href="ph.html#prueba-de-hipótesis-sobre-los-efectos-fijos"><i class="fa fa-check"></i><b>9.3</b> Prueba de hipótesis sobre los efectos fijos</a>
+<li class="chapter" data-level="" data-path="apli-lme4.html"><a href="apli-lme4.html#ejercicios-2"><i class="fa fa-check"></i>Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="ph.html"><a href="ph.html"><i class="fa fa-check"></i><b>10</b> Pruebas de hipótesis</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="ph.html"><a href="ph.html#prueba-razón-de-verosimilitud"><i class="fa fa-check"></i><b>10.1</b> Prueba razón de verosimilitud</a></li>
+<li class="chapter" data-level="10.2" data-path="ph.html"><a href="ph.html#prueba-de-wald"><i class="fa fa-check"></i><b>10.2</b> Prueba de Wald</a></li>
+<li class="chapter" data-level="10.3" data-path="ph.html"><a href="ph.html#prueba-de-hipótesis-sobre-los-efectos-fijos"><i class="fa fa-check"></i><b>10.3</b> Prueba de hipótesis sobre los efectos fijos</a>
 <ul>
 <li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejemplo-1"><i class="fa fa-check"></i>Ejemplo</a></li>
 <li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejemplo-2"><i class="fa fa-check"></i>Ejemplo</a></li>
 </ul></li>
-<li class="chapter" data-level="9.4" data-path="ph.html"><a href="ph.html#prueba-de-hipótesis-sobre-componentes-de-varianza"><i class="fa fa-check"></i><b>9.4</b> Prueba de hipótesis sobre componentes de varianza</a>
+<li class="chapter" data-level="10.4" data-path="ph.html"><a href="ph.html#prueba-de-hipótesis-sobre-componentes-de-varianza"><i class="fa fa-check"></i><b>10.4</b> Prueba de hipótesis sobre componentes de varianza</a>
 <ul>
-<li class="chapter" data-level="9.4.1" data-path="ph.html"><a href="ph.html#componentes-de-varianza-lejos-del-borde"><i class="fa fa-check"></i><b>9.4.1</b> Componentes de varianza lejos del borde</a></li>
-<li class="chapter" data-level="9.4.2" data-path="ph.html"><a href="ph.html#componentes-de-varianza-en-el-borde"><i class="fa fa-check"></i><b>9.4.2</b> Componentes de varianza en el borde</a></li>
+<li class="chapter" data-level="10.4.1" data-path="ph.html"><a href="ph.html#componentes-de-varianza-lejos-del-borde"><i class="fa fa-check"></i><b>10.4.1</b> Componentes de varianza lejos del borde</a></li>
+<li class="chapter" data-level="10.4.2" data-path="ph.html"><a href="ph.html#componentes-de-varianza-en-el-borde"><i class="fa fa-check"></i><b>10.4.2</b> Componentes de varianza en el borde</a></li>
 <li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejemplo-3"><i class="fa fa-check"></i>Ejemplo</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejercicios-2"><i class="fa fa-check"></i>Ejercicios</a></li>
+<li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejercicios-3"><i class="fa fa-check"></i>Ejercicios</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="reg-diagnos.html"><a href="reg-diagnos.html"><i class="fa fa-check"></i><b>10</b> Diagnóstico del modelo de regresión de efectos mixtos</a>
+<li class="chapter" data-level="11" data-path="reg-diagnos.html"><a href="reg-diagnos.html"><i class="fa fa-check"></i><b>11</b> Diagnóstico del modelo de regresión de efectos mixtos</a>
 <ul>
-<li class="chapter" data-level="10.1" data-path="reg-diagnos.html"><a href="reg-diagnos.html#supuestos-del-modelo-de-regresión"><i class="fa fa-check"></i><b>10.1</b> Supuestos del modelo de regresión</a></li>
-<li class="chapter" data-level="10.2" data-path="reg-diagnos.html"><a href="reg-diagnos.html#los-residuos"><i class="fa fa-check"></i><b>10.2</b> Los residuos</a></li>
-<li class="chapter" data-level="10.3" data-path="reg-diagnos.html"><a href="reg-diagnos.html#diagnóstico-del-modelo-de-regresión-prueba-de-hipótesis-e-inferencia-visual"><i class="fa fa-check"></i><b>10.3</b> Diagnóstico del modelo de regresión: prueba de hipótesis e inferencia visual</a>
+<li class="chapter" data-level="11.1" data-path="reg-diagnos.html"><a href="reg-diagnos.html#supuestos-del-modelo-de-regresión"><i class="fa fa-check"></i><b>11.1</b> Supuestos del modelo de regresión</a></li>
+<li class="chapter" data-level="11.2" data-path="reg-diagnos.html"><a href="reg-diagnos.html#los-residuos"><i class="fa fa-check"></i><b>11.2</b> Los residuos</a></li>
+<li class="chapter" data-level="11.3" data-path="reg-diagnos.html"><a href="reg-diagnos.html#diagnóstico-del-modelo-de-regresión-prueba-de-hipótesis-e-inferencia-visual"><i class="fa fa-check"></i><b>11.3</b> Diagnóstico del modelo de regresión: prueba de hipótesis e inferencia visual</a>
 <ul>
-<li class="chapter" data-level="10.3.1" data-path="reg-diagnos.html"><a href="reg-diagnos.html#ajustando-el-modelo"><i class="fa fa-check"></i><b>10.3.1</b> Ajustando el modelo</a></li>
-<li class="chapter" data-level="10.3.2" data-path="reg-diagnos.html"><a href="reg-diagnos.html#varianza-constante-de-los-residuos-mediante-inferencia-visual"><i class="fa fa-check"></i><b>10.3.2</b> Varianza constante de los residuos mediante inferencia visual</a></li>
-<li class="chapter" data-level="10.3.3" data-path="reg-diagnos.html"><a href="reg-diagnos.html#varianza-constante-de-los-residuos-mediante-prueba-de-hipótesis"><i class="fa fa-check"></i><b>10.3.3</b> Varianza constante de los residuos mediante prueba de hipótesis</a></li>
+<li class="chapter" data-level="11.3.1" data-path="reg-diagnos.html"><a href="reg-diagnos.html#ajustando-el-modelo"><i class="fa fa-check"></i><b>11.3.1</b> Ajustando el modelo</a></li>
+<li class="chapter" data-level="11.3.2" data-path="reg-diagnos.html"><a href="reg-diagnos.html#varianza-constante-de-los-residuos-mediante-inferencia-visual"><i class="fa fa-check"></i><b>11.3.2</b> Varianza constante de los residuos mediante inferencia visual</a></li>
+<li class="chapter" data-level="11.3.3" data-path="reg-diagnos.html"><a href="reg-diagnos.html#varianza-constante-de-los-residuos-mediante-prueba-de-hipótesis"><i class="fa fa-check"></i><b>11.3.3</b> Varianza constante de los residuos mediante prueba de hipótesis</a></li>
 <li class="chapter" data-level="" data-path="reg-diagnos.html"><a href="reg-diagnos.html#ejemplo-4"><i class="fa fa-check"></i>Ejemplo</a></li>
-<li class="chapter" data-level="10.3.4" data-path="reg-diagnos.html"><a href="reg-diagnos.html#distribución-normal-de-los-residuos-mediante-inferencia-visual"><i class="fa fa-check"></i><b>10.3.4</b> Distribución normal de los residuos mediante inferencia visual</a></li>
+<li class="chapter" data-level="11.3.4" data-path="reg-diagnos.html"><a href="reg-diagnos.html#distribución-normal-de-los-residuos-mediante-inferencia-visual"><i class="fa fa-check"></i><b>11.3.4</b> Distribución normal de los residuos mediante inferencia visual</a></li>
 <li class="chapter" data-level="" data-path="reg-diagnos.html"><a href="reg-diagnos.html#ejemplo-5"><i class="fa fa-check"></i>Ejemplo</a></li>
-<li class="chapter" data-level="10.3.5" data-path="reg-diagnos.html"><a href="reg-diagnos.html#distribución-normal-de-los-residuos-mediante-prueba-de-hipótesis"><i class="fa fa-check"></i><b>10.3.5</b> Distribución normal de los residuos mediante prueba de hipótesis</a></li>
+<li class="chapter" data-level="11.3.5" data-path="reg-diagnos.html"><a href="reg-diagnos.html#distribución-normal-de-los-residuos-mediante-prueba-de-hipótesis"><i class="fa fa-check"></i><b>11.3.5</b> Distribución normal de los residuos mediante prueba de hipótesis</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="12" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>12</b> Otro material interesante</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -272,13 +280,13 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="apli-nlme" class="section level1" number="7">
-<h1><span class="header-section-number">7</span> Aplicación con <code>nlme</code></h1>
+<div id="apli-nlme" class="section level1" number="8">
+<h1><span class="header-section-number">8</span> Aplicación con <code>nlme</code></h1>
 <p>En este capítulo se mostrará como usar el paquete <code>nlme</code> para la aplicación de modelos mixtos con la base de datos <code>Oxboys</code> del mismo paquete.</p>
 <p><img src="images/crecimiento_chicos.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>A continuación la base de datos a utilizar.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="apli-nlme.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb36-2"><a href="apli-nlme.html#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Oxboys)</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="apli-nlme.html#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb59-2"><a href="apli-nlme.html#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Oxboys)</span></code></pre></div>
 <pre><code>## Grouped Data: height ~ age | Subject
 ##   Subject     age height Occasion
 ## 1       1 -1.0000  140.5        1
@@ -288,7 +296,7 @@ div.csl-indent {
 ## 5       1 -0.0027  147.7        5
 ## 6       1  0.2466  150.2        6</code></pre>
 <p>Esta base de datos sobre crecimiento contiene la información sobre altura (<code>heigth</code>), edad estandarizada (<code>age</code>) de un grupo de 26 jóvenes. Como la base de datos <code>Oxboys</code> es de la clase groupedData, es posible aplicar un <code>plot</code> directamente y el resultado se muestra continuación.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="apli-nlme.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Oxboys)</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="apli-nlme.html#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Oxboys)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/plot_oxboys_nlme-1.png" width="672" /></p>
 <div style="-moz-box-shadow: 1px 1px 3px 2px #00ffff;
   -webkit-box-shadow: 1px 1px 3px 2px #00ffff;
@@ -319,9 +327,9 @@ N\left ( \left ( \begin{matrix}
 \end{align*}\]</span></p>
 <p>El vector de parámetros para este modelo sería <span class="math inline">\(\boldsymbol{\Theta}=(\beta_0, \beta_1, \sigma_{height}, \sigma_{b0}, \sigma_{b1}, \sigma_{b0b1})^\top\)</span>.</p>
 <p>Para ajustar este modelo a los datos con el paquete <code>nlme</code> podemos usar el siguiente código.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="apli-nlme.html#cb39-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lme</span>(height <span class="sc">~</span> age, <span class="at">random=</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> age <span class="sc">|</span> Subject, <span class="at">data=</span>Oxboys, <span class="at">method=</span><span class="st">&quot;REML&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="apli-nlme.html#cb62-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lme</span>(height <span class="sc">~</span> age, <span class="at">random=</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> age <span class="sc">|</span> Subject, <span class="at">data=</span>Oxboys, <span class="at">method=</span><span class="st">&quot;REML&quot;</span>)</span></code></pre></div>
 <p>Para obtener la tabla de resumen usamos:</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="apli-nlme.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="apli-nlme.html#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div>
 <pre><code>## Linear mixed-effects model fit by REML
 ##   Data: Oxboys 
 ##       AIC      BIC    logLik
@@ -369,7 +377,7 @@ N\left ( \left ( \begin{matrix}
 \right ).
 \end{align*}\]</span></p>
 <p>Los elementos <span class="math inline">\(b_{0i}\)</span> y <span class="math inline">\(b_{1i}\)</span> se deben substituir por sus respectivas predicciones <span class="math inline">\(\tilde{b}_{0i}\)</span> y <span class="math inline">\(\tilde{b}_{1i}\)</span> y se pueden obtener del modelo ajustado así:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="apli-nlme.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ranef</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="apli-nlme.html#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ranef</span>(fit)</span></code></pre></div>
 <pre><code>##    (Intercept)         age
 ## 10 -19.0972476 -2.78657472
 ## 26 -11.3675996 -0.97474075
@@ -398,7 +406,7 @@ N\left ( \left ( \begin{matrix}
 ## 19  15.1957040  2.50720025
 ## 4   15.6927297  2.78723179</code></pre>
 <p>Los valores de los efectos fijos estimados se pueden obtener así:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="apli-nlme.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="apli-nlme.html#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(fit)</span></code></pre></div>
 <pre><code>## (Intercept)         age 
 ##  149.371753    6.525469</code></pre>
 <p>Usando la información de los efectos fijo y aleatorios obtenidos antes, es posible escribir la ecuación del modelo para cada individuo. Los efectos fijos estimados fueron <span class="math inline">\(\hat{\beta}_0 \approx 149.37\)</span> y <span class="math inline">\(\hat{\beta}_1\approx 6.53\)</span>. Para el sujeto # 10 se obtuvo <span class="math inline">\(\tilde{b}_{0, i=10} \approx -19.10\)</span> y <span class="math inline">\(\tilde{b}_{1, i=10} \approx -2.79\)</span>, así la media del individuo # 10 se calcula así:</p>
@@ -414,7 +422,7 @@ Height_{i=10, j} &amp;\sim  N(\hat{\mu}_{i=10, j}, \hat{\sigma}^2_{Height}) \\
 \hat{\sigma}_{Height} &amp;= 0.66
 \end{align*}\]</span></p>
 <p>La expresión anterior para cada individuo con los efectos finales (fijos y aleatorios) se puede obtener con R así:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="apli-nlme.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="apli-nlme.html#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fit)</span></code></pre></div>
 <pre><code>##    (Intercept)      age
 ## 10    130.2745 3.738894
 ## 26    138.0042 5.550728
@@ -443,19 +451,19 @@ Height_{i=10, j} &amp;\sim  N(\hat{\mu}_{i=10, j}, \hat{\sigma}^2_{Height}) \\
 ## 19    164.5675 9.032669
 ## 4     165.0645 9.312700</code></pre>
 <p>En la presente aplicación es posible incluir la recta de regresión para cada individuo al diagrama de dispersión original. El código de R para obtener esto es el siguiente.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="apli-nlme.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lattice)</span>
-<span id="cb48-2"><a href="apli-nlme.html#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xyplot</span>(height <span class="sc">~</span> age <span class="sc">|</span> Subject, <span class="at">data=</span>Oxboys, <span class="at">fit=</span>fit,</span>
-<span id="cb48-3"><a href="apli-nlme.html#cb48-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">strip=</span><span class="fu">strip.custom</span>(<span class="at">bg=</span><span class="st">&quot;white&quot;</span>), </span>
-<span id="cb48-4"><a href="apli-nlme.html#cb48-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch=</span><span class="dv">16</span>, <span class="at">cex=</span><span class="fl">0.7</span>, <span class="at">col=</span><span class="st">&#39;indianred1&#39;</span>,</span>
-<span id="cb48-5"><a href="apli-nlme.html#cb48-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">panel =</span> <span class="cf">function</span>(x, y, ..., fit, subscripts) {</span>
-<span id="cb48-6"><a href="apli-nlme.html#cb48-6" aria-hidden="true" tabindex="-1"></a>         <span class="fu">panel.xyplot</span>(x, y, ...)</span>
-<span id="cb48-7"><a href="apli-nlme.html#cb48-7" aria-hidden="true" tabindex="-1"></a>         ypred <span class="ot">&lt;-</span> <span class="fu">fitted</span>(fit)[subscripts]</span>
-<span id="cb48-8"><a href="apli-nlme.html#cb48-8" aria-hidden="true" tabindex="-1"></a>         <span class="fu">panel.lines</span>(x, ypred, <span class="at">col=</span><span class="st">&quot;deepskyblue3&quot;</span>, <span class="at">lwd=</span><span class="dv">1</span>)</span>
-<span id="cb48-9"><a href="apli-nlme.html#cb48-9" aria-hidden="true" tabindex="-1"></a>       },</span>
-<span id="cb48-10"><a href="apli-nlme.html#cb48-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">ylab=</span><span class="st">&quot;Height (cm)&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Centered age&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="apli-nlme.html#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lattice)</span>
+<span id="cb71-2"><a href="apli-nlme.html#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xyplot</span>(height <span class="sc">~</span> age <span class="sc">|</span> Subject, <span class="at">data=</span>Oxboys, <span class="at">fit=</span>fit,</span>
+<span id="cb71-3"><a href="apli-nlme.html#cb71-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">strip=</span><span class="fu">strip.custom</span>(<span class="at">bg=</span><span class="st">&quot;white&quot;</span>), </span>
+<span id="cb71-4"><a href="apli-nlme.html#cb71-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch=</span><span class="dv">16</span>, <span class="at">cex=</span><span class="fl">0.7</span>, <span class="at">col=</span><span class="st">&#39;indianred1&#39;</span>,</span>
+<span id="cb71-5"><a href="apli-nlme.html#cb71-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">panel =</span> <span class="cf">function</span>(x, y, ..., fit, subscripts) {</span>
+<span id="cb71-6"><a href="apli-nlme.html#cb71-6" aria-hidden="true" tabindex="-1"></a>         <span class="fu">panel.xyplot</span>(x, y, ...)</span>
+<span id="cb71-7"><a href="apli-nlme.html#cb71-7" aria-hidden="true" tabindex="-1"></a>         ypred <span class="ot">&lt;-</span> <span class="fu">fitted</span>(fit)[subscripts]</span>
+<span id="cb71-8"><a href="apli-nlme.html#cb71-8" aria-hidden="true" tabindex="-1"></a>         <span class="fu">panel.lines</span>(x, ypred, <span class="at">col=</span><span class="st">&quot;deepskyblue3&quot;</span>, <span class="at">lwd=</span><span class="dv">1</span>)</span>
+<span id="cb71-9"><a href="apli-nlme.html#cb71-9" aria-hidden="true" tabindex="-1"></a>       },</span>
+<span id="cb71-10"><a href="apli-nlme.html#cb71-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">ylab=</span><span class="st">&quot;Height (cm)&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Centered age&quot;</span>)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/evol_fit_nlme-1.png" width="672" /></p>
 <p>En la figura anterior se tienen las observaciones (crecimiento) representado por los puntos rojos, adicionalmente, aparece una recta de color azul que representa la recta de regresión para cada individuo. De la figura se observa que la linea logra explicar la evolución del crecimiento para cada individuo.</p>
-<div id="ejercicios" class="section level2 unnumbered">
+<div id="ejercicios-1" class="section level2 unnumbered">
 <h2>Ejercicios</h2>
 <ol style="list-style-type: decimal">
 <li><p>Repita el ejercicio anterior considerando un modelo sólo con intercepto aleatorio. Dibuje las rectas de regresión para cada individuo. ¿Qué opina de este modelo?</p></li>
@@ -471,7 +479,7 @@ Height_{i=10, j} &amp;\sim  N(\hat{\mu}_{i=10, j}, \hat{\sigma}^2_{Height}) \\
           </div>
         </div>
       </div>
-<a href="pac-nlme.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="estim.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="apli-lme4.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>2 Modelos Lineales Mixtos | Modelos Mixtos con R</title>
+  <title>12 Otro material interesante | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="2 Modelos Lineales Mixtos | Modelos Mixtos con R" />
+  <meta property="og:title" content="12 Otro material interesante | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:image" content="/images/cover.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="fhernanb/libro_mod_pred" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2 Modelos Lineales Mixtos | Modelos Mixtos con R" />
+  <meta name="twitter:title" content="12 Otro material interesante | Modelos Mixtos con R" />
   
   <meta name="twitter:description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="twitter:image" content="/images/cover.png" />
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="reg-lin.html"/>
-<link rel="next" href="shiny.html"/>
+<link rel="prev" href="reg-diagnos.html"/>
+<link rel="next" href="references.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -280,47 +280,22 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="lmm" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Modelos Lineales Mixtos</h1>
-<p>Los modelos lineales mixtos fueron propuestos por <span class="citation">(<a href="#ref-LairdWare82" role="doc-biblioref">Laird and Ware 1982</a>)</span> y en ellos se asume que existe una relación entre el vector de observaciones <span class="math inline">\(\boldsymbol{Y}_i\)</span> del sujeto o grupo <span class="math inline">\(i\)</span> y las covariables por medio de la siguiente expresión</p>
-<p><span class="math display" id="eq:lmm1">\[\begin{equation}
-\begin{aligned}
-\boldsymbol{Y}_i \mid \boldsymbol{b}_i &amp;\sim \mathcal{N}(\boldsymbol{X}_i \boldsymbol{\beta} + \boldsymbol{Z}_i \boldsymbol{b}_i, \boldsymbol{\Sigma}_i), \\
-\boldsymbol{b}_i &amp;\sim \mathcal{N}(\boldsymbol{0}, \boldsymbol{D}),
-\end{aligned}
-\tag{2.1}
-\end{equation}\]</span></p>
-<p>donde <span class="math inline">\(\boldsymbol{X}_i\)</span> y <span class="math inline">\(\boldsymbol{Z}_i\)</span> son matrices de diseño conocidas con la información de las covariables, siendo <span class="math inline">\(\boldsymbol{X}_i\)</span> de dimensión <span class="math inline">\(n_i \times p\)</span> y <span class="math inline">\(\boldsymbol{Z}_i\)</span> de dimensión <span class="math inline">\(n_i \times q\)</span>. El elemento <span class="math inline">\(\boldsymbol{\beta}\)</span> representa el vector de efectos fijos general, <span class="math inline">\(\boldsymbol{b}_i\)</span> el vector de efectos aleatorios exclusivo para el grupo <span class="math inline">\(i\)</span>.</p>
-<p>El vector <span class="math inline">\(\boldsymbol{b}_i\)</span> en la expresión <a href="lmm.html#eq:lmm1">(2.1)</a> es llamado efecto aleatorio porque éste cambia la media de sujeto a sujeto y su función es la de mejorar el ajuste general dado por el elemento <span class="math inline">\(\boldsymbol{X}_i \boldsymbol{\beta}\)</span> al agregar la cantidad <span class="math inline">\(\boldsymbol{Z}_i \boldsymbol{b}_i\)</span>. El modelo dado en la expresión <a href="lmm.html#eq:lmm1">(2.1)</a> es llamado también modelo mixto porque involucra tanto efectos fijos (<span class="math inline">\(\boldsymbol{\beta}\)</span>) como efectos aleatorios (<span class="math inline">\(\boldsymbol{b}_i\)</span>).</p>
-<p>La distribución marginal de <span class="math inline">\(\boldsymbol{Y}_i\)</span> está dada por</p>
-<p><span class="math display">\[\begin{equation}
-f_i(\boldsymbol{Y}_i) = \int f(\boldsymbol{Y}_i | \boldsymbol{b}_i) f(\boldsymbol{b}_i) \, d \boldsymbol{b}_i
-\end{equation}\]</span></p>
-<p>donde <span class="math inline">\(f(\boldsymbol{Y}_i | \boldsymbol{b}_i)\)</span> y <span class="math inline">\(f(\boldsymbol{b}_i)\)</span> corresponden a las densidades normales mostradas en la expresión <a href="lmm.html#eq:lmm1">(2.1)</a>. Esta distribución marginal tiene forma cerrada y se puede mostrar fácilmente que la distribución de <span class="math inline">\(\boldsymbol{Y}_i\)</span> es una normal multivariada con vector de medias y matriz de covarianzas como se muestra a continuación.</p>
-<p><span class="math display">\[\begin{equation}
-\boldsymbol{Y}_i \sim \mathcal{N}(\boldsymbol{X}_i \boldsymbol{\beta}, \boldsymbol{V}_i),
-\end{equation}\]</span></p>
-<p>donde <span class="math inline">\(\boldsymbol{V}_i=\boldsymbol{Z}_i \boldsymbol{D} \boldsymbol{Z}_i^\top + \boldsymbol{\Sigma}_i\)</span>. El vector de parámetros en este caso es <span class="math inline">\(\boldsymbol{\theta}=(\boldsymbol{\beta}, \boldsymbol{\alpha})^\top\)</span> donde <span class="math inline">\(\boldsymbol{\alpha}\)</span> consiste de los <span class="math inline">\(q(q+1)/2\)</span> elementos diferentes de la matriz <span class="math inline">\(\boldsymbol{D}\)</span> y todos los elementos de la matriz <span class="math inline">\(\boldsymbol{\Sigma}_i\)</span>.</p>
-<div id="entrevista-con-jim-ware-y-nan-laird" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Entrevista con Jim Ware y Nan Laird</h2>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/dUphXonH8do" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-</iframe>
+<div id="blobs" class="section level1" number="12">
+<h1><span class="header-section-number">12</span> Otro material interesante</h1>
+<p>En este capítulo se listan algunos blogs y publicaciones interesantes relacionados con modelos mixtos.</p>
+<ul>
+<li><a href="https://www.juliapilowsky.com/2018/10/19/a-practical-guide-to-mixed-models-in-r/">A Practical Guide to Mixed Models in R</a>.</li>
+<li><a href="https://ourcodingclub.github.io/tutorials/mixed-models/">Introduction to linear mixed models</a>.</li>
+</ul>
 
-</div>
-</div>
-<h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-LairdWare82" class="csl-entry">
-Laird, Nan M., and James H. Ware. 1982. <span>“Random-Effects Models for Longitudinal Data.”</span> <em>Biometrics</em> 38 (4): 963–74. <a href="http://www.jstor.org/stable/2529876">http://www.jstor.org/stable/2529876</a>.
-</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="reg-lin.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="shiny.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="reg-diagnos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -352,7 +327,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/03-lmm.Rmd",
+"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/999-blogs.Rmd",
 "text": "Edit"
 },
 "history": {

@@ -1,9 +1,9 @@
 # Paquete **lme4** {#pac-lme4}
 
-El paquete **lme4** [@R-lme4] es uno de los paquetes más completos para modelos mixtos. Al visitar este [enlace](https://cran.r-project.org/web/packages/lme4/) se encontrará la página de apoyo del paquete, allí se puede consultar el manual de referencia y las viñetas.
+El paquete **lme4** de @R-lme4 es uno de los paquetes más completos para modelos mixtos. Al visitar este [enlace](https://cran.r-project.org/web/packages/lme4/) se encontrará la página de apoyo del paquete, allí se puede consultar el manual de referencia y las viñetas.
 
 ## Función `lmer`
-La función `lmer` es la principal función del paquete [@R-lme4]. Esta función sirve para ajustar un modelo mixto y su estructura es la siguiente:
+La función `lmer` es la principal función del paquete **lme4**. Esta función sirve para ajustar un modelo mixto y su estructura es la siguiente:
 
 ```{r, eval=FALSE}
 lmer(formula, data = NULL, REML = TRUE, control = lmerControl(),
@@ -17,7 +17,7 @@ Los principales argumentos de la función son:
 - `data`: marco de datos donde están las variables.  
 - `REML`: valor lógico que sirve para indicar si queremos estimaciones maximizando la [verosimilitud restringida](https://en.wikipedia.org/wiki/Restricted_maximum_likelihood) o la verosimilitud usual.  
 
-La siguiente imagen corresponde a la tabla 2 de la viñeta [Fitting Linear Mixed-Effects Models using lme4](https://cran.r-project.org/web/packages/lme4/vignettes/lmer.pdf). En esa tabla las dos primeras columnas muestran formas equivalentes de incluir las estructuras de modelos mixtos más comunes.
+La siguiente imagen corresponde a la tabla 2 de la viñeta [Fitting Linear Mixed-Effects Models using lme4](https://cran.r-project.org/web/packages/lme4/vignettes/lmer.pdf). En la tabla las dos primeras columnas muestran formas equivalentes de incluir las estructuras de modelos mixtos más comunes.
 
 ```{r echo=FALSE, out.width="90%", fig.align='center'}
 knitr::include_graphics("images/tabla2_viñeta2_paq_lmer.png")
@@ -127,7 +127,7 @@ Solución.
 
 </div>
 
-Para obtener los interceptos aleatorios se usa la función `ranef` del paquete **lme4** [@R-lme4]. A continuación vamos a obtener los interceptos aleatorios y los vamos a comparar con los $b_0$ simulados.
+Para obtener los interceptos aleatorios se usa la función `ranef` del paquete **lme4** de @R-lme4. A continuación vamos a obtener los interceptos aleatorios y los vamos a comparar con los $b_0$ simulados.
 
 ```{r}
 interceptos_aleatorios <- ranef(fit1)
@@ -146,7 +146,7 @@ La comparación anterior solo es posible cuando usamos datos simulados. Cuando s
 </div>
 
 ## Función `glmer`
-La función `glmer` es la función del paquete [@R-lme4] para ajustar modelo lineales generalizados mixtos y su estructura es la siguiente:
+La función `glmer` es la función del paquete **lme4** para ajustar modelo lineales generalizados mixtos y su estructura es la siguiente:
 
 ```{r, eval=FALSE}
 lmer(formula, data = NULL, family = gaussian,
@@ -242,6 +242,6 @@ La función `summary` se puede usar sobre el objeto `fit2` para obtener una tabl
 summary(fit2)
 ```
 
-Según el resultado anterior $\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=2.1641, \hat{\beta}_1=-8.0751, \hat{\phi}=0.4725, \hat{\sigma}_{bo}=3.9544)^\top$ mientras que el vector real de parámetros es $\boldsymbol{\Theta}=(\beta_0=2, \beta_1=-8, \phi=0.50, \sigma_{b0}=3)^\top$.
+Según el resultado anterior $\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=4.3965, \hat{\beta}_1=-8.0784, \hat{\phi}=0.4728, \hat{\sigma}_{bo}=4.3265)^\top$ mientras que el vector real de parámetros es $\boldsymbol{\Theta}=(\beta_0=2, \beta_1=-8, \phi=0.50, \sigma_{b0}=3)^\top$.
 
 

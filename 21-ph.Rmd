@@ -6,13 +6,13 @@ En este capítulo se muestran las pruebas de hipótesis para comparar modelo mix
 Supongamos que queremos estudiar $H_0: \theta \in \boldsymbol{\Theta}_0$ versus $H_A: \theta \in \boldsymbol{\Theta}$. La prueba razón de verosimilitud ($LR$) para $H_0$ está dada por:
 
 $$
-LR = -2 \log \left( \frac{ sup_{\theta \in \boldsymbol{\Theta}_0} L(\theta)}{ sup_{\theta \in \boldsymbol{\Theta}} L(\theta)} \right)
+LR = -2 \log \left( \frac{ sup_{\theta \in \boldsymbol{\Theta}_0} L(\theta)}{ sup_{\theta \in \boldsymbol{\Theta}} L(\theta)} \right).
 $$
 
-Usualmente la prueba de razón de verosimilitud se expresa en función de los valores de log-verosimilitud del modelo asi:
+Usualmente la prueba de razón de verosimilitud se expresa en función de los valores de log-verosimilitud del modelo así:
 
 $$
-LR = -2 ( l(\Theta_0) - l(\hat{\Theta}) )
+LR = -2 ( l(\Theta_0) - l(\hat{\Theta}) ),
 $$
 
 y el estadístico $LR \sim \chi^2_{k-k_0}$, donde $k$ es el número de parámetros del modelo estimado y $k_0$ el número de parámetros del modelo asumiendo $H_0$ verdadera.

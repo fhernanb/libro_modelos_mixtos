@@ -1,9 +1,9 @@
 # Paquete **nlme** {#pac-nlme}
 
-El paquete **nlme** [@R-nlme] es otro de los paquetes para modelos mixtos. Al visitar este [enlace](https://cran.r-project.org/web/packages/nlme) se encontrará la página de apoyo del paquete, allí se puede consultar el manual de referencia.
+El paquete **nlme** de @R-nlme es otro de los paquetes para modelos mixtos. Al visitar este [enlace](https://cran.r-project.org/web/packages/nlme) se encontrará la página de apoyo del paquete, allí se puede consultar el manual de referencia.
 
 ## Función `lme`
-La función `lme` es la principal función del paquete [@R-nlme]. Esta función sirve para ajustar un modelo mixto y su estructura es la siguiente:
+La función `lme` es la principal función del paquete **nlme**. Esta función sirve para ajustar un modelo mixto y su estructura es la siguiente:
 
 ```{r, eval=FALSE}
 lme(fixed, data, random, correlation, weights, subset, method,

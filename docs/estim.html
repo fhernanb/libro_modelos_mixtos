@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>2 Modelos Lineales Mixtos | Modelos Mixtos con R</title>
+  <title>7 Métodos de estimación | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="2 Modelos Lineales Mixtos | Modelos Mixtos con R" />
+  <meta property="og:title" content="7 Métodos de estimación | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:image" content="/images/cover.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="fhernanb/libro_mod_pred" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2 Modelos Lineales Mixtos | Modelos Mixtos con R" />
+  <meta name="twitter:title" content="7 Métodos de estimación | Modelos Mixtos con R" />
   
   <meta name="twitter:description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="twitter:image" content="/images/cover.png" />
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="reg-lin.html"/>
-<link rel="next" href="shiny.html"/>
+<link rel="prev" href="pac-nlme.html"/>
+<link rel="next" href="apli-nlme.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -280,38 +280,171 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="lmm" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Modelos Lineales Mixtos</h1>
-<p>Los modelos lineales mixtos fueron propuestos por <span class="citation">(<a href="#ref-LairdWare82" role="doc-biblioref">Laird and Ware 1982</a>)</span> y en ellos se asume que existe una relación entre el vector de observaciones <span class="math inline">\(\boldsymbol{Y}_i\)</span> del sujeto o grupo <span class="math inline">\(i\)</span> y las covariables por medio de la siguiente expresión</p>
-<p><span class="math display" id="eq:lmm1">\[\begin{equation}
-\begin{aligned}
-\boldsymbol{Y}_i \mid \boldsymbol{b}_i &amp;\sim \mathcal{N}(\boldsymbol{X}_i \boldsymbol{\beta} + \boldsymbol{Z}_i \boldsymbol{b}_i, \boldsymbol{\Sigma}_i), \\
-\boldsymbol{b}_i &amp;\sim \mathcal{N}(\boldsymbol{0}, \boldsymbol{D}),
-\end{aligned}
-\tag{2.1}
-\end{equation}\]</span></p>
-<p>donde <span class="math inline">\(\boldsymbol{X}_i\)</span> y <span class="math inline">\(\boldsymbol{Z}_i\)</span> son matrices de diseño conocidas con la información de las covariables, siendo <span class="math inline">\(\boldsymbol{X}_i\)</span> de dimensión <span class="math inline">\(n_i \times p\)</span> y <span class="math inline">\(\boldsymbol{Z}_i\)</span> de dimensión <span class="math inline">\(n_i \times q\)</span>. El elemento <span class="math inline">\(\boldsymbol{\beta}\)</span> representa el vector de efectos fijos general, <span class="math inline">\(\boldsymbol{b}_i\)</span> el vector de efectos aleatorios exclusivo para el grupo <span class="math inline">\(i\)</span>.</p>
-<p>El vector <span class="math inline">\(\boldsymbol{b}_i\)</span> en la expresión <a href="lmm.html#eq:lmm1">(2.1)</a> es llamado efecto aleatorio porque éste cambia la media de sujeto a sujeto y su función es la de mejorar el ajuste general dado por el elemento <span class="math inline">\(\boldsymbol{X}_i \boldsymbol{\beta}\)</span> al agregar la cantidad <span class="math inline">\(\boldsymbol{Z}_i \boldsymbol{b}_i\)</span>. El modelo dado en la expresión <a href="lmm.html#eq:lmm1">(2.1)</a> es llamado también modelo mixto porque involucra tanto efectos fijos (<span class="math inline">\(\boldsymbol{\beta}\)</span>) como efectos aleatorios (<span class="math inline">\(\boldsymbol{b}_i\)</span>).</p>
-<p>La distribución marginal de <span class="math inline">\(\boldsymbol{Y}_i\)</span> está dada por</p>
-<p><span class="math display">\[\begin{equation}
-f_i(\boldsymbol{Y}_i) = \int f(\boldsymbol{Y}_i | \boldsymbol{b}_i) f(\boldsymbol{b}_i) \, d \boldsymbol{b}_i
-\end{equation}\]</span></p>
-<p>donde <span class="math inline">\(f(\boldsymbol{Y}_i | \boldsymbol{b}_i)\)</span> y <span class="math inline">\(f(\boldsymbol{b}_i)\)</span> corresponden a las densidades normales mostradas en la expresión <a href="lmm.html#eq:lmm1">(2.1)</a>. Esta distribución marginal tiene forma cerrada y se puede mostrar fácilmente que la distribución de <span class="math inline">\(\boldsymbol{Y}_i\)</span> es una normal multivariada con vector de medias y matriz de covarianzas como se muestra a continuación.</p>
-<p><span class="math display">\[\begin{equation}
-\boldsymbol{Y}_i \sim \mathcal{N}(\boldsymbol{X}_i \boldsymbol{\beta}, \boldsymbol{V}_i),
-\end{equation}\]</span></p>
-<p>donde <span class="math inline">\(\boldsymbol{V}_i=\boldsymbol{Z}_i \boldsymbol{D} \boldsymbol{Z}_i^\top + \boldsymbol{\Sigma}_i\)</span>. El vector de parámetros en este caso es <span class="math inline">\(\boldsymbol{\theta}=(\boldsymbol{\beta}, \boldsymbol{\alpha})^\top\)</span> donde <span class="math inline">\(\boldsymbol{\alpha}\)</span> consiste de los <span class="math inline">\(q(q+1)/2\)</span> elementos diferentes de la matriz <span class="math inline">\(\boldsymbol{D}\)</span> y todos los elementos de la matriz <span class="math inline">\(\boldsymbol{\Sigma}_i\)</span>.</p>
-<div id="entrevista-con-jim-ware-y-nan-laird" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Entrevista con Jim Ware y Nan Laird</h2>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/dUphXonH8do" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-</iframe>
+<div id="estim" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Métodos de estimación</h1>
+<p>En este capítulo se muestran los métodos ML (maximum likelihood) y REML (restricted maximum likelihood) para estimar los parámetros de un modelo mixto.</p>
+<div id="ml-y-reml" class="section level2" number="7.1">
+<h2><span class="header-section-number">7.1</span> ML y REML</h2>
+<p>El método de máxima verosimilitud restringida (o residual o reducida) (REML) es una alternativa de estimación de máxima verosimilitud que no basa las estimaciones en un ajuste de máxima verosimilitud de toda la información, sino que utiliza una función de verosimilitud calculada a partir de una conjunto de datos transformado, de modo que los parámetros molestos no tengan ningún efecto.</p>
+<p>En el caso de la estimación del componente de varianza, el conjunto de datos original se reemplaza por un conjunto de contrastes calculados a partir de los datos, y la función de verosimilitud se calcula a partir de la distribución de probabilidad de estos contrastes, de acuerdo con el modelo para el conjunto de datos completo. En particular, REML se utiliza como método para ajustar modelos lineales mixtos. En contraste con la estimación de máxima verosimilitud anterior, REML puede producir estimaciones insesgadas de parámetros de varianza y covarianza.</p>
+</div>
+<div id="ejemplo-comparando-reml-y-ml-usando-lme4" class="section level2 unnumbered">
+<h2>Ejemplo: comparando REML y ML usando <strong>lme4</strong></h2>
+<p>En este ejemplo vamos a simular datos de un modelo lineal mixto con intercepto y pendiente aleatoria, luego vamos a comparar las estimaciones de los parámetros del modelo usando REML y ML.</p>
 
+<div class="rmdexercise">
+Solución.
 </div>
+<p>Los datos los vamos a simular del siguiente modelo.</p>
+<span class="math display">\[\begin{align*} 
+y_{ij} &amp;\sim  N(\mu_{ij}, \sigma^2_y) \\ 
+\mu_{ij} &amp;= 4 - 5 x_{ij} + b_{0i} + b_{1i} x_{ij} \\
+\sigma^2_y &amp;= 4 \\
+\left (
+\begin{matrix}
+b_{0} \\ b_{1}
+\end{matrix} 
+\right ) &amp;\sim 
+N\left ( \left ( \begin{matrix}
+0 \\ 0
+\end{matrix} \right ),
+\left ( \begin{matrix}
+\sigma^2_{b0}=40 &amp; \sigma_{b01}=3 \\ 
+\sigma_{b01}=3 &amp; \sigma^2_{b1}=50
+\end{matrix} \right )
+\right ) \\
+x_{ij} &amp;\sim U(0, 5)
+\end{align*}\]</span>
+<p>Vamos a simular datos balanceados del anterior modelo considerando cinco grupos y diez observaciones por grupo. Para hacer esto vamos a usar la siguiente función.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="estim.html#cb36-1" aria-hidden="true" tabindex="-1"></a>gen_data <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb36-2"><a href="estim.html#cb36-2" aria-hidden="true" tabindex="-1"></a>  ni <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb36-3"><a href="estim.html#cb36-3" aria-hidden="true" tabindex="-1"></a>  G  <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb36-4"><a href="estim.html#cb36-4" aria-hidden="true" tabindex="-1"></a>  nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G <span class="co"># Numero total de observaciones</span></span>
+<span id="cb36-5"><a href="estim.html#cb36-5" aria-hidden="true" tabindex="-1"></a>  grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni)) <span class="co"># Para crear la variable grupal</span></span>
+<span id="cb36-6"><a href="estim.html#cb36-6" aria-hidden="true" tabindex="-1"></a>  obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">each=</span>G) <span class="co"># Para identificar las obs por grupo</span></span>
+<span id="cb36-7"><a href="estim.html#cb36-7" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">5</span>) <span class="co"># La covariable</span></span>
+<span id="cb36-8"><a href="estim.html#cb36-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(MASS) <span class="co"># Libreria para simular obs de Normal bivariada</span></span>
+<span id="cb36-9"><a href="estim.html#cb36-9" aria-hidden="true" tabindex="-1"></a>  Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">3</span>, <span class="co"># Matriz de var-cov</span></span>
+<span id="cb36-10"><a href="estim.html#cb36-10" aria-hidden="true" tabindex="-1"></a>                    <span class="dv">3</span>, <span class="dv">50</span>), <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">nrow=</span><span class="dv">2</span>)</span>
+<span id="cb36-11"><a href="estim.html#cb36-11" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">mvrnorm</span>(<span class="at">n=</span>G, <span class="at">mu=</span><span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="at">Sigma=</span>Sigma) <span class="co"># Simulando b0 y b1</span></span>
+<span id="cb36-12"><a href="estim.html#cb36-12" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">apply</span>(b, <span class="at">MARGIN=</span><span class="dv">2</span>, <span class="cf">function</span>(c) <span class="fu">rep</span>(c, <span class="at">each=</span>ni)) <span class="co"># Replicando</span></span>
+<span id="cb36-13"><a href="estim.html#cb36-13" aria-hidden="true" tabindex="-1"></a>  b0 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">1</span>]) <span class="co"># Separando los b0</span></span>
+<span id="cb36-14"><a href="estim.html#cb36-14" aria-hidden="true" tabindex="-1"></a>  b1 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">2</span>]) <span class="co"># Separando los b1</span></span>
+<span id="cb36-15"><a href="estim.html#cb36-15" aria-hidden="true" tabindex="-1"></a>  media <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="sc">-</span> <span class="dv">5</span> <span class="sc">*</span> x <span class="sc">+</span> b0 <span class="sc">+</span> b1 <span class="sc">*</span> x <span class="co"># La media</span></span>
+<span id="cb36-16"><a href="estim.html#cb36-16" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>nobs, <span class="at">mean=</span>media, <span class="at">sd=</span><span class="dv">2</span>) <span class="co"># La variable respuesta</span></span>
+<span id="cb36-17"><a href="estim.html#cb36-17" aria-hidden="true" tabindex="-1"></a>  datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(grupo, obs, x, y) <span class="co"># El dataframe</span></span>
+<span id="cb36-18"><a href="estim.html#cb36-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb36-19"><a href="estim.html#cb36-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-20"><a href="estim.html#cb36-20" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)     <span class="co"># Fijando la semilla para replicar el ejemplo</span></span>
+<span id="cb36-21"><a href="estim.html#cb36-21" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">gen_data</span>()  <span class="co"># Creando los datos</span></span></code></pre></div>
+<p>Ahora vamos a ajustar dos modelos, uno con estimación REML y otro con estimación ML.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="estim.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb37-2"><a href="estim.html#cb37-2" aria-hidden="true" tabindex="-1"></a>fit_reml <span class="ot">&lt;-</span> <span class="fu">lmer</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> x<span class="sc">|</span> grupo), <span class="at">data =</span> datos, <span class="at">REML =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb37-3"><a href="estim.html#cb37-3" aria-hidden="true" tabindex="-1"></a>fit_ml   <span class="ot">&lt;-</span> <span class="fu">lmer</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> x<span class="sc">|</span> grupo), <span class="at">data =</span> datos, <span class="at">REML =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p>Para extraer sólo los efectos fijos de los dos modelos ajustados hacemos lo siguiente:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="estim.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(fit_reml)</span></code></pre></div>
+<pre><code>## (Intercept)           x 
+##   11.449474   -6.236896</code></pre>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="estim.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(fit_ml)</span></code></pre></div>
+<pre><code>## (Intercept)           x 
+##   11.449454   -6.235161</code></pre>
+<p>Los efectos fijos verdaderos son <span class="math inline">\(\beta_0=4\)</span> y <span class="math inline">\(\beta_1=-5\)</span>. Al comparar las estimaciones REML y ML vemos que son cercanas entre sí y próximas de los parámetros.</p>
+<p>Para extraer sólo las componentes de varianza de los dos modelos hacemos lo siguiente:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="estim.html#cb42-1" aria-hidden="true" tabindex="-1"></a>(vc_reml <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(fit_reml))</span></code></pre></div>
+<pre><code>##  Groups   Name        Std.Dev. Corr 
+##  grupo    (Intercept) 6.5259        
+##           x           4.0121   0.466
+##  Residual             2.0379</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="estim.html#cb44-1" aria-hidden="true" tabindex="-1"></a>(vc_ml   <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(fit_ml))</span></code></pre></div>
+<pre><code>##  Groups   Name        Std.Dev. Corr 
+##  grupo    (Intercept) 5.8025        
+##           x           3.5803   0.475
+##  Residual             2.0377</code></pre>
+<p>Las componentes de varianza son <span class="math inline">\(\sigma_{b0}=6.32\)</span> (obtenida como <span class="math inline">\(\sqrt{40}\)</span>), <span class="math inline">\(\sigma_{b1}=7.07\)</span> (obtenida como <span class="math inline">\(\sqrt{50}\)</span>), <span class="math inline">\(\sigma_{b01}=3\)</span> y <span class="math inline">\(\sigma_y=2\)</span>.</p>
+<p>Vamos a calcular el MSE (mean squared error) para las dos estimaciones REML y ML.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="estim.html#cb46-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> vc_reml[[<span class="dv">1</span>]]</span>
+<span id="cb46-2"><a href="estim.html#cb46-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> vc_ml[[<span class="dv">1</span>]]</span>
+<span id="cb46-3"><a href="estim.html#cb46-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-4"><a href="estim.html#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>((a[<span class="fu">upper.tri</span>(a, <span class="at">diag =</span> <span class="cn">TRUE</span>)] <span class="sc">-</span> <span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">3</span>, <span class="dv">50</span>))<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [1] 413.6231</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="estim.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>((b[<span class="fu">upper.tri</span>(b, <span class="at">diag =</span> <span class="cn">TRUE</span>)] <span class="sc">-</span> <span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">3</span>, <span class="dv">50</span>))<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [1] 489.9286</code></pre>
+<p>De los anteriores resultados vemos que MSE es menor cuando se usa REML.</p>
 </div>
-<h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-LairdWare82" class="csl-entry">
-Laird, Nan M., and James H. Ware. 1982. <span>“Random-Effects Models for Longitudinal Data.”</span> <em>Biometrics</em> 38 (4): 963–74. <a href="http://www.jstor.org/stable/2529876">http://www.jstor.org/stable/2529876</a>.
+<div id="ejemplo-comparando-reml-y-ml-usando-nlme" class="section level2 unnumbered">
+<h2>Ejemplo: comparando REML y ML usando <strong>nlme</strong></h2>
+<p>Vamos a ajustar nuevamente los modelos pero usando el paquete <strong>nlme</strong>.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="estim.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb50-2"><a href="estim.html#cb50-2" aria-hidden="true" tabindex="-1"></a>fit_reml <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x <span class="sc">|</span> grupo, <span class="at">data =</span> datos, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>)</span>
+<span id="cb50-3"><a href="estim.html#cb50-3" aria-hidden="true" tabindex="-1"></a>fit_ml   <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x <span class="sc">|</span> grupo, <span class="at">data =</span> datos, <span class="at">method =</span> <span class="st">&quot;ML&quot;</span>)</span></code></pre></div>
+<p>Para extraer sólo los efectos fijos de los dos modelos ajustados hacemos lo siguiente:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="estim.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(fit_reml)</span></code></pre></div>
+<pre><code>## (Intercept)           x 
+##   11.449474   -6.236896</code></pre>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="estim.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(fit_ml)</span></code></pre></div>
+<pre><code>## (Intercept)           x 
+##   11.449459   -6.235162</code></pre>
+<p>Los efectos fijos verdaderos son <span class="math inline">\(\beta_0=4\)</span> y <span class="math inline">\(\beta_1=-5\)</span>. Al comparar las estimaciones REML y ML vemos que son cercanas entre sí, y próximas de los parámetros.</p>
+<p>Para extraer sólo las componentes de varianza de los dos modelos hacemos lo siguiente:</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="estim.html#cb55-1" aria-hidden="true" tabindex="-1"></a>(vc_reml <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(fit_reml))</span></code></pre></div>
+<pre><code>## grupo = pdLogChol(1 + x) 
+##             Variance  StdDev   Corr  
+## (Intercept) 42.588627 6.525996 (Intr)
+## x           16.097479 4.012166 0.466 
+## Residual     4.153191 2.037938</code></pre>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="estim.html#cb57-1" aria-hidden="true" tabindex="-1"></a>(vc_ml   <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(fit_ml))</span></code></pre></div>
+<pre><code>## grupo = pdLogChol(1 + x) 
+##             Variance  StdDev   Corr  
+## (Intercept) 33.668543 5.802460 (Intr)
+## x           12.819501 3.580433 0.475 
+## Residual     4.152341 2.037729</code></pre>
+<p>Las componentes de varianza son <span class="math inline">\(\sigma_{b0}=6.32\)</span> (obtenida como <span class="math inline">\(\sqrt{40}\)</span>), <span class="math inline">\(\sigma_{b1}=7.07\)</span> (obtenida como <span class="math inline">\(\sqrt{50}\)</span>), <span class="math inline">\(\sigma_{b01}=3\)</span> y <span class="math inline">\(\sigma_y=2\)</span>.</p>
+
+<div class="rmdnote">
+<ul>
+<li>Cuando se tienen muchos grupos y muchas repeticiones por grupo las estimaciones con REML y ML son muy cercanas.
+</div></li>
+</ul>
+</div>
+<div id="ejercicios" class="section level2 unnumbered">
+<h2>Ejercicios</h2>
+<ol style="list-style-type: decimal">
+<li>Repita el primer ejemplo de este capítulo para diez grupos y veinte observaciones por grupo. ¿Cuál es el valor de MSE?</li>
+<li>Repita el primer ejemplo de este capítulo para treinta grupos y cincuenta observaciones por grupo. ¿Cuál es el valor de MSE?</li>
+<li>Repita el primer ejemplo sin fijar la semilla y haga 100 réplicas con las siguientes combinaciones. Calcule el promedio de los MSE obtenidos.</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(G\)</span></th>
+<th><span class="math inline">\(n_i\)</span></th>
+<th><span class="math inline">\(\overline{MSE}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>5</td>
+<td>10</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>15</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>20</td>
+<td>20</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>30</td>
+<td>25</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
 </div>
 </div>
             </section>
@@ -319,8 +452,8 @@ Laird, Nan M., and James H. Ware. 1982. <span>“Random-Effects Models for Longi
           </div>
         </div>
       </div>
-<a href="reg-lin.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="shiny.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="pac-nlme.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="apli-nlme.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -352,7 +485,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/03-lmm.Rmd",
+"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/065-estimacion.Rmd",
 "text": "Edit"
 },
 "history": {

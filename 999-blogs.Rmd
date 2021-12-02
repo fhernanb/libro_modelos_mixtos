@@ -1,0 +1,6 @@
+# Otro material interesante {#blobs}
+
+En este capítulo se listan algunos blogs y publicaciones interesantes relacionados con modelos mixtos.
+
+- [A Practical Guide to Mixed Models in R](https://www.juliapilowsky.com/2018/10/19/a-practical-guide-to-mixed-models-in-r/).
+- [Introduction to linear mixed models](https://ourcodingclub.github.io/tutorials/mixed-models/).

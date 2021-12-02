@@ -1,0 +1,149 @@
+# Métodos de estimación {#estim}
+
+En este capítulo se muestran los métodos ML (maximum likelihood) y REML (restricted maximum likelihood) para estimar los parámetros de un modelo mixto.
+
+## ML y REML
+
+El método de máxima verosimilitud restringida (o residual o reducida) (REML) es una alternativa de estimación de máxima verosimilitud que no basa las estimaciones en un ajuste de máxima verosimilitud de toda la información, sino que utiliza una función de verosimilitud calculada a partir de una conjunto de datos transformado, de modo que los parámetros molestos no tengan ningún efecto.
+
+En el caso de la estimación del componente de varianza, el conjunto de datos original se reemplaza por un conjunto de contrastes calculados a partir de los datos, y la función de verosimilitud se calcula a partir de la distribución de probabilidad de estos contrastes, de acuerdo con el modelo para el conjunto de datos completo. En particular, REML se utiliza como método para ajustar modelos lineales mixtos. En contraste con la estimación de máxima verosimilitud anterior, REML puede producir estimaciones insesgadas de parámetros de varianza y covarianza.
+
+## Ejemplo: comparando REML y ML usando **lme4** {.unnumbered}
+
+En este ejemplo vamos a simular datos de un modelo lineal mixto con intercepto y pendiente aleatoria, luego vamos a comparar las estimaciones de los parámetros del modelo usando REML y ML.
+
+```{block2, type='rmdexercise'}
+Solución.
+```
+
+Los datos los vamos a simular del siguiente modelo.
+
+```{=tex}
+\begin{align*} 
+y_{ij} &\sim  N(\mu_{ij}, \sigma^2_y) \\ 
+\mu_{ij} &= 4 - 5 x_{ij} + b_{0i} + b_{1i} x_{ij} \\
+\sigma^2_y &= 4 \\
+\left (
+\begin{matrix}
+b_{0} \\ b_{1}
+\end{matrix} 
+\right ) &\sim 
+N\left ( \left ( \begin{matrix}
+0 \\ 0
+\end{matrix} \right ),
+\left ( \begin{matrix}
+\sigma^2_{b0}=40 & \sigma_{b01}=3 \\ 
+\sigma_{b01}=3 & \sigma^2_{b1}=50
+\end{matrix} \right )
+\right ) \\
+x_{ij} &\sim U(0, 5)
+\end{align*}
+```
+Vamos a simular datos balanceados del anterior modelo considerando cinco grupos y diez observaciones por grupo. Para hacer esto vamos a usar la siguiente función.
+
+```{r message=FALSE}
+gen_data <- function() {
+  ni <- 10
+  G  <- 5
+  nobs <- ni * G # Numero total de observaciones
+  grupo <- factor(rep(x=1:G, each=ni)) # Para crear la variable grupal
+  obs <- rep(x=1:ni, each=G) # Para identificar las obs por grupo
+  x <- runif(n=nobs, min=0, max=5) # La covariable
+  library(MASS) # Libreria para simular obs de Normal bivariada
+  Sigma <- matrix(c(40, 3, # Matriz de var-cov
+                    3, 50), ncol=2, nrow=2)
+  b <- mvrnorm(n=G, mu=rep(0, 2), Sigma=Sigma) # Simulando b0 y b1
+  b <- apply(b, MARGIN=2, function(c) rep(c, each=ni)) # Replicando
+  b0 <- as.vector(b[, 1]) # Separando los b0
+  b1 <- as.vector(b[, 2]) # Separando los b1
+  media <- 4 - 5 * x + b0 + b1 * x # La media
+  y <- rnorm(n=nobs, mean=media, sd=2) # La variable respuesta
+  datos <- data.frame(grupo, obs, x, y) # El dataframe
+}
+
+set.seed(123456)     # Fijando la semilla para replicar el ejemplo
+datos <- gen_data()  # Creando los datos
+```
+
+Ahora vamos a ajustar dos modelos, uno con estimación REML y otro con estimación ML.
+
+```{r message=FALSE}
+library(lme4)
+fit_reml <- lmer(y ~ 1 + x + (1 + x| grupo), data = datos, REML = TRUE)
+fit_ml   <- lmer(y ~ 1 + x + (1 + x| grupo), data = datos, REML = FALSE)
+```
+
+Para extraer sólo los efectos fijos de los dos modelos ajustados hacemos lo siguiente:
+
+```{r}
+fixef(fit_reml)
+fixef(fit_ml)
+```
+
+Los efectos fijos verdaderos son $\beta_0=4$ y $\beta_1=-5$. Al comparar las estimaciones REML y ML vemos que son cercanas entre sí y próximas de los parámetros.
+
+Para extraer sólo las componentes de varianza de los dos modelos hacemos lo siguiente:
+
+```{r}
+(vc_reml <- VarCorr(fit_reml))
+(vc_ml   <- VarCorr(fit_ml))
+```
+
+Las componentes de varianza son $\sigma_{b0}=6.32$ (obtenida como $\sqrt{40}$), $\sigma_{b1}=7.07$ (obtenida como $\sqrt{50}$), $\sigma_{b01}=3$ y $\sigma_y=2$.
+
+Vamos a calcular el MSE (mean squared error) para las dos estimaciones REML y ML.
+
+```{r}
+a <- vc_reml[[1]]
+b <- vc_ml[[1]]
+
+mean((a[upper.tri(a, diag = TRUE)] - c(40, 3, 50))^2)
+mean((b[upper.tri(b, diag = TRUE)] - c(40, 3, 50))^2)
+```
+
+De los anteriores resultados vemos que MSE es menor cuando se usa REML.
+
+## Ejemplo: comparando REML y ML usando **nlme** {.unnumbered}
+
+Vamos a ajustar nuevamente los modelos pero usando el paquete **nlme**.
+
+```{r message=FALSE}
+library(nlme)
+fit_reml <- lme(y ~ 1 + x, random = ~ 1 + x | grupo, data = datos, method = "REML")
+fit_ml   <- lme(y ~ 1 + x, random = ~ 1 + x | grupo, data = datos, method = "ML")
+```
+
+Para extraer sólo los efectos fijos de los dos modelos ajustados hacemos lo siguiente:
+
+```{r}
+fixef(fit_reml)
+fixef(fit_ml)
+```
+
+Los efectos fijos verdaderos son $\beta_0=4$ y $\beta_1=-5$. Al comparar las estimaciones REML y ML vemos que son cercanas entre sí, y próximas de los parámetros.
+
+Para extraer sólo las componentes de varianza de los dos modelos hacemos lo siguiente:
+
+```{r}
+(vc_reml <- VarCorr(fit_reml))
+(vc_ml   <- VarCorr(fit_ml))
+```
+
+Las componentes de varianza son $\sigma_{b0}=6.32$ (obtenida como $\sqrt{40}$), $\sigma_{b1}=7.07$ (obtenida como $\sqrt{50}$), $\sigma_{b01}=3$ y $\sigma_y=2$.
+
+```{block2, type='rmdnote'}
+- Cuando se tienen muchos grupos y muchas repeticiones por grupo las estimaciones con REML y ML son muy cercanas.
+```
+
+## Ejercicios {.unnumbered}
+
+1.  Repita el primer ejemplo de este capítulo para diez grupos y veinte observaciones por grupo. ¿Cuál es el valor de MSE?
+2.  Repita el primer ejemplo de este capítulo para treinta grupos y cincuenta observaciones por grupo. ¿Cuál es el valor de MSE?
+3.  Repita el primer ejemplo sin fijar la semilla y haga 100 réplicas con las siguientes combinaciones. Calcule el promedio de los MSE obtenidos.
+
+| $G$ | $n_i$   |$\overline{MSE}$|
+|-----|---------|----------------|
+| 5   | 10      |                |
+| 10  | 15      |                |
+| 20  | 20      |                |
+| 30  | 25      |                |
