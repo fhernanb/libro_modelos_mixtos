@@ -137,13 +137,13 @@ Las componentes de varianza son $\sigma_{b0}=6.32$ (obtenida como $\sqrt{40}$), 
 
 ## Ejercicios {.unnumbered}
 
-1.  Repita el primer ejemplo de este capítulo para diez grupos y veinte observaciones por grupo. ¿Cuál es el valor de MSE?
-2.  Repita el primer ejemplo de este capítulo para treinta grupos y cincuenta observaciones por grupo. ¿Cuál es el valor de MSE?
+1.  Repita el primer ejemplo de este capítulo para diez grupos y veinte observaciones por grupo. ¿Cuál es el valor de MSE para REML y ML?
+2.  Repita el primer ejemplo de este capítulo para treinta grupos y cincuenta observaciones por grupo. ¿Cuál es el valor de MSE para REML y ML?
 3.  Repita el primer ejemplo sin fijar la semilla y haga 100 réplicas con las siguientes combinaciones. Calcule el promedio de los MSE obtenidos.
 
-| $G$ | $n_i$   |$\overline{MSE}$|
-|-----|---------|----------------|
-| 5   | 10      |                |
-| 10  | 15      |                |
-| 20  | 20      |                |
-| 30  | 25      |                |
+| $G$ | $n_i$   |$\overline{MSE}_{REML}$|$\overline{MSE}_{ML}$|
+|-----|---------|-----------------------|---------------------|
+| 5   | 10      |                       |                     |
+| 10  | 15      |                       |                     |
+| 20  | 20      |                       |                     |
+| 30  | 25      |                       |                     |

@@ -45,3 +45,4 @@ varianza-constante-de-los-residuos-mediante-prueba-de-hipótesis
 distribución-normal-de-los-residuos-mediante-inferencia-visual
 distribución-normal-de-los-residuos-mediante-prueba-de-hipótesis
 blobs
+gráfica-marginal-del-modelo

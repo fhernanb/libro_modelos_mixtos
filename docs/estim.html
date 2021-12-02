@@ -54,24 +54,6 @@
 
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-<link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
-<script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
-<script src="libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
-<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
-<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
-<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.19/datatables.js"></script>
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
-<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
-<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
-<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
-<script src="libs/selectize-0.12.0/selectize.min.js"></script>
-<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
@@ -139,28 +121,6 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<style type="text/css">
-/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
-</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -256,6 +216,7 @@ div.csl-indent {
 <li class="chapter" data-level="11.3.4" data-path="reg-diagnos.html"><a href="reg-diagnos.html#distribución-normal-de-los-residuos-mediante-inferencia-visual"><i class="fa fa-check"></i><b>11.3.4</b> Distribución normal de los residuos mediante inferencia visual</a></li>
 <li class="chapter" data-level="" data-path="reg-diagnos.html"><a href="reg-diagnos.html#ejemplo-5"><i class="fa fa-check"></i>Ejemplo</a></li>
 <li class="chapter" data-level="11.3.5" data-path="reg-diagnos.html"><a href="reg-diagnos.html#distribución-normal-de-los-residuos-mediante-prueba-de-hipótesis"><i class="fa fa-check"></i><b>11.3.5</b> Distribución normal de los residuos mediante prueba de hipótesis</a></li>
+<li class="chapter" data-level="11.3.6" data-path="reg-diagnos.html"><a href="reg-diagnos.html#gráfica-marginal-del-modelo"><i class="fa fa-check"></i><b>11.3.6</b> Gráfica marginal del modelo</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>12</b> Otro material interesante</a></li>
@@ -316,83 +277,83 @@ N\left ( \left ( \begin{matrix}
 x_{ij} &amp;\sim U(0, 5)
 \end{align*}\]</span>
 <p>Vamos a simular datos balanceados del anterior modelo considerando cinco grupos y diez observaciones por grupo. Para hacer esto vamos a usar la siguiente función.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="estim.html#cb36-1" aria-hidden="true" tabindex="-1"></a>gen_data <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
-<span id="cb36-2"><a href="estim.html#cb36-2" aria-hidden="true" tabindex="-1"></a>  ni <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb36-3"><a href="estim.html#cb36-3" aria-hidden="true" tabindex="-1"></a>  G  <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb36-4"><a href="estim.html#cb36-4" aria-hidden="true" tabindex="-1"></a>  nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G <span class="co"># Numero total de observaciones</span></span>
-<span id="cb36-5"><a href="estim.html#cb36-5" aria-hidden="true" tabindex="-1"></a>  grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni)) <span class="co"># Para crear la variable grupal</span></span>
-<span id="cb36-6"><a href="estim.html#cb36-6" aria-hidden="true" tabindex="-1"></a>  obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">each=</span>G) <span class="co"># Para identificar las obs por grupo</span></span>
-<span id="cb36-7"><a href="estim.html#cb36-7" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">5</span>) <span class="co"># La covariable</span></span>
-<span id="cb36-8"><a href="estim.html#cb36-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(MASS) <span class="co"># Libreria para simular obs de Normal bivariada</span></span>
-<span id="cb36-9"><a href="estim.html#cb36-9" aria-hidden="true" tabindex="-1"></a>  Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">3</span>, <span class="co"># Matriz de var-cov</span></span>
-<span id="cb36-10"><a href="estim.html#cb36-10" aria-hidden="true" tabindex="-1"></a>                    <span class="dv">3</span>, <span class="dv">50</span>), <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">nrow=</span><span class="dv">2</span>)</span>
-<span id="cb36-11"><a href="estim.html#cb36-11" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">mvrnorm</span>(<span class="at">n=</span>G, <span class="at">mu=</span><span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="at">Sigma=</span>Sigma) <span class="co"># Simulando b0 y b1</span></span>
-<span id="cb36-12"><a href="estim.html#cb36-12" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">apply</span>(b, <span class="at">MARGIN=</span><span class="dv">2</span>, <span class="cf">function</span>(c) <span class="fu">rep</span>(c, <span class="at">each=</span>ni)) <span class="co"># Replicando</span></span>
-<span id="cb36-13"><a href="estim.html#cb36-13" aria-hidden="true" tabindex="-1"></a>  b0 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">1</span>]) <span class="co"># Separando los b0</span></span>
-<span id="cb36-14"><a href="estim.html#cb36-14" aria-hidden="true" tabindex="-1"></a>  b1 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">2</span>]) <span class="co"># Separando los b1</span></span>
-<span id="cb36-15"><a href="estim.html#cb36-15" aria-hidden="true" tabindex="-1"></a>  media <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="sc">-</span> <span class="dv">5</span> <span class="sc">*</span> x <span class="sc">+</span> b0 <span class="sc">+</span> b1 <span class="sc">*</span> x <span class="co"># La media</span></span>
-<span id="cb36-16"><a href="estim.html#cb36-16" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>nobs, <span class="at">mean=</span>media, <span class="at">sd=</span><span class="dv">2</span>) <span class="co"># La variable respuesta</span></span>
-<span id="cb36-17"><a href="estim.html#cb36-17" aria-hidden="true" tabindex="-1"></a>  datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(grupo, obs, x, y) <span class="co"># El dataframe</span></span>
-<span id="cb36-18"><a href="estim.html#cb36-18" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb36-19"><a href="estim.html#cb36-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-20"><a href="estim.html#cb36-20" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)     <span class="co"># Fijando la semilla para replicar el ejemplo</span></span>
-<span id="cb36-21"><a href="estim.html#cb36-21" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">gen_data</span>()  <span class="co"># Creando los datos</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="estim.html#cb1-1" aria-hidden="true" tabindex="-1"></a>gen_data <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb1-2"><a href="estim.html#cb1-2" aria-hidden="true" tabindex="-1"></a>  ni <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb1-3"><a href="estim.html#cb1-3" aria-hidden="true" tabindex="-1"></a>  G  <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb1-4"><a href="estim.html#cb1-4" aria-hidden="true" tabindex="-1"></a>  nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G <span class="co"># Numero total de observaciones</span></span>
+<span id="cb1-5"><a href="estim.html#cb1-5" aria-hidden="true" tabindex="-1"></a>  grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni)) <span class="co"># Para crear la variable grupal</span></span>
+<span id="cb1-6"><a href="estim.html#cb1-6" aria-hidden="true" tabindex="-1"></a>  obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">each=</span>G) <span class="co"># Para identificar las obs por grupo</span></span>
+<span id="cb1-7"><a href="estim.html#cb1-7" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">5</span>) <span class="co"># La covariable</span></span>
+<span id="cb1-8"><a href="estim.html#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(MASS) <span class="co"># Libreria para simular obs de Normal bivariada</span></span>
+<span id="cb1-9"><a href="estim.html#cb1-9" aria-hidden="true" tabindex="-1"></a>  Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">3</span>, <span class="co"># Matriz de var-cov</span></span>
+<span id="cb1-10"><a href="estim.html#cb1-10" aria-hidden="true" tabindex="-1"></a>                    <span class="dv">3</span>, <span class="dv">50</span>), <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">nrow=</span><span class="dv">2</span>)</span>
+<span id="cb1-11"><a href="estim.html#cb1-11" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">mvrnorm</span>(<span class="at">n=</span>G, <span class="at">mu=</span><span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="at">Sigma=</span>Sigma) <span class="co"># Simulando b0 y b1</span></span>
+<span id="cb1-12"><a href="estim.html#cb1-12" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">apply</span>(b, <span class="at">MARGIN=</span><span class="dv">2</span>, <span class="cf">function</span>(c) <span class="fu">rep</span>(c, <span class="at">each=</span>ni)) <span class="co"># Replicando</span></span>
+<span id="cb1-13"><a href="estim.html#cb1-13" aria-hidden="true" tabindex="-1"></a>  b0 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">1</span>]) <span class="co"># Separando los b0</span></span>
+<span id="cb1-14"><a href="estim.html#cb1-14" aria-hidden="true" tabindex="-1"></a>  b1 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">2</span>]) <span class="co"># Separando los b1</span></span>
+<span id="cb1-15"><a href="estim.html#cb1-15" aria-hidden="true" tabindex="-1"></a>  media <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="sc">-</span> <span class="dv">5</span> <span class="sc">*</span> x <span class="sc">+</span> b0 <span class="sc">+</span> b1 <span class="sc">*</span> x <span class="co"># La media</span></span>
+<span id="cb1-16"><a href="estim.html#cb1-16" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>nobs, <span class="at">mean=</span>media, <span class="at">sd=</span><span class="dv">2</span>) <span class="co"># La variable respuesta</span></span>
+<span id="cb1-17"><a href="estim.html#cb1-17" aria-hidden="true" tabindex="-1"></a>  datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(grupo, obs, x, y) <span class="co"># El dataframe</span></span>
+<span id="cb1-18"><a href="estim.html#cb1-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-19"><a href="estim.html#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="estim.html#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)     <span class="co"># Fijando la semilla para replicar el ejemplo</span></span>
+<span id="cb1-21"><a href="estim.html#cb1-21" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">gen_data</span>()  <span class="co"># Creando los datos</span></span></code></pre></div>
 <p>Ahora vamos a ajustar dos modelos, uno con estimación REML y otro con estimación ML.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="estim.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
-<span id="cb37-2"><a href="estim.html#cb37-2" aria-hidden="true" tabindex="-1"></a>fit_reml <span class="ot">&lt;-</span> <span class="fu">lmer</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> x<span class="sc">|</span> grupo), <span class="at">data =</span> datos, <span class="at">REML =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb37-3"><a href="estim.html#cb37-3" aria-hidden="true" tabindex="-1"></a>fit_ml   <span class="ot">&lt;-</span> <span class="fu">lmer</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> x<span class="sc">|</span> grupo), <span class="at">data =</span> datos, <span class="at">REML =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="estim.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb2-2"><a href="estim.html#cb2-2" aria-hidden="true" tabindex="-1"></a>fit_reml <span class="ot">&lt;-</span> <span class="fu">lmer</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> x<span class="sc">|</span> grupo), <span class="at">data =</span> datos, <span class="at">REML =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-3"><a href="estim.html#cb2-3" aria-hidden="true" tabindex="-1"></a>fit_ml   <span class="ot">&lt;-</span> <span class="fu">lmer</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> x<span class="sc">|</span> grupo), <span class="at">data =</span> datos, <span class="at">REML =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p>Para extraer sólo los efectos fijos de los dos modelos ajustados hacemos lo siguiente:</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="estim.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(fit_reml)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="estim.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(fit_reml)</span></code></pre></div>
 <pre><code>## (Intercept)           x 
 ##   11.449474   -6.236896</code></pre>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="estim.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(fit_ml)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="estim.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(fit_ml)</span></code></pre></div>
 <pre><code>## (Intercept)           x 
 ##   11.449454   -6.235161</code></pre>
 <p>Los efectos fijos verdaderos son <span class="math inline">\(\beta_0=4\)</span> y <span class="math inline">\(\beta_1=-5\)</span>. Al comparar las estimaciones REML y ML vemos que son cercanas entre sí y próximas de los parámetros.</p>
 <p>Para extraer sólo las componentes de varianza de los dos modelos hacemos lo siguiente:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="estim.html#cb42-1" aria-hidden="true" tabindex="-1"></a>(vc_reml <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(fit_reml))</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="estim.html#cb7-1" aria-hidden="true" tabindex="-1"></a>(vc_reml <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(fit_reml))</span></code></pre></div>
 <pre><code>##  Groups   Name        Std.Dev. Corr 
 ##  grupo    (Intercept) 6.5259        
 ##           x           4.0121   0.466
 ##  Residual             2.0379</code></pre>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="estim.html#cb44-1" aria-hidden="true" tabindex="-1"></a>(vc_ml   <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(fit_ml))</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="estim.html#cb9-1" aria-hidden="true" tabindex="-1"></a>(vc_ml   <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(fit_ml))</span></code></pre></div>
 <pre><code>##  Groups   Name        Std.Dev. Corr 
 ##  grupo    (Intercept) 5.8025        
 ##           x           3.5803   0.475
 ##  Residual             2.0377</code></pre>
 <p>Las componentes de varianza son <span class="math inline">\(\sigma_{b0}=6.32\)</span> (obtenida como <span class="math inline">\(\sqrt{40}\)</span>), <span class="math inline">\(\sigma_{b1}=7.07\)</span> (obtenida como <span class="math inline">\(\sqrt{50}\)</span>), <span class="math inline">\(\sigma_{b01}=3\)</span> y <span class="math inline">\(\sigma_y=2\)</span>.</p>
 <p>Vamos a calcular el MSE (mean squared error) para las dos estimaciones REML y ML.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="estim.html#cb46-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> vc_reml[[<span class="dv">1</span>]]</span>
-<span id="cb46-2"><a href="estim.html#cb46-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> vc_ml[[<span class="dv">1</span>]]</span>
-<span id="cb46-3"><a href="estim.html#cb46-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-4"><a href="estim.html#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>((a[<span class="fu">upper.tri</span>(a, <span class="at">diag =</span> <span class="cn">TRUE</span>)] <span class="sc">-</span> <span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">3</span>, <span class="dv">50</span>))<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="estim.html#cb11-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> vc_reml[[<span class="dv">1</span>]]</span>
+<span id="cb11-2"><a href="estim.html#cb11-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> vc_ml[[<span class="dv">1</span>]]</span>
+<span id="cb11-3"><a href="estim.html#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="estim.html#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>((a[<span class="fu">upper.tri</span>(a, <span class="at">diag =</span> <span class="cn">TRUE</span>)] <span class="sc">-</span> <span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">3</span>, <span class="dv">50</span>))<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## [1] 413.6231</code></pre>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="estim.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>((b[<span class="fu">upper.tri</span>(b, <span class="at">diag =</span> <span class="cn">TRUE</span>)] <span class="sc">-</span> <span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">3</span>, <span class="dv">50</span>))<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="estim.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>((b[<span class="fu">upper.tri</span>(b, <span class="at">diag =</span> <span class="cn">TRUE</span>)] <span class="sc">-</span> <span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">3</span>, <span class="dv">50</span>))<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## [1] 489.9286</code></pre>
 <p>De los anteriores resultados vemos que MSE es menor cuando se usa REML.</p>
 </div>
 <div id="ejemplo-comparando-reml-y-ml-usando-nlme" class="section level2 unnumbered">
 <h2>Ejemplo: comparando REML y ML usando <strong>nlme</strong></h2>
 <p>Vamos a ajustar nuevamente los modelos pero usando el paquete <strong>nlme</strong>.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="estim.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb50-2"><a href="estim.html#cb50-2" aria-hidden="true" tabindex="-1"></a>fit_reml <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x <span class="sc">|</span> grupo, <span class="at">data =</span> datos, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>)</span>
-<span id="cb50-3"><a href="estim.html#cb50-3" aria-hidden="true" tabindex="-1"></a>fit_ml   <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x <span class="sc">|</span> grupo, <span class="at">data =</span> datos, <span class="at">method =</span> <span class="st">&quot;ML&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="estim.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb15-2"><a href="estim.html#cb15-2" aria-hidden="true" tabindex="-1"></a>fit_reml <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x <span class="sc">|</span> grupo, <span class="at">data =</span> datos, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>)</span>
+<span id="cb15-3"><a href="estim.html#cb15-3" aria-hidden="true" tabindex="-1"></a>fit_ml   <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x <span class="sc">|</span> grupo, <span class="at">data =</span> datos, <span class="at">method =</span> <span class="st">&quot;ML&quot;</span>)</span></code></pre></div>
 <p>Para extraer sólo los efectos fijos de los dos modelos ajustados hacemos lo siguiente:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="estim.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(fit_reml)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="estim.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(fit_reml)</span></code></pre></div>
 <pre><code>## (Intercept)           x 
 ##   11.449474   -6.236896</code></pre>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="estim.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(fit_ml)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="estim.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(fit_ml)</span></code></pre></div>
 <pre><code>## (Intercept)           x 
 ##   11.449459   -6.235162</code></pre>
 <p>Los efectos fijos verdaderos son <span class="math inline">\(\beta_0=4\)</span> y <span class="math inline">\(\beta_1=-5\)</span>. Al comparar las estimaciones REML y ML vemos que son cercanas entre sí, y próximas de los parámetros.</p>
 <p>Para extraer sólo las componentes de varianza de los dos modelos hacemos lo siguiente:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="estim.html#cb55-1" aria-hidden="true" tabindex="-1"></a>(vc_reml <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(fit_reml))</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="estim.html#cb20-1" aria-hidden="true" tabindex="-1"></a>(vc_reml <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(fit_reml))</span></code></pre></div>
 <pre><code>## grupo = pdLogChol(1 + x) 
 ##             Variance  StdDev   Corr  
 ## (Intercept) 42.588627 6.525996 (Intr)
 ## x           16.097479 4.012166 0.466 
 ## Residual     4.153191 2.037938</code></pre>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="estim.html#cb57-1" aria-hidden="true" tabindex="-1"></a>(vc_ml   <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(fit_ml))</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="estim.html#cb22-1" aria-hidden="true" tabindex="-1"></a>(vc_ml   <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(fit_ml))</span></code></pre></div>
 <pre><code>## grupo = pdLogChol(1 + x) 
 ##             Variance  StdDev   Corr  
 ## (Intercept) 33.668543 5.802460 (Intr)
@@ -409,8 +370,8 @@ x_{ij} &amp;\sim U(0, 5)
 <div id="ejercicios" class="section level2 unnumbered">
 <h2>Ejercicios</h2>
 <ol style="list-style-type: decimal">
-<li>Repita el primer ejemplo de este capítulo para diez grupos y veinte observaciones por grupo. ¿Cuál es el valor de MSE?</li>
-<li>Repita el primer ejemplo de este capítulo para treinta grupos y cincuenta observaciones por grupo. ¿Cuál es el valor de MSE?</li>
+<li>Repita el primer ejemplo de este capítulo para diez grupos y veinte observaciones por grupo. ¿Cuál es el valor de MSE para REML y ML?</li>
+<li>Repita el primer ejemplo de este capítulo para treinta grupos y cincuenta observaciones por grupo. ¿Cuál es el valor de MSE para REML y ML?</li>
 <li>Repita el primer ejemplo sin fijar la semilla y haga 100 réplicas con las siguientes combinaciones. Calcule el promedio de los MSE obtenidos.</li>
 </ol>
 <table>
@@ -418,7 +379,8 @@ x_{ij} &amp;\sim U(0, 5)
 <tr class="header">
 <th><span class="math inline">\(G\)</span></th>
 <th><span class="math inline">\(n_i\)</span></th>
-<th><span class="math inline">\(\overline{MSE}\)</span></th>
+<th><span class="math inline">\(\overline{MSE}_{REML}\)</span></th>
+<th><span class="math inline">\(\overline{MSE}_{ML}\)</span></th>
 </tr>
 </thead>
 <tbody>
@@ -426,20 +388,24 @@ x_{ij} &amp;\sim U(0, 5)
 <td>5</td>
 <td>10</td>
 <td></td>
+<td></td>
 </tr>
 <tr class="even">
 <td>10</td>
 <td>15</td>
+<td></td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>20</td>
 <td>20</td>
 <td></td>
+<td></td>
 </tr>
 <tr class="even">
 <td>30</td>
 <td>25</td>
+<td></td>
 <td></td>
 </tr>
 </tbody>
