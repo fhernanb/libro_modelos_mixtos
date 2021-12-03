@@ -4,3 +4,7 @@ En este capítulo se listan algunos blogs y publicaciones interesantes relaciona
 
 - [A Practical Guide to Mixed Models in R](https://www.juliapilowsky.com/2018/10/19/a-practical-guide-to-mixed-models-in-r/).
 - [Introduction to linear mixed models](https://ourcodingclub.github.io/tutorials/mixed-models/).
+- [How to choose nlme or lme4 R library for mixed effects models?](https://stats.stackexchange.com/questions/5344/how-to-choose-nlme-or-lme4-r-library-for-mixed-effects-models).
+- [GLMM FAQ](https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#books-dead-treeclosed).
+
+
