@@ -1,0 +1,7 @@
+# Modelando la heterocedasticidad {#var-fun}
+
+En este capítulo se mostrará como usar el paquete `nlme` para modelar heterocedasticidad.
+
+
+
+

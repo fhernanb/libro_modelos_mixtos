@@ -46,3 +46,5 @@ distribución-normal-de-los-residuos-mediante-inferencia-visual
 distribución-normal-de-los-residuos-mediante-prueba-de-hipótesis
 blobs
 gráfica-marginal-del-modelo
+fig:unnamed-chunk-2
+var-fun

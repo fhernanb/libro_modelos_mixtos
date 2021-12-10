@@ -1,0 +1,51 @@
+# Aplicación con `nlme` {#apli-nlme}
+
+En este capítulo se mostrará un ejemplo de un modelo mixto con dos niveles usando la base de datos `RatPupWeight` del paquete **nlme**. Este ejemplo corresponde al ejemplo de la sección 3.2 de @West2014.
+
+```{r echo=FALSE, out.width="50%", fig.align='center', fig.cap="Camada de ratones, tomada de https://www.howcast.com/videos/509444-how-to-care-for-a-pregnant-rat-pet-rats"}
+knitr::include_graphics("images/rat_pups.jpg")
+```
+
+A continuación la base de datos a utilizar.
+
+```{r}
+library(nlme)
+head(RatPupWeight)
+```
+
+Esta base de datos sobre crecimiento contiene la información sobre altura (`weigth`), sexo (`sex`), camada (`litter`), tamaño de la camada (`Lsize`) y tratamiento (`Treatment`) al que se sometió un rata antes de tener ratones.
+
+La estrategia es crear el modelo de forma incremental. Vamos a comenzar la construcción a partir del modelo `mod31` que usa como efectos fijos el tratamiento, el sexo, la interacción entre tratamiento y sexo, el tamaño de la camada. Adicionalmente, este modelo incluye intercepto aleatorio debido a la camada. 
+
+```{r}
+mod31 <- lme(weight ~ Treatment * sex + Lsize, random= ~ 1 | Litter,
+             data=RatPupWeight, method = "REML")
+```
+
+Vamos a usar la función `anova.lme` para estudiar la importancia de cada efecto fijo en el modelo.
+
+```{r}
+anova(mod31)
+```
+
+El otro modelo inicial `mod31a` es un modelo lineal sin intercepto aleatorio y se ajusta con la función `gls`.
+
+```{r}
+mod31a <- gls(weight ~ Treatment * sex + Lsize,
+              data=RatPupWeight, method = "REML")
+```
+
+
+```{r}
+anova(mod31, mod31a)
+```
+
+```{r}
+mod32a <- lme(weight ~ Treatment * sex + Lsize, random= ~ 1 | Litter,
+             data=RatPupWeight, method = "REML",
+             weights = varIdent(form = ~1 | Treatment))
+
+summary(mod32a)
+```
+
+

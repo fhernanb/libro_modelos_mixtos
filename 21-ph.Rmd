@@ -1,9 +1,9 @@
 # Pruebas de hipótesis {#ph}
 
-En este capítulo se muestran las pruebas de hipótesis para comparar modelo mixtos.
+En este capítulo se muestran las pruebas de hipótesis para comparar modelos mixtos.
 
 ## Prueba razón de verosimilitud
-Supongamos que queremos estudiar $H_0: \theta \in \boldsymbol{\Theta}_0$ versus $H_A: \theta \in \boldsymbol{\Theta}$. La prueba razón de verosimilitud ($LR$) para $H_0$ está dada por:
+Supongamos que queremos estudiar $H_0: \boldsymbol{\theta} \in \boldsymbol{\Theta}_0$ versus $H_A: \boldsymbol{\theta} \in \boldsymbol{\Theta}$. La prueba razón de verosimilitud ($LR$) para $H_0$ está dada por:
 
 $$
 LR = -2 \log \left( \frac{ sup_{\theta \in \boldsymbol{\Theta}_0} L(\theta)}{ sup_{\theta \in \boldsymbol{\Theta}} L(\theta)} \right).
@@ -12,10 +12,12 @@ $$
 Usualmente la prueba de razón de verosimilitud se expresa en función de los valores de log-verosimilitud del modelo así:
 
 $$
-LR = -2 ( l(\Theta_0) - l(\hat{\Theta}) ),
+LR = -2 ( l(\boldsymbol{\theta}_0) - l(\hat{\boldsymbol{\theta}}) ),
 $$
 
 y el estadístico $LR \sim \chi^2_{k-k_0}$, donde $k$ es el número de parámetros del modelo estimado y $k_0$ el número de parámetros del modelo asumiendo $H_0$ verdadera.
+
+El vector $\boldsymbol{\theta}_0$ es el vector de parámetros asumiendo que $H_0$ es verdadera mientras que $\hat{\boldsymbol{\theta}}$ es el vector de parámetros del modelo más general.
 
 ## Prueba de Wald
 Si el interés es estudiar $H_0: \beta_k = \beta_{k0}$ contra $H_A: \beta_k \neq \beta_{k0}$ se puede usar la prueba de Wald que tiene el siguiente estadístico:
@@ -325,13 +327,23 @@ my_p.value
 
 De la salida anterior se tiene que $valor-P = 0.0809$ y como $\alpha=0.05$, por lo tanto NO hay evidencias para rechazar $H_0: \sigma^2_{b0} = 0$. ¿No es extraña esta conclusión &#129300;?
 
-Los resultados anteriores se pueden obtener por medio de la función `anova` así.
+Lo anterior ocurre porque la distribución del estadístico $LR$ no es un $\chi^2$ sino una mezcla de distribuciones $\chi^2_1$ y $\chi^2_0$ con pesos iguales a 0.5. A continuación vamos a mostrar la distribución de $LR$ en este ejemplo.
 
 ```{r}
-anova(fit1, fit2)
+library(emdbook) # Para usar la función dchibarsq
+library(ggplot2)
+ggplot(data = data.frame(x = 0), mapping = aes(x = x)) + 
+  stat_function(fun = dchibarsq, args = list(df = 1)) + 
+  xlim(0, 5)
 ```
 
-Ahora vamos a simular 50 conjuntos de datos suponiendo $H_0$ verdadera y luego calcularemos los `lrt` para así tener la distribución empírica de los `lrt` bajo la hipótesis nula $H_0: \sigma^2_{b0} = 0$ verdadera. En un aplicación se deberían generar más conjuntos de pero aquí vamos a usar sólo 50 por comodidad.
+Para calcular el valor-P de la prueba hacemos
+
+```{r}
+pchibarsq(p=3.04712, df = 1, mix = 0.5, lower.tail=FALSE)
+```
+
+También es posible obtener el valor-P usando simulación. Vamos a simular 50 conjuntos de datos suponiendo $H_0$ verdadera y luego calcularemos los `lrt` para así tener la distribución empírica de los `lrt` bajo la hipótesis nula $H_0: \sigma^2_{b0} = 0$ verdadera. En un aplicación se deberían generar más conjuntos de pero aquí vamos a usar sólo 50 por comodidad.
 
 ```{r}
 pseudo_gen_dat <- function(nobs, beta0, beta1, sigmay) {
@@ -377,7 +389,7 @@ Los resultados anteriores se obtuvieron usando `nrep <- 50`, en la práctica ese
 
 </div>
 
-El paquete **RLRsim** [@R-RLRsim] tiene la función `exactRLRT` que permite extraer el valor-P mediante simulación. Abajo un ejemplo de como usarla en el presente ejemplo.
+El paquete **RLRsim** de @R-RLRsim tiene la función `exactRLRT` que permite extraer el valor-P mediante simulación. Abajo un ejemplo de como usarla en el presente ejemplo.
 
 ```{r}
 library(RLRsim)
