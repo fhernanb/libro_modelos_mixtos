@@ -1,4 +1,4 @@
-# Aplicación con `nlme` {#apli-nlme}
+# Aplicación rat pup {#apli-rat-pup}
 
 En este capítulo se mostrará un ejemplo de un modelo mixto con dos niveles usando la base de datos `RatPupWeight` del paquete **nlme**. Este ejemplo corresponde al ejemplo de la sección 3.2 de @West2014.
 

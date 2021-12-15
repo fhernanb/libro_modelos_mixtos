@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>References | Modelos Mixtos con R</title>
+  <title>11 Aplicación rat pup | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="References | Modelos Mixtos con R" />
+  <meta property="og:title" content="11 Aplicación rat pup | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:image" content="/images/cover.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="fhernanb/libro_mod_pred" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="References | Modelos Mixtos con R" />
+  <meta name="twitter:title" content="11 Aplicación rat pup | Modelos Mixtos con R" />
   
   <meta name="twitter:description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="twitter:image" content="/images/cover.png" />
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="blobs.html"/>
-
+<link rel="prev" href="apli-lme4.html"/>
+<link rel="next" href="ph.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -282,43 +282,96 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="references" class="section level1 unnumbered">
-<h1>References</h1>
+<div id="apli-rat-pup" class="section level1" number="11">
+<h1><span class="header-section-number">11</span> Aplicación rat pup</h1>
+<p>En este capítulo se mostrará un ejemplo de un modelo mixto con dos niveles usando la base de datos <code>RatPupWeight</code> del paquete <strong>nlme</strong>. Este ejemplo corresponde al ejemplo de la sección 3.2 de <span class="citation">West (<a href="#ref-West2014" role="doc-biblioref">2014</a>)</span>.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-64"></span>
+<img src="images/rat_pups.jpg" alt="Camada de ratones, tomada de https://www.howcast.com/videos/509444-how-to-care-for-a-pregnant-rat-pet-rats" width="50%" />
+<p class="caption">
+Figure 11.1: Camada de ratones, tomada de <a href="https://www.howcast.com/videos/509444-how-to-care-for-a-pregnant-rat-pet-rats" class="uri">https://www.howcast.com/videos/509444-how-to-care-for-a-pregnant-rat-pet-rats</a>
+</p>
+</div>
+<p>A continuación la base de datos a utilizar.</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="apli-rat-pup.html#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb85-2"><a href="apli-rat-pup.html#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(RatPupWeight)</span></code></pre></div>
+<pre><code>## Grouped Data: weight ~ 1 | Litter
+##   weight  sex Litter Lsize Treatment
+## 1   6.60 Male      1    12   Control
+## 2   7.40 Male      1    12   Control
+## 3   7.15 Male      1    12   Control
+## 4   7.24 Male      1    12   Control
+## 5   7.10 Male      1    12   Control
+## 6   6.04 Male      1    12   Control</code></pre>
+<p>Esta base de datos sobre crecimiento contiene la información sobre altura (<code>weigth</code>), sexo (<code>sex</code>), camada (<code>litter</code>), tamaño de la camada (<code>Lsize</code>) y tratamiento (<code>Treatment</code>) al que se sometió un rata antes de tener ratones.</p>
+<p>La estrategia es crear el modelo de forma incremental. Vamos a comenzar la construcción a partir del modelo <code>mod31</code> que usa como efectos fijos el tratamiento, el sexo, la interacción entre tratamiento y sexo, el tamaño de la camada. Adicionalmente, este modelo incluye intercepto aleatorio debido a la camada.</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="apli-rat-pup.html#cb87-1" aria-hidden="true" tabindex="-1"></a>mod31 <span class="ot">&lt;-</span> <span class="fu">lme</span>(weight <span class="sc">~</span> Treatment <span class="sc">*</span> sex <span class="sc">+</span> Lsize, <span class="at">random=</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> Litter,</span>
+<span id="cb87-2"><a href="apli-rat-pup.html#cb87-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">data=</span>RatPupWeight, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>)</span></code></pre></div>
+<p>Vamos a usar la función <code>anova.lme</code> para estudiar la importancia de cada efecto fijo en el modelo.</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="apli-rat-pup.html#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod31)</span></code></pre></div>
+<pre><code>##               numDF denDF  F-value p-value
+## (Intercept)       1   292 9093.772  &lt;.0001
+## Treatment         2    23    5.082  0.0149
+## sex               1   292   52.602  &lt;.0001
+## Lsize             1    23   47.374  &lt;.0001
+## Treatment:sex     2   292    0.466  0.6282</code></pre>
+<p>El otro modelo inicial <code>mod31a</code> es un modelo lineal sin intercepto aleatorio y se ajusta con la función <code>gls</code>.</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="apli-rat-pup.html#cb90-1" aria-hidden="true" tabindex="-1"></a>mod31a <span class="ot">&lt;-</span> <span class="fu">gls</span>(weight <span class="sc">~</span> Treatment <span class="sc">*</span> sex <span class="sc">+</span> Lsize,</span>
+<span id="cb90-2"><a href="apli-rat-pup.html#cb90-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>RatPupWeight, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="apli-rat-pup.html#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod31, mod31a)</span></code></pre></div>
+<pre><code>##        Model df      AIC      BIC    logLik   Test  L.Ratio p-value
+## mod31      1  9 421.3015 455.0747 -201.6508                        
+## mod31a     2  8 508.7072 538.7277 -246.3536 1 vs 2 89.40562  &lt;.0001</code></pre>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="apli-rat-pup.html#cb93-1" aria-hidden="true" tabindex="-1"></a>mod32a <span class="ot">&lt;-</span> <span class="fu">lme</span>(weight <span class="sc">~</span> Treatment <span class="sc">*</span> sex <span class="sc">+</span> Lsize, <span class="at">random=</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> Litter,</span>
+<span id="cb93-2"><a href="apli-rat-pup.html#cb93-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">data=</span>RatPupWeight, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>,</span>
+<span id="cb93-3"><a href="apli-rat-pup.html#cb93-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">weights =</span> <span class="fu">varIdent</span>(<span class="at">form =</span> <span class="sc">~</span><span class="dv">1</span> <span class="sc">|</span> Treatment))</span>
+<span id="cb93-4"><a href="apli-rat-pup.html#cb93-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-5"><a href="apli-rat-pup.html#cb93-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod32a)</span></code></pre></div>
+<pre><code>## Linear mixed-effects model fit by REML
+##   Data: RatPupWeight 
+##        AIC      BIC   logLik
+##   384.0819 425.3602 -181.041
+## 
+## Random effects:
+##  Formula: ~1 | Litter
+##         (Intercept)  Residual
+## StdDev:   0.3134846 0.5147948
+## 
+## Variance function:
+##  Structure: Different standard deviations per stratum
+##  Formula: ~1 | Treatment 
+##  Parameter estimates:
+##   Control      High       Low 
+## 1.0000000 0.6394383 0.5649830 
+## Fixed effects:  weight ~ Treatment * sex + Lsize 
+##                           Value  Std.Error  DF  t-value p-value
+## (Intercept)            7.888771 0.23223913 292 33.96831  0.0000
+## Treatment.L           -0.638713 0.13587695  23 -4.70067  0.0001
+## Treatment.Q            0.011965 0.11635236  23  0.10283  0.9190
+## sexFemale             -0.351238 0.04682791 292 -7.50062  0.0000
+## Lsize                 -0.130007 0.01848708  23 -7.03233  0.0000
+## Treatment.L:sexFemale  0.066939 0.09135485 292  0.73274  0.4643
+## Treatment.Q:sexFemale -0.023417 0.06929365 292 -0.33794  0.7357
+##  Correlation: 
+##                       (Intr) Trtm.L Trtm.Q sexFml Lsize  Tr.L:F
+## Treatment.L           -0.325                                   
+## Treatment.Q           -0.139  0.154                            
+## sexFemale             -0.126 -0.008 -0.103                     
+## Lsize                 -0.954  0.376  0.190  0.031              
+## Treatment.L:sexFemale -0.020 -0.304 -0.012 -0.034  0.015       
+## Treatment.Q:sexFemale -0.021 -0.023 -0.300  0.445 -0.017 -0.029
+## 
+## Standardized Within-Group Residuals:
+##         Min          Q1         Med          Q3         Max 
+## -5.88670114 -0.52493419  0.02123518  0.57307286  2.56409983 
+## 
+## Number of Observations: 322
+## Number of Groups: 27</code></pre>
 
+</div>
+<h3>References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
-<div class="csl-entry">
-Bates, Douglas, Martin Maechler, Ben Bolker, and Steven Walker. 2021. <em>Lme4: Linear Mixed-Effects Models Using Eigen and S4</em>. <a href="https://github.com/lme4/lme4/">https://github.com/lme4/lme4/</a>.
-</div>
-<div class="csl-entry">
-Breslow, Norman E, and David G Clayton. 1993. <span>“Approximate Inference in Generalized Linear Mixed Models.”</span> <em>Journal of the American Statistical Association</em> 88 (421): 9–25.
-</div>
-<div class="csl-entry">
-Galecki, A., and T. Burzykowski. 2012. <em>Linear Mixed-Effects Models Using r</em>. 1st ed. New York: Springer.
-</div>
-<div class="csl-entry">
-Laird, Nan M., and James H. Ware. 1982. <span>“Random-Effects Models for Longitudinal Data.”</span> <em>Biometrics</em> 38 (4): 963–74. <a href="http://www.jstor.org/stable/2529876">http://www.jstor.org/stable/2529876</a>.
-</div>
-<div class="csl-entry">
-Pinheiro, J., and D. Bates. 2000. <em>Mixed-Effects Models in s and s-PLUS</em>. 1st ed. New York: Springer.
-</div>
-<div class="csl-entry">
-Pinheiro, José, Douglas Bates, and R-core. 2021. <em>Nlme: Linear and Nonlinear Mixed Effects Models</em>. <a href="https://svn.r-project.org/R-packages/trunk/nlme/">https://svn.r-project.org/R-packages/trunk/nlme/</a>.
-</div>
-<div class="csl-entry">
-Scheipl, Fabian. 2020. <em>RLRsim: Exact (Restricted) Likelihood Ratio Tests for Mixed and Additive Models</em>. <a href="https://github.com/fabian-s/RLRsim">https://github.com/fabian-s/RLRsim</a>.
-</div>
-<div class="csl-entry">
-Verbeke, G., and G Molenberghs. 2000. <em>Linear Mixed Models for Longitudinal Data</em>. 1st ed. New York: Springer.
-</div>
-<div class="csl-entry">
+<div id="ref-West2014" class="csl-entry">
 West, Welch, B. T. 2014. <em>Linear Mixed Models: A Practical Guide Using Statistical Software</em>. 2nd ed. Chapman; Hall/CRC.
-</div>
-<div class="csl-entry">
-Xie, Yihui. 2015. <em>Dynamic Documents with <span>R</span> and Knitr</em>. 2nd ed. Boca Raton, Florida: Chapman; Hall/CRC. <a href="http://yihui.name/knitr/">http://yihui.name/knitr/</a>.
-</div>
-<div class="csl-entry">
-———. 2021. <em>Bookdown: Authoring Books and Technical Documents with r Markdown</em>. <a href="https://CRAN.R-project.org/package=bookdown">https://CRAN.R-project.org/package=bookdown</a>.
-</div>
 </div>
 </div>
             </section>
@@ -326,8 +379,8 @@ Xie, Yihui. 2015. <em>Dynamic Documents with <span>R</span> and Knitr</em>. 2nd 
           </div>
         </div>
       </div>
-<a href="blobs.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="apli-lme4.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ph.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -359,7 +412,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/9999-references.Rmd",
+"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/13-apli-rat-pup.Rmd",
 "text": "Edit"
 },
 "history": {
