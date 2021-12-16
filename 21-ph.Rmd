@@ -321,8 +321,8 @@ Ahora vamos a calcular el estadístico y su valor-P.
 ```{r}
 lrt <- -2 * (logLik(fit1) - logLik(fit2))
 lrt
-my_p.value <- pchisq(q=3.04712, df=1, lower.tail=FALSE)
-my_p.value
+p_value <- pchisq(q=3.04712, df=1, lower.tail=FALSE)
+p_value
 ```
 
 De la salida anterior se tiene que $valor-P = 0.0809$ y como $\alpha=0.05$, por lo tanto NO hay evidencias para rechazar $H_0: \sigma^2_{b0} = 0$. ¿No es extraña esta conclusión &#129300;?
@@ -405,6 +405,136 @@ Consulte la ayuda de la función `exactRLRT` para que conozca sus posibilidades 
 ```
 
 </div>
+
+
+### Ejemplo {-}
+Simule 10 observaciones para cada uno de los 10 grupos siguiendo el siguiente modelo y luego aplique la prueba de razón de verosimilitud para estudiar $H_0:$ el modelo con intercepto aleatorio está bien versus $H_A:$ se necesita intercepto y pendiente aleatoria.
+
+\begin{align*} 
+y_{ij} &\sim  N(\mu_{ij}, \sigma^2_y) \\ 
+\mu_{ij} &= 4 - 6 x_{ij} + b_{0i} + b_{1i} x_{ij} \\
+\sigma^2_y &= 4 \\
+\left (
+\begin{matrix}
+b_{0} \\ b_{1}
+\end{matrix} 
+\right ) &\sim 
+N\left ( \left ( \begin{matrix}
+0 \\ 0
+\end{matrix} \right ),
+\left ( \begin{matrix}
+\sigma^2_{b0}=10 & \sigma_{b01}=3 \\ 
+\sigma_{b01}=3 & \sigma^2_{b1}=2
+\end{matrix} \right )
+\right ) \\
+x_{ij} &\sim U(0, 10)
+\end{align*}
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+```{block2, type='rmdexercise'}
+Solución.
+```
+
+</div>
+
+La función `gen_dat_b0_b1` de abajo permite simular `m` observaciones de `n` grupos con intercepto y pendiente aleatoria según el modelo exigido.
+
+```{r}
+gen_dat_b0_b1 <- function(n, m, beta0, beta1, 
+                          sigma2y, 
+                          sigma2b0, sigma2b1, sigmab0b1,
+                          seed=NULL) {
+  if(is.null(seed)) seed <- as.integer(runif(1)*2e9)
+  group <- rep(1:n, each=m)
+  Sigma <- matrix(c(sigma2b0, sigmab0b1, 
+                    sigmab0b1, sigma2b1), ncol=2, nrow=2)
+  
+  set.seed(seed)
+  b <- MASS::mvrnorm(n=n, mu=c(0, 0), 
+                     Sigma=Sigma, empirical=TRUE)  
+  b <- apply(X=b, MARGIN=2, rep, each=m)
+  b0 <- b[, 1] # Extrayendo los b0
+  b1 <- b[, 2] # Extrayendo los b1
+  
+  set.seed(seed)
+  x <- runif(n=n*m, min=0, max=10)
+  mu <- beta0 + beta1 * x + b0 + b1 * x
+  set.seed(seed)
+  y <- rnorm(n=n*m, mean=mu, sd=sqrt(sigma2y))
+  data.frame(group=group, x=x, y=y)
+}
+```
+
+Vamos ahora a generar 10 observaciones para 10 grupos con intercepto y pendiente aleatoria. La semilla se va a fijar en un valor de 1234 por cuestiones didácticas.
+
+```{r}
+datos <- gen_dat_b0_b1(n=10, m=10, 
+                       beta0=4, beta1=-6, 
+                       sigma2y=4, 
+                       sigma2b0=10, sigma2b1=2, sigmab0b1=3,
+                       seed=1234)
+head(datos)
+```
+
+Vamos a ajustar dos modelos, el primero sólo con $b_0$ y el segundo incluyendo $b_0$ y $b_1$.
+
+```{r}
+library(lme4)
+fit0 <- lmer(y ~ x + (1 | group), data=datos, REML=TRUE)
+fit1 <- lmer(y ~ x + (1 + x | group), data=datos, REML=TRUE)
+```
+
+Vamos a calcular ahora el valor del estadístico de la prueba razón de verosimilitudes así:
+
+```{r}
+lrt <- -2 * (logLik(fit0) - logLik(fit1))
+lrt
+```
+
+Como la distribución del estadístico es una mezcla de distribuciones vamos a calcular el valor P de la siguiente manera.
+
+```{r}
+p_value <- 0.5 * (1-pchisq(lrt, 1)) + 0.5 * (1-pchisq(lrt, 2))
+p_value <- as.numeric(p_value)
+p_value  # p-value from equal mixture chi_1^2:chi_2^2
+```
+
+De la salida anterior vemos que el valor-P es muy pequeño, eso significa que rechazamos $H_0$ y concluimos que el modelo con $b_0$ y $b_1$ es más apropiado que el modelo que tiene sólo intercepto aleatorio. La conclusión a la que llegamos es correcta porque así fue que generamos los datos.
+
+Es posible obtener el valor-P anterior usando boostrap por medio de la función `PBmodcomp` del paquete **pbkrtest**.
+
+```{r eval=FALSE}
+library(pbkrtest)
+PBmodcomp(largeModel=fit1, smallModel=fit0, nsim=1000, seed=123)
+```
+
+```{}
+Bootstrap test; time: 21.86 sec; samples: 1000; extremes: 0;
+Requested samples: 1000 Used samples: 999 Extremes: 0
+large : y ~ x + (1 + x | group)
+y ~ x + (1 | group)
+         stat df p.value    
+LRT    122.82  2  <2e-16 ***
+PBtest 122.82      0.001 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+```
+
+En el código anterior se usó la semilla `seed = 123` para simular los nuevos conjuntos de datos. De la salida anterior se observa que el valor-P es 0.001 con lo que se concluye que hay evidencias para rechazar $H_0$. 
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #ffff00;
+  -webkit-box-shadow: 1px 1px 3px 2px #ffff00;
+  box-shadow:         1px 1px 3px 2px #ffff00;">
+
+```{block2, type='rmdnote'}
+Para usar la función `PBmodcomp` es necesario que los modelos sean de la clase lme4. Consulte la ayuda de la función para más detalles.
+```
+
+</div>
+
 
 ## Ejercicios {-}
 
