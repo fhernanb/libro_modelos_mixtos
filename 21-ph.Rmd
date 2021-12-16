@@ -504,7 +504,7 @@ p_value  # p-value from equal mixture chi_1^2:chi_2^2
 
 De la salida anterior vemos que el valor-P es muy pequeño, eso significa que rechazamos $H_0$ y concluimos que el modelo con $b_0$ y $b_1$ es más apropiado que el modelo que tiene sólo intercepto aleatorio. La conclusión a la que llegamos es correcta porque así fue que generamos los datos.
 
-Es posible obtener el valor-P anterior usando boostrap por medio de la función `PBmodcomp` del paquete **pbkrtest**.
+Es posible obtener el valor-P anterior usando boostrap por medio de la función `PBmodcomp` del paquete **pbkrtest** de @R-pbkrtest.
 
 ```{r eval=FALSE}
 library(pbkrtest)
