@@ -132,7 +132,7 @@ plot(ranef(m2))
 lattice::dotplot(ranef(m2, condVar = TRUE))
 ```
 
-Los modelos anteriores se pueden ajustar usando la función `glmmadmb` del paquete *glmmADMB*, a continuación se muestra el código.
+Los modelos anteriores se pueden ajustar usando la función `glmmadmb` del paquete *glmmADMB*, a continuación se muestra el código. Para conocer más sobre este paquete se recomienda visitar [este enlace](https://glmmadmb.r-forge.r-project.org/)
 
 ```{r eval=FALSE}
 library(glmmADMB)
