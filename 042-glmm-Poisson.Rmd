@@ -71,9 +71,9 @@ y_{ij} | b_0 &\sim  Poisson(\mu_{ij}) \\
 b_0 &\sim N(0, \sigma_{b0}^2)
 \end{align*}
 
-con $i=1, 2, \ldots, 20$.
+con $i=1, 2, \ldots, 20$ y $j=1, 2, \ldots, n_i$.
 
-El modelo anterior se va a ajustar con la función `glmer` del paquete **lme4** y utilizando 15 puntos  en la aproximación de Gauss para la log-verosimilitud.
+El modelo anterior se va a ajustar con la función `glmer` del paquete **lme4** de @R-lme4 y utilizando 15 puntos en la aproximación de Gauss para la log-verosimilitud.
 
 ```{r message=FALSE}
 require(lme4)
@@ -90,12 +90,12 @@ summary(m1)
 El segundo modelo que se propone es una modificación del modelo 1, agregando como variable explicativa el género femenino. El modelo propuesto es el siguiente:
 
 \begin{align*} 
-y_{ij} &\sim  Poisson(\mu_{ij}) \\ 
-\log(\mu_{ij}) &= \beta_0 + \beta_1 female_i + b_{0i} \\
+y_{ij} | b_0 &\sim  Poisson(\mu_{ij}) \\ 
+\log(\mu_{ij}) &= \beta_0 + \beta_1 female_{ij} + b_{0i} \\
 b_0 &\sim N(0, \sigma_{b0}^2)
 \end{align*}
 
-con $i=1, 2, \ldots, 20$.
+con $i=1, 2, \ldots, 20$ y $j=1, 2, \ldots, n_i$.
 
 ```{r}
 require(lme4)

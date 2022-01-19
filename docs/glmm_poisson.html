@@ -121,6 +121,28 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -316,8 +338,8 @@ y_{ij} | b_0 &amp;\sim  Poisson(\mu_{ij}) \\
 \log(\mu_{ij}) &amp;= \beta_0 + b_{0i} \\
 b_0 &amp;\sim N(0, \sigma_{b0}^2)
 \end{align*}\]</span></p>
-<p>con <span class="math inline">\(i=1, 2, \ldots, 20\)</span>.</p>
-<p>El modelo anterior se va a ajustar con la función <code>glmer</code> del paquete <strong>lme4</strong> y utilizando 15 puntos en la aproximación de Gauss para la log-verosimilitud.</p>
+<p>con <span class="math inline">\(i=1, 2, \ldots, 20\)</span> y <span class="math inline">\(j=1, 2, \ldots, n_i\)</span>.</p>
+<p>El modelo anterior se va a ajustar con la función <code>glmer</code> del paquete <strong>lme4</strong> de <span class="citation">Bates et al. (<a href="#ref-R-lme4" role="doc-biblioref">2021</a>)</span> y utilizando 15 puntos en la aproximación de Gauss para la log-verosimilitud.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="glmm_poisson.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(lme4)</span>
 <span id="cb6-2"><a href="glmm_poisson.html#cb6-2" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(awards <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> cid), <span class="at">data =</span> datos, </span>
 <span id="cb6-3"><a href="glmm_poisson.html#cb6-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">&quot;log&quot;</span>), <span class="at">nAGQ =</span> <span class="dv">15</span>)</span></code></pre></div>
@@ -346,11 +368,11 @@ b_0 &amp;\sim N(0, \sigma_{b0}^2)
 ## (Intercept) -0.009572   0.290292  -0.033    0.974</code></pre>
 <p>El segundo modelo que se propone es una modificación del modelo 1, agregando como variable explicativa el género femenino. El modelo propuesto es el siguiente:</p>
 <p><span class="math display">\[\begin{align*} 
-y_{ij} &amp;\sim  Poisson(\mu_{ij}) \\ 
-\log(\mu_{ij}) &amp;= \beta_0 + \beta_1 female_i + b_{0i} \\
+y_{ij} | b_0 &amp;\sim  Poisson(\mu_{ij}) \\ 
+\log(\mu_{ij}) &amp;= \beta_0 + \beta_1 female_{ij} + b_{0i} \\
 b_0 &amp;\sim N(0, \sigma_{b0}^2)
 \end{align*}\]</span></p>
-<p>con <span class="math inline">\(i=1, 2, \ldots, 20\)</span>.</p>
+<p>con <span class="math inline">\(i=1, 2, \ldots, 20\)</span> y <span class="math inline">\(j=1, 2, \ldots, n_i\)</span>.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="glmm_poisson.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(lme4)</span>
 <span id="cb9-2"><a href="glmm_poisson.html#cb9-2" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(awards <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> female <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> cid), <span class="at">data =</span> datos, </span>
 <span id="cb9-3"><a href="glmm_poisson.html#cb9-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">&quot;log&quot;</span>), <span class="at">nAGQ =</span> <span class="dv">15</span>)</span></code></pre></div>
@@ -580,6 +602,12 @@ Bayesian Inf. Crit.
 <span id="cb19-2"><a href="glmm_poisson.html#cb19-2" aria-hidden="true" tabindex="-1"></a>m1_alt <span class="ot">&lt;-</span> <span class="fu">glmmadmb</span>(awards <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> cid), <span class="at">data =</span> datos, <span class="at">family =</span> <span class="st">&quot;poisson&quot;</span>, <span class="at">link =</span> <span class="st">&quot;log&quot;</span>)</span>
 <span id="cb19-3"><a href="glmm_poisson.html#cb19-3" aria-hidden="true" tabindex="-1"></a>m2_alt <span class="ot">&lt;-</span> <span class="fu">glmmadmb</span>(awards <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> female <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> cid), <span class="at">data =</span> datos, <span class="at">family =</span> <span class="st">&quot;poisson&quot;</span>, <span class="at">link =</span> <span class="st">&quot;log&quot;</span>)</span></code></pre></div>
 
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-R-lme4" class="csl-entry">
+Bates, Douglas, Martin Maechler, Ben Bolker, and Steven Walker. 2021. <em>Lme4: Linear Mixed-Effects Models Using Eigen and S4</em>. <a href="https://github.com/lme4/lme4/">https://github.com/lme4/lme4/</a>.
+</div>
 </div>
             </section>
 
