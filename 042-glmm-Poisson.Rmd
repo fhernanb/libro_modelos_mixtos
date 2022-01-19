@@ -125,7 +125,19 @@ stargazer(m1, m2, type = "html")
 - Además podemos observar  que tanto el AIC como el BIC del modelo 2 son menores que los del modelo 1.
 - Por lo tanto, basados en esto, concluimos que el mejor modelo  propuesto es el modelo 2, es decir, vale la pena agregarle como variable explicativa el género femenino, va a generar un modelo más confiable.
 
+```{r}
+## QQ plot
+plot(ranef(m2))
+## Caterpillar plot
+lattice::dotplot(ranef(m2, condVar = TRUE))
+```
 
+Los modelos anteriores se pueden ajustar usando la función `glmmadmb` del paquete *glmmADMB*, a continuación se muestra el código.
 
+```{r eval=FALSE}
+library(glmmADMB)
+m1_alt <- glmmadmb(awards ~ 1 + (1 | cid), data = datos, family = "poisson", link = "log")
+m2_alt <- glmmadmb(awards ~ 1 + female + (1 | cid), data = datos, family = "poisson", link = "log")
+```
 
 
