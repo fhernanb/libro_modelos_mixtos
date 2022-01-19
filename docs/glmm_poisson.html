@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Modelos Mixtos con R</title>
+  <title>5 GLMM Poisson | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Modelos Mixtos con R" />
+  <meta property="og:title" content="5 GLMM Poisson | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:image" content="/images/cover.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="fhernanb/libro_mod_pred" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Modelos Mixtos con R" />
+  <meta name="twitter:title" content="5 GLMM Poisson | Modelos Mixtos con R" />
   
   <meta name="twitter:description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="twitter:image" content="/images/cover.png" />
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="reg-lin.html"/>
+<link rel="prev" href="glmm.html"/>
+<link rel="next" href="pac-lme4.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -54,24 +54,6 @@
 
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-<link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
-<script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
-<script src="libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
-<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
-<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
-<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.19/datatables.js"></script>
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
-<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
-<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
-<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
-<script src="libs/selectize-0.12.0/selectize.min.js"></script>
-<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
@@ -139,28 +121,6 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<style type="text/css">
-/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
-</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -260,6 +220,7 @@ div.csl-indent {
 <li class="chapter" data-level="14.3.4" data-path="reg-diagnos.html"><a href="reg-diagnos.html#distribución-normal-de-los-residuos-mediante-inferencia-visual"><i class="fa fa-check"></i><b>14.3.4</b> Distribución normal de los residuos mediante inferencia visual</a></li>
 <li class="chapter" data-level="" data-path="reg-diagnos.html"><a href="reg-diagnos.html#ejemplo-6"><i class="fa fa-check"></i>Ejemplo</a></li>
 <li class="chapter" data-level="14.3.5" data-path="reg-diagnos.html"><a href="reg-diagnos.html#distribución-normal-de-los-residuos-mediante-prueba-de-hipótesis"><i class="fa fa-check"></i><b>14.3.5</b> Distribución normal de los residuos mediante prueba de hipótesis</a></li>
+<li class="chapter" data-level="14.3.6" data-path="reg-diagnos.html"><a href="reg-diagnos.html#gráfica-marginal-del-modelo"><i class="fa fa-check"></i><b>14.3.6</b> Gráfica marginal del modelo</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="15" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>15</b> Otro material interesante</a></li>
@@ -284,89 +245,307 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Modelos Mixtos con R</h1>
-<p class="author"><em>Freddy Hernández Barajas</em></p>
-<p class="author"><em>Jorge Leonardo López Martínez</em></p>
-<p class="date"><em>2022-01-18</em></p>
-</div>
-<div id="bienvenido" class="section level1 unnumbered">
-<h1>Bienvenido</h1>
-<p><img src="images/Portada.jpg" width="50%" style="display: block; margin: auto;" /></p>
-<p>Este libro está destinado para usuarios de R interesados en aplicar modelos mixtos.</p>
-<p><a href="https://fhernanb.github.io/">Freddy Hernández Barajas</a><br />
-<a href="https://leo4luffy.github.io/">Jorge Leonardo López Martínez</a></p>
-<div id="estructura-del-libro" class="section level2 unnumbered">
-<h2>Estructura del libro</h2>
-<p>En el capítulo <a href="reg-lin.html#reg-lin">1</a> se hace un repaso básico del modelo de regresión lineal clásico. En el capítulo <a href="lmm.html#lmm">2</a> se presentan los modelos mixtos y en el capítulo <a href="glmm.html#glmm">4</a> se presentan los modelos lineales generalizados mixtos. En el capítulo <a href="pac-lme4.html#pac-lme4">6</a> se presenta el paquete <strong>lme4</strong> y sus principales funciones para modelación, mientras que en el capítulo <a href="pac-nlme.html#pac-nlme">7</a> se presenta el paquete <strong>nlme</strong> y sus principales funciones para modelación.</p>
-</div>
-<div id="software-y-convenciones" class="section level2 unnumbered">
-<h2>Software y convenciones</h2>
-<p>Para realizar este libro usamos los paquetes <strong>knitr</strong> <span class="citation">(<a href="#ref-xie2015" role="doc-biblioref">Xie 2015</a>)</span> y <strong>bookdown</strong> <span class="citation">(<a href="#ref-R-bookdown" role="doc-biblioref">Xie 2021</a>)</span> que permiten unir la ventajas de LaTeX y R en un mismo archivo.</p>
-<p>En todo el libro se presentarán códigos que el lector puede copiar y pegar en su consola de R para obtener los mismos resultados aquí del libro. Los códigos se destacan en una caja de color similar a la mostrada a continuación.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span> <span class="sc">+</span> <span class="dv">6</span></span>
-<span id="cb1-2"><a href="index.html#cb1-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">6</span>)</span>
-<span id="cb1-3"><a href="index.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="sc">*</span> a</span>
-<span id="cb1-4"><a href="index.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span></code></pre></div>
-<p>Los resultados o salidas obtenidos de cualquier código se destacan con dos símbolos de númeral (<code>##</code>) al inicio de cada línea o renglón, esto quiere decir que todo lo que inicie con <code>##</code> son resultados obtenidos y <strong>NO</strong> los debe copiar. Abajo se muestran los resultados obtenidos luego de correr el código anterior.</p>
-<pre><code>## [1] 10</code></pre>
-<pre><code>## [1]  5 25 30</code></pre>
-<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
-</div>
-<div id="bloques-informativos" class="section level2 unnumbered">
-<h2>Bloques informativos</h2>
-<p>En varias partes del libro usaremos bloques informativos para resaltar algún aspecto importante. Abajo se encuentra un ejemplo de los bloques y su significado.</p>
-<div style="-moz-box-shadow: 1px 1px 3px 2px #ffff00;
-  -webkit-box-shadow: 1px 1px 3px 2px #ffff00;
-  box-shadow:         1px 1px 3px 2px #ffff00;">
+<div id="glmm_poisson" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> GLMM Poisson</h1>
+<p>En este capítulo se presenta un ejemplo de glmm con variable respuesta Poisson.</p>
+<p><img src="images/premios_estudiantes.png" width="60%" style="display: block; margin: auto;" /></p>
+<p>A continuación la base de datos a utilizar.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="glmm_poisson.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(foreign)</span>
+<span id="cb1-2"><a href="glmm_poisson.html#cb1-2" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">read.dta</span>(<span class="st">&quot;https://stats.idre.ucla.edu/stat/data/hsbdemo.dta&quot;</span>)</span>
+<span id="cb1-3"><a href="glmm_poisson.html#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="glmm_poisson.html#cb1-4" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>cid <span class="ot">&lt;-</span> <span class="fu">factor</span>(datos<span class="sc">$</span>cid)</span>
+<span id="cb1-5"><a href="glmm_poisson.html#cb1-5" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>female <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(datos<span class="sc">$</span>female <span class="sc">==</span> <span class="st">&#39;female&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code></pre></div>
+<p>Los datos corresponden a una muestra de 200 estudiantes de educación secundaria, los cuales están agrupados en cada una de las 20 escuelas diferentes. El propósito es modelar el número de premios que recibe un estudiante dada la escuela a la cual pertenece, teniendo en cuenta además, que los investigadores consideran la variable género como la variable que mejor podría ayudar en la predicción.</p>
+<p>Las variables de la base de datos son:</p>
+<ul>
+<li><code>awards</code>: Variable respuesta que hace referencia al número de premios que recibe un estudiante.</li>
+<li><code>id</code>: Identificación única de los estudiantes de educación secundaria que participaron en el estudio.</li>
+<li><code>female</code>: Variable correspondiente al género de los estudiantes.</li>
+<li><code>ses</code>: Variable categórica que representa el estatus socioeconómico del estudiante, teniendo tres distinciones las cuales son: bajo, medio y alto.</li>
+<li><code>schtyp</code>: Tipo de escuela, ya sea privado o público.</li>
+<li><code>prog</code>: Programa de formación del estudiante, ya sea general, vocación o académico.</li>
+<li><code>read</code>: Puntuación del estudiante en comprensión lectora.</li>
+<li><code>write</code>: Puntuación del estudiante en escritura.</li>
+<li><code>math</code>: Puntuación del estudiante en matemáticas.</li>
+<li><code>science</code>: Puntuación del estudiante en ciencias.</li>
+<li><code>honors</code>: Variable que hace referencia si el estudiante presenta matrículas de honor o no.</li>
+<li><code>cid</code>: Variable que indica la escuela a la cual pertenece el estudiante.</li>
+</ul>
+<p>El siguiente código sirve para construir un histograma que muestra el número de premios por cada escuela.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="glmm_poisson.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(ggplot2)</span></code></pre></div>
+<pre><code>## Loading required package: ggplot2</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="glmm_poisson.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(awards)) <span class="sc">+</span> </span>
+<span id="cb4-2"><a href="glmm_poisson.html#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb4-3"><a href="glmm_poisson.html#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>cid)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>De la figura anterior vemos que el comportamiento de la variable respuesta es muy diferente dada la escuela</p>
+<p>Los modelos lineales generalizados mixtos nos permiten modelar la variable respuesta con la distribución Poisson o la binomial negativa, en este caso, vamos a usar la distribución Poisson.</p>
+<p>El primer modelo que vamos a considerar aquí es el siguiente:</p>
+<p><span class="math display">\[\begin{align*} 
+y_{ij} &amp;\sim  Poisson(\mu_{ij}) \\ 
+\log(\mu_{ij}) &amp;= \beta_0 + b_{0i} \\
+b_0 &amp;\sim N(0, \sigma_{b0}^2)
+\end{align*}\]</span></p>
+<p>con <span class="math inline">\(i=1, 2, \ldots, 20\)</span>.</p>
+<p>El modelo anterior se va a ajustar con la función <code>glmer</code> del paquete <strong>lme4</strong> y utilizando 15 puntos en la aproximación de Gauss para la log-verosimilitud.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="glmm_poisson.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(lme4)</span>
+<span id="cb5-2"><a href="glmm_poisson.html#cb5-2" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(awards <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> cid), <span class="at">data =</span> datos, </span>
+<span id="cb5-3"><a href="glmm_poisson.html#cb5-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">&quot;log&quot;</span>), <span class="at">nAGQ =</span> <span class="dv">15</span>)</span></code></pre></div>
+<p>Los resultados del modelo se muestran a continuación.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="glmm_poisson.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code></pre></div>
+<pre><code>## Generalized linear mixed model fit by maximum likelihood (Adaptive
+##   Gauss-Hermite Quadrature, nAGQ = 15) [glmerMod]
+##  Family: poisson  ( log )
+## Formula: awards ~ 1 + (1 | cid)
+##    Data: datos
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##    228.6    235.2   -112.3    224.6      198 
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -1.3857 -0.5260 -0.3383  0.3379  3.3769 
+## 
+## Random effects:
+##  Groups Name        Variance Std.Dev.
+##  cid    (Intercept) 1.458    1.207   
+## Number of obs: 200, groups:  cid, 20
+## 
+## Fixed effects:
+##              Estimate Std. Error z value Pr(&gt;|z|)
+## (Intercept) -0.009572   0.290292  -0.033    0.974</code></pre>
+<p>El segundo modelo que se propone es una modificación del modelo 1, agregando como variable explicativa el género femenino. El modelo propuesto es el siguiente:</p>
+<p><span class="math display">\[\begin{align*} 
+y_{ij} &amp;\sim  Poisson(\mu_{ij}) \\ 
+\log(\mu_{ij}) &amp;= \beta_0 + \beta_1 female_i + b_{0i} \\
+b_0 &amp;\sim N(0, \sigma_{b0}^2)
+\end{align*}\]</span></p>
+<p>con <span class="math inline">\(i=1, 2, \ldots, 20\)</span>.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="glmm_poisson.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(lme4)</span>
+<span id="cb8-2"><a href="glmm_poisson.html#cb8-2" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(awards <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> female <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> cid), <span class="at">data =</span> datos, </span>
+<span id="cb8-3"><a href="glmm_poisson.html#cb8-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">&quot;log&quot;</span>), <span class="at">nAGQ =</span> <span class="dv">15</span>)</span></code></pre></div>
+<p>Los resultados del modelo se muestran a continuación.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="glmm_poisson.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span></code></pre></div>
+<pre><code>## Generalized linear mixed model fit by maximum likelihood (Adaptive
+##   Gauss-Hermite Quadrature, nAGQ = 15) [glmerMod]
+##  Family: poisson  ( log )
+## Formula: awards ~ 1 + female + (1 | cid)
+##    Data: datos
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##    221.1    231.0   -107.6    215.1      197 
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -1.5312 -0.5919 -0.3304  0.2047  2.8806 
+## 
+## Random effects:
+##  Groups Name        Variance Std.Dev.
+##  cid    (Intercept) 1.431    1.196   
+## Number of obs: 200, groups:  cid, 20
+## 
+## Fixed effects:
+##             Estimate Std. Error z value Pr(&gt;|z|)   
+## (Intercept)  -0.2229     0.2975  -0.749  0.45370   
+## female        0.3632     0.1193   3.044  0.00234 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##        (Intr)
+## female -0.252</code></pre>
+<p>Para comparar los dos modelos ajustados propuestos , colocamos los resultados en una única tabla como se muestra a continuación.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="glmm_poisson.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;texreg&quot;</span>)</span>
+<span id="cb11-2"><a href="glmm_poisson.html#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">screenreg</span>(<span class="fu">list</span>(m1, m2))</span></code></pre></div>
+<pre><code>## 
+## ==========================================
+##                       Model 1   Model 2   
+## ------------------------------------------
+## (Intercept)             -0.01     -0.22   
+##                         (0.29)    (0.30)  
+## female                             0.36 **
+##                                   (0.12)  
+## ------------------------------------------
+## AIC                    228.63    221.12   
+## BIC                    235.23    231.01   
+## Log Likelihood        -112.32   -107.56   
+## Num. obs.              200       200      
+## Num. groups: cid        20        20      
+## Var: cid (Intercept)     1.46      1.43   
+## ==========================================
+## *** p &lt; 0.001; ** p &lt; 0.01; * p &lt; 0.05</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="glmm_poisson.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stargazer)</span>
+<span id="cb13-2"><a href="glmm_poisson.html#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stargazer</span>(m1, m2, <span class="at">type =</span> <span class="st">&quot;html&quot;</span>)</span></code></pre></div>
+<table style="text-align:center">
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="2">
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="2">
+awards
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+female
+</td>
+<td>
+</td>
+<td>
+0.363<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+(0.119)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+-0.010
+</td>
+<td>
+-0.223
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.290)
+</td>
+<td>
+(0.298)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+200
+</td>
+<td>
+200
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Log Likelihood
+</td>
+<td>
+-112.315
+</td>
+<td>
+-107.558
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Akaike Inf. Crit.
+</td>
+<td>
+228.630
+</td>
+<td>
+221.116
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Bayesian Inf. Crit.
+</td>
+<td>
+235.227
+</td>
+<td>
+231.011
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td colspan="2" style="text-align:right">
+<sup><em></sup>p&lt;0.1; <sup><strong></sup>p&lt;0.05; <sup></strong></em></sup>p&lt;0.01
+</td>
+</tr>
+</table>
+<ul>
+<li>En los resultados que obtenemos de esta tabla podemos ver que la log-verosimilitud aument para el modelo 2 en relación ál modelo 1.</li>
+<li>Además podemos observar que tanto el AIC como el BIC del modelo 2 son menores que los del modelo 1.</li>
+<li>Por lo tanto, basados en esto, concluimos que el mejor modelo propuesto es el modelo 2, es decir, vale la pena agregarle como variable explicativa el género femenino, va a generar un modelo más confiable.</li>
+</ul>
 
-<div class="rmdnote">
-Nota aclaratoria.
-</div>
-</div>
-<div style="-moz-box-shadow: 1px 1px 3px 2px #00ffff;
-  -webkit-box-shadow: 1px 1px 3px 2px #00ffff;
-  box-shadow:         1px 1px 3px 2px #00ffff;">
-
-<div class="rmdtip">
-Sugerencia.
-</div>
-</div>
-<div style="-moz-box-shadow: 1px 1px 3px 2px #808080;
-  -webkit-box-shadow: 1px 1px 3px 2px #808080;
-  box-shadow:         1px 1px 3px 2px #808080;">
-
-<div class="rmdwarning">
-Advertencia.
-</div>
-</div>
-<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
-  -webkit-box-shadow: 1px 1px 3px 2px #000000;
-  box-shadow:         1px 1px 3px 2px #000000;">
-
-<div class="rmdexercise">
-Solución a ejemplos.
-</div>
-</div>
-
-</div>
-</div>
-<h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-xie2015" class="csl-entry">
-Xie, Yihui. 2015. <em>Dynamic Documents with <span>R</span> and Knitr</em>. 2nd ed. Boca Raton, Florida: Chapman; Hall/CRC. <a href="http://yihui.name/knitr/">http://yihui.name/knitr/</a>.
-</div>
-<div id="ref-R-bookdown" class="csl-entry">
-———. 2021. <em>Bookdown: Authoring Books and Technical Documents with r Markdown</em>. <a href="https://CRAN.R-project.org/package=bookdown">https://CRAN.R-project.org/package=bookdown</a>.
-</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="reg-lin.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="glmm.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="pac-lme4.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -398,7 +577,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/index.Rmd",
+"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/042-glmm-Poisson.Rmd",
 "text": "Edit"
 },
 "history": {

@@ -1,0 +1,114 @@
+# GLMM Poisson {#glmm_poisson}
+
+En este capítulo se presenta un ejemplo de glmm con variable respuesta Poisson.
+
+```{r echo=FALSE, out.width="60%", fig.align='center'}
+knitr::include_graphics("images/premios_estudiantes.png")
+```
+
+A continuación la base de datos a utilizar.
+
+```{r, message = FALSE}
+require(foreign)
+datos <- read.dta("https://stats.idre.ucla.edu/stat/data/hsbdemo.dta")
+
+datos$cid <- factor(datos$cid)
+datos$female <- ifelse(datos$female == 'female', 1, 0)
+```
+
+Los datos corresponden a una muestra de 200 estudiantes de educación secundaria, los cuales están  agrupados en cada una de las 20 escuelas diferentes. El propósito es modelar el número de premios que recibe un estudiante dada la escuela a la cual pertenece, teniendo en cuenta además, que los investigadores consideran la variable género como la variable que mejor podría ayudar en la predicción.
+
+Las variables de la base de datos son:
+
+- `awards`: Variable respuesta que hace referencia al número de premios que recibe un estudiante.
+- `id`: Identificación única de los estudiantes de educación secundaria que participaron en el estudio.
+- `female`: Variable correspondiente al género de los estudiantes.
+- `ses`: Variable categórica que representa el estatus socioeconómico del estudiante, teniendo tres distinciones las cuales son: bajo, medio y alto.
+- `schtyp`: Tipo de escuela, ya sea privado o público.
+- `prog`: Programa de formación del estudiante, ya sea general, vocación o académico.
+- `read`: Puntuación del estudiante en comprensión lectora.
+- `write`: Puntuación del estudiante en escritura.
+- `math`: Puntuación del estudiante en matemáticas.
+- `science`: Puntuación del estudiante en ciencias.
+- `honors`: Variable que hace referencia si el estudiante presenta matrículas de honor o no.
+- `cid`: Variable que indica la escuela a la cual pertenece el estudiante.
+
+El siguiente código sirve para construir un histograma que muestra el número de premios por cada escuela.
+
+```{r}
+require(ggplot2)
+ggplot(datos, aes(awards)) + 
+  geom_histogram(binwidth = 0.5) + 
+  facet_wrap(~cid)
+```
+
+De la figura anterior vemos que el comportamiento de la variable respuesta es muy diferente dada la escuela
+
+Los modelos lineales generalizados mixtos nos permiten modelar la variable respuesta con la distribución Poisson o la binomial negativa, en este caso, vamos a usar la distribución Poisson. 
+
+El primer modelo que vamos a considerar aquí es el siguiente:
+
+\begin{align*} 
+y_{ij} &\sim  Poisson(\mu_{ij}) \\ 
+\log(\mu_{ij}) &= \beta_0 + b_{0i} \\
+b_0 &\sim N(0, \sigma_{b0}^2)
+\end{align*}
+
+con $i=1, 2, \ldots, 20$.
+
+El modelo anterior se va a ajustar con la función `glmer` del paquete **lme4** y utilizando 15 puntos  en la aproximación de Gauss para la log-verosimilitud.
+
+```{r message=FALSE}
+require(lme4)
+m1 <- glmer(awards ~ 1 + (1 | cid), data = datos, 
+            family = poisson(link = "log"), nAGQ = 15)
+```
+
+Los resultados del modelo se muestran a continuación.
+
+```{r}
+summary(m1)
+```
+
+El segundo modelo que se propone es una modificación del modelo 1, agregando como variable explicativa el género femenino. El modelo propuesto es el siguiente:
+
+\begin{align*} 
+y_{ij} &\sim  Poisson(\mu_{ij}) \\ 
+\log(\mu_{ij}) &= \beta_0 + \beta_1 female_i + b_{0i} \\
+b_0 &\sim N(0, \sigma_{b0}^2)
+\end{align*}
+
+con $i=1, 2, \ldots, 20$.
+
+```{r}
+require(lme4)
+m2 <- glmer(awards ~ 1 + female + (1 | cid), data = datos, 
+           family = poisson(link = "log"), nAGQ = 15)
+```
+
+Los resultados del modelo se muestran a continuación.
+
+```{r}
+summary(m2)
+```
+
+Para comparar los dos modelos ajustados propuestos , colocamos los resultados en una única tabla como se muestra a continuación.
+
+```{r message=FALSE}
+library("texreg")
+screenreg(list(m1, m2))
+```
+
+```{r message=FALSE, results='asis'} 
+library(stargazer)
+stargazer(m1, m2, type = "html")
+```
+
+- En los resultados que obtenemos de esta tabla podemos ver que la log-verosimilitud aument para el modelo 2 en relación ál modelo 1.
+- Además podemos observar  que tanto el AIC como el BIC del modelo 2 son menores que los del modelo 1.
+- Por lo tanto, basados en esto, concluimos que el mejor modelo  propuesto es el modelo 2, es decir, vale la pena agregarle como variable explicativa el género femenino, va a generar un modelo más confiable.
+
+
+
+
+
