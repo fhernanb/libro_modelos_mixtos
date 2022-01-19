@@ -1,8 +1,8 @@
 # GLMM Poisson {#glmm_poisson}
 
-En este capítulo se presenta un ejemplo de glmm con variable respuesta Poisson.
+En este capítulo se presenta un ejemplo de glmm con variable respuesta Poisson y está basado en [esta publicación](https://stats.oarc.ucla.edu/r/faq/random-coefficient-poisson-models/).
 
-```{r echo=FALSE, out.width="60%", fig.align='center'}
+```{r echo=FALSE, out.width="80%", fig.align='center'}
 knitr::include_graphics("images/premios_estudiantes.png")
 ```
 
@@ -12,11 +12,12 @@ A continuación la base de datos a utilizar.
 require(foreign)
 datos <- read.dta("https://stats.idre.ucla.edu/stat/data/hsbdemo.dta")
 
+# Cambios menores a algunas variables
 datos$cid <- factor(datos$cid)
 datos$female <- ifelse(datos$female == 'female', 1, 0)
 ```
 
-Los datos corresponden a una muestra de 200 estudiantes de educación secundaria, los cuales están  agrupados en cada una de las 20 escuelas diferentes. El propósito es modelar el número de premios que recibe un estudiante dada la escuela a la cual pertenece, teniendo en cuenta además, que los investigadores consideran la variable género como la variable que mejor podría ayudar en la predicción.
+Los datos corresponden a una muestra de 200 estudiantes de educación secundaria, los cuales están agrupados en 20 escuelas diferentes. El propósito es modelar el número de premios que recibe un estudiante dada la escuela a la cual pertenece, teniendo en cuenta la variable género como la variable que mejor podría ayudar en la predicción.
 
 Las variables de la base de datos son:
 
@@ -33,23 +34,39 @@ Las variables de la base de datos son:
 - `honors`: Variable que hace referencia si el estudiante presenta matrículas de honor o no.
 - `cid`: Variable que indica la escuela a la cual pertenece el estudiante.
 
-El siguiente código sirve para construir un histograma que muestra el número de premios por cada escuela.
+Vamos a explorar las primeras líneas de la base de datos.
 
 ```{r}
+head(datos, n=10)
+```
+
+El siguiente código sirve para construir un histograma que muestra el número de premios por cada escuela.
+
+```{r message=FALSE}
 require(ggplot2)
 ggplot(datos, aes(awards)) + 
   geom_histogram(binwidth = 0.5) + 
   facet_wrap(~cid)
 ```
 
-De la figura anterior vemos que el comportamiento de la variable respuesta es muy diferente dada la escuela
+De la figura anterior vemos que el comportamiento de la variable respuesta `awards` es muy diferente dada la escuela.
+
+En la siguiente figura se relaciona el número de premios `awards` con la variable género.
+
+```{r}
+ggplot(datos, aes(factor(awards))) + 
+  geom_bar(aes(fill = factor(female)), position = "fill") +
+  geom_hline(yintercept = 0.5)
+```
+
+De la figura anterior se observa una posible relación entre el número de premios está relacionado y el género.
 
 Los modelos lineales generalizados mixtos nos permiten modelar la variable respuesta con la distribución Poisson o la binomial negativa, en este caso, vamos a usar la distribución Poisson. 
 
 El primer modelo que vamos a considerar aquí es el siguiente:
 
 \begin{align*} 
-y_{ij} &\sim  Poisson(\mu_{ij}) \\ 
+y_{ij} | b_0 &\sim  Poisson(\mu_{ij}) \\ 
 \log(\mu_{ij}) &= \beta_0 + b_{0i} \\
 b_0 &\sim N(0, \sigma_{b0}^2)
 \end{align*}
@@ -92,7 +109,7 @@ Los resultados del modelo se muestran a continuación.
 summary(m2)
 ```
 
-Para comparar los dos modelos ajustados propuestos , colocamos los resultados en una única tabla como se muestra a continuación.
+Para comparar los dos modelos ajustados propuestos colocamos los resultados en una única tabla como se muestra a continuación.
 
 ```{r message=FALSE}
 library("texreg")
