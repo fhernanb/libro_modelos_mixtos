@@ -2,7 +2,7 @@
 
 En este capítulo se presenta un ejemplo de glmm con variable respuesta Poisson y está basado en [esta publicación](https://stats.oarc.ucla.edu/r/faq/random-coefficient-poisson-models/).
 
-```{r echo=FALSE, out.width="80%", fig.align='center'}
+```{r echo=FALSE, out.width="80%"}
 knitr::include_graphics("images/premios_estudiantes.png")
 ```
 
@@ -37,13 +37,13 @@ Las variables de la base de datos son:
 Vamos a explorar las primeras líneas de la base de datos.
 
 ```{r}
-head(datos, n=10)
+head(datos, n=5)
 ```
 
 El siguiente código sirve para construir un histograma que muestra el número de premios por cada escuela.
 
 ```{r message=FALSE}
-require(ggplot2)
+library(ggplot2)
 ggplot(datos, aes(awards)) + 
   geom_histogram(binwidth = 0.5) + 
   facet_wrap(~cid)

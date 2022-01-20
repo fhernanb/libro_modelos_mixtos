@@ -1,0 +1,135 @@
+# GLMM gamma {#glmm_gamma}
+
+En este capítulo se presenta un ejemplo de glmm con variable respuesta gamma.
+
+```{r echo=FALSE, out.width="50%", fig.align='center', fig.align='center', fig.alt='Tomada de https://www.iqsdirectory.com/'}
+knitr::include_graphics("images/semiconductors.jpg")
+```
+
+A continuación la base de datos a utilizar.
+
+```{r message=FALSE}
+library(hglm)
+data(semiconductor)
+```
+
+En este ejemplo, analizamos los datos de semiconductores tomados de Myers et al. (2002), que implica un experimento diseñado en una planta de semiconductores. Se emplean seis factores, temperatura de laminación, tiempo de laminación, presión de laminación, temperatura de cocción, tiempo de ciclo de cocción y punto de rocío de cocción, y estamos interesados en la curvatura de los dispositivos de sustrato producidos en la planta. La medición de la curvatura se realiza cuatro veces en cada dispositivo fabricado. Cada variable de diseño se toma en dos niveles. Se sabe que la medida no tiene una distribución normal y las medidas tomadas en el mismo dispositivo están correlacionadas. Myers et al. (2002) consideraron un modelo de respuesta gamma con un enlace logarítmico y utilizaron un método GEE asumiendo una correlación de trabajo AR(1).
+
+Las variables de la base de datos se muestran a continuación.
+
+- Device: Subtrate device
+- x1: Lamination Temperature; two levels +1 and -1.
+- x2: Lamination Time; two levels: +1 and -1.
+- x3: Lamination Presure; two levels: +1 and -1.
+- x4: Firing Temperature; two levels: +1 and -1.
+- x5: Firing Cycle Time; two levels: +1 and -1.
+- x6: Firing Dew Point: two levels: +1 and -1.
+- y: Camber measure; in 1e-4 in./in.
+
+Vamos a explorar las primeras líneas de la base de datos.
+
+```{r}
+head(semiconductor, n=5)
+```
+
+El siguiente código sirve para construir una densidad para la variable respuesta.
+
+```{r message=FALSE}
+library(ggplot2)
+ggplot(semiconductor, aes(y)) + 
+  geom_density()
+```
+
+De la figura anterior vemos que la variable respuesta tomá solo valores positivos.
+
+```{r}
+# install.packages("GGally")
+library(GGally)
+
+ggpairs(semiconductor,          # Data frame
+        columns = 2:8) # Columns 
+
+```
+
+El primer modelo que vamos a ajustar contiene todos los factores `x` y se puede representar de la siguiente manera.
+
+\begin{align*} 
+y{ij} &\sim  Gamma(\mu_{ij}, \phi) \\ 
+\log(\mu_{ij}) &= \beta_0 + \beta_1 x1_{ij} + \beta_2 x2_{ij} + \beta_3 x3_{ij} + \beta_4 x4_{ij} + \beta_5 x5_{ij} + \beta_6 x6_{ij} + b_{0i} \\
+b_{0} &\sim N(0, \sigma^2_{b0})
+\end{align*}
+
+Para ajustar el modelo anterior usamos el siguiente código.
+
+```{r}
+library(lme4)
+mod1 <- glmer(y ~ x1 + x2 + x3 + x4 + x5 + x6 + (1 | Device), 
+              data = semiconductor,
+              family = Gamma(link = log))
+
+summary(mod1)
+```
+
+Del resumen anterior se observa que los factores `x2` y `x4` no son significativos, por esa razón vamos a ajustar otro modelo sin esos factores, el modelo se puede representar así.
+
+\begin{align*} 
+y{ij} &\sim  Gamma(\mu_{ij}, \phi) \\ 
+\log(\mu_{ij}) &= \beta_0 + \beta_1 x1_{ij} + \beta_3 x3_{ij} + \beta_5 x5_{ij} + \beta_6 x6_{ij} + b_{0i} \\
+b_{0} &\sim N(0, \sigma^2_{b0})
+\end{align*}
+
+Para ajustar el modelo anterior usamos el siguiente código.
+
+```{r}
+mod2 <- glmer(y ~ x1 + x3 + x5 + x6 + (1 | Device), 
+              data = semiconductor,
+              family = Gamma(link = log))
+
+summary(mod2)
+```
+
+Para comparar los dos modelos ajustados propuestos colocamos los resultados en una única tabla como se muestra a continuación.
+
+```{r message=FALSE}
+library("texreg")
+screenreg(list(mod1, mod2))
+```
+
+El problema de comparar los dos modelos se puede resumir con $H_0:$ las variables `x2` y `x4` no aportan al modelo, versus, $H_A:$ al menos una de esas variables si aporta al modelo.
+
+Para abordar el problema lo podemos hacer por medio de la prueba razón de verosimilitud. Debemos tener en cuenta que el modelo 1 tiene 9 parámetros y el modelo 2 tiene 7 parámetros.
+
+```{r}
+lrt <- -2 * (logLik(mod2) - logLik(mod1))
+lrt
+
+pchisq(q=lrt, df=9-7, lower.tail=FALSE)
+```
+
+De la salida anterior se tiene que el valor-P = 0.9862804 y mayor que cualquier $\alpha$, eso significa que no hay evidencia para rechazar $H_0$, en otras palabras, las variables `x2` y `x4` no aportan al modelo.
+
+La prueba de verosimilitud se puede obtener también así:
+
+```{r}
+anova(mod1, mod2)
+```
+
+Es posible obtener el valor-P anterior usando boostrap por medio de la función `PBmodcomp` del paquete **pbkrtest** de @R-pbkrtest.
+
+```{r eval=FALSE}
+library(pbkrtest)
+PBmodcomp(largeModel=mod1, smallModel=mod2, nsim=100, seed=123)
+```
+
+```{}
+Bootstrap test; time: 100.44 sec; samples: 100; extremes: 100;
+large : y ~ x1 + x2 + x3 + x4 + x5 + x6 + (1 | Device)
+y ~ x1 + x3 + x5 + x6 + (1 | Device)
+         stat df p.value
+LRT    0.0276  2  0.9863
+PBtest 0.0276     1.0000
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+```
+
+En el código anterior se usó la semilla `seed = 123` para simular los nuevos conjuntos de datos. De la salida anterior se observa que el valor-P es mayor que un 5% con lo que se concluye que no hay evidencias para rechazar $H_0$. 
