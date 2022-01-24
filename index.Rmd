@@ -21,7 +21,7 @@ knitr::write_bib(c(
   .packages(), 
   'bookdown', 'knitr', 'rmarkdown', 'nlme', 'lme4', 'MPV', 'scatterplot3d', 
   'plotly', 'packages.bib', 'MASS', 'brms', 'MCMCglmm', 
-  'glmmADMB', 'RLRsim', 'pbkrtest'), 
+  'glmmADMB', 'RLRsim', 'pbkrtest', 'glmmTMB', 'glmm'), 
   'packages.bib')
 ```
 

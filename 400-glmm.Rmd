@@ -1,5 +1,5 @@
 # Modelos Lineales Generalizados Mixtos {#glmm}
-Los modelos lineales generalizados mixtos fueron propuestos por [@breslow_clayton_93] y en ellos se asume que existe una relación entre el vector de observaciones $\boldsymbol{Y}_i$ del sujeto o grupo $i$ y las covariables por medio de la siguiente expresión 
+Los modelos lineales generalizados mixtos (glmm) fueron propuestos por [@breslow_clayton_93] y en ellos se asume que existe una relación entre el vector de observaciones $\boldsymbol{Y}_i$ del sujeto o grupo $i$ y las covariables por medio de la siguiente expresión 
 
 \begin{equation}
 \begin{aligned}
@@ -28,4 +28,10 @@ La función de verosimilitud para el vector de parámetros $\boldsymbol{\Theta}=
 $$
 L(\boldsymbol{\Theta}) = \prod_{i=1}^{n} \int f(\boldsymbol{Y}_i | \boldsymbol{b}_i) f(\boldsymbol{b}_i) \, d \boldsymbol{b}_i .
 $$
+
+## Videos de apoyo
+
+En esta sección se muestran los videos sobre glmm creados por la profesora [Christina Knudson](https://cknudson.com/). Esta lista de reproducción contiene varios con explicaciones sencillas sobre los glmm que sirven como introducción al tema. A continuación el primer video de la lista de reproducción.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/98mYx2Pa74k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 

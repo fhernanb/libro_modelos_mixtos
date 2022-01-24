@@ -1,0 +1,20 @@
+# Paquete **glmm** {#pac-glmm}
+
+El paquete **glmm** de @R-glmm aproxima la verosimilitud de un modelo mixto lineal generalizado mediante aproximación de Monte Carlo. Al visitar este [enlace](https://cran.r-project.org/web/packages/glmm/) se encontrará la página de apoyo del paquete, allí se puede consultar el manual de referencia y las viñetas.
+
+## Función `glmm`
+La función `glmm` es la principal función del paquete **glmm**. Esta función sirve para ajustar un glmm y su estructura es la siguiente:
+
+```{r, eval=FALSE}
+glmm(fixed, random, varcomps.names, data, family.glmm, m,
+     varcomps.equal, weights=NULL, doPQL = TRUE,debug=FALSE,
+     p1=1/3,p2=1/3, p3=1/3, rmax=1000,iterlim=1000, par.init, zeta=5, cluster=NULL)
+```
+
+Los principales argumentos de la función son:
+
+- `formula`: es una fórmula similar a la usada en el modelo lineal clásico. Un ejemplo de fórmula sería `y ~ 1 + x1 + x2`.
+- `random`: es una fórmula solo con lado derecho. Si queremos indicar intercepto aleatorio se escribe `~ 1 | group` y si se desea intercepto y pendiente aleatoria se escribe `~ 1 + x2 | group`.
+- `data`: marco de datos donde están las variables. 
+- `family.glm`: argumento para indicar la distribución de la variable respuesta.
+

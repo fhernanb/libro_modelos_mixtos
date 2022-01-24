@@ -46,6 +46,11 @@ distribución-normal-de-los-residuos-mediante-inferencia-visual
 distribución-normal-de-los-residuos-mediante-prueba-de-hipótesis
 var-fun
 glmm
+videos-de-apoyo
 glmm_poisson
 glmm_gamma
+pac-glmmTMB
+función-glmmtmb
+pac-glmm
+función-glmm
 blobs

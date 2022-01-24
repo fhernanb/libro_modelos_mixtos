@@ -12,8 +12,7 @@ lme(fixed, data, random, correlation, weights, subset, method,
 
 Los principales argumentos de la función son:
 
-- `formula`: es una fórmula similar a la usada en el modelo lineal clásico. Un ejemplo de fórmula sería `y ~ 1 + x1 + x2 ` con la cual se indican los efectos fijos del modelo. 
-- `data`: marco de datos donde están las variables. 
+- `formula`: es una fórmula similar a la usada en el modelo lineal clásico. Un ejemplo de fórmula sería `y ~ 1 + x1 + x2 ` con la cual se indican los efectos fijos del modelo. - `data`: marco de datos donde están las variables. 
 - `random`: es una fórmula solo con lado derecho. Si queremos indicar intercepto aleatorio se escribe `~ 1 | group` y si se desea intercepto y pendiente aleatoria se escribe `~ 1 + x2 | group`.
 - `correlation`: es un parámetro opcional para indicar la estructura de correlación entre las observaciones de cada grupo. Para más detalles consulte la ayuda de la función `corClasses`.
 - `method`: valor lógico que sirve para indicar si queremos estimaciones maximizando la [verosimilitud restringida](https://en.wikipedia.org/wiki/Restricted_maximum_likelihood) o la verosimilitud usual, las dos opciones son `ML` o `REML`.  
