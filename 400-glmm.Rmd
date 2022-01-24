@@ -1,4 +1,5 @@
 # Modelos Lineales Generalizados Mixtos {#glmm}
+
 Los modelos lineales generalizados mixtos (glmm) fueron propuestos por [@breslow_clayton_93] y en ellos se asume que existe una relación entre el vector de observaciones $\boldsymbol{Y}_i$ del sujeto o grupo $i$ y las covariables por medio de la siguiente expresión 
 
 \begin{equation}

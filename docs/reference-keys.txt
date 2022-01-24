@@ -54,3 +54,4 @@ función-glmmtmb
 pac-glmm
 función-glmm
 blobs
+gráfica-marginal-del-modelo
