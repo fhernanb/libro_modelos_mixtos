@@ -54,7 +54,7 @@ ggpairs(semiconductor,          # Data frame
 El primer modelo que vamos a ajustar contiene todos los factores `x` y se puede representar de la siguiente manera.
 
 \begin{align*} 
-y{ij} &\sim  Gamma(\mu_{ij}, \phi) \\ 
+y_{ij} | b_0 &\sim  Gamma(\mu_{ij}, \phi) \\ 
 \log(\mu_{ij}) &= \beta_0 + \beta_1 x1_{ij} + \beta_2 x2_{ij} + \beta_3 x3_{ij} + \beta_4 x4_{ij} + \beta_5 x5_{ij} + \beta_6 x6_{ij} + b_{0i} \\
 b_{0} &\sim N(0, \sigma^2_{b0})
 \end{align*}
@@ -73,7 +73,7 @@ summary(mod1)
 Del resumen anterior se observa que los factores `x2` y `x4` no son significativos, por esa razón vamos a ajustar otro modelo sin esos factores, el modelo se puede representar así.
 
 \begin{align*} 
-y{ij} &\sim  Gamma(\mu_{ij}, \phi) \\ 
+y_{ij} | b_0 &\sim  Gamma(\mu_{ij}, \phi) \\ 
 \log(\mu_{ij}) &= \beta_0 + \beta_1 x1_{ij} + \beta_3 x3_{ij} + \beta_5 x5_{ij} + \beta_6 x6_{ij} + b_{0i} \\
 b_{0} &\sim N(0, \sigma^2_{b0})
 \end{align*}

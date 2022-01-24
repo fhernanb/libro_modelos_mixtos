@@ -40,7 +40,7 @@ Los residuos son la base de la mayoría de los métodos de diagnóstico. Estos p
 
 donde $\hat{\mu}_{i}$ es igual a $x^{'}_{i}\hat{\beta}$. A continuación, se presenta una representación gráfica de $\hat{\epsilon}_{i}$: 
 
-```{r, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE, fig.showtext = TRUE, out.width = "100%", fig.align = "center", fig.cap = "Representación gráfica de los residuos, del valor estimado y del valor observado."}
+```{r, echo = FALSE, eval = FALSE, message = FALSE, warning = FALSE, fig.showtext = TRUE, out.width = "100%", fig.align = "center", fig.cap = "Representación gráfica de los residuos, del valor estimado y del valor observado."}
 
 Residuos <- tibble::tribble(
   ~x, ~y, ~z,
@@ -370,7 +370,7 @@ Luego de ajustado el modelo de regresión, el procedimiento a seguir corresponde
 
 Uno de los supuestos del modelo de regresión es la varianza constante de los residuos. Para comprobar dicho supuesto, se suele emplear la gráfica de residuos contra los valores estimados. La misma es considerada como la gráfica de diagnóstico más básica. A continuación podrá observar varios ejemplos de la misma:
 
-```{r, echo = FALSE, eval = TRUE, message = FALSE, fig.align = "center", fig.cap = "Representación visual de la gráfica de residuos contra los valores estimados."}
+```{r, echo = FALSE, eval = FALSE, message = FALSE, fig.align = "center", fig.cap = "Representación visual de la gráfica de residuos contra los valores estimados."}
 
 set.seed (100)
 
@@ -426,6 +426,10 @@ Graf_residuo_3 <- Normal(200) %>%
         axis.ticks = element_blank())
 
 (Graf_residuo_1 | Graf_residuo_2) / Graf_residuo_3
+```
+
+```{r echo=FALSE, out.width="100%", fig.align='center', fig.cap = "Representación visual de la gráfica de residuos contra los valores estimados."}
+knitr::include_graphics("images/dibujo_residuos_supuestos.png")
 ```
 
 Si se cumple el supuesto de varianza constante de los residuos, estos se dispersarían de forma aleatoria alrededor de la línea central (como si se tratara de una nube de puntos) sin un patrón obvio, como se puede observar en la figura 6.7 __A__. La varianza no constante se diagnosticaría si la variabilidad de los residuos en el gráfico mostraran un patrón no aleatorio, como por ejemplo, si hubiera una curvatura presente (figura 6.7 __B__), o bien, si los residuos cambiaran de forma abrupta a medida que aumentan los valores estimados. Finalmente, un patrón inusual puede ser causado por un valor atípico. En el ejemplo visual anterior (figura 6.7 __C__), se muestra un valor atípico obvio.
@@ -586,7 +590,7 @@ Por lo tanto como el valor-P (7.456e-06) fue menor al nivel de significancia (0.
 
 Los análisis de normalidad, también denominados como contraste de normalidad, son otro tipo de supuesto del modelo de regresión. Al igual que el supuesto de varianza constante de los residuos, en el análisis de normalidad se suele emplear representaciones gráficas. Esta representación consiste en la gráfica de probabilidad normal de los residuos, también denominada como gráfico cuantil cuantil. A continuación podrá observar un ejemplo de dichas representaciones en el caso del cumplimiento o no del supuesto de normalidad:
 
-```{r, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE, fig.showtext = TRUE, out.width = "100%", fig.align = "center", fig.cap = "Ejemplo de distribución normal de los residuos y de aquellos residuos que no cumplen con este supuesto."}
+```{r, echo = FALSE, eval = FALSE, message = FALSE, warning = FALSE, fig.showtext = TRUE, out.width = "100%", fig.align = "center", fig.cap = "Ejemplo de distribución normal de los residuos y de aquellos residuos que no cumplen con este supuesto."}
 
 Normal <- function(n, Lower, Upper) { # Función para simular datos con distribución normal
   set.seed (100)
@@ -677,6 +681,10 @@ Grafica_3_a <- No_Normal_2(200) %>%
 (Grafica_1_a | Grafica_1_b) / (Grafica_2_a | Grafica_2_b) / (Grafica_3_a | Grafica_3_b)
 ```
 
+```{r echo=FALSE, out.width="100%", fig.align='center', fig.cap = "Ejemplo de distribución normal de los residuos y de aquellos residuos que no cumplen con este supuesto."}
+knitr::include_graphics("images/distribucion_residuos.png")
+```
+
 Si se cumple el supuesto de normalidad de los residuos, los puntos que constituyen la gráfica de probabilidad normal deberían alinearse entorno a la línea recta, como se puede observar en la figura 6.9 __A__ (a la izquierda). Esta interpretación se evidencia al representar su equivalente mediante un histograma (figura 6.9 __A__ a la derecha).
 
 Las posibles causas de alejamiento a la normalidad se mencionan a continuación:
@@ -731,7 +739,7 @@ En relación al código presentado anteriormente, tenga en cuenta lo siguiente:
 
 En algunos casos es deseable identificar la distribución que siguen los datos en lugar de identificar la distribución que no siguen. Aswath Damodaran en el documento [probabilistic approaches: scenario analysis, decision trees and simulation](http://people.stern.nyu.edu/adamodar/pdfiles/papers/probabilistic.pdf) discute las características clave de las distribuciones más comunes, y en una de las figuras presentadas en dicho documento proporciona un diagrama de árbol para elegir una distribución. Un ejemplo del mismo (para datos continuos) se presenta a continuación:
 
-```{r, eval = TRUE, echo = FALSE, fig.align = "center", fig.cap = "Diagrama de árbol para elegir el tipo de distribución de los datos, adaptado de Aswath Damodaran.", message = FALSE, warning = FALSE, fig.showtext = TRUE}
+```{r, eval = FALSE, echo = FALSE, fig.align = "center", fig.cap = "Diagrama de árbol para elegir el tipo de distribución de los datos, adaptado de Aswath Damodaran.", message = FALSE, warning = FALSE, fig.showtext = TRUE}
 
 Triangulo <- data.frame(
   x = c(3.4, 3.6, 3.9), y = c(-2.0, -1.2, -2.0)
@@ -849,6 +857,10 @@ data.frame(
   theme(axis.text = element_blank(),
         axis.ticks = element_blank(),
         axis.title = element_blank())
+```
+
+```{r echo=FALSE, out.width="100%", fig.align='center', fig.cap = "Diagrama de árbol para elegir el tipo de distribución de los datos, adaptado de Aswath Damodaran."}
+knitr::include_graphics("images/arbol_elegir_dist.png")
 ```
 
 Al observar la figura 6.10 se puede concluir que el rendimiento en la evaluación en la prueba de matemáticas (`mathach`) de la base de datos `hsb` no cumple el supuesto de normalidad, una vez se aprecia que los puntos no están del todo alineados entorno a la recta, observándose unas ligeras desviaciones en las colas. En este sentido y haciendo uso del diagrama de árbol presentado con anterioridad, elija la distribución que más se acerca a la distribución presentada por dicho datos. Para ello le puede resultar útil construir un histograma.  
