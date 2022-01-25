@@ -25,7 +25,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2022-01-24" />
+<meta name="date" content="2022-01-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -54,6 +54,24 @@
 
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.19/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="libs/selectize-0.12.0/selectize.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
@@ -239,7 +257,6 @@ div.csl-indent {
 <li class="chapter" data-level="11.3.4" data-path="reg-diagnos.html"><a href="reg-diagnos.html#distribución-normal-de-los-residuos-mediante-inferencia-visual"><i class="fa fa-check"></i><b>11.3.4</b> Distribución normal de los residuos mediante inferencia visual</a></li>
 <li class="chapter" data-level="" data-path="reg-diagnos.html"><a href="reg-diagnos.html#ejemplo-6"><i class="fa fa-check"></i>Ejemplo</a></li>
 <li class="chapter" data-level="11.3.5" data-path="reg-diagnos.html"><a href="reg-diagnos.html#distribución-normal-de-los-residuos-mediante-prueba-de-hipótesis"><i class="fa fa-check"></i><b>11.3.5</b> Distribución normal de los residuos mediante prueba de hipótesis</a></li>
-<li class="chapter" data-level="11.3.6" data-path="reg-diagnos.html"><a href="reg-diagnos.html#gráfica-marginal-del-modelo"><i class="fa fa-check"></i><b>11.3.6</b> Gráfica marginal del modelo</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="var-fun.html"><a href="var-fun.html"><i class="fa fa-check"></i><b>12</b> Modelando la heterocedasticidad</a></li>
@@ -247,20 +264,30 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="13.1" data-path="glmm.html"><a href="glmm.html#videos-de-apoyo"><i class="fa fa-check"></i><b>13.1</b> Videos de apoyo</a></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="glmm_poisson.html"><a href="glmm_poisson.html"><i class="fa fa-check"></i><b>14</b> GLMM Poisson</a></li>
-<li class="chapter" data-level="15" data-path="glmm_gamma.html"><a href="glmm_gamma.html"><i class="fa fa-check"></i><b>15</b> GLMM gamma</a></li>
-<li class="chapter" data-level="16" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html"><i class="fa fa-check"></i><b>16</b> Paquete <strong>glmmTMB</strong></a>
+<li class="chapter" data-level="14" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html"><i class="fa fa-check"></i><b>14</b> Paquete <strong>glmmTMB</strong></a>
 <ul>
-<li class="chapter" data-level="16.1" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#función-glmmtmb"><i class="fa fa-check"></i><b>16.1</b> Función <code>glmmTMB</code></a></li>
+<li class="chapter" data-level="14.1" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#función-glmmtmb"><i class="fa fa-check"></i><b>14.1</b> Función <code>glmmTMB</code></a></li>
 <li class="chapter" data-level="" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#ejemplo-modelo-normal-con-intercepto-aleatorio-2"><i class="fa fa-check"></i>Ejemplo: modelo normal con intercepto aleatorio</a></li>
 <li class="chapter" data-level="" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#ejemplo-recuperando-los-interceptos-aleatorios-1"><i class="fa fa-check"></i>Ejemplo: recuperando los interceptos aleatorios</a></li>
 <li class="chapter" data-level="" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#ejemplo-modelo-gamma-con-intercepto-aleatorio-1"><i class="fa fa-check"></i>Ejemplo: modelo gamma con intercepto aleatorio</a></li>
 </ul></li>
-<li class="chapter" data-level="17" data-path="pac-glmm.html"><a href="pac-glmm.html"><i class="fa fa-check"></i><b>17</b> Paquete <strong>glmm</strong></a>
+<li class="chapter" data-level="15" data-path="pac-glmm.html"><a href="pac-glmm.html"><i class="fa fa-check"></i><b>15</b> Paquete <strong>glmm</strong></a>
 <ul>
-<li class="chapter" data-level="17.1" data-path="pac-glmm.html"><a href="pac-glmm.html#función-glmm"><i class="fa fa-check"></i><b>17.1</b> Función <code>glmm</code></a></li>
+<li class="chapter" data-level="15.1" data-path="pac-glmm.html"><a href="pac-glmm.html#función-glmm"><i class="fa fa-check"></i><b>15.1</b> Función <code>glmm</code></a></li>
+<li class="chapter" data-level="" data-path="pac-glmm.html"><a href="pac-glmm.html#ejemplo-modelo-poisson-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo Poisson con intercepto aleatorio</a></li>
 </ul></li>
-<li class="chapter" data-level="18" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>18</b> Otro material interesante</a></li>
+<li class="chapter" data-level="16" data-path="pac-MASS.html"><a href="pac-MASS.html"><i class="fa fa-check"></i><b>16</b> Paquete <strong>MASS</strong></a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="pac-MASS.html"><a href="pac-MASS.html#función-glmmpql"><i class="fa fa-check"></i><b>16.1</b> Función <code>glmmPQL</code></a></li>
+<li class="chapter" data-level="" data-path="pac-MASS.html"><a href="pac-MASS.html#ejemplo-modelo-bernoulli-binomial-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo Bernoulli (binomial) con intercepto aleatorio</a></li>
+<li class="chapter" data-level="16.2" data-path="pac-MASS.html"><a href="pac-MASS.html#what-it-means-for-aic-na-in-glmmpql-mass-summary-output"><i class="fa fa-check"></i><b>16.2</b> what it means for AIC NA in glmmPQL (MASS) summary output?</a></li>
+<li class="chapter" data-level="16.3" data-path="pac-MASS.html"><a href="pac-MASS.html#two-questions-on-the-results-from-glmmpqlmass"><i class="fa fa-check"></i><b>16.3</b> Two questions on the results from glmmPQL(MASS)</a></li>
+<li class="chapter" data-level="16.4" data-path="pac-MASS.html"><a href="pac-MASS.html#how-do-i-interpret-the-variance-of-random-effect-in-a-generalized-linear-mixed-model"><i class="fa fa-check"></i><b>16.4</b> How do I interpret the variance of random effect in a generalized linear mixed model?</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="glmm_poisson.html"><a href="glmm_poisson.html"><i class="fa fa-check"></i><b>17</b> GLMM Poisson</a></li>
+<li class="chapter" data-level="18" data-path="glmm_gamma.html"><a href="glmm_gamma.html"><i class="fa fa-check"></i><b>18</b> GLMM gamma</a></li>
+<li class="chapter" data-level="19" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>19</b> Simulación de glmm</a></li>
+<li class="chapter" data-level="20" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>20</b> Otro material interesante</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>

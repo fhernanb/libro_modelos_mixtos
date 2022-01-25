@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>8 Aplicación rat pup | Modelos Mixtos con R</title>
+  <title>16 Paquete MASS | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="8 Aplicación rat pup | Modelos Mixtos con R" />
+  <meta property="og:title" content="16 Paquete MASS | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:image" content="/images/cover.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="fhernanb/libro_mod_pred" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="8 Aplicación rat pup | Modelos Mixtos con R" />
+  <meta name="twitter:title" content="16 Paquete MASS | Modelos Mixtos con R" />
   
   <meta name="twitter:description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="twitter:image" content="/images/cover.png" />
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="apli-nlme.html"/>
-<link rel="next" href="estim.html"/>
+<link rel="prev" href="pac-glmm.html"/>
+<link rel="next" href="glmm_poisson.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -309,96 +309,111 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="apli-rat-pup" class="section level1" number="8">
-<h1><span class="header-section-number">8</span> Aplicación rat pup</h1>
-<p>En este capítulo se mostrará un ejemplo de un modelo mixto con dos niveles usando la base de datos <code>RatPupWeight</code> del paquete <strong>nlme</strong>. Este ejemplo corresponde al ejemplo de la sección 3.2 de <span class="citation">West (<a href="#ref-West2014" role="doc-biblioref">2014</a>)</span>.</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-54"></span>
-<img src="images/rat_pups.jpg" alt="Camada de ratones, tomada de https://www.howcast.com/videos/509444-how-to-care-for-a-pregnant-rat-pet-rats" width="50%" />
-<p class="caption">
-Figure 8.1: Camada de ratones, tomada de <a href="https://www.howcast.com/videos/509444-how-to-care-for-a-pregnant-rat-pet-rats" class="uri">https://www.howcast.com/videos/509444-how-to-care-for-a-pregnant-rat-pet-rats</a>
-</p>
+<div id="pac-MASS" class="section level1" number="16">
+<h1><span class="header-section-number">16</span> Paquete <strong>MASS</strong></h1>
+<p>El paquete <strong>MASS</strong> de <span class="citation">Ripley (<a href="#ref-R-MASS" role="doc-biblioref">2021</a>)</span> se utiliza para estimar modelos glmm por medio de Penalized Quasi-Likelihood (PQL). Al visitar este <a href="https://cran.r-project.org/web/packages/MASS/">enlace</a> se encontrará la página de apoyo del paquete, allí se puede consultar el manual de referencia y las viñetas.</p>
+<div id="función-glmmpql" class="section level2" number="16.1">
+<h2><span class="header-section-number">16.1</span> Función <code>glmmPQL</code></h2>
+<p>La función <code>glmmPQL</code> es la principal función del paquete <strong>glmmMAAS</strong>. Esta función sirve para ajustar un glmm y su estructura es la siguiente:</p>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="pac-MASS.html#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glmmPQL</span>(fixed, random, family, data, correlation, weights,</span>
+<span id="cb181-2"><a href="pac-MASS.html#cb181-2" aria-hidden="true" tabindex="-1"></a>        control, <span class="at">niter =</span> <span class="dv">10</span>, <span class="at">verbose =</span> <span class="cn">TRUE</span>, ...)</span></code></pre></div>
+<p>Los principales argumentos de la función son:</p>
+<ul>
+<li><code>formula</code>: es una fórmula similar a la usada en el modelo lineal clásico. Un ejemplo de fórmula sería <code>y ~ 1 + x1 + x2 + (1 + x2 | grupo)</code> con la cual se indican los efectos fijos y los efectos aleatorios del modelo. Más abajo hay una tabla con más detalles sobre la fórmula.</li>
+<li><code>random</code>: es una fórmula solo con lado derecho. Si queremos indicar intercepto aleatorio se escribe <code>~ 1 | group</code> y si se desea intercepto y pendiente aleatoria se escribe <code>~ 1 + x2 | group</code>.</li>
+<li><code>data</code>: marco de datos donde están las variables.</li>
+<li><code>family</code>: argumento para indicar la distribución de la variable respuesta.</li>
+</ul>
 </div>
-<p>A continuación la base de datos a utilizar.</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="apli-rat-pup.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb62-2"><a href="apli-rat-pup.html#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(RatPupWeight)</span></code></pre></div>
-<pre><code>## Grouped Data: weight ~ 1 | Litter
-##   weight  sex Litter Lsize Treatment
-## 1   6.60 Male      1    12   Control
-## 2   7.40 Male      1    12   Control
-## 3   7.15 Male      1    12   Control
-## 4   7.24 Male      1    12   Control
-## 5   7.10 Male      1    12   Control
-## 6   6.04 Male      1    12   Control</code></pre>
-<p>Esta base de datos sobre crecimiento contiene la información sobre altura (<code>weigth</code>), sexo (<code>sex</code>), camada (<code>litter</code>), tamaño de la camada (<code>Lsize</code>) y tratamiento (<code>Treatment</code>) al que se sometió un rata antes de tener ratones.</p>
-<p>La estrategia es crear el modelo de forma incremental. Vamos a comenzar la construcción a partir del modelo <code>mod31</code> que usa como efectos fijos el tratamiento, el sexo, la interacción entre tratamiento y sexo, el tamaño de la camada. Adicionalmente, este modelo incluye intercepto aleatorio debido a la camada.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="apli-rat-pup.html#cb64-1" aria-hidden="true" tabindex="-1"></a>mod31 <span class="ot">&lt;-</span> <span class="fu">lme</span>(weight <span class="sc">~</span> Treatment <span class="sc">*</span> sex <span class="sc">+</span> Lsize, <span class="at">random=</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> Litter,</span>
-<span id="cb64-2"><a href="apli-rat-pup.html#cb64-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">data=</span>RatPupWeight, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>)</span></code></pre></div>
-<p>Vamos a usar la función <code>anova.lme</code> para estudiar la importancia de cada efecto fijo en el modelo.</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="apli-rat-pup.html#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod31)</span></code></pre></div>
-<pre><code>##               numDF denDF  F-value p-value
-## (Intercept)       1   292 9093.772  &lt;.0001
-## Treatment         2    23    5.082  0.0149
-## sex               1   292   52.602  &lt;.0001
-## Lsize             1    23   47.374  &lt;.0001
-## Treatment:sex     2   292    0.466  0.6282</code></pre>
-<p>El otro modelo inicial <code>mod31a</code> es un modelo lineal sin intercepto aleatorio y se ajusta con la función <code>gls</code>.</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="apli-rat-pup.html#cb67-1" aria-hidden="true" tabindex="-1"></a>mod31a <span class="ot">&lt;-</span> <span class="fu">gls</span>(weight <span class="sc">~</span> Treatment <span class="sc">*</span> sex <span class="sc">+</span> Lsize,</span>
-<span id="cb67-2"><a href="apli-rat-pup.html#cb67-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>RatPupWeight, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="apli-rat-pup.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod31, mod31a)</span></code></pre></div>
-<pre><code>##        Model df      AIC      BIC    logLik   Test  L.Ratio p-value
-## mod31      1  9 421.3015 455.0747 -201.6508                        
-## mod31a     2  8 508.7072 538.7277 -246.3536 1 vs 2 89.40562  &lt;.0001</code></pre>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="apli-rat-pup.html#cb70-1" aria-hidden="true" tabindex="-1"></a>mod32a <span class="ot">&lt;-</span> <span class="fu">lme</span>(weight <span class="sc">~</span> Treatment <span class="sc">*</span> sex <span class="sc">+</span> Lsize, <span class="at">random=</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> Litter,</span>
-<span id="cb70-2"><a href="apli-rat-pup.html#cb70-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">data=</span>RatPupWeight, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>,</span>
-<span id="cb70-3"><a href="apli-rat-pup.html#cb70-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">weights =</span> <span class="fu">varIdent</span>(<span class="at">form =</span> <span class="sc">~</span><span class="dv">1</span> <span class="sc">|</span> Treatment))</span>
-<span id="cb70-4"><a href="apli-rat-pup.html#cb70-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb70-5"><a href="apli-rat-pup.html#cb70-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod32a)</span></code></pre></div>
-<pre><code>## Linear mixed-effects model fit by REML
-##   Data: RatPupWeight 
-##        AIC      BIC   logLik
-##   384.0819 425.3602 -181.041
+<div id="ejemplo-modelo-bernoulli-binomial-con-intercepto-aleatorio" class="section level2 unnumbered">
+<h2>Ejemplo: modelo Bernoulli (binomial) con intercepto aleatorio</h2>
+<p>En este ejemplo vamos a simular observaciones <span class="math inline">\(n_i=50\)</span> observaciones para <span class="math inline">\(G=10\)</span> grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función <code>glmmPQL</code> para estimar los parámetros del modelo.</p>
+<p><span class="math display">\[\begin{align*} 
+y_{ij} | b_0 &amp;\sim  \text{Bernoulli}(\mu_{ij}) \\ 
+\text{logit}(\mu_{ij}) &amp;= 4 - 8 x_{ij} + b_{0i} \\
+b_{0} &amp;\sim N(0, \sigma^2_{b0}=4) \\
+x_{ij} &amp;\sim U(0, 1)
+\end{align*}\]</span></p>
+<p>El vector de parámetros de este modelo es <span class="math inline">\(\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-8, \sigma_{b0}=2)^\top\)</span>.</p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+<div class="rmdexercise">
+Solución.
+</div>
+</div>
+<p>El código para simular las 500 observaciones se muestra a continuación. Observe que se fijó la semilla en dos ocasiones para que el lector pueda replicar el ejemplo y obtener los mismos resultados.</p>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="pac-MASS.html#cb182-1" aria-hidden="true" tabindex="-1"></a>logit_inv <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">exp</span>(x) <span class="sc">/</span> (<span class="fu">exp</span>(x) <span class="sc">+</span> <span class="dv">1</span>) <span class="co"># Función enlace inversa</span></span>
+<span id="cb182-2"><a href="pac-MASS.html#cb182-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb182-3"><a href="pac-MASS.html#cb182-3" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb182-4"><a href="pac-MASS.html#cb182-4" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb182-5"><a href="pac-MASS.html#cb182-5" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
+<span id="cb182-6"><a href="pac-MASS.html#cb182-6" aria-hidden="true" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
+<span id="cb182-7"><a href="pac-MASS.html#cb182-7" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
+<span id="cb182-8"><a href="pac-MASS.html#cb182-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb182-9"><a href="pac-MASS.html#cb182-9" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
+<span id="cb182-10"><a href="pac-MASS.html#cb182-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb182-11"><a href="pac-MASS.html#cb182-11" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">4</span>)) <span class="co"># Intercepto aleatorio</span></span>
+<span id="cb182-12"><a href="pac-MASS.html#cb182-12" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)               <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
+<span id="cb182-13"><a href="pac-MASS.html#cb182-13" aria-hidden="true" tabindex="-1"></a>prob <span class="ot">&lt;-</span> <span class="fu">logit_inv</span>(<span class="dv">4</span> <span class="sc">-</span> <span class="dv">8</span> <span class="sc">*</span> x <span class="sc">+</span> b0)</span>
+<span id="cb182-14"><a href="pac-MASS.html#cb182-14" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb182-15"><a href="pac-MASS.html#cb182-15" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="at">n=</span>nobs, <span class="at">size=</span><span class="dv">1</span>, <span class="at">prob=</span>prob)</span>
+<span id="cb182-16"><a href="pac-MASS.html#cb182-16" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x, prob, y)</span></code></pre></div>
+<p>Para estimar los parámetros del modelo se usa la función <code>glmmPQL</code> de la siguiente forma.</p>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="pac-MASS.html#cb183-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb183-2"><a href="pac-MASS.html#cb183-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb183-3"><a href="pac-MASS.html#cb183-3" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">glmmPQL</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> grupo, <span class="at">niter=</span><span class="dv">20</span>,</span>
+<span id="cb183-4"><a href="pac-MASS.html#cb183-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="at">data =</span> datos)</span></code></pre></div>
+<p>La función <code>summary</code> se puede usar sobre el objeto <code>fit1</code> para obtener una tabla de resumen, a continuación se ilustra el uso y la salida de <code>summary</code>.</p>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="pac-MASS.html#cb184-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit1)</span></code></pre></div>
+<pre><code>## Linear mixed-effects model fit by maximum likelihood
+##   Data: datos 
+##   AIC BIC logLik
+##    NA  NA     NA
 ## 
 ## Random effects:
-##  Formula: ~1 | Litter
-##         (Intercept)  Residual
-## StdDev:   0.3134846 0.5147948
+##  Formula: ~1 | grupo
+##         (Intercept) Residual
+## StdDev:    3.089343 1.195473
 ## 
 ## Variance function:
-##  Structure: Different standard deviations per stratum
-##  Formula: ~1 | Treatment 
-##  Parameter estimates:
-##   Control      High       Low 
-## 1.0000000 0.6394383 0.5649830 
-## Fixed effects:  weight ~ Treatment * sex + Lsize 
-##                           Value  Std.Error  DF  t-value p-value
-## (Intercept)            7.888771 0.23223913 292 33.96831  0.0000
-## Treatment.L           -0.638713 0.13587695  23 -4.70067  0.0001
-## Treatment.Q            0.011965 0.11635236  23  0.10283  0.9190
-## sexFemale             -0.351238 0.04682791 292 -7.50062  0.0000
-## Lsize                 -0.130007 0.01848708  23 -7.03233  0.0000
-## Treatment.L:sexFemale  0.066939 0.09135485 292  0.73274  0.4643
-## Treatment.Q:sexFemale -0.023417 0.06929365 292 -0.33794  0.7357
+##  Structure: fixed weights
+##  Formula: ~invwt 
+## Fixed effects:  y ~ x 
+##                 Value Std.Error  DF   t-value p-value
+## (Intercept)  4.864553 1.1476975 489  4.238533       0
+## x           -7.811406 0.9982813 489 -7.824854       0
 ##  Correlation: 
-##                       (Intr) Trtm.L Trtm.Q sexFml Lsize  Tr.L:F
-## Treatment.L           -0.325                                   
-## Treatment.Q           -0.139  0.154                            
-## sexFemale             -0.126 -0.008 -0.103                     
-## Lsize                 -0.954  0.376  0.190  0.031              
-## Treatment.L:sexFemale -0.020 -0.304 -0.012 -0.034  0.015       
-## Treatment.Q:sexFemale -0.021 -0.023 -0.300  0.445 -0.017 -0.029
+##   (Intr)
+## x -0.493
 ## 
 ## Standardized Within-Group Residuals:
 ##         Min          Q1         Med          Q3         Max 
-## -5.88670114 -0.52493419  0.02123518  0.57307286  2.56409983 
+## -5.88958933 -0.20167529  0.02509534  0.24445852  8.17974927 
 ## 
-## Number of Observations: 322
-## Number of Groups: 27</code></pre>
+## Number of Observations: 500
+## Number of Groups: 10</code></pre>
+<p>Según el resultado anterior <span class="math inline">\(\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=4.86, \hat{\beta}_1=-7.81, \hat{\sigma}_{b0}=3.09)^\top\)</span> mientras que el vector real de parámetros es <span class="math inline">\(\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-8, \sigma_{b0}=2)^\top\)</span>.</p>
+</div>
+<div id="what-it-means-for-aic-na-in-glmmpql-mass-summary-output" class="section level2" number="16.2">
+<h2><span class="header-section-number">16.2</span> what it means for AIC NA in glmmPQL (MASS) summary output?</h2>
+<p>Esta pregunta fue hecha en StackOverFlow y puede ser consultada en este <a href="https://stackoverflow.com/questions/58713374/what-it-means-for-aic-na-in-glmmpql-mass-summary-output">enlace</a>.</p>
+</div>
+<div id="two-questions-on-the-results-from-glmmpqlmass" class="section level2" number="16.3">
+<h2><span class="header-section-number">16.3</span> Two questions on the results from glmmPQL(MASS)</h2>
+<p>Esta pregunta fue hecha en la comunidad de usuarios de R y puede ser consultada en este <a href="https://stat.ethz.ch/pipermail/r-help/2008-December/181845.html">enlace</a>.</p>
+</div>
+<div id="how-do-i-interpret-the-variance-of-random-effect-in-a-generalized-linear-mixed-model" class="section level2" number="16.4">
+<h2><span class="header-section-number">16.4</span> How do I interpret the variance of random effect in a generalized linear mixed model?</h2>
+<p>Esta pregunta fue hecha en CrossValidated y puede ser consultada en este <a href="https://stats.stackexchange.com/questions/130313/how-do-i-interpret-the-variance-of-random-effect-in-a-generalized-linear-mixed-m">enlace</a>.</p>
 
+</div>
 </div>
 <h3>References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-West2014" class="csl-entry">
-West, Welch, B. T. 2014. <em>Linear Mixed Models: A Practical Guide Using Statistical Software</em>. 2nd ed. Chapman; Hall/CRC.
+<div id="ref-R-MASS" class="csl-entry">
+Ripley, Brian. 2021. <em>MASS: Support Functions and Datasets for Venables and Ripley’s MASS</em>. <a href="http://www.stats.ox.ac.uk/pub/MASS4/">http://www.stats.ox.ac.uk/pub/MASS4/</a>.
 </div>
 </div>
             </section>
@@ -406,8 +421,8 @@ West, Welch, B. T. 2014. <em>Linear Mixed Models: A Practical Guide Using Statis
           </div>
         </div>
       </div>
-<a href="apli-nlme.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="estim.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="pac-glmm.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="glmm_poisson.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -439,7 +454,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/306-apli-rat-pup.Rmd",
+"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/402-paquete-MASS.Rmd",
 "text": "Edit"
 },
 "history": {

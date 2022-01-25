@@ -1,0 +1,6 @@
+# Simulación de glmm {#simul-glmm}
+
+Simular observaciones de un glmm es muy importante para comprender este tipo de modelos y para estudiar las propiedades de estos modelos. A continuación se muestran los enlaces a varias publicaciones.
+
+- [glmm binomial](https://aosmith.rbind.io/2020/08/20/simulate-binomial-glmm/).
+- [glmm Poisson](https://aosmith.rbind.io/2018/07/18/simulate-poisson-edition/).

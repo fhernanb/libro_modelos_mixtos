@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>15 GLMM gamma | Modelos Mixtos con R</title>
+  <title>18 GLMM gamma | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="15 GLMM gamma | Modelos Mixtos con R" />
+  <meta property="og:title" content="18 GLMM gamma | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:image" content="/images/cover.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="fhernanb/libro_mod_pred" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="15 GLMM gamma | Modelos Mixtos con R" />
+  <meta name="twitter:title" content="18 GLMM gamma | Modelos Mixtos con R" />
   
   <meta name="twitter:description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="twitter:image" content="/images/cover.png" />
@@ -25,7 +25,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2022-01-24" />
+<meta name="date" content="2022-01-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
   
 <link rel="prev" href="glmm_poisson.html"/>
-<link rel="next" href="pac-glmmTMB.html"/>
+<link rel="next" href="simul-glmm.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -264,20 +264,30 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="13.1" data-path="glmm.html"><a href="glmm.html#videos-de-apoyo"><i class="fa fa-check"></i><b>13.1</b> Videos de apoyo</a></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="glmm_poisson.html"><a href="glmm_poisson.html"><i class="fa fa-check"></i><b>14</b> GLMM Poisson</a></li>
-<li class="chapter" data-level="15" data-path="glmm_gamma.html"><a href="glmm_gamma.html"><i class="fa fa-check"></i><b>15</b> GLMM gamma</a></li>
-<li class="chapter" data-level="16" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html"><i class="fa fa-check"></i><b>16</b> Paquete <strong>glmmTMB</strong></a>
+<li class="chapter" data-level="14" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html"><i class="fa fa-check"></i><b>14</b> Paquete <strong>glmmTMB</strong></a>
 <ul>
-<li class="chapter" data-level="16.1" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#función-glmmtmb"><i class="fa fa-check"></i><b>16.1</b> Función <code>glmmTMB</code></a></li>
+<li class="chapter" data-level="14.1" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#función-glmmtmb"><i class="fa fa-check"></i><b>14.1</b> Función <code>glmmTMB</code></a></li>
 <li class="chapter" data-level="" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#ejemplo-modelo-normal-con-intercepto-aleatorio-2"><i class="fa fa-check"></i>Ejemplo: modelo normal con intercepto aleatorio</a></li>
 <li class="chapter" data-level="" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#ejemplo-recuperando-los-interceptos-aleatorios-1"><i class="fa fa-check"></i>Ejemplo: recuperando los interceptos aleatorios</a></li>
 <li class="chapter" data-level="" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#ejemplo-modelo-gamma-con-intercepto-aleatorio-1"><i class="fa fa-check"></i>Ejemplo: modelo gamma con intercepto aleatorio</a></li>
 </ul></li>
-<li class="chapter" data-level="17" data-path="pac-glmm.html"><a href="pac-glmm.html"><i class="fa fa-check"></i><b>17</b> Paquete <strong>glmm</strong></a>
+<li class="chapter" data-level="15" data-path="pac-glmm.html"><a href="pac-glmm.html"><i class="fa fa-check"></i><b>15</b> Paquete <strong>glmm</strong></a>
 <ul>
-<li class="chapter" data-level="17.1" data-path="pac-glmm.html"><a href="pac-glmm.html#función-glmm"><i class="fa fa-check"></i><b>17.1</b> Función <code>glmm</code></a></li>
+<li class="chapter" data-level="15.1" data-path="pac-glmm.html"><a href="pac-glmm.html#función-glmm"><i class="fa fa-check"></i><b>15.1</b> Función <code>glmm</code></a></li>
+<li class="chapter" data-level="" data-path="pac-glmm.html"><a href="pac-glmm.html#ejemplo-modelo-poisson-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo Poisson con intercepto aleatorio</a></li>
 </ul></li>
-<li class="chapter" data-level="18" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>18</b> Otro material interesante</a></li>
+<li class="chapter" data-level="16" data-path="pac-MASS.html"><a href="pac-MASS.html"><i class="fa fa-check"></i><b>16</b> Paquete <strong>MASS</strong></a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="pac-MASS.html"><a href="pac-MASS.html#función-glmmpql"><i class="fa fa-check"></i><b>16.1</b> Función <code>glmmPQL</code></a></li>
+<li class="chapter" data-level="" data-path="pac-MASS.html"><a href="pac-MASS.html#ejemplo-modelo-bernoulli-binomial-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo Bernoulli (binomial) con intercepto aleatorio</a></li>
+<li class="chapter" data-level="16.2" data-path="pac-MASS.html"><a href="pac-MASS.html#what-it-means-for-aic-na-in-glmmpql-mass-summary-output"><i class="fa fa-check"></i><b>16.2</b> what it means for AIC NA in glmmPQL (MASS) summary output?</a></li>
+<li class="chapter" data-level="16.3" data-path="pac-MASS.html"><a href="pac-MASS.html#two-questions-on-the-results-from-glmmpqlmass"><i class="fa fa-check"></i><b>16.3</b> Two questions on the results from glmmPQL(MASS)</a></li>
+<li class="chapter" data-level="16.4" data-path="pac-MASS.html"><a href="pac-MASS.html#how-do-i-interpret-the-variance-of-random-effect-in-a-generalized-linear-mixed-model"><i class="fa fa-check"></i><b>16.4</b> How do I interpret the variance of random effect in a generalized linear mixed model?</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="glmm_poisson.html"><a href="glmm_poisson.html"><i class="fa fa-check"></i><b>17</b> GLMM Poisson</a></li>
+<li class="chapter" data-level="18" data-path="glmm_gamma.html"><a href="glmm_gamma.html"><i class="fa fa-check"></i><b>18</b> GLMM gamma</a></li>
+<li class="chapter" data-level="19" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>19</b> Simulación de glmm</a></li>
+<li class="chapter" data-level="20" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>20</b> Otro material interesante</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -299,13 +309,13 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="glmm_gamma" class="section level1" number="15">
-<h1><span class="header-section-number">15</span> GLMM gamma</h1>
+<div id="glmm_gamma" class="section level1" number="18">
+<h1><span class="header-section-number">18</span> GLMM gamma</h1>
 <p>En este capítulo se presenta un ejemplo de glmm con variable respuesta gamma.</p>
 <p><img src="images/semiconductors.jpg" title="Tomada de https://www.iqsdirectory.com/" alt="Tomada de https://www.iqsdirectory.com/" width="50%" style="display: block; margin: auto;" /></p>
 <p>A continuación la base de datos a utilizar.</p>
-<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="glmm_gamma.html#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(hglm)</span>
-<span id="cb177-2"><a href="glmm_gamma.html#cb177-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(semiconductor)</span></code></pre></div>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="glmm_gamma.html#cb205-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(hglm)</span>
+<span id="cb205-2"><a href="glmm_gamma.html#cb205-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(semiconductor)</span></code></pre></div>
 <p>En este ejemplo, analizamos los datos de semiconductores tomados de Myers et al. (2002), que implica un experimento diseñado en una planta de semiconductores. Se emplean seis factores, temperatura de laminación, tiempo de laminación, presión de laminación, temperatura de cocción, tiempo de ciclo de cocción y punto de rocío de cocción, y estamos interesados en la curvatura de los dispositivos de sustrato producidos en la planta. La medición de la curvatura se realiza cuatro veces en cada dispositivo fabricado. Cada variable de diseño se toma en dos niveles. Se sabe que la medida no tiene una distribución normal y las medidas tomadas en el mismo dispositivo están correlacionadas. Myers et al. (2002) consideraron un modelo de respuesta gamma con un enlace logarítmico y utilizaron un método GEE asumiendo una correlación de trabajo AR(1).</p>
 <p>Las variables de la base de datos se muestran a continuación.</p>
 <ul>
@@ -319,7 +329,7 @@ div.csl-indent {
 <li>y: Camber measure; in 1e-4 in./in.</li>
 </ul>
 <p>Vamos a explorar las primeras líneas de la base de datos.</p>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="glmm_gamma.html#cb178-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(semiconductor, <span class="at">n=</span><span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="glmm_gamma.html#cb206-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(semiconductor, <span class="at">n=</span><span class="dv">5</span>)</span></code></pre></div>
 <pre><code>##   Device x1 x2 x3 x4 x5 x6      y
 ## 1      1 -1 -1 -1 -1 -1 -1 0.0167
 ## 2      1 -1 -1 -1 -1 -1 -1 0.0128
@@ -327,19 +337,19 @@ div.csl-indent {
 ## 4      1 -1 -1 -1 -1 -1 -1 0.0185
 ## 5      2  1 -1 -1 -1  1  1 0.0062</code></pre>
 <p>El siguiente código sirve para construir una densidad para la variable respuesta.</p>
-<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="glmm_gamma.html#cb180-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb180-2"><a href="glmm_gamma.html#cb180-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(semiconductor, <span class="fu">aes</span>(y)) <span class="sc">+</span> </span>
-<span id="cb180-3"><a href="glmm_gamma.html#cb180-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span></code></pre></div>
-<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-148-1.png" width="672" /></p>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="glmm_gamma.html#cb208-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb208-2"><a href="glmm_gamma.html#cb208-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(semiconductor, <span class="fu">aes</span>(y)) <span class="sc">+</span> </span>
+<span id="cb208-3"><a href="glmm_gamma.html#cb208-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-178-1.png" width="672" /></p>
 <p>De la figura anterior vemos que la variable respuesta tomá solo valores positivos.</p>
-<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="glmm_gamma.html#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;GGally&quot;)</span></span>
-<span id="cb181-2"><a href="glmm_gamma.html#cb181-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span></code></pre></div>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="glmm_gamma.html#cb209-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;GGally&quot;)</span></span>
+<span id="cb209-2"><a href="glmm_gamma.html#cb209-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span></code></pre></div>
 <pre><code>## Registered S3 method overwritten by &#39;GGally&#39;:
 ##   method from   
 ##   +.gg   ggplot2</code></pre>
-<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="glmm_gamma.html#cb183-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(semiconductor,          <span class="co"># Data frame</span></span>
-<span id="cb183-2"><a href="glmm_gamma.html#cb183-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">columns =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">8</span>) <span class="co"># Columns </span></span></code></pre></div>
-<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-149-1.png" width="672" /></p>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="glmm_gamma.html#cb211-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(semiconductor,          <span class="co"># Data frame</span></span>
+<span id="cb211-2"><a href="glmm_gamma.html#cb211-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">columns =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">8</span>) <span class="co"># Columns </span></span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-179-1.png" width="672" /></p>
 <p>El primer modelo que vamos a ajustar contiene todos los factores <code>x</code> y se puede representar de la siguiente manera.</p>
 <p><span class="math display">\[\begin{align*} 
 y_{ij} | b_0 &amp;\sim  Gamma(\mu_{ij}, \phi) \\ 
@@ -347,12 +357,12 @@ y_{ij} | b_0 &amp;\sim  Gamma(\mu_{ij}, \phi) \\
 b_{0} &amp;\sim N(0, \sigma^2_{b0})
 \end{align*}\]</span></p>
 <p>Para ajustar el modelo anterior usamos el siguiente código.</p>
-<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="glmm_gamma.html#cb184-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
-<span id="cb184-2"><a href="glmm_gamma.html#cb184-2" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x3 <span class="sc">+</span> x4 <span class="sc">+</span> x5 <span class="sc">+</span> x6 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Device), </span>
-<span id="cb184-3"><a href="glmm_gamma.html#cb184-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> semiconductor,</span>
-<span id="cb184-4"><a href="glmm_gamma.html#cb184-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> log))</span>
-<span id="cb184-5"><a href="glmm_gamma.html#cb184-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb184-6"><a href="glmm_gamma.html#cb184-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod1)</span></code></pre></div>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="glmm_gamma.html#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb212-2"><a href="glmm_gamma.html#cb212-2" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x3 <span class="sc">+</span> x4 <span class="sc">+</span> x5 <span class="sc">+</span> x6 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Device), </span>
+<span id="cb212-3"><a href="glmm_gamma.html#cb212-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> semiconductor,</span>
+<span id="cb212-4"><a href="glmm_gamma.html#cb212-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> log))</span>
+<span id="cb212-5"><a href="glmm_gamma.html#cb212-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb212-6"><a href="glmm_gamma.html#cb212-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod1)</span></code></pre></div>
 <pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
 ##   Approximation) [glmerMod]
 ##  Family: Gamma  ( log )
@@ -399,11 +409,11 @@ y_{ij} | b_0 &amp;\sim  Gamma(\mu_{ij}, \phi) \\
 b_{0} &amp;\sim N(0, \sigma^2_{b0})
 \end{align*}\]</span></p>
 <p>Para ajustar el modelo anterior usamos el siguiente código.</p>
-<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="glmm_gamma.html#cb186-1" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x3 <span class="sc">+</span> x5 <span class="sc">+</span> x6 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Device), </span>
-<span id="cb186-2"><a href="glmm_gamma.html#cb186-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> semiconductor,</span>
-<span id="cb186-3"><a href="glmm_gamma.html#cb186-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> log))</span>
-<span id="cb186-4"><a href="glmm_gamma.html#cb186-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb186-5"><a href="glmm_gamma.html#cb186-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod2)</span></code></pre></div>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="glmm_gamma.html#cb214-1" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x3 <span class="sc">+</span> x5 <span class="sc">+</span> x6 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Device), </span>
+<span id="cb214-2"><a href="glmm_gamma.html#cb214-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> semiconductor,</span>
+<span id="cb214-3"><a href="glmm_gamma.html#cb214-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> log))</span>
+<span id="cb214-4"><a href="glmm_gamma.html#cb214-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb214-5"><a href="glmm_gamma.html#cb214-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod2)</span></code></pre></div>
 <pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
 ##   Approximation) [glmerMod]
 ##  Family: Gamma  ( log )
@@ -440,8 +450,8 @@ b_{0} &amp;\sim N(0, \sigma^2_{b0})
 ## x5  0.000  0.023  0.021       
 ## x6  0.000 -0.007  0.005  0.014</code></pre>
 <p>Para comparar los dos modelos ajustados propuestos colocamos los resultados en una única tabla como se muestra a continuación.</p>
-<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="glmm_gamma.html#cb188-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;texreg&quot;</span>)</span>
-<span id="cb188-2"><a href="glmm_gamma.html#cb188-2" aria-hidden="true" tabindex="-1"></a><span class="fu">screenreg</span>(<span class="fu">list</span>(mod1, mod2))</span></code></pre></div>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="glmm_gamma.html#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;texreg&quot;</span>)</span>
+<span id="cb216-2"><a href="glmm_gamma.html#cb216-2" aria-hidden="true" tabindex="-1"></a><span class="fu">screenreg</span>(<span class="fu">list</span>(mod1, mod2))</span></code></pre></div>
 <pre><code>## 
 ## =================================================
 ##                          Model 1      Model 2    
@@ -472,14 +482,14 @@ b_{0} &amp;\sim N(0, \sigma^2_{b0})
 ## *** p &lt; 0.001; ** p &lt; 0.01; * p &lt; 0.05</code></pre>
 <p>El problema de comparar los dos modelos se puede resumir con <span class="math inline">\(H_0:\)</span> las variables <code>x2</code> y <code>x4</code> no aportan al modelo, versus, <span class="math inline">\(H_A:\)</span> al menos una de esas variables si aporta al modelo.</p>
 <p>Para abordar el problema lo podemos hacer por medio de la prueba razón de verosimilitud. Debemos tener en cuenta que el modelo 1 tiene 9 parámetros y el modelo 2 tiene 7 parámetros.</p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="glmm_gamma.html#cb190-1" aria-hidden="true" tabindex="-1"></a>lrt <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> (<span class="fu">logLik</span>(mod2) <span class="sc">-</span> <span class="fu">logLik</span>(mod1))</span>
-<span id="cb190-2"><a href="glmm_gamma.html#cb190-2" aria-hidden="true" tabindex="-1"></a>lrt</span></code></pre></div>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="glmm_gamma.html#cb218-1" aria-hidden="true" tabindex="-1"></a>lrt <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> (<span class="fu">logLik</span>(mod2) <span class="sc">-</span> <span class="fu">logLik</span>(mod1))</span>
+<span id="cb218-2"><a href="glmm_gamma.html#cb218-2" aria-hidden="true" tabindex="-1"></a>lrt</span></code></pre></div>
 <pre><code>## &#39;log Lik.&#39; 0.02762921 (df=7)</code></pre>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="glmm_gamma.html#cb192-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pchisq</span>(<span class="at">q=</span>lrt, <span class="at">df=</span><span class="dv">9-7</span>, <span class="at">lower.tail=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="glmm_gamma.html#cb220-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pchisq</span>(<span class="at">q=</span>lrt, <span class="at">df=</span><span class="dv">9-7</span>, <span class="at">lower.tail=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## &#39;log Lik.&#39; 0.9862804 (df=7)</code></pre>
 <p>De la salida anterior se tiene que el valor-P = 0.9862804 y mayor que cualquier <span class="math inline">\(\alpha\)</span>, eso significa que no hay evidencia para rechazar <span class="math inline">\(H_0\)</span>, en otras palabras, las variables <code>x2</code> y <code>x4</code> no aportan al modelo.</p>
 <p>La prueba de verosimilitud se puede obtener también así:</p>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="glmm_gamma.html#cb194-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod1, mod2)</span></code></pre></div>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="glmm_gamma.html#cb222-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod1, mod2)</span></code></pre></div>
 <pre><code>## Data: semiconductor
 ## Models:
 ## mod2: y ~ x1 + x3 + x5 + x6 + (1 | Device)
@@ -488,8 +498,8 @@ b_{0} &amp;\sim N(0, \sigma^2_{b0})
 ## mod2    7 -550.96 -535.85 282.48  -564.96                     
 ## mod1    9 -546.99 -527.56 282.50  -564.99 0.0276  2     0.9863</code></pre>
 <p>Es posible obtener el valor-P anterior usando boostrap por medio de la función <code>PBmodcomp</code> del paquete <strong>pbkrtest</strong> de <span class="citation">Halekoh and Højsgaard (<a href="#ref-R-pbkrtest" role="doc-biblioref">2021</a>)</span>.</p>
-<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="glmm_gamma.html#cb196-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pbkrtest)</span>
-<span id="cb196-2"><a href="glmm_gamma.html#cb196-2" aria-hidden="true" tabindex="-1"></a><span class="fu">PBmodcomp</span>(<span class="at">largeModel=</span>mod1, <span class="at">smallModel=</span>mod2, <span class="at">nsim=</span><span class="dv">100</span>, <span class="at">seed=</span><span class="dv">123</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="glmm_gamma.html#cb224-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pbkrtest)</span>
+<span id="cb224-2"><a href="glmm_gamma.html#cb224-2" aria-hidden="true" tabindex="-1"></a><span class="fu">PBmodcomp</span>(<span class="at">largeModel=</span>mod1, <span class="at">smallModel=</span>mod2, <span class="at">nsim=</span><span class="dv">100</span>, <span class="at">seed=</span><span class="dv">123</span>)</span></code></pre></div>
 <pre><code>Bootstrap test; time: 100.44 sec; samples: 100; extremes: 100;
 large : y ~ x1 + x2 + x3 + x4 + x5 + x6 + (1 | Device)
 y ~ x1 + x3 + x5 + x6 + (1 | Device)
@@ -513,7 +523,7 @@ Halekoh, Ulrich, and Søren Højsgaard. 2021. <em>Pbkrtest: Parametric Bootstrap
         </div>
       </div>
 <a href="glmm_poisson.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="pac-glmmTMB.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="simul-glmm.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -545,7 +555,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/402-glmm-gamma.Rmd",
+"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/502-glmm-gamma.Rmd",
 "text": "Edit"
 },
 "history": {

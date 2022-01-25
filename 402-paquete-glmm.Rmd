@@ -1,0 +1,116 @@
+# Paquete **glmm** {#pac-glmm}
+
+El paquete **glmm** de @R-glmm aproxima la verosimilitud de un modelo mixto lineal generalizado mediante aproximación de Monte Carlo. Al visitar este [enlace](https://cran.r-project.org/web/packages/glmm/) se encontrará la página de apoyo del paquete, allí se puede consultar el manual de referencia y las viñetas.
+
+## Función `glmm`
+La función `glmm` es la principal función del paquete **glmm**. Esta función sirve para ajustar un glmm y su estructura es la siguiente:
+
+```{r, eval=FALSE}
+glmm(fixed, random, varcomps.names, data, family.glmm, m,
+     varcomps.equal, weights=NULL, doPQL = TRUE,debug=FALSE,
+     p1=1/3,p2=1/3, p3=1/3, rmax=1000,iterlim=1000, par.init, zeta=5, cluster=NULL)
+```
+
+Los principales argumentos de la función son:
+
+- `formula`: es una fórmula similar a la usada en el modelo lineal clásico. Un ejemplo de fórmula sería `y ~ 1 + x1 + x2`.
+- `random`: es una fórmula solo con lado derecho. Si queremos indicar intercepto aleatorio se escribe `~ 1 | group` y si se desea intercepto y pendiente aleatoria se escribe `~ 1 + x2 | group`.
+- `data`: marco de datos donde están las variables. 
+- `family.glm`: argumento para indicar la distribución de la variable respuesta.
+
+## Ejemplo: modelo Poisson con intercepto aleatorio {-}
+En este ejemplo vamos a simular observaciones $n_i=50$ observaciones para $G=10$ grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `glmm` para estimar los parámetros del modelo.
+
+\begin{align*} 
+y_{ij} | b_0 &\sim  Poisson(\mu_{ij}) \\ 
+\log(\mu_{ij}) &= 4 - 6 x_{ij} + b_{0i} \\
+\sigma^2_y &= 16 \\
+b_{0} &\sim N(0, \sigma^2_{b0}=4) \\
+x_{ij} &\sim U(0, 1)
+\end{align*}
+
+El vector de parámetros de este modelo es $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma_y=4, \sigma_{b0}=4)^\top$.
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+```{block2, type='rmdexercise'}
+Solución.
+```
+
+</div>
+
+El código para simular las 500 observaciones se muestra a continuación. Observe que se fijó la semilla en dos ocasiones para que el lector pueda replicar el ejemplo y obtener los mismos resultados.
+
+```{r, eval=TRUE, echo=TRUE}
+ni <- 50
+G <- 10
+nobs <- ni * G
+grupo <- factor(rep(x=1:G, each=ni))
+obs <- rep(x=1:ni, times=G)
+set.seed(1234567)
+x <- runif(n=nobs, min=0, max=1)
+set.seed(1234567)
+b0 <- rnorm(n=G, mean=0, sd=sqrt(4)) # Intercepto aleatorio
+b0 <- rep(x=b0, each=ni)               # El mismo intercepto aleatorio pero repetido
+media <- exp(4 - 6 * x + b0)
+set.seed(1234567)
+y <- rpois(n=nobs, lambda=media)
+datos <- data.frame(obs, grupo, b0, x, media, y)
+```
+
+Vamos a explorar los datos simulados.
+
+```{r}
+library(rmarkdown)
+paged_table(datos, options = list(rows.print = 6))
+```
+
+El siguiente paso es dibujar los datos para explorar si sería apropiado usar un modelo con intercepto aleatorio (obvio porque así se simularon los datos). El código para dibujar los datos se muestra abajo.
+
+```{r}
+library(ggplot2)
+ggplot(datos, aes(x, y, color=grupo) ) + 
+  geom_point() + 
+  labs(colour="Grupo/Cluster")
+```
+
+Para estimar los parámetros del modelo se usa la función `glmm` de la siguiente forma.
+
+```{r, message = FALSE, eval = FALSE, echo = TRUE}
+library(glmm)
+fit1 <- glmm(y ~ x, random = list(y ~ 0 + grupo), varcomps.names = c("b0"),
+             family.glmm = poisson.glmm, data = datos, m = 10000)
+```
+
+La función `summary` se puede usar sobre el objeto `fit1` para obtener una tabla de resumen, a continuación se ilustra el uso y la salida de `summary`.
+
+```{r, eval=FALSE}
+summary(fit1)
+```
+
+```{}
+Call:
+glmm(fixed = y ~ x, random = list(y ~ 0 + grupo), varcomps.names = c("b0"), 
+    data = datos, family.glmm = poisson.glmm, m = 10000)
+
+
+Link is: "log"
+
+Fixed Effects:
+            Estimate Std. Error z value Pr(>|z|)    
+(Intercept)        0          0   28.39   <2e-16 ***
+x                -10          0 -115.47   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+
+Variance Components for Random Effects (P-values are one-tailed):
+   Estimate Std. Error z value Pr(>|z|)/2  
+b0        0          0   2.212     0.0135 *
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+```
+
+Nota: este paquete se debe usar con precaución.

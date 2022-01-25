@@ -34,7 +34,7 @@ Los principales argumentos de la función son:
 - `REML`: valor lógico que sirve para indicar si queremos estimaciones maximizando la [verosimilitud restringida](https://en.wikipedia.org/wiki/Restricted_maximum_likelihood) o la verosimilitud usual.  
 
 ## Ejemplo: modelo normal con intercepto aleatorio {-}
-En este ejemplo vamos a simular observaciones $n_i=50$ observaciones para $G=10$ grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `lmer` para estimar los parámetros del modelo.
+En este ejemplo vamos a simular observaciones $n_i=50$ observaciones para $G=10$ grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `glmmTMB` para estimar los parámetros del modelo.
 
 \begin{align*} 
 y_{ij} | b_0 &\sim  N(\mu_{ij}, \sigma^2_y) \\ 
@@ -93,7 +93,7 @@ ggplot(datos, aes(x, y, color=grupo) ) +
 
 En la figura anterior se observa un patrón claro, todas las 10 nubes de puntos tienen la misma pendiente pero diferente intercepto con el eje vertical, eso se debe a que en la simulación se incluyó un $b_0$.
 
-Para estimar los parámetros del modelos se usa la función `mler` de la siguiente forma.
+Para estimar los parámetros del modelo se usa la función `glmmTMB` de la siguiente forma.
 
 ```{r, message = FALSE, eval = TRUE, echo = TRUE}
 library(glmmTMB)
@@ -153,7 +153,7 @@ La comparación anterior solo es posible cuando usamos datos simulados. Cuando s
 </div>
 
 ## Ejemplo: modelo gamma con intercepto aleatorio {-}
-En este ejemplo vamos a simular observaciones $n_i=20$ observaciones para $G=10$ grupos (en total 200 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `glmer` para estimar los parámetros del modelo.
+En este ejemplo vamos a simular observaciones $n_i=20$ observaciones para $G=10$ grupos (en total 200 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `glmmTMB` para estimar los parámetros del modelo.
 
 \begin{align*} 
 y_{ij} | b_0 &\sim  Gamma(\mu_{ij}, \phi) \\ 

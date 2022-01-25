@@ -1,0 +1,93 @@
+# Paquete **MASS** {#pac-MASS}
+
+El paquete **MASS** de @R-MASS se utiliza para estimar modelos glmm por medio de Penalized Quasi-Likelihood (PQL). Al visitar este [enlace](https://cran.r-project.org/web/packages/MASS/) se encontrará la página de apoyo del paquete, allí se puede consultar el manual de referencia y las viñetas.
+
+## Función `glmmPQL`
+
+La función `glmmPQL` es la principal función del paquete **glmmMAAS**. Esta función sirve para ajustar un glmm y su estructura es la siguiente:
+
+```{r, eval=FALSE}
+glmmPQL(fixed, random, family, data, correlation, weights,
+        control, niter = 10, verbose = TRUE, ...)
+```
+
+Los principales argumentos de la función son:
+
+- `formula`: es una fórmula similar a la usada en el modelo lineal clásico. Un ejemplo de fórmula sería `y ~ 1 + x1 + x2 + (1 + x2 | grupo)` con la cual se indican los efectos fijos y los efectos aleatorios del modelo. Más abajo hay una tabla con más detalles sobre la fórmula.
+- `random`: es una fórmula solo con lado derecho. Si queremos indicar intercepto aleatorio se escribe `~ 1 | group` y si se desea intercepto y pendiente aleatoria se escribe `~ 1 + x2 | group`.
+- `data`: marco de datos donde están las variables. 
+- `family`: argumento para indicar la distribución de la variable respuesta.
+
+## Ejemplo: modelo Bernoulli (binomial) con intercepto aleatorio {-}
+En este ejemplo vamos a simular observaciones $n_i=50$ observaciones para $G=10$ grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `glmmPQL` para estimar los parámetros del modelo.
+
+\begin{align*} 
+y_{ij} | b_0 &\sim  \text{Bernoulli}(\mu_{ij}) \\ 
+\text{logit}(\mu_{ij}) &= 4 - 8 x_{ij} + b_{0i} \\
+b_{0} &\sim N(0, \sigma^2_{b0}=4) \\
+x_{ij} &\sim U(0, 1)
+\end{align*}
+
+El vector de parámetros de este modelo es $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-8, \sigma_{b0}=2)^\top$.
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+```{block2, type='rmdexercise'}
+Solución.
+```
+
+</div>
+
+El código para simular las 500 observaciones se muestra a continuación. Observe que se fijó la semilla en dos ocasiones para que el lector pueda replicar el ejemplo y obtener los mismos resultados.
+
+```{r, eval=TRUE, echo=TRUE}
+logit_inv <- function(x) exp(x) / (exp(x) + 1) # Función enlace inversa
+
+ni <- 50
+G <- 10
+nobs <- ni * G
+grupo <- factor(rep(x=1:G, each=ni))
+obs <- rep(x=1:ni, times=G)
+set.seed(12345)
+x <- runif(n=nobs, min=0, max=1)
+set.seed(12345)
+b0 <- rnorm(n=G, mean=0, sd=sqrt(4)) # Intercepto aleatorio
+b0 <- rep(x=b0, each=ni)               # El mismo intercepto aleatorio pero repetido
+prob <- logit_inv(4 - 8 * x + b0)
+set.seed(12345)
+y <- rbinom(n=nobs, size=1, prob=prob)
+datos <- data.frame(obs, grupo, b0, x, prob, y)
+```
+
+Para estimar los parámetros del modelo se usa la función `glmmPQL` de la siguiente forma.
+
+```{r, message = FALSE, eval = TRUE, echo = TRUE}
+library(nlme)
+library(MASS)
+fit1 <- glmmPQL(y ~ x, random = ~ 1 | grupo, niter=20,
+                family = binomial(link = "logit"), data = datos)
+```
+
+La función `summary` se puede usar sobre el objeto `fit1` para obtener una tabla de resumen, a continuación se ilustra el uso y la salida de `summary`.
+
+```{r, eval=TRUE}
+summary(fit1)
+```
+
+Según el resultado anterior $\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=4.86, \hat{\beta}_1=-7.81, \hat{\sigma}_{b0}=3.09)^\top$ mientras que el vector real de parámetros es $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-8, \sigma_{b0}=2)^\top$.
+
+## what it means for AIC NA in glmmPQL (MASS) summary output?
+
+Esta pregunta fue hecha en StackOverFlow y puede ser consultada en este [enlace](https://stackoverflow.com/questions/58713374/what-it-means-for-aic-na-in-glmmpql-mass-summary-output).
+
+## Two questions on the results from glmmPQL(MASS)
+
+Esta pregunta fue hecha en la comunidad de usuarios de R y puede ser consultada en este [enlace](https://stat.ethz.ch/pipermail/r-help/2008-December/181845.html).
+
+
+## How do I interpret the variance of random effect in a generalized linear mixed model?
+
+Esta pregunta fue hecha en CrossValidated y puede ser consultada en este [enlace](https://stats.stackexchange.com/questions/130313/how-do-i-interpret-the-variance-of-random-effect-in-a-generalized-linear-mixed-m).
+
