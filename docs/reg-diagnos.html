@@ -25,7 +25,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2022-01-25" />
+<meta name="date" content="2022-01-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -204,6 +204,7 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="pac-lme4.html"><a href="pac-lme4.html#ejemplo-recuperando-los-interceptos-aleatorios"><i class="fa fa-check"></i>Ejemplo: recuperando los interceptos aleatorios</a></li>
 <li class="chapter" data-level="4.2" data-path="pac-lme4.html"><a href="pac-lme4.html#función-glmer"><i class="fa fa-check"></i><b>4.2</b> Función <code>glmer</code></a></li>
 <li class="chapter" data-level="" data-path="pac-lme4.html"><a href="pac-lme4.html#ejemplo-modelo-gamma-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo gamma con intercepto aleatorio</a></li>
+<li class="chapter" data-level="" data-path="pac-lme4.html"><a href="pac-lme4.html#ejemplo-modelo-inversa-gaussiana-con-intercepto-y-pendiente-aleatoria"><i class="fa fa-check"></i>Ejemplo: modelo inversa gaussiana con intercepto y pendiente aleatoria</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="apli-lme4.html"><a href="apli-lme4.html"><i class="fa fa-check"></i><b>5</b> Aplicación con <code>lme4</code></a>
 <ul>
@@ -417,8 +418,8 @@ y_i &amp;\sim N(\mu_i, \sigma^2), \\
 \sigma^2 &amp;= \text{constante}
 \end{align}\]</span></p>
 <p>El codigó en <code>R</code> para ajustar el anterior modelo se presenta a continuación:</p>
-<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="reg-diagnos.html#cb148-1" aria-hidden="true" tabindex="-1"></a>Modelo_simple <span class="ot">&lt;-</span> <span class="fu">lm</span>(mathach <span class="sc">~</span> ses, <span class="at">data =</span> hsb)</span>
-<span id="cb148-2"><a href="reg-diagnos.html#cb148-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Modelo_simple)</span></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="reg-diagnos.html#cb154-1" aria-hidden="true" tabindex="-1"></a>Modelo_simple <span class="ot">&lt;-</span> <span class="fu">lm</span>(mathach <span class="sc">~</span> ses, <span class="at">data =</span> hsb)</span>
+<span id="cb154-2"><a href="reg-diagnos.html#cb154-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Modelo_simple)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = mathach ~ ses, data = hsb)
@@ -438,8 +439,8 @@ y_i &amp;\sim N(\mu_i, \sigma^2), \\
 ## Multiple R-squared:  0.1301, Adjusted R-squared:   0.13 
 ## F-statistic:  1075 on 1 and 7183 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Luego, los residuos (en este caso los residuos ordinarios) se pueden obtener con las siguientes funciones genericas:</p>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="reg-diagnos.html#cb150-1" aria-hidden="true" tabindex="-1"></a>muestra_aleatoria<span class="sc">$</span>val_predicho <span class="ot">&lt;-</span> <span class="fu">predict</span>(Modelo_simple)</span>
-<span id="cb150-2"><a href="reg-diagnos.html#cb150-2" aria-hidden="true" tabindex="-1"></a>muestra_aleatoria<span class="sc">$</span>res_ordinario <span class="ot">&lt;-</span> <span class="fu">residuals</span>(Modelo_simple)</span></code></pre></div>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="reg-diagnos.html#cb156-1" aria-hidden="true" tabindex="-1"></a>muestra_aleatoria<span class="sc">$</span>val_predicho <span class="ot">&lt;-</span> <span class="fu">predict</span>(Modelo_simple)</span>
+<span id="cb156-2"><a href="reg-diagnos.html#cb156-2" aria-hidden="true" tabindex="-1"></a>muestra_aleatoria<span class="sc">$</span>res_ordinario <span class="ot">&lt;-</span> <span class="fu">residuals</span>(Modelo_simple)</span></code></pre></div>
 <p>La gráfica a continuación presenta los valores observados y estimados en el rendimiento de los estudiantes en una prueba de matemáticas según su nivel socio-económico, siendo la misma una representación gráfica similar a la presentada en la <strong>Figura 6.1</strong>:</p>
 <div style="-moz-box-shadow: 1px 1px 3px 2px #808080;
   -webkit-box-shadow: 1px 1px 3px 2px #808080;
@@ -451,8 +452,8 @@ Tenga en cuenta que se bien el modelo se ajusto con las 7185 valores observados,
 </div>
 <pre><code>## Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =
 ## &quot;none&quot;)` instead.</code></pre>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-111"></span>
-<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-111-1.png" alt="Valores obserados y estimados en el rendimiento en una prueba matemática según el nivel socio-económico del estudiante." width="672" />
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-121"></span>
+<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-121-1.png" alt="Valores obserados y estimados en el rendimiento en una prueba matemática según el nivel socio-económico del estudiante." width="672" />
 <p class="caption">
 Figure 11.1: Valores obserados y estimados en el rendimiento en una prueba matemática según el nivel socio-económico del estudiante.
 </p>
@@ -522,8 +523,8 @@ Residuo ordinario
 <p>Luego dichos residuos se consideran como elementos clave en la evaluación del modelo ajustado. Estos suelen emplearse en los métodos de diagnosticos del modelo de regresión mediante pruebas de hipótesis acompañadas de inferencia visual (gráficos). Por ejemplo, la figura a continuación muestra una de las gráficas comunmente usadas en los métodos de diagnostico:</p>
 <pre><code>## Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =
 ## &quot;none&quot;)` instead.</code></pre>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-112"></span>
-<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-112-1.png" alt=" Gráfica de residuos ordinarios vs Valores estimados." width="80%" />
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-122"></span>
+<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-122-1.png" alt=" Gráfica de residuos ordinarios vs Valores estimados." width="80%" />
 <p class="caption">
 Figure 11.2:  Gráfica de residuos ordinarios vs Valores estimados.
 </p>
@@ -546,14 +547,14 @@ Existe una gran variedad de gráficos (como la presentada anteriormente) lo que 
 <div id="ajustando-el-modelo" class="section level3" number="11.3.1">
 <h3><span class="header-section-number">11.3.1</span> Ajustando el modelo</h3>
 <p>Vimos anteriormente en este capitulo que era posible determinar si el rendimiento de los estudiantes en una prueba de matemáticas (<code>mathach</code>) estaba relacionada con su nivel socio-económico (<code>ses</code>). Se considerará ahora la posibilidad de que la relación entre el rendimiento y el nivel socio-económico del estudiante varien según las características de la escuela, específicamente, si la escuela es una escuela pública o una escuela privada (<code>schtype</code>). Un buen punto de partida consiste es ver la relación entre el rendimiento y el nivel socio-económico por separado para cada escuela:</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-114"></span>
-<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-114-1.png" alt="Diagrama de dispersión del rendimiento matemático según el nivel socio-económico en escuelas públicas." width="80%" />
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-124"></span>
+<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-124-1.png" alt="Diagrama de dispersión del rendimiento matemático según el nivel socio-económico en escuelas públicas." width="80%" />
 <p class="caption">
 Figure 11.3: Diagrama de dispersión del rendimiento matemático según el nivel socio-económico en escuelas públicas.
 </p>
 </div>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-115"></span>
-<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-115-1.png" alt="Diagrama de dispersión del rendimiento matemático según el nivel socio-económico en escuelas privadas." width="80%" />
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-125"></span>
+<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-125-1.png" alt="Diagrama de dispersión del rendimiento matemático según el nivel socio-económico en escuelas privadas." width="80%" />
 <p class="caption">
 Figure 11.4: Diagrama de dispersión del rendimiento matemático según el nivel socio-económico en escuelas privadas.
 </p>
@@ -579,13 +580,13 @@ N\left [ \left ( \begin{matrix}
 \end{align*}\]</span></p>
 <p>Esta ecuación representa la relación existente entre el rendimiento acádemico y el nivel socio-económico de los estudiantes. La variable respuesta, <span class="math inline">\(y_{ij}\)</span>, es el rendimiento del estudiante, <span class="math inline">\(i\)</span>, en la escuela <span class="math inline">\(j\)</span>.</p>
 <p>El codigó en <code>R</code> para ajustar el anterior modelo se presenta a continuación. Se hara uso del paquete <code>lme4</code> ya mencionado en el capitulo 3 del presente libro:</p>
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="reg-diagnos.html#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
-<span id="cb153-2"><a href="reg-diagnos.html#cb153-2" aria-hidden="true" tabindex="-1"></a>Modelo_mixto <span class="ot">&lt;-</span> <span class="fu">lmer</span>(mathach <span class="sc">~</span> ses <span class="sc">+</span> (ses <span class="sc">|</span> schtype),</span>
-<span id="cb153-3"><a href="reg-diagnos.html#cb153-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">REML =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb153-4"><a href="reg-diagnos.html#cb153-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">data =</span> hsb)</span></code></pre></div>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="reg-diagnos.html#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb159-2"><a href="reg-diagnos.html#cb159-2" aria-hidden="true" tabindex="-1"></a>Modelo_mixto <span class="ot">&lt;-</span> <span class="fu">lmer</span>(mathach <span class="sc">~</span> ses <span class="sc">+</span> (ses <span class="sc">|</span> schtype),</span>
+<span id="cb159-3"><a href="reg-diagnos.html#cb159-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">REML =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb159-4"><a href="reg-diagnos.html#cb159-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">data =</span> hsb)</span></code></pre></div>
 <p>La siguiente figura, obtenida a partir del modelo anteriormente ajustado, pone de manifiesto la posibilidad real y plausible de que el intercepto y la pendiente varíen según las características de cada escuela (privada o pública):</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-116"></span>
-<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-116-1.png" alt="Grafica del modelo de regresión ajustado para dos escuelas." width="672" />
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-126"></span>
+<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-126-1.png" alt="Grafica del modelo de regresión ajustado para dos escuelas." width="672" />
 <p class="caption">
 Figure 11.5: Grafica del modelo de regresión ajustado para dos escuelas.
 </p>
@@ -595,7 +596,7 @@ Figure 11.5: Grafica del modelo de regresión ajustado para dos escuelas.
 <div id="varianza-constante-de-los-residuos-mediante-inferencia-visual" class="section level3" number="11.3.2">
 <h3><span class="header-section-number">11.3.2</span> Varianza constante de los residuos mediante inferencia visual</h3>
 <p>Uno de los supuestos del modelo de regresión es la varianza constante de los residuos. Para comprobar dicho supuesto, se suele emplear la gráfica de residuos contra los valores estimados. La misma es considerada como la gráfica de diagnóstico más básica. A continuación podrá observar varios ejemplos de la misma:</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-118"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-128"></span>
 <img src="images/dibujo_residuos_supuestos.png" alt="Representación visual de la gráfica de residuos contra los valores estimados." width="100%" />
 <p class="caption">
 Figure 11.6: Representación visual de la gráfica de residuos contra los valores estimados.
@@ -603,8 +604,8 @@ Figure 11.6: Representación visual de la gráfica de residuos contra los valore
 </div>
 <p>Si se cumple el supuesto de varianza constante de los residuos, estos se dispersarían de forma aleatoria alrededor de la línea central (como si se tratara de una nube de puntos) sin un patrón obvio, como se puede observar en la figura 6.7 <strong>A</strong>. La varianza no constante se diagnosticaría si la variabilidad de los residuos en el gráfico mostraran un patrón no aleatorio, como por ejemplo, si hubiera una curvatura presente (figura 6.7 <strong>B</strong>), o bien, si los residuos cambiaran de forma abrupta a medida que aumentan los valores estimados. Finalmente, un patrón inusual puede ser causado por un valor atípico. En el ejemplo visual anterior (figura 6.7 <strong>C</strong>), se muestra un valor atípico obvio.</p>
 <p>En el ejemplo planteado usando la base de datos <code>hsb</code>, esta gráfica se muestra en las figuras 6.8 <strong>A</strong> y 6.8 <strong>C</strong>, basados en dos tipos de residuos (ordinarios y pearson):</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-119"></span>
-<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-119-1.png" alt="Gráficos residuales para el modelo de efectos mixtos (a) entre los residuos ordinarios contra los valores estimados (b) residuos ordinarios en cada tipo de escuela (c) residuos pearson contra los valores estimados (d) residuos pearson en cada tipo de escuela." width="672" />
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-129"></span>
+<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-129-1.png" alt="Gráficos residuales para el modelo de efectos mixtos (a) entre los residuos ordinarios contra los valores estimados (b) residuos ordinarios en cada tipo de escuela (c) residuos pearson contra los valores estimados (d) residuos pearson en cada tipo de escuela." width="672" />
 <p class="caption">
 Figure 11.7: Gráficos residuales para el modelo de efectos mixtos (a) entre los residuos ordinarios contra los valores estimados (b) residuos ordinarios en cada tipo de escuela (c) residuos pearson contra los valores estimados (d) residuos pearson en cada tipo de escuela.
 </p>
@@ -725,10 +726,10 @@ Solución.
 </div>
 </div>
 <p>Para acceder a la documentación de ayuda de la función <code>leveneTest</code> del paquete <code>car</code>:</p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="reg-diagnos.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(<span class="st">&quot;leveneTest&quot;</span>, <span class="at">package =</span> <span class="st">&quot;car&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="reg-diagnos.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(<span class="st">&quot;leveneTest&quot;</span>, <span class="at">package =</span> <span class="st">&quot;car&quot;</span>)</span></code></pre></div>
 <p>Dicha documentación indica que el argumento <code>y</code> corresponde a la variable respuesta, <code>group</code> corresponde a la variable (factor) al que se desea evaluar la homogeneidad, y <code>center</code> donde se define el estadístico de centralidad. Para el ejemplo:</p>
-<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="reg-diagnos.html#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
-<span id="cb155-2"><a href="reg-diagnos.html#cb155-2" aria-hidden="true" tabindex="-1"></a><span class="fu">leveneTest</span>(<span class="at">y =</span> hsb<span class="sc">$</span>res_ordinario, <span class="at">group =</span> hsb<span class="sc">$</span>schtype, <span class="at">center =</span> <span class="st">&#39;median&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="reg-diagnos.html#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb161-2"><a href="reg-diagnos.html#cb161-2" aria-hidden="true" tabindex="-1"></a><span class="fu">leveneTest</span>(<span class="at">y =</span> hsb<span class="sc">$</span>res_ordinario, <span class="at">group =</span> hsb<span class="sc">$</span>schtype, <span class="at">center =</span> <span class="st">&#39;median&#39;</span>)</span></code></pre></div>
 <pre><code>## Levene&#39;s Test for Homogeneity of Variance (center = &quot;median&quot;)
 ##         Df F value    Pr(&gt;F)    
 ## group    1  20.102 7.456e-06 ***
@@ -740,7 +741,7 @@ Solución.
 <div id="distribución-normal-de-los-residuos-mediante-inferencia-visual" class="section level3" number="11.3.4">
 <h3><span class="header-section-number">11.3.4</span> Distribución normal de los residuos mediante inferencia visual</h3>
 <p>Los análisis de normalidad, también denominados como contraste de normalidad, son otro tipo de supuesto del modelo de regresión. Al igual que el supuesto de varianza constante de los residuos, en el análisis de normalidad se suele emplear representaciones gráficas. Esta representación consiste en la gráfica de probabilidad normal de los residuos, también denominada como gráfico cuantil cuantil. A continuación podrá observar un ejemplo de dichas representaciones en el caso del cumplimiento o no del supuesto de normalidad:</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-123"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-133"></span>
 <img src="images/distribucion_residuos.png" alt="Ejemplo de distribución normal de los residuos y de aquellos residuos que no cumplen con este supuesto." width="100%" />
 <p class="caption">
 Figure 11.8: Ejemplo de distribución normal de los residuos y de aquellos residuos que no cumplen con este supuesto.
@@ -762,8 +763,8 @@ El gráfico cuantil cuantil tiene dos ejes, uno para los cuantiles que se genera
 <!-- En este link https://www.youtube.com/watch?v=okjYjClSjOg explican muy bien como construir el gráfico cuantil cuantil -->
 </div>
 <p>En el ejemplo planteado usando la base de datos <code>hsb</code>, la gráfica de probabilidad normal de los residuos se muestra en la figura a continuación.</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-125"></span>
-<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-125-1.png" alt="Gráfico cuantil cuantil para el modelo de efectos mixtos previamente ajustado." width="672" />
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-135"></span>
+<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-135-1.png" alt="Gráfico cuantil cuantil para el modelo de efectos mixtos previamente ajustado." width="672" />
 <p class="caption">
 Figure 11.9: Gráfico cuantil cuantil para el modelo de efectos mixtos previamente ajustado.
 </p>
@@ -778,7 +779,7 @@ Figure 11.9: Gráfico cuantil cuantil para el modelo de efectos mixtos previamen
 <div id="ejemplo-6" class="section level3 unnumbered">
 <h3>Ejemplo</h3>
 <p>En algunos casos es deseable identificar la distribución que siguen los datos en lugar de identificar la distribución que no siguen. Aswath Damodaran en el documento <a href="http://people.stern.nyu.edu/adamodar/pdfiles/papers/probabilistic.pdf">probabilistic approaches: scenario analysis, decision trees and simulation</a> discute las características clave de las distribuciones más comunes, y en una de las figuras presentadas en dicho documento proporciona un diagrama de árbol para elegir una distribución. Un ejemplo del mismo (para datos continuos) se presenta a continuación:</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-127"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-137"></span>
 <img src="images/arbol_elegir_dist.png" alt="Diagrama de árbol para elegir el tipo de distribución de los datos, adaptado de Aswath Damodaran." width="100%" />
 <p class="caption">
 Figure 11.10: Diagrama de árbol para elegir el tipo de distribución de los datos, adaptado de Aswath Damodaran.
@@ -793,16 +794,16 @@ Figure 11.10: Diagrama de árbol para elegir el tipo de distribución de los dat
 Solución.
 </div>
 </div>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="reg-diagnos.html#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> hsb, <span class="fu">aes</span>(<span class="at">x =</span> res_pearson)) <span class="sc">+</span></span>
-<span id="cb157-2"><a href="reg-diagnos.html#cb157-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), <span class="at">bins =</span> <span class="dv">8</span>, <span class="at">colour =</span> <span class="st">&quot;yellow&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;yellow&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb157-3"><a href="reg-diagnos.html#cb157-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">size =</span> <span class="fl">1.0</span>, <span class="at">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
-<span id="cb157-4"><a href="reg-diagnos.html#cb157-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Residuos Pearson&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Frecuencia&quot;</span>) <span class="sc">+</span></span>
-<span id="cb157-5"><a href="reg-diagnos.html#cb157-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb157-6"><a href="reg-diagnos.html#cb157-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>), </span>
-<span id="cb157-7"><a href="reg-diagnos.html#cb157-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb157-8"><a href="reg-diagnos.html#cb157-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-129"></span>
-<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-129-1.png" alt="." width="672" />
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="reg-diagnos.html#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> hsb, <span class="fu">aes</span>(<span class="at">x =</span> res_pearson)) <span class="sc">+</span></span>
+<span id="cb163-2"><a href="reg-diagnos.html#cb163-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), <span class="at">bins =</span> <span class="dv">8</span>, <span class="at">colour =</span> <span class="st">&quot;yellow&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;yellow&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb163-3"><a href="reg-diagnos.html#cb163-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">size =</span> <span class="fl">1.0</span>, <span class="at">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb163-4"><a href="reg-diagnos.html#cb163-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Residuos Pearson&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Frecuencia&quot;</span>) <span class="sc">+</span></span>
+<span id="cb163-5"><a href="reg-diagnos.html#cb163-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb163-6"><a href="reg-diagnos.html#cb163-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>), </span>
+<span id="cb163-7"><a href="reg-diagnos.html#cb163-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb163-8"><a href="reg-diagnos.html#cb163-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-139"></span>
+<img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-139-1.png" alt="." width="672" />
 <p class="caption">
 Figure 11.11: .
 </p>

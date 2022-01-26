@@ -20,7 +20,7 @@ Los datos los vamos a simular del siguiente modelo.
 
 ```{=tex}
 \begin{align*} 
-y_{ij} &\sim  N(\mu_{ij}, \sigma^2_y) \\ 
+y_{ij} | b_0, b_1 &\sim  N(\mu_{ij}, \sigma^2_y) \\ 
 \mu_{ij} &= 4 - 5 x_{ij} + b_{0i} + b_{1i} x_{ij} \\
 \sigma^2_y &= 4 \\
 \left (

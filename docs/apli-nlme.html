@@ -25,7 +25,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2022-01-25" />
+<meta name="date" content="2022-01-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -204,6 +204,7 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="pac-lme4.html"><a href="pac-lme4.html#ejemplo-recuperando-los-interceptos-aleatorios"><i class="fa fa-check"></i>Ejemplo: recuperando los interceptos aleatorios</a></li>
 <li class="chapter" data-level="4.2" data-path="pac-lme4.html"><a href="pac-lme4.html#función-glmer"><i class="fa fa-check"></i><b>4.2</b> Función <code>glmer</code></a></li>
 <li class="chapter" data-level="" data-path="pac-lme4.html"><a href="pac-lme4.html#ejemplo-modelo-gamma-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo gamma con intercepto aleatorio</a></li>
+<li class="chapter" data-level="" data-path="pac-lme4.html"><a href="pac-lme4.html#ejemplo-modelo-inversa-gaussiana-con-intercepto-y-pendiente-aleatoria"><i class="fa fa-check"></i>Ejemplo: modelo inversa gaussiana con intercepto y pendiente aleatoria</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="apli-lme4.html"><a href="apli-lme4.html"><i class="fa fa-check"></i><b>5</b> Aplicación con <code>lme4</code></a>
 <ul>
@@ -314,8 +315,8 @@ div.csl-indent {
 <p>En este capítulo se mostrará como usar el paquete <code>nlme</code> para la aplicación de modelos mixtos con la base de datos <code>Oxboys</code> del mismo paquete.</p>
 <p><img src="images/crecimiento_chicos.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>A continuación la base de datos a utilizar.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="apli-nlme.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb49-2"><a href="apli-nlme.html#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Oxboys)</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="apli-nlme.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb55-2"><a href="apli-nlme.html#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Oxboys)</span></code></pre></div>
 <pre><code>## Grouped Data: height ~ age | Subject
 ##   Subject     age height Occasion
 ## 1       1 -1.0000  140.5        1
@@ -325,7 +326,7 @@ div.csl-indent {
 ## 5       1 -0.0027  147.7        5
 ## 6       1  0.2466  150.2        6</code></pre>
 <p>Esta base de datos sobre crecimiento contiene la información sobre altura (<code>heigth</code>), edad estandarizada (<code>age</code>) de un grupo de 26 jóvenes. Como la base de datos <code>Oxboys</code> es de la clase groupedData, es posible aplicar un <code>plot</code> directamente y el resultado se muestra continuación.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="apli-nlme.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Oxboys)</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="apli-nlme.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Oxboys)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/plot_oxboys_nlme-1.png" width="672" /></p>
 <div style="-moz-box-shadow: 1px 1px 3px 2px #00ffff;
   -webkit-box-shadow: 1px 1px 3px 2px #00ffff;
@@ -338,7 +339,7 @@ Es posible convertir un data.frame para que tenga la clase groupedData, consulte
 <p>De la figura anterior vemos que las curvas de crecimiento inician a diferente altura (intercepto) y que la pendiente del crecimiento no son todas iguales, por ejemplo, el individuo 21 creció más rápido que el individuo 3. Esto nos hace pensar que un modelo con intercepto y pendiente aleatoria podrían ser adecuados para modelar el crecimiento.</p>
 <p>En las siguientes ecuaciones se resume el modelo matemático que interesa en esta situación.</p>
 <p><span class="math display">\[\begin{align*} 
-Height_{ij} &amp;\sim  N(\mu_{ij}, \sigma^2_{Heigth}) \\ 
+Height_{ij} | b_0, b_1 &amp;\sim  N(\mu_{ij}, \sigma^2_{Heigth}) \\ 
 \mu_{ij} &amp;= \beta_0 + \beta_1 Age_{ij} + b_{0i} + b_{1i} Age_{ij} \\
 \left (
 \begin{matrix}
@@ -356,9 +357,9 @@ N\left ( \left ( \begin{matrix}
 \end{align*}\]</span></p>
 <p>El vector de parámetros para este modelo sería <span class="math inline">\(\boldsymbol{\Theta}=(\beta_0, \beta_1, \sigma_{height}, \sigma_{b0}, \sigma_{b1}, \sigma_{b0b1})^\top\)</span>.</p>
 <p>Para ajustar este modelo a los datos con el paquete <code>nlme</code> podemos usar el siguiente código.</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="apli-nlme.html#cb52-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lme</span>(height <span class="sc">~</span> age, <span class="at">random=</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> age <span class="sc">|</span> Subject, <span class="at">data=</span>Oxboys, <span class="at">method=</span><span class="st">&quot;REML&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="apli-nlme.html#cb58-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lme</span>(height <span class="sc">~</span> age, <span class="at">random=</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> age <span class="sc">|</span> Subject, <span class="at">data=</span>Oxboys, <span class="at">method=</span><span class="st">&quot;REML&quot;</span>)</span></code></pre></div>
 <p>Para obtener la tabla de resumen usamos:</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="apli-nlme.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="apli-nlme.html#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div>
 <pre><code>## Linear mixed-effects model fit by REML
 ##   Data: Oxboys 
 ##       AIC      BIC    logLik
@@ -406,7 +407,7 @@ N\left ( \left ( \begin{matrix}
 \right ).
 \end{align*}\]</span></p>
 <p>Los elementos <span class="math inline">\(b_{0i}\)</span> y <span class="math inline">\(b_{1i}\)</span> se deben substituir por sus respectivas predicciones <span class="math inline">\(\tilde{b}_{0i}\)</span> y <span class="math inline">\(\tilde{b}_{1i}\)</span> y se pueden obtener del modelo ajustado así:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="apli-nlme.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ranef</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="apli-nlme.html#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ranef</span>(fit)</span></code></pre></div>
 <pre><code>##    (Intercept)         age
 ## 10 -19.0972476 -2.78657472
 ## 26 -11.3675996 -0.97474075
@@ -435,7 +436,7 @@ N\left ( \left ( \begin{matrix}
 ## 19  15.1957040  2.50720025
 ## 4   15.6927297  2.78723179</code></pre>
 <p>Los valores de los efectos fijos estimados se pueden obtener así:</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="apli-nlme.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="apli-nlme.html#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(fit)</span></code></pre></div>
 <pre><code>## (Intercept)         age 
 ##  149.371753    6.525469</code></pre>
 <p>Usando la información de los efectos fijo y aleatorios obtenidos antes, es posible escribir la ecuación del modelo para cada individuo. Los efectos fijos estimados fueron <span class="math inline">\(\hat{\beta}_0 \approx 149.37\)</span> y <span class="math inline">\(\hat{\beta}_1\approx 6.53\)</span>. Para el sujeto # 10 se obtuvo <span class="math inline">\(\tilde{b}_{0, i=10} \approx -19.10\)</span> y <span class="math inline">\(\tilde{b}_{1, i=10} \approx -2.79\)</span>, así la media del individuo # 10 se calcula así:</p>
@@ -451,7 +452,7 @@ Height_{i=10, j} &amp;\sim  N(\hat{\mu}_{i=10, j}, \hat{\sigma}^2_{Height}) \\
 \hat{\sigma}_{Height} &amp;= 0.66
 \end{align*}\]</span></p>
 <p>La expresión anterior para cada individuo con los efectos finales (fijos y aleatorios) se puede obtener con R así:</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="apli-nlme.html#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="apli-nlme.html#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fit)</span></code></pre></div>
 <pre><code>##    (Intercept)      age
 ## 10    130.2745 3.738894
 ## 26    138.0042 5.550728
@@ -480,16 +481,16 @@ Height_{i=10, j} &amp;\sim  N(\hat{\mu}_{i=10, j}, \hat{\sigma}^2_{Height}) \\
 ## 19    164.5675 9.032669
 ## 4     165.0645 9.312700</code></pre>
 <p>En la presente aplicación es posible incluir la recta de regresión para cada individuo al diagrama de dispersión original. El código de R para obtener esto es el siguiente.</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="apli-nlme.html#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lattice)</span>
-<span id="cb61-2"><a href="apli-nlme.html#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xyplot</span>(height <span class="sc">~</span> age <span class="sc">|</span> Subject, <span class="at">data=</span>Oxboys, <span class="at">fit=</span>fit,</span>
-<span id="cb61-3"><a href="apli-nlme.html#cb61-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">strip=</span><span class="fu">strip.custom</span>(<span class="at">bg=</span><span class="st">&quot;white&quot;</span>), </span>
-<span id="cb61-4"><a href="apli-nlme.html#cb61-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch=</span><span class="dv">16</span>, <span class="at">cex=</span><span class="fl">0.7</span>, <span class="at">col=</span><span class="st">&#39;indianred1&#39;</span>,</span>
-<span id="cb61-5"><a href="apli-nlme.html#cb61-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">panel =</span> <span class="cf">function</span>(x, y, ..., fit, subscripts) {</span>
-<span id="cb61-6"><a href="apli-nlme.html#cb61-6" aria-hidden="true" tabindex="-1"></a>         <span class="fu">panel.xyplot</span>(x, y, ...)</span>
-<span id="cb61-7"><a href="apli-nlme.html#cb61-7" aria-hidden="true" tabindex="-1"></a>         ypred <span class="ot">&lt;-</span> <span class="fu">fitted</span>(fit)[subscripts]</span>
-<span id="cb61-8"><a href="apli-nlme.html#cb61-8" aria-hidden="true" tabindex="-1"></a>         <span class="fu">panel.lines</span>(x, ypred, <span class="at">col=</span><span class="st">&quot;deepskyblue3&quot;</span>, <span class="at">lwd=</span><span class="dv">1</span>)</span>
-<span id="cb61-9"><a href="apli-nlme.html#cb61-9" aria-hidden="true" tabindex="-1"></a>       },</span>
-<span id="cb61-10"><a href="apli-nlme.html#cb61-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">ylab=</span><span class="st">&quot;Height (cm)&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Centered age&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="apli-nlme.html#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lattice)</span>
+<span id="cb67-2"><a href="apli-nlme.html#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xyplot</span>(height <span class="sc">~</span> age <span class="sc">|</span> Subject, <span class="at">data=</span>Oxboys, <span class="at">fit=</span>fit,</span>
+<span id="cb67-3"><a href="apli-nlme.html#cb67-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">strip=</span><span class="fu">strip.custom</span>(<span class="at">bg=</span><span class="st">&quot;white&quot;</span>), </span>
+<span id="cb67-4"><a href="apli-nlme.html#cb67-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch=</span><span class="dv">16</span>, <span class="at">cex=</span><span class="fl">0.7</span>, <span class="at">col=</span><span class="st">&#39;indianred1&#39;</span>,</span>
+<span id="cb67-5"><a href="apli-nlme.html#cb67-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">panel =</span> <span class="cf">function</span>(x, y, ..., fit, subscripts) {</span>
+<span id="cb67-6"><a href="apli-nlme.html#cb67-6" aria-hidden="true" tabindex="-1"></a>         <span class="fu">panel.xyplot</span>(x, y, ...)</span>
+<span id="cb67-7"><a href="apli-nlme.html#cb67-7" aria-hidden="true" tabindex="-1"></a>         ypred <span class="ot">&lt;-</span> <span class="fu">fitted</span>(fit)[subscripts]</span>
+<span id="cb67-8"><a href="apli-nlme.html#cb67-8" aria-hidden="true" tabindex="-1"></a>         <span class="fu">panel.lines</span>(x, ypred, <span class="at">col=</span><span class="st">&quot;deepskyblue3&quot;</span>, <span class="at">lwd=</span><span class="dv">1</span>)</span>
+<span id="cb67-9"><a href="apli-nlme.html#cb67-9" aria-hidden="true" tabindex="-1"></a>       },</span>
+<span id="cb67-10"><a href="apli-nlme.html#cb67-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">ylab=</span><span class="st">&quot;Height (cm)&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Centered age&quot;</span>)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/evol_fit_nlme-1.png" width="672" /></p>
 <p>En la figura anterior se tienen las observaciones (crecimiento) representado por los puntos rojos, adicionalmente, aparece una recta de color azul que representa la recta de regresión para cada individuo. De la figura se observa que la linea logra explicar la evolución del crecimiento para cada individuo.</p>
 <div id="ejercicios-1" class="section level2 unnumbered">

@@ -27,7 +27,7 @@ knitr::include_graphics("images/tabla2_viñeta2_paq_lmer.png")
 En este ejemplo vamos a simular observaciones $n_i=50$ observaciones para $G=10$ grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `lmer` para estimar los parámetros del modelo.
 
 \begin{align*} 
-y_{ij} &\sim  N(\mu_{ij}, \sigma^2_y) \\ 
+y_{ij} | b_0 &\sim  N(\mu_{ij}, \sigma^2_y) \\ 
 \mu_{ij} &= 4 - 6 x_{ij} + b_{0i} \\
 \sigma^2_y &= 16 \\
 b_{0} &\sim N(0, \sigma^2_{b0}=625) \\
@@ -163,10 +163,11 @@ Los principales argumentos de la función son:
 - `family`: argumento para seleccionar la distribución de la variable respuesta. Para más detalles de las distribuciones y funciones de enlace se recomienda ver la ayuda de la función `family` escribiendo esto en la consola `?family`. 
 
 ## Ejemplo: modelo gamma con intercepto aleatorio {-}
+
 En este ejemplo vamos a simular observaciones $n_i=20$ observaciones para $G=10$ grupos (en total 200 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `glmer` para estimar los parámetros del modelo.
 
 \begin{align*} 
-y_{ij} &\sim  Gamma(\mu_{ij}, \phi) \\ 
+y_{ij} | b_0 &\sim  Gamma(\mu_{ij}, \phi) \\ 
 \log(\mu_{ij}) &= 2 - 8 x_{ij} + b_{0i} \\
 \phi &= 0.5 \\
 b_{0} &\sim N(0, \sigma^2_{b0}=9) \\
@@ -236,7 +237,7 @@ library(lme4)
 fit2 <- glmer(y ~ x + (1 | grupo), family=Gamma(link="log"), data = datos)
 ```
 
-La función `summary` se puede usar sobre el objeto `fit2` para obtener una tabla de resumen, a continuación se la salida de `summary`.
+La función `summary` se puede usar sobre el objeto `fit2` para obtener una tabla de resumen, a continuación se muestra la salida de `summary`.
 
 ```{r}
 summary(fit2)
@@ -244,4 +245,125 @@ summary(fit2)
 
 Según el resultado anterior $\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=4.3965, \hat{\beta}_1=-8.0784, \hat{\phi}=0.4728, \hat{\sigma}_{bo}=4.3265)^\top$ mientras que el vector real de parámetros es $\boldsymbol{\Theta}=(\beta_0=2, \beta_1=-8, \phi=0.50, \sigma_{b0}=3)^\top$.
 
+<div style="-moz-box-shadow: 1px 1px 3px 2px #ffff00;
+  -webkit-box-shadow: 1px 1px 3px 2px #ffff00;
+  box-shadow:         1px 1px 3px 2px #ffff00;">
+```{block2, type='rmdnote'}
+El valor de $\hat{\phi}$ se encuentra en la línea **Residual** y columna **Variance** del bloque **Random effects** que está en el summary.
+```
+</div>
+
+## Ejemplo: modelo inversa gaussiana con intercepto y pendiente aleatoria {-}
+
+En este ejemplo vamos a simular observaciones $n_i=20$ observaciones para $G=10$ grupos (en total 200 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `glmer` para estimar los parámetros del modelo.
+
+\begin{align*} 
+y_{ij} | b_0 &\sim  InvGauss(\mu_{ij}, \phi) \\ 
+\log(\mu_{ij}) &= 2 - 8 x_{ij} + b_{0i} + b_{1i} x_{ij} \\
+\phi &= 0.5 \\
+\left (
+\begin{matrix}
+b_{0} \\ b_{1}
+\end{matrix} 
+\right ) &\sim 
+N\left ( \left [ \begin{matrix}
+0 \\ 0
+\end{matrix} \right ],
+\left [ \begin{matrix}
+\sigma^2_{b0}=1 & \sigma_{b01}=0.5 \\ 
+\sigma_{b01} & \sigma^2_{b1}=1
+\end{matrix} \right ]
+\right ) \\
+x_{ij} &\sim U(0, 1)
+\end{align*}
+
+El vector de parámetros de este modelo es $\boldsymbol{\Theta}=(\beta_0=2, \beta_1=-8, \phi=0.5, \sigma_{b0}^2=1, \sigma_{b1}^2=1, \sigma_{b01}=0.5)^\top$.
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+```{block2, type='rmdexercise'}
+Solución.
+```
+
+</div>
+
+Para simular valores de una distribución inversa gaussiana vamos a usar la función `rinvgauss` del paquete **statmod** de @R-statmod.
+
+A continuación el código para simular datos del modelo de interés.
+
+```{r}
+ni <- 20
+G <- 10
+nobs <- ni * G
+grupo <- factor(rep(x=1:G, each=ni))
+obs <- rep(x=1:ni, times=G)
+set.seed(12345)
+x <- runif(n=nobs, min=0, max=1)
+set.seed(12345)
+
+Sigma <- matrix(c(1, 0.5, # Matriz de var-cov
+                  0.5, 1), ncol=2, nrow=2)
+
+b <- MASS::mvrnorm(n=G, mu=rep(0, 2), Sigma=Sigma) # Simulando b0 y b1
+b <- apply(b, MARGIN=2, function(c) rep(c, each=ni)) # Replicando
+b0 <- as.vector(b[, 1]) # Separando los b0
+b1 <- as.vector(b[, 2]) # Separando los b1
+
+media <- exp(2 - 8 * x + b0 + b1 * x)
+phi <- 0.5
+
+set.seed(12345)
+y <- statmod::rinvgauss(n=nobs, mean=media, dispersion=phi)
+datos <- data.frame(obs, grupo, b0, x, media, y)
+```
+
+Vamos a explorar los datos simulados.
+
+```{r}
+library(rmarkdown)
+paged_table(datos, options = list(rows.print = 6, cols.print=6))
+```
+
+El siguiente paso es explorar los datos simulados. El código para dibujar los datos se muestra abajo.
+
+```{r plot_simul_b0b1_invgauss}
+library(ggplot2)
+ggplot(datos, aes(x, y, color=grupo) ) + 
+  geom_point() + 
+  labs(colour="Grupo/Cluster")
+```
+
+Para estimar los parámetros del modelos se usa la función `glmer` de la siguiente forma.
+
+```{r, message = FALSE, eval = TRUE, echo = TRUE}
+library(lme4)
+fit3 <- glmer(y ~ x + (1 + x | grupo), 
+              family=inverse.gaussian(link="log"), data = datos)
+```
+
+La función `summary` se puede usar sobre el objeto `fit3` para obtener una tabla de resumen, a continuación se muestra la salida de `summary`.
+
+```{r}
+summary(fit3)
+```
+
+Según el resultado anterior $\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=1.7907, \hat{\beta}_1=-8.0237, \hat{\phi}=0.7266, \hat{\sigma}_{b0}^2=0.6118, \hat{\sigma}_{b1}^2=0.3740, \hat{\sigma}_{b01}=0.1579)^\top$ mientras que el vector real de parámetros es $\boldsymbol{\Theta}=(\beta_0=2, \beta_1=-8, \phi=0.5, \sigma_{b0}^2=1, \sigma_{b1}^2=1, \sigma_{b01}=0.5)^\top$.
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #ffff00;
+  -webkit-box-shadow: 1px 1px 3px 2px #ffff00;
+  box-shadow:         1px 1px 3px 2px #ffff00;">
+```{block2, type='rmdnote'}
+El parámetro estimado $\hat{\sigma}_{b01}$ se obtiene utilizando la ecuación de [correlación](https://en.wikipedia.org/wiki/Correlation_and_dependence) ($\rho$) que relaciona la covarianza y desviaciones de los efectos aleatorios: $\rho_{b0b1} = \sigma_{b0b1}/(\sigma_{b0} \times \sigma_{b1})$.
+```
+</div>
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #ffff00;
+  -webkit-box-shadow: 1px 1px 3px 2px #ffff00;
+  box-shadow:         1px 1px 3px 2px #ffff00;">
+```{block2, type='rmdnote'}
+El valor de $\hat{\phi}$ se encuentra en la línea **Residual** y columna **Variance** del bloque **Random effects** que está en el summary.
+```
+</div>
 

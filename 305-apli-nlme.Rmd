@@ -34,7 +34,7 @@ De la figura anterior vemos que las curvas de crecimiento inician a diferente al
 En las siguientes ecuaciones se resume el modelo matemático que interesa en esta situación.
 
 \begin{align*} 
-Height_{ij} &\sim  N(\mu_{ij}, \sigma^2_{Heigth}) \\ 
+Height_{ij} | b_0, b_1 &\sim  N(\mu_{ij}, \sigma^2_{Heigth}) \\ 
 \mu_{ij} &= \beta_0 + \beta_1 Age_{ij} + b_{0i} + b_{1i} Age_{ij} \\
 \left (
 \begin{matrix}

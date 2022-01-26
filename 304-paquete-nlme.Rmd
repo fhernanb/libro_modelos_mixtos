@@ -21,7 +21,7 @@ Los principales argumentos de la función son:
 En este ejemplo vamos a simular observaciones $n_i=50$ observaciones para $G=10$ grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `lmer` para estimar los parámetros del modelo.
 
 \begin{align*} 
-y_{ij} &\sim  N(\mu_{ij}, \sigma^2_y) \\ 
+y_{ij} | b_0 &\sim  N(\mu_{ij}, \sigma^2_y) \\ 
 \mu_{ij} &= 4 - 6 x_{ij} + b_{0i} \\
 \sigma^2_y &= 16 \\
 b_{0} &\sim N(0, \sigma^2_{b0}=625) \\

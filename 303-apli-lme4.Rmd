@@ -31,7 +31,7 @@ De la figura anterior vemos que el tiempo de reacción promedio, tanto en el dí
 Un modelo lineal mixto que describe la anterior situación se puede escribir como:
 
 \begin{align*} 
-Reaction_{ij} &\sim  N(\mu_{ij}, \sigma^2_{Reaction}) \\ 
+Reaction_{ij} | b_0, b_1 &\sim  N(\mu_{ij}, \sigma^2_{Reaction}) \\ 
 \mu_{ij} &= \beta_0 + \beta_1 Days_{ij} + b_{0i} + b_{1i} Days_{ij} \\
 \left (
 \begin{matrix}
@@ -54,21 +54,19 @@ El vector de parámetros para este modelo sería $\boldsymbol{\Theta}=(\beta_0, 
 
 Para ajustar el modelo de intercepto y pendiente aleatoria planteado usando el paquete `lme4` podemos usar el siguiente código:
 
-```{r Ajuste del modelo}
+```{r}
 fit <- lmer(Reaction ~ Days + (Days | Subject), REML = TRUE, data = sleepstudy)
 ```
 
 Para obtener la tabla de resumen usamos:
 
-```{r Resumen del modelo}
-
+```{r}
 summary(fit)
 ```
 
 De la salida anterior se obtienen los siguientes parámetros ($\Theta$):
 
 ```{r Tabla 1 sobre resultados del modelo ajustado, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
-
 library(dplyr)
 library(kableExtra)
 
@@ -85,14 +83,14 @@ rownames(Tabla_1) <- c("$\\beta_{0}$", "$\\beta_{1}$", "$\\sigma_{reaction}$", "
 
 knitr::kable(Tabla_1, col.names = "$\\Theta$") %>%
   kable_styling(full_width = FALSE) %>%
-  footnote(symbol = "El útimo parámetro estimado se obtiene utilizando la ecuación\n de [correlación](https://en.wikipedia.org/wiki/Correlation_and_dependence) ($\\rho$) que relaciona la covarianza y desviaciones de los\n efectos aleatorios: $\\rho_{b0b1} = \\sigma_{b0b1}/(\\sigma_{b0} * \\sigma_{b1})$.")
+  footnote(symbol = "El útimo parámetro estimado se obtiene utilizando la ecuación\n de [correlación](https://en.wikipedia.org/wiki/Correlation_and_dependence) ($\\rho$) que relaciona la covarianza y desviaciones de los\n efectos aleatorios: $\\rho_{b0b1} = \\sigma_{b0b1}/(\\sigma_{b0} \times \\sigma_{b1})$.")
 ```
 
 Usando la información anterior se puede escribir el modelo ajustado de la siguiente manera:
 
 \begin{align*} 
 Reaction_{ij} &\sim  N(\hat{\mu}_{ij}, 25.59^2) \\ 
-\hat{\mu}_{ij} &= 251.40 + 10.47 Days_{ij} + b_{0i} + b_{1i} Days_{ij} \\
+\hat{\mu}_{ij} &= 251.40 + 10.47 Days_{ij} + \tilde{b}_{0i} + \tilde{b}_{1i} Days_{ij} \\
 \left (
 \begin{matrix}
 b_{0} \\ b_{1}

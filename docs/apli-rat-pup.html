@@ -25,7 +25,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2022-01-25" />
+<meta name="date" content="2022-01-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -204,6 +204,7 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="pac-lme4.html"><a href="pac-lme4.html#ejemplo-recuperando-los-interceptos-aleatorios"><i class="fa fa-check"></i>Ejemplo: recuperando los interceptos aleatorios</a></li>
 <li class="chapter" data-level="4.2" data-path="pac-lme4.html"><a href="pac-lme4.html#función-glmer"><i class="fa fa-check"></i><b>4.2</b> Función <code>glmer</code></a></li>
 <li class="chapter" data-level="" data-path="pac-lme4.html"><a href="pac-lme4.html#ejemplo-modelo-gamma-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo gamma con intercepto aleatorio</a></li>
+<li class="chapter" data-level="" data-path="pac-lme4.html"><a href="pac-lme4.html#ejemplo-modelo-inversa-gaussiana-con-intercepto-y-pendiente-aleatoria"><i class="fa fa-check"></i>Ejemplo: modelo inversa gaussiana con intercepto y pendiente aleatoria</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="apli-lme4.html"><a href="apli-lme4.html"><i class="fa fa-check"></i><b>5</b> Aplicación con <code>lme4</code></a>
 <ul>
@@ -312,15 +313,15 @@ div.csl-indent {
 <div id="apli-rat-pup" class="section level1" number="8">
 <h1><span class="header-section-number">8</span> Aplicación rat pup</h1>
 <p>En este capítulo se mostrará un ejemplo de un modelo mixto con dos niveles usando la base de datos <code>RatPupWeight</code> del paquete <strong>nlme</strong>. Este ejemplo corresponde al ejemplo de la sección 3.2 de <span class="citation">West (<a href="#ref-West2014" role="doc-biblioref">2014</a>)</span>.</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-54"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-64"></span>
 <img src="images/rat_pups.jpg" alt="Camada de ratones, tomada de https://www.howcast.com/videos/509444-how-to-care-for-a-pregnant-rat-pet-rats" width="50%" />
 <p class="caption">
 Figure 8.1: Camada de ratones, tomada de <a href="https://www.howcast.com/videos/509444-how-to-care-for-a-pregnant-rat-pet-rats" class="uri">https://www.howcast.com/videos/509444-how-to-care-for-a-pregnant-rat-pet-rats</a>
 </p>
 </div>
 <p>A continuación la base de datos a utilizar.</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="apli-rat-pup.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb62-2"><a href="apli-rat-pup.html#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(RatPupWeight)</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="apli-rat-pup.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb68-2"><a href="apli-rat-pup.html#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(RatPupWeight)</span></code></pre></div>
 <pre><code>## Grouped Data: weight ~ 1 | Litter
 ##   weight  sex Litter Lsize Treatment
 ## 1   6.60 Male      1    12   Control
@@ -331,10 +332,10 @@ Figure 8.1: Camada de ratones, tomada de <a href="https://www.howcast.com/videos
 ## 6   6.04 Male      1    12   Control</code></pre>
 <p>Esta base de datos sobre crecimiento contiene la información sobre altura (<code>weigth</code>), sexo (<code>sex</code>), camada (<code>litter</code>), tamaño de la camada (<code>Lsize</code>) y tratamiento (<code>Treatment</code>) al que se sometió un rata antes de tener ratones.</p>
 <p>La estrategia es crear el modelo de forma incremental. Vamos a comenzar la construcción a partir del modelo <code>mod31</code> que usa como efectos fijos el tratamiento, el sexo, la interacción entre tratamiento y sexo, el tamaño de la camada. Adicionalmente, este modelo incluye intercepto aleatorio debido a la camada.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="apli-rat-pup.html#cb64-1" aria-hidden="true" tabindex="-1"></a>mod31 <span class="ot">&lt;-</span> <span class="fu">lme</span>(weight <span class="sc">~</span> Treatment <span class="sc">*</span> sex <span class="sc">+</span> Lsize, <span class="at">random=</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> Litter,</span>
-<span id="cb64-2"><a href="apli-rat-pup.html#cb64-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">data=</span>RatPupWeight, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="apli-rat-pup.html#cb70-1" aria-hidden="true" tabindex="-1"></a>mod31 <span class="ot">&lt;-</span> <span class="fu">lme</span>(weight <span class="sc">~</span> Treatment <span class="sc">*</span> sex <span class="sc">+</span> Lsize, <span class="at">random=</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> Litter,</span>
+<span id="cb70-2"><a href="apli-rat-pup.html#cb70-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">data=</span>RatPupWeight, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>)</span></code></pre></div>
 <p>Vamos a usar la función <code>anova.lme</code> para estudiar la importancia de cada efecto fijo en el modelo.</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="apli-rat-pup.html#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod31)</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="apli-rat-pup.html#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod31)</span></code></pre></div>
 <pre><code>##               numDF denDF  F-value p-value
 ## (Intercept)       1   292 9093.772  &lt;.0001
 ## Treatment         2    23    5.082  0.0149
@@ -342,17 +343,17 @@ Figure 8.1: Camada de ratones, tomada de <a href="https://www.howcast.com/videos
 ## Lsize             1    23   47.374  &lt;.0001
 ## Treatment:sex     2   292    0.466  0.6282</code></pre>
 <p>El otro modelo inicial <code>mod31a</code> es un modelo lineal sin intercepto aleatorio y se ajusta con la función <code>gls</code>.</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="apli-rat-pup.html#cb67-1" aria-hidden="true" tabindex="-1"></a>mod31a <span class="ot">&lt;-</span> <span class="fu">gls</span>(weight <span class="sc">~</span> Treatment <span class="sc">*</span> sex <span class="sc">+</span> Lsize,</span>
-<span id="cb67-2"><a href="apli-rat-pup.html#cb67-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>RatPupWeight, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="apli-rat-pup.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod31, mod31a)</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="apli-rat-pup.html#cb73-1" aria-hidden="true" tabindex="-1"></a>mod31a <span class="ot">&lt;-</span> <span class="fu">gls</span>(weight <span class="sc">~</span> Treatment <span class="sc">*</span> sex <span class="sc">+</span> Lsize,</span>
+<span id="cb73-2"><a href="apli-rat-pup.html#cb73-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>RatPupWeight, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="apli-rat-pup.html#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod31, mod31a)</span></code></pre></div>
 <pre><code>##        Model df      AIC      BIC    logLik   Test  L.Ratio p-value
 ## mod31      1  9 421.3015 455.0747 -201.6508                        
 ## mod31a     2  8 508.7072 538.7277 -246.3536 1 vs 2 89.40562  &lt;.0001</code></pre>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="apli-rat-pup.html#cb70-1" aria-hidden="true" tabindex="-1"></a>mod32a <span class="ot">&lt;-</span> <span class="fu">lme</span>(weight <span class="sc">~</span> Treatment <span class="sc">*</span> sex <span class="sc">+</span> Lsize, <span class="at">random=</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> Litter,</span>
-<span id="cb70-2"><a href="apli-rat-pup.html#cb70-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">data=</span>RatPupWeight, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>,</span>
-<span id="cb70-3"><a href="apli-rat-pup.html#cb70-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">weights =</span> <span class="fu">varIdent</span>(<span class="at">form =</span> <span class="sc">~</span><span class="dv">1</span> <span class="sc">|</span> Treatment))</span>
-<span id="cb70-4"><a href="apli-rat-pup.html#cb70-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb70-5"><a href="apli-rat-pup.html#cb70-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod32a)</span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="apli-rat-pup.html#cb76-1" aria-hidden="true" tabindex="-1"></a>mod32a <span class="ot">&lt;-</span> <span class="fu">lme</span>(weight <span class="sc">~</span> Treatment <span class="sc">*</span> sex <span class="sc">+</span> Lsize, <span class="at">random=</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> Litter,</span>
+<span id="cb76-2"><a href="apli-rat-pup.html#cb76-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">data=</span>RatPupWeight, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>,</span>
+<span id="cb76-3"><a href="apli-rat-pup.html#cb76-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">weights =</span> <span class="fu">varIdent</span>(<span class="at">form =</span> <span class="sc">~</span><span class="dv">1</span> <span class="sc">|</span> Treatment))</span>
+<span id="cb76-4"><a href="apli-rat-pup.html#cb76-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-5"><a href="apli-rat-pup.html#cb76-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod32a)</span></code></pre></div>
 <pre><code>## Linear mixed-effects model fit by REML
 ##   Data: RatPupWeight 
 ##        AIC      BIC   logLik
