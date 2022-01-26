@@ -6,5 +6,6 @@ En este capítulo se listan algunos blogs y publicaciones interesantes relaciona
 - [Introduction to linear mixed models](https://ourcodingclub.github.io/tutorials/mixed-models/).
 - [How to choose nlme or lme4 R library for mixed effects models?](https://stats.stackexchange.com/questions/5344/how-to-choose-nlme-or-lme4-r-library-for-mixed-effects-models).
 - [GLMM FAQ](https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#books-dead-treeclosed).
+- [Paquete glmmsr](https://cran.r-project.org/web/packages/glmmsr/).
 
 https://stats.stackexchange.com/questions/486561/can-i-compare-lmer-models-with-different-fixed-effects-using-anova
