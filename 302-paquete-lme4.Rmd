@@ -146,14 +146,13 @@ La comparación anterior solo es posible cuando usamos datos simulados. Cuando s
 </div>
 
 ## Función `glmer`
+
 La función `glmer` es la función del paquete **lme4** para ajustar modelo lineales generalizados mixtos y su estructura es la siguiente:
 
 ```{r, eval=FALSE}
-lmer(formula, data = NULL, family = gaussian,
-     control = glmerControl(),
-     start = NULL, verbose = 0L, nAGQ = 1L,
-     subset, weights, na.action, offset, contrasts = NULL,
-     mustart, etastart, devFunOnly = FALSE)
+glmer(formula, data = NULL, family = gaussian, control = glmerControl(), 
+      start = NULL, verbose = 0L, nAGQ = 1L, subset, weights, na.action, 
+      offset, contrasts = NULL, mustart, etastart, devFunOnly = FALSE) 
 ```
 
 Los principales argumentos de la función son:
@@ -258,7 +257,7 @@ El valor de $\hat{\phi}$ se encuentra en la línea **Residual** y columna **Vari
 En este ejemplo vamos a simular observaciones $n_i=20$ observaciones para $G=10$ grupos (en total 200 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `glmer` para estimar los parámetros del modelo.
 
 \begin{align*} 
-y_{ij} | b_0 &\sim  InvGauss(\mu_{ij}, \phi) \\ 
+y_{ij} | b_0, b_1 &\sim  InvGauss(\mu_{ij}, \phi) \\ 
 \log(\mu_{ij}) &= 2 - 8 x_{ij} + b_{0i} + b_{1i} x_{ij} \\
 \phi &= 0.5 \\
 \left (

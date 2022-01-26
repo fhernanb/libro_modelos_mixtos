@@ -60,3 +60,4 @@ glmm_poisson
 glmm_gamma
 simul-glmm
 blobs
+gráfica-marginal-del-modelo
