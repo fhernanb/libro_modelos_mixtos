@@ -60,3 +60,6 @@ glmm_poisson
 glmm_gamma
 simul-glmm
 blobs
+gráfica-marginal-del-modelo
+opciones-para-modelar-la-varianza
+varfixed

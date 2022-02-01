@@ -1,7 +1,118 @@
 # Modelando la heterocedasticidad {#var-fun}
 
-En este capítulo se mostrará como usar el paquete `nlme` para modelar heterocedasticidad.
+En este capítulo se mostrará como usar el paquete `nlme` de @R-nlme para modelar heterocedasticidad.
 
-https://pegasus.uprm.edu/~pedro.torres/book/
+## Opciones para modelar la varianza
+
+En la siguiente tabla se muestran las diferentes opciones para modelar la varianza $\sigma^2_y$ de la variable respuesta $Y$.
+
+| Clase         | Modelo                                                     |
+|---------------|------------------------------------------------------------|
+| varFixed      | $\sigma^2_y = \sigma^2 x_{ij}$                             |
+| varIdent      | $\sigma^2_y = \sigma^2 \delta^2_{Sij}$                     |
+| varPower      | $\sigma^2_y = \sigma^2 |x_{ij}|^{2\delta}$                 |
+| varExp        | $\sigma^2_y = \sigma^2 e^{2 \delta x_{ij}}$                |
+| varConstPower | $\sigma^2_y = \sigma^2 (\delta_1 + |x_{ij}|^{\delta_2})^2$ |
+| varComb       |                                                            |
+
+## varFixed
+
+En esta sección vamos a simular datos de un modelo lineal mixto en el cual $\sigma^2_y$ dependa de una variable para luego estimar los parámetros del modelo.
+
+## Ejemplo: $\sigma^2_y$ dependiendo de una variable cuantitativa  {-}
+En este ejemplo vamos a simular observaciones $n_i=10$ observaciones para $G=20$ grupos (en total 200 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es modelar la varianza $\sigma^2_y$.
+
+\begin{align*} 
+y_{ij} | b_0 &\sim  N(\mu_{ij}, \sigma^2_y) \\ 
+\mu_{ij} &= 4 - 6 x_{ij} + b_{0i} \\
+\sigma^2_y &= 9 \times x_{ij} \\
+b_{0} &\sim N(0, \sigma^2_{b0}=64) \\
+x_{ij} &\sim U(0, 200)
+\end{align*}
+
+El vector de parámetros de este modelo es $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma=3, \sigma_{b0}=8)^\top$.
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+```{block2, type='rmdexercise'}
+Solución.
+```
+
+</div>
+
+El código para simular las 500 observaciones se muestra a continuación. Observe que se fijó la semilla en dos ocasiones para que el lector pueda replicar el ejemplo y obtener los mismos resultados.
+
+```{r, eval=TRUE, echo=TRUE}
+ni <- 10
+G <- 20
+nobs <- ni * G
+grupo <- factor(rep(x=1:G, each=ni))
+obs <- rep(x=1:ni, times=G)
+set.seed(123)
+x <- runif(n=nobs, min=0, max=200)
+set.seed(123)
+b0 <- rnorm(n=G, mean=0, sd=sqrt(64)) # Intercepto aleatorio
+b0 <- rep(x=b0, each=ni)             # El mismo intercepto aleatorio pero repetido
+media <- 4 - 6 * x + b0
+sigma2_y <- 9 * x
+set.seed(123)
+y <- rnorm(n=nobs, mean=media, sd=sqrt(sigma2_y))
+datos <- data.frame(obs, grupo, b0, x, media, y)
+```
+
+Primero vamos a ajustar un modelo `fit0` que asume varianza $\sigma^2_y$ constante para compararlo con el modelo `fit1` que si modela la varianza en función de la covariable $X$.
+
+```{r, message=FALSE}
+library(nlme)
+fit0 <- lme(y ~ x, random = ~ 1 | grupo, data=datos)
+```
+
+Vamos a explorar el gráfico de residuales versus la covariable $X$ para ver si hay un indicio de heterocedasticidad (varianza no costante).
+
+```{r}
+plot(fit0, resid(., type = "p") ~ x, abline = 0)
+```
+
+De la figura anterior vemos claramente una forma de "corneta", cerrada a izquierda y abierta a la derecha, esto es un indicio de que se debe modelar la varianza $\sigma^2_y$.
+
+El siguiente modelo permite que la varianza $\sigma^2_y$ sea función de $X$ usando una estructura `varFixed`.
+
+```{r}
+fit1 <- lme(y ~ x, random = ~ 1 | grupo, weights=varFixed(~ x), data=datos)
+```
+
+La función `summary` se puede usar sobre el objeto `fit` para obtener una tabla de resumen, a continuación se ilustra el uso y la salida de `summary`.
+
+```{r, eval=TRUE}
+summary(fit1)
+```
+
+Según el resultado anterior $\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=4.2623, \hat{\beta}_1=-5.9942, \hat{\sigma}=2.8419, \hat{\sigma}_{b0}=7.1821)^\top$ mientras que el vector real de parámetros es $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma=3, \sigma_{b0}=8)^\top$.
+
+A continuación repetimos la misma figura de residuales anterior. De esta figura logramos ver que se eliminó el patrón de "corneta" observado antes.
+
+```{r}
+plot(fit1, resid(., type = "p") ~ x, abline = 0)
+```
+
+En el código de abajo usamos la función `anova.lme` para comparar los dos modelos anteriores. Del resultado vemos que ambos modelos tienen 4 parámetros y que el modelo `fit1` tiene el menor valor de BIC y mayor valor de verosimilitud, esto indica que el modelo `fit1` es más apropiado para modelar los datos.
+
+```{r}
+anova(fit0, fit1)
+```
+
+
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #00ffff;
+  -webkit-box-shadow: 1px 1px 3px 2px #00ffff;
+  box-shadow:         1px 1px 3px 2px #00ffff;">
+
+```{block2, type='rmdtip'}
+La varianza $\sigma^2_y$ se puede modelar también para modelos lineales, se le recomienda al lector consultar los siguiente enlaces para ver ejemplos: https://data.library.virginia.edu/modeling-non-constant-variance/ y  https://pegasus.uprm.edu/~pedro.torres/book/chapter3.html#modelo-con-varianza-heterogenea
+```
+
+</div>
 
 
