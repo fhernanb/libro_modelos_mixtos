@@ -45,6 +45,8 @@ varianza-constante-de-los-residuos-mediante-prueba-de-hipótesis
 distribución-normal-de-los-residuos-mediante-inferencia-visual
 distribución-normal-de-los-residuos-mediante-prueba-de-hipótesis
 var-fun
+opciones-para-modelar-la-varianza
+varfixed
 glmm
 videos-de-apoyo
 pac-glmmTMB
@@ -60,6 +62,3 @@ glmm_poisson
 glmm_gamma
 simul-glmm
 blobs
-gráfica-marginal-del-modelo
-opciones-para-modelar-la-varianza
-varfixed

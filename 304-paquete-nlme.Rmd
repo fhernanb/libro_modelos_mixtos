@@ -40,7 +40,7 @@ Solución.
 
 </div>
 
-El código para simular las 500 observaciones se muestra a continuación. Observe que se fijó la semilla en dos ocasiones para que el lector pueda replicar el ejemplo y obtener los mismos resultados.
+El código para simular las 500 observaciones se muestra a continuación. Observe que se fijó la semilla para que el lector pueda replicar el ejemplo y obtener los mismos resultados.
 
 ```{r, eval=TRUE, echo=TRUE}
 ni <- 50

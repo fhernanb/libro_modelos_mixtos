@@ -20,7 +20,7 @@ En la siguiente tabla se muestran las diferentes opciones para modelar la varian
 En esta sección vamos a simular datos de un modelo lineal mixto en el cual $\sigma^2_y$ dependa de una variable para luego estimar los parámetros del modelo.
 
 ## Ejemplo: $\sigma^2_y$ dependiendo de una variable cuantitativa  {-}
-En este ejemplo vamos a simular observaciones $n_i=10$ observaciones para $G=20$ grupos (en total 200 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es modelar la varianza $\sigma^2_y$.
+En este ejemplo vamos a simular observaciones $n_i=10$ observaciones para $G=20$ grupos (en total 200 obs) que tengan la estructura mostrada abajo. En este ejemplo la varianza $\sigma^2_y$ no es constante, depende de la varianza general $\sigma^2=9$ y de la variable $X$, es decir $\sigma^2_y = 9 \, x_{ij}$.
 
 \begin{align*} 
 y_{ij} | b_0 &\sim  N(\mu_{ij}, \sigma^2_y) \\ 
@@ -42,7 +42,7 @@ Solución.
 
 </div>
 
-El código para simular las 500 observaciones se muestra a continuación. Observe que se fijó la semilla en dos ocasiones para que el lector pueda replicar el ejemplo y obtener los mismos resultados.
+El código para simular las 500 observaciones se muestra a continuación. Observe que se fijó la semilla para que el lector pueda replicar el ejemplo y obtener los mismos resultados.
 
 ```{r, eval=TRUE, echo=TRUE}
 ni <- 10
@@ -54,7 +54,7 @@ set.seed(123)
 x <- runif(n=nobs, min=0, max=200)
 set.seed(123)
 b0 <- rnorm(n=G, mean=0, sd=sqrt(64)) # Intercepto aleatorio
-b0 <- rep(x=b0, each=ni)             # El mismo intercepto aleatorio pero repetido
+b0 <- rep(x=b0, each=ni)              # El mismo intercepto aleatorio pero repetido
 media <- 4 - 6 * x + b0
 sigma2_y <- 9 * x
 set.seed(123)
@@ -72,7 +72,7 @@ fit0 <- lme(y ~ x, random = ~ 1 | grupo, data=datos)
 Vamos a explorar el gráfico de residuales versus la covariable $X$ para ver si hay un indicio de heterocedasticidad (varianza no costante).
 
 ```{r}
-plot(fit0, resid(., type = "p") ~ x, abline = 0)
+plot(fit0, resid(., type = "p") ~ x, abline = 0, pch=20)
 ```
 
 De la figura anterior vemos claramente una forma de "corneta", cerrada a izquierda y abierta a la derecha, esto es un indicio de que se debe modelar la varianza $\sigma^2_y$.
@@ -94,7 +94,7 @@ Según el resultado anterior $\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=4.2623, \
 A continuación repetimos la misma figura de residuales anterior. De esta figura logramos ver que se eliminó el patrón de "corneta" observado antes.
 
 ```{r}
-plot(fit1, resid(., type = "p") ~ x, abline = 0)
+plot(fit1, resid(., type = "p") ~ x, abline = 0, pch=20)
 ```
 
 En el código de abajo usamos la función `anova.lme` para comparar los dos modelos anteriores. Del resultado vemos que ambos modelos tienen 4 parámetros y que el modelo `fit1` tiene el menor valor de BIC y mayor valor de verosimilitud, esto indica que el modelo `fit1` es más apropiado para modelar los datos.
