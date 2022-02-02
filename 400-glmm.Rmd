@@ -37,6 +37,6 @@ A continuación se muestran los videos sobre glmm creados por la profesora [Chri
 <iframe width="560" height="315" src="https://www.youtube.com/embed/98mYx2Pa74k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
-A continuación se muestran los videos sobre glmm creados por DaCCoTA Biostats Core.
+A continuación se muestran los videos sobre glmm creados por [Mark Williamson](https://www.youtube.com/channel/UCwzN8tWciVw743qzxG0NIjA/featured).
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/nh6zh9sN3As" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
