@@ -60,5 +60,6 @@ two-questions-on-the-results-from-glmmpqlmass
 how-do-i-interpret-the-variance-of-random-effect-in-a-generalized-linear-mixed-model
 glmm_poisson
 glmm_gamma
+residuals
 simul-glmm
 blobs

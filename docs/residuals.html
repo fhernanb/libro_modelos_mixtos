@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>8 Aplicación rat pup | Modelos Mixtos con R</title>
+  <title>19 Diagnósticos con DHARMa | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="8 Aplicación rat pup | Modelos Mixtos con R" />
+  <meta property="og:title" content="19 Diagnósticos con DHARMa | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:image" content="/images/cover.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="fhernanb/libro_mod_pred" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="8 Aplicación rat pup | Modelos Mixtos con R" />
+  <meta name="twitter:title" content="19 Diagnósticos con DHARMa | Modelos Mixtos con R" />
   
   <meta name="twitter:description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="twitter:image" content="/images/cover.png" />
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="apli-nlme.html"/>
-<link rel="next" href="estim.html"/>
+<link rel="prev" href="glmm_gamma.html"/>
+<link rel="next" href="simul-glmm.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -319,96 +319,80 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="apli-rat-pup" class="section level1" number="8">
-<h1><span class="header-section-number">8</span> Aplicación rat pup</h1>
-<p>En este capítulo se mostrará un ejemplo de un modelo mixto con dos niveles usando la base de datos <code>RatPupWeight</code> del paquete <strong>nlme</strong>. Este ejemplo corresponde al ejemplo de la sección 3.2 de <span class="citation">West (<a href="#ref-West2014" role="doc-biblioref">2014</a>)</span>.</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-64"></span>
-<img src="images/rat_pups.jpg" alt="Camada de ratones, tomada de https://www.howcast.com/videos/509444-how-to-care-for-a-pregnant-rat-pet-rats" width="50%" />
-<p class="caption">
-Figure 8.1: Camada de ratones, tomada de <a href="https://www.howcast.com/videos/509444-how-to-care-for-a-pregnant-rat-pet-rats" class="uri">https://www.howcast.com/videos/509444-how-to-care-for-a-pregnant-rat-pet-rats</a>
-</p>
-</div>
-<p>A continuación la base de datos a utilizar.</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="apli-rat-pup.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb68-2"><a href="apli-rat-pup.html#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(RatPupWeight)</span></code></pre></div>
-<pre><code>## Grouped Data: weight ~ 1 | Litter
-##   weight  sex Litter Lsize Treatment
-## 1   6.60 Male      1    12   Control
-## 2   7.40 Male      1    12   Control
-## 3   7.15 Male      1    12   Control
-## 4   7.24 Male      1    12   Control
-## 5   7.10 Male      1    12   Control
-## 6   6.04 Male      1    12   Control</code></pre>
-<p>Esta base de datos sobre crecimiento contiene la información sobre altura (<code>weigth</code>), sexo (<code>sex</code>), camada (<code>litter</code>), tamaño de la camada (<code>Lsize</code>) y tratamiento (<code>Treatment</code>) al que se sometió un rata antes de tener ratones.</p>
-<p>La estrategia es crear el modelo de forma incremental. Vamos a comenzar la construcción a partir del modelo <code>mod31</code> que usa como efectos fijos el tratamiento, el sexo, la interacción entre tratamiento y sexo, el tamaño de la camada. Adicionalmente, este modelo incluye intercepto aleatorio debido a la camada.</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="apli-rat-pup.html#cb70-1" aria-hidden="true" tabindex="-1"></a>mod31 <span class="ot">&lt;-</span> <span class="fu">lme</span>(weight <span class="sc">~</span> Treatment <span class="sc">*</span> sex <span class="sc">+</span> Lsize, <span class="at">random=</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> Litter,</span>
-<span id="cb70-2"><a href="apli-rat-pup.html#cb70-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">data=</span>RatPupWeight, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>)</span></code></pre></div>
-<p>Vamos a usar la función <code>anova.lme</code> para estudiar la importancia de cada efecto fijo en el modelo.</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="apli-rat-pup.html#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod31)</span></code></pre></div>
-<pre><code>##               numDF denDF  F-value p-value
-## (Intercept)       1   292 9093.772  &lt;.0001
-## Treatment         2    23    5.082  0.0149
-## sex               1   292   52.602  &lt;.0001
-## Lsize             1    23   47.374  &lt;.0001
-## Treatment:sex     2   292    0.466  0.6282</code></pre>
-<p>El otro modelo inicial <code>mod31a</code> es un modelo lineal sin intercepto aleatorio y se ajusta con la función <code>gls</code>.</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="apli-rat-pup.html#cb73-1" aria-hidden="true" tabindex="-1"></a>mod31a <span class="ot">&lt;-</span> <span class="fu">gls</span>(weight <span class="sc">~</span> Treatment <span class="sc">*</span> sex <span class="sc">+</span> Lsize,</span>
-<span id="cb73-2"><a href="apli-rat-pup.html#cb73-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data=</span>RatPupWeight, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="apli-rat-pup.html#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod31, mod31a)</span></code></pre></div>
-<pre><code>##        Model df      AIC      BIC    logLik   Test  L.Ratio p-value
-## mod31      1  9 421.3015 455.0747 -201.6508                        
-## mod31a     2  8 508.7072 538.7277 -246.3536 1 vs 2 89.40562  &lt;.0001</code></pre>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="apli-rat-pup.html#cb76-1" aria-hidden="true" tabindex="-1"></a>mod32a <span class="ot">&lt;-</span> <span class="fu">lme</span>(weight <span class="sc">~</span> Treatment <span class="sc">*</span> sex <span class="sc">+</span> Lsize, <span class="at">random=</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> Litter,</span>
-<span id="cb76-2"><a href="apli-rat-pup.html#cb76-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">data=</span>RatPupWeight, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>,</span>
-<span id="cb76-3"><a href="apli-rat-pup.html#cb76-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">weights =</span> <span class="fu">varIdent</span>(<span class="at">form =</span> <span class="sc">~</span><span class="dv">1</span> <span class="sc">|</span> Treatment))</span>
-<span id="cb76-4"><a href="apli-rat-pup.html#cb76-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-5"><a href="apli-rat-pup.html#cb76-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod32a)</span></code></pre></div>
-<pre><code>## Linear mixed-effects model fit by REML
-##   Data: RatPupWeight 
-##        AIC      BIC   logLik
-##   384.0819 425.3602 -181.041
-## 
-## Random effects:
-##  Formula: ~1 | Litter
-##         (Intercept)  Residual
-## StdDev:   0.3134846 0.5147948
-## 
-## Variance function:
-##  Structure: Different standard deviations per stratum
-##  Formula: ~1 | Treatment 
-##  Parameter estimates:
-##   Control      High       Low 
-## 1.0000000 0.6394383 0.5649830 
-## Fixed effects:  weight ~ Treatment * sex + Lsize 
-##                           Value  Std.Error  DF  t-value p-value
-## (Intercept)            7.888771 0.23223913 292 33.96831  0.0000
-## Treatment.L           -0.638713 0.13587695  23 -4.70067  0.0001
-## Treatment.Q            0.011965 0.11635236  23  0.10283  0.9190
-## sexFemale             -0.351238 0.04682791 292 -7.50062  0.0000
-## Lsize                 -0.130007 0.01848708  23 -7.03233  0.0000
-## Treatment.L:sexFemale  0.066939 0.09135485 292  0.73274  0.4643
-## Treatment.Q:sexFemale -0.023417 0.06929365 292 -0.33794  0.7357
-##  Correlation: 
-##                       (Intr) Trtm.L Trtm.Q sexFml Lsize  Tr.L:F
-## Treatment.L           -0.325                                   
-## Treatment.Q           -0.139  0.154                            
-## sexFemale             -0.126 -0.008 -0.103                     
-## Lsize                 -0.954  0.376  0.190  0.031              
-## Treatment.L:sexFemale -0.020 -0.304 -0.012 -0.034  0.015       
-## Treatment.Q:sexFemale -0.021 -0.023 -0.300  0.445 -0.017 -0.029
-## 
-## Standardized Within-Group Residuals:
-##         Min          Q1         Med          Q3         Max 
-## -5.88670114 -0.52493419  0.02123518  0.57307286  2.56409983 
-## 
-## Number of Observations: 322
-## Number of Groups: 27</code></pre>
+<div id="residuals" class="section level1" number="19">
+<h1><span class="header-section-number">19</span> Diagnósticos con DHARMa</h1>
+<p>En este capítulo vamos mostrar el uso del paquete <em>DHARMa</em> de <span class="citation">Hartig (<a href="#ref-R-DHARMa" role="doc-biblioref">2022</a>)</span> para explorar los residuales escalados (scaled residuals) obtenidos por medio de la función <code>residuals</code>. Al visitar este <a href="https://cran.r-project.org/web/packages/DHARMa">enlace</a> se encontrará la página de apoyo del paquete, allí se puede consultar el manual de referencia.</p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #ffff00;
+  -webkit-box-shadow: 1px 1px 3px 2px #ffff00;
+  box-shadow:         1px 1px 3px 2px #ffff00;">
 
+<div class="rmdnote">
+DHARMa stands for “Diagnostics for HierArchical Regression Models” - which, strictly speaking, would make DHARM. But in German, Darm means intestines; plus, the meaning of DHARMa in Hinduism makes the current abbreviation so much more suitable for a package that tests whether your model is in harmony with your data. Tomado de la viñeta del paquete.
+</div>
+</div>
+<div id="ejemplo-modelo-gamma-mixto" class="section level2 unnumbered">
+<h2>Ejemplo: modelo gamma mixto</h2>
+<p>En este ejemplo vamos a simular observaciones <span class="math inline">\(n_i=50\)</span> observaciones para <span class="math inline">\(G=10\)</span> grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso del paquete <em>DHARMa</em> para determinar entre dos modelos, el modelo <code>fit1</code> será el modelo correcto mientras que el modelo <code>fit0</code> será un modelo sin intercepto aleatorio.</p>
+<p><span class="math display">\[\begin{align*} 
+y_{ij} | b_0 &amp;\sim  Gamma(\mu_{ij}, \phi) \\ 
+\log(\mu_{ij}) &amp;= 2 - 8 x1_{ij} + 3 x2_{ij} + b_{0i} \\
+\phi &amp;= 0.5 \\
+b_{0} &amp;\sim N(0, \sigma^2_{b0}=9) \\
+x1 &amp;\sim U(0, 1) \\
+x2 &amp;\sim U(0, 1)
+\end{align*}\]</span></p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+<div class="rmdexercise">
+Solución.
+</div>
+</div>
+<p>Lo primero es simular los datos. La función <code>rgamma_glm</code> sirve para simular observaciones <span class="math inline">\(Y\)</span> con la parametrización gamma de los glm.</p>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="residuals.html#cb241-1" aria-hidden="true" tabindex="-1"></a>rgamma_glm <span class="ot">&lt;-</span> <span class="cf">function</span>(n, mu, phi) {</span>
+<span id="cb241-2"><a href="residuals.html#cb241-2" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rgamma</span>(<span class="at">n=</span>n, <span class="at">shape=</span><span class="dv">1</span><span class="sc">/</span>phi, <span class="at">scale=</span>mu<span class="sc">*</span>phi)</span>
+<span id="cb241-3"><a href="residuals.html#cb241-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(x)</span>
+<span id="cb241-4"><a href="residuals.html#cb241-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb241-5"><a href="residuals.html#cb241-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb241-6"><a href="residuals.html#cb241-6" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb241-7"><a href="residuals.html#cb241-7" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb241-8"><a href="residuals.html#cb241-8" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
+<span id="cb241-9"><a href="residuals.html#cb241-9" aria-hidden="true" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
+<span id="cb241-10"><a href="residuals.html#cb241-10" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
+<span id="cb241-11"><a href="residuals.html#cb241-11" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb241-12"><a href="residuals.html#cb241-12" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
+<span id="cb241-13"><a href="residuals.html#cb241-13" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
+<span id="cb241-14"><a href="residuals.html#cb241-14" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb241-15"><a href="residuals.html#cb241-15" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">9</span>)) <span class="co"># Intercepto aleatorio</span></span>
+<span id="cb241-16"><a href="residuals.html#cb241-16" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)             <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
+<span id="cb241-17"><a href="residuals.html#cb241-17" aria-hidden="true" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="dv">2</span> <span class="sc">-</span> <span class="dv">8</span> <span class="sc">*</span> x1 <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> x2 <span class="sc">+</span> b0)</span>
+<span id="cb241-18"><a href="residuals.html#cb241-18" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb241-19"><a href="residuals.html#cb241-19" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rgamma_glm</span>(<span class="at">n=</span>nobs, <span class="at">mu=</span>media, <span class="at">phi=</span><span class="fl">0.5</span>)</span>
+<span id="cb241-20"><a href="residuals.html#cb241-20" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x1, x2, media, y)</span></code></pre></div>
+<p>A continuación se ajustan los dos modelos de interés.</p>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="residuals.html#cb242-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmmTMB)</span>
+<span id="cb242-2"><a href="residuals.html#cb242-2" aria-hidden="true" tabindex="-1"></a>fit0 <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">family=</span><span class="fu">Gamma</span>(<span class="at">link=</span><span class="st">&quot;log&quot;</span>), <span class="at">data =</span> datos)</span>
+<span id="cb242-3"><a href="residuals.html#cb242-3" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> grupo), <span class="at">family=</span><span class="fu">Gamma</span>(<span class="at">link=</span><span class="st">&quot;log&quot;</span>), <span class="at">data =</span> datos)</span></code></pre></div>
+<p>Con el siguiente código se constuyen los gráficos de residuales para el modelo <code>fit0</code>.</p>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="residuals.html#cb243-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DHARMa)</span></code></pre></div>
+<pre><code>## This is DHARMa 0.4.5. For overview type &#39;?DHARMa&#39;. For recent changes, type news(package = &#39;DHARMa&#39;)</code></pre>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="residuals.html#cb245-1" aria-hidden="true" tabindex="-1"></a>simulationOutput0 <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> fit0, <span class="at">plot =</span> F)</span>
+<span id="cb245-2"><a href="residuals.html#cb245-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput0)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-209-1.png" width="672" /></p>
+<p>De la figura anterior vemos que el valor-P de la prueba KS de normalidad (<span class="math inline">\(H_0:\)</span> la muestra de residuos tiene distribución normal) es 0, lo que indica que hay evidencias para rechazar la normalidad de los errores. Eso implica que el modelo <code>fit0</code> no es el modelo apropiado para los datos. Este resultado es correcto porque sabemos que <code>fit0</code> no incluyó el intercepto aleatorio <span class="math inline">\(b_0\)</span>.</p>
+<p>Con el siguiente código se constuyen los gráficos de residuales para el modelo <code>fit1</code>.</p>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="residuals.html#cb246-1" aria-hidden="true" tabindex="-1"></a>simulationOutput1 <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> fit1, <span class="at">plot =</span> F)</span>
+<span id="cb246-2"><a href="residuals.html#cb246-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput1)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-210-1.png" width="672" /></p>
+<p>De la figura anterior vemos que el valor-P de la prueba KS de normalidad (<span class="math inline">\(H_0:\)</span> la muestra de residuos tiene distribución normal) es 0.10871, lo que indica que hay <strong>NO hay</strong> evidencias para rechazar la normalidad de los errores. Eso implica que el modelo <code>fit1</code> podría ser un modelo apropiado para los datos. Este resultado es correcto porque sabemos que <code>fit1</code> tiene los elementos con los que se simularon los datos.</p>
+
+</div>
 </div>
 <h3>References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-West2014" class="csl-entry">
-West, Welch, B. T. 2014. <em>Linear Mixed Models: A Practical Guide Using Statistical Software</em>. 2nd ed. Chapman; Hall/CRC.
+<div id="ref-R-DHARMa" class="csl-entry">
+Hartig, Florian. 2022. <em>DHARMa: Residual Diagnostics for Hierarchical (Multi-Level / Mixed) Regression Models</em>. <a href="http://florianhartig.github.io/DHARMa/">http://florianhartig.github.io/DHARMa/</a>.
 </div>
 </div>
             </section>
@@ -416,8 +400,8 @@ West, Welch, B. T. 2014. <em>Linear Mixed Models: A Practical Guide Using Statis
           </div>
         </div>
       </div>
-<a href="apli-nlme.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="estim.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="glmm_gamma.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="simul-glmm.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -449,7 +433,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/306-apli-rat-pup.Rmd",
+"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/700-residuals.Rmd",
 "text": "Edit"
 },
 "history": {

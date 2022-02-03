@@ -160,7 +160,7 @@ y_{ij} | b_0 &\sim  Gamma(\mu_{ij}, \phi) \\
 \log(\mu_{ij}) &= 2 - 8 x_{ij} + b_{0i} \\
 \phi &= 0.5 \\
 b_{0} &\sim N(0, \sigma^2_{b0}=9) \\
-x_{ij} &\sim U(0, 1)
+x &\sim U(0, 1)
 \end{align*}
 
 El vector de parámetros de este modelo es $\boldsymbol{\Theta}=(\beta_0=2, \beta_1=-8, \phi=0.5, \sigma_{b0}=3)^\top$.

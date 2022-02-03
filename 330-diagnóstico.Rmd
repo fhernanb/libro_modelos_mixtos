@@ -3,7 +3,6 @@
 El diagnóstico del modelo de regresión es uno de un conjunto de procedimientos disponibles para el análisis de regresión que buscan evaluar la validez de un modelo previamente ajustado. Esta evaluación puede ser una exploración de los supuestos estadísticos del modelo. El objetivo de este capitulo consiste en introducir al lector los distintos métodos de diagnostico del modelo de regresión.
 
 ```{r Paquetes usados, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
-
 library(dplyr)
 library(ggplot2)
 library(ggforce)
