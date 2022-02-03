@@ -63,3 +63,4 @@ glmm_gamma
 residuals
 simul-glmm
 blobs
+gráfica-marginal-del-modelo

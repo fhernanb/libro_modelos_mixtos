@@ -88,3 +88,12 @@ plot(simulationOutput1)
 
 De la figura anterior vemos que el valor-P de la prueba KS de normalidad ($H_0:$ la muestra de residuos tiene distribución normal) es 0.10871, lo que indica que hay **NO hay** evidencias para rechazar la normalidad de los errores. Eso implica que el modelo `fit1` podría ser un modelo apropiado para los datos. Este resultado es correcto porque sabemos que `fit1` tiene los elementos con los que se simularon los datos.
 
+<div style="-moz-box-shadow: 1px 1px 3px 2px #00ffff;
+  -webkit-box-shadow: 1px 1px 3px 2px #00ffff;
+  box-shadow:         1px 1px 3px 2px #00ffff;">
+
+```{block2, type='rmdtip'}
+Consulte las [viñetas del paquete](https://cran.r-project.org/web/packages/DHARMa/) para ver más ejemplos sobre el paquete *DHARMa*.
+```
+
+</div>
