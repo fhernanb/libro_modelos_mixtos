@@ -119,7 +119,7 @@ La varianza $\sigma^2_y$ se puede modelar también para modelos lineales, se le 
 En esta sección vamos a simular datos de un modelo lineal mixto en el cual $\sigma^2_y$ dependa de una variable cualitativa para luego estimar los parámetros del modelo.
 
 ## Ejemplo: $\sigma^2_y$ dependiendo de una variable cualitativa  {-}
-En este ejemplo vamos a simular observaciones $n_i=10$ observaciones para $G=20$ grupos (en total 200 obs) que tengan la estructura mostrada abajo. En este ejemplo la varianza $\sigma^2_y$ no es constante, depende de la varianza general $\sigma^2=9$ y de la variable sexo, para los hombres la varianza será $\sigma^2_y = 9 * \delta_H$ y para las mujeres la varianza será $\sigma^2_y = 9 * \delta_M$. Los valores de $\delta$ a usar en la simulación son $\delta_H=1$ y $\delta_M=6$, esto para hacer que las observaciones de la mujeres tengan mayor variabilidad.
+En este ejemplo vamos a simular observaciones $n_i=10$ observaciones para $G=20$ grupos (en total 200 obs) que tengan la estructura mostrada abajo. En este ejemplo la varianza $\sigma^2_y$ no es constante, depende de la varianza general $\sigma^2=9$ y de la variable sexo, para los hombres la varianza será $\sigma^2_y = 9 \times \delta_H$ y para las mujeres la varianza será $\sigma^2_y = 9 \times \delta_M$. Los valores de $\delta$ a usar en la simulación son $\delta_H=1$ y $\delta_M=6$, esto para hacer que las observaciones de la mujeres tengan mayor variabilidad.
 
 El modelo de interés se puede resumir de la siguiente manera.
 
