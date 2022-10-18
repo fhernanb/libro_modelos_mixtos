@@ -30,7 +30,9 @@ knitr::write_bib(c(
 # lista de paquetes necesarios para compilar el libro
 list.of.packages <- c("MPV", "scatterplot3d", "kableExtra", "RLRsim",
                       "ggforce", "DT", "demoR", "ggeffects", "showtext",
-                      "merTools", "see")
+                      "merTools", "see", "statmod", "patchwork", "emdbook",
+                      "DHARMa", "glmmTMB", "glmm", "GGally", "hglm", "texreg",
+                      "stargazer", "flair")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 ```

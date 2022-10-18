@@ -4,19 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>6 Paquete nlme | Modelos Mixtos con R</title>
+  <title>7 Paquete nlme | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
-  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="6 Paquete nlme | Modelos Mixtos con R" />
+  <meta property="og:title" content="7 Paquete nlme | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
-  
   <meta property="og:image" content="/images/cover.png" />
   <meta property="og:description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="github-repo" content="fhernanb/libro_mod_pred" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="6 Paquete nlme | Modelos Mixtos con R" />
+  <meta name="twitter:title" content="7 Paquete nlme | Modelos Mixtos con R" />
   
   <meta name="twitter:description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="twitter:image" content="/images/cover.png" />
@@ -25,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2022-02-03" />
+<meta name="date" content="2022-09-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -34,8 +33,8 @@
   
 <link rel="prev" href="apli-lme4.html"/>
 <link rel="next" href="apli-nlme.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -51,27 +50,15 @@
 
 
 
-
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
 <script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
-<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
-<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.19/datatables.js"></script>
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
-<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
-<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
-<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
-<script src="libs/selectize-0.12.0/selectize.min.js"></script>
-<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
@@ -184,120 +171,112 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#software-y-convenciones"><i class="fa fa-check"></i>Software y convenciones</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#bloques-informativos"><i class="fa fa-check"></i>Bloques informativos</a></li>
 </ul></li>
-<li class="chapter" data-level="1" data-path="reg-lin.html"><a href="reg-lin.html"><i class="fa fa-check"></i><b>1</b> Regresión lineal</a>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introducción</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="reg-lin.html"><a href="reg-lin.html#modelo-estadístico"><i class="fa fa-check"></i><b>1.1</b> Modelo estadístico</a></li>
-<li class="chapter" data-level="1.2" data-path="reg-lin.html"><a href="reg-lin.html#verosimilitud-del-modelo"><i class="fa fa-check"></i><b>1.2</b> Verosimilitud del modelo</a>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#la-complejidad-estructural-tenida-en-cuenta-por-los-modelos-mixtos"><i class="fa fa-check"></i><b>1.1</b> La complejidad estructural tenida en cuenta por los modelos mixtos</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="reg-lin.html"><a href="reg-lin.html"><i class="fa fa-check"></i><b>2</b> Regresión lineal</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="reg-lin.html"><a href="reg-lin.html#modelo-estadístico"><i class="fa fa-check"></i><b>2.1</b> Modelo estadístico</a></li>
+<li class="chapter" data-level="2.2" data-path="reg-lin.html"><a href="reg-lin.html#verosimilitud-del-modelo"><i class="fa fa-check"></i><b>2.2</b> Verosimilitud del modelo</a>
 <ul>
 <li class="chapter" data-level="" data-path="reg-lin.html"><a href="reg-lin.html#ejemplo"><i class="fa fa-check"></i>Ejemplo</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="lmm.html"><a href="lmm.html"><i class="fa fa-check"></i><b>2</b> Modelos Lineales Mixtos</a>
+<li class="chapter" data-level="3" data-path="lmm.html"><a href="lmm.html"><i class="fa fa-check"></i><b>3</b> Modelos Lineales Mixtos</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="lmm.html"><a href="lmm.html#entrevista-con-jim-ware-y-nan-laird"><i class="fa fa-check"></i><b>2.1</b> Entrevista con Jim Ware y Nan Laird</a></li>
+<li class="chapter" data-level="3.1" data-path="lmm.html"><a href="lmm.html#entrevista-con-jim-ware-y-nan-laird"><i class="fa fa-check"></i><b>3.1</b> Entrevista con Jim Ware y Nan Laird</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="shiny.html"><a href="shiny.html"><i class="fa fa-check"></i><b>3</b> Aplicaciones shiny</a></li>
-<li class="chapter" data-level="4" data-path="pac-lme4.html"><a href="pac-lme4.html"><i class="fa fa-check"></i><b>4</b> Paquete <strong>lme4</strong></a>
+<li class="chapter" data-level="4" data-path="shiny.html"><a href="shiny.html"><i class="fa fa-check"></i><b>4</b> Aplicaciones shiny</a></li>
+<li class="chapter" data-level="5" data-path="pac-lme4.html"><a href="pac-lme4.html"><i class="fa fa-check"></i><b>5</b> Paquete <strong>lme4</strong></a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="pac-lme4.html"><a href="pac-lme4.html#función-lmer"><i class="fa fa-check"></i><b>4.1</b> Función <code>lmer</code></a></li>
+<li class="chapter" data-level="5.1" data-path="pac-lme4.html"><a href="pac-lme4.html#función-lmer"><i class="fa fa-check"></i><b>5.1</b> Función <code>lmer</code></a></li>
 <li class="chapter" data-level="" data-path="pac-lme4.html"><a href="pac-lme4.html#ejemplo-modelo-normal-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo normal con intercepto aleatorio</a></li>
 <li class="chapter" data-level="" data-path="pac-lme4.html"><a href="pac-lme4.html#ejemplo-recuperando-los-interceptos-aleatorios"><i class="fa fa-check"></i>Ejemplo: recuperando los interceptos aleatorios</a></li>
-<li class="chapter" data-level="4.2" data-path="pac-lme4.html"><a href="pac-lme4.html#función-glmer"><i class="fa fa-check"></i><b>4.2</b> Función <code>glmer</code></a></li>
+<li class="chapter" data-level="5.2" data-path="pac-lme4.html"><a href="pac-lme4.html#función-glmer"><i class="fa fa-check"></i><b>5.2</b> Función <code>glmer</code></a></li>
 <li class="chapter" data-level="" data-path="pac-lme4.html"><a href="pac-lme4.html#ejemplo-modelo-gamma-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo gamma con intercepto aleatorio</a></li>
 <li class="chapter" data-level="" data-path="pac-lme4.html"><a href="pac-lme4.html#ejemplo-modelo-inversa-gaussiana-con-intercepto-y-pendiente-aleatoria"><i class="fa fa-check"></i>Ejemplo: modelo inversa gaussiana con intercepto y pendiente aleatoria</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="apli-lme4.html"><a href="apli-lme4.html"><i class="fa fa-check"></i><b>5</b> Aplicación con <code>lme4</code></a>
+<li class="chapter" data-level="6" data-path="apli-lme4.html"><a href="apli-lme4.html"><i class="fa fa-check"></i><b>6</b> Aplicación con <code>lme4</code></a>
 <ul>
 <li class="chapter" data-level="" data-path="apli-lme4.html"><a href="apli-lme4.html#ejercicios"><i class="fa fa-check"></i>Ejercicios</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="pac-nlme.html"><a href="pac-nlme.html"><i class="fa fa-check"></i><b>6</b> Paquete <strong>nlme</strong></a>
+<li class="chapter" data-level="7" data-path="pac-nlme.html"><a href="pac-nlme.html"><i class="fa fa-check"></i><b>7</b> Paquete <strong>nlme</strong></a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="pac-nlme.html"><a href="pac-nlme.html#función-lme"><i class="fa fa-check"></i><b>6.1</b> Función <code>lme</code></a></li>
+<li class="chapter" data-level="7.1" data-path="pac-nlme.html"><a href="pac-nlme.html#función-lme"><i class="fa fa-check"></i><b>7.1</b> Función <code>lme</code></a></li>
 <li class="chapter" data-level="" data-path="pac-nlme.html"><a href="pac-nlme.html#ejemplo-modelo-normal-con-intercepto-aleatorio-1"><i class="fa fa-check"></i>Ejemplo: modelo normal con intercepto aleatorio</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="apli-nlme.html"><a href="apli-nlme.html"><i class="fa fa-check"></i><b>7</b> Aplicación con <code>nlme</code></a>
+<li class="chapter" data-level="8" data-path="apli-nlme.html"><a href="apli-nlme.html"><i class="fa fa-check"></i><b>8</b> Aplicación con <code>nlme</code></a>
 <ul>
 <li class="chapter" data-level="" data-path="apli-nlme.html"><a href="apli-nlme.html#ejercicios-1"><i class="fa fa-check"></i>Ejercicios</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="apli-rat-pup.html"><a href="apli-rat-pup.html"><i class="fa fa-check"></i><b>8</b> Aplicación rat pup</a></li>
-<li class="chapter" data-level="9" data-path="estim.html"><a href="estim.html"><i class="fa fa-check"></i><b>9</b> Métodos de estimación</a>
+<li class="chapter" data-level="9" data-path="apli-rat-pup.html"><a href="apli-rat-pup.html"><i class="fa fa-check"></i><b>9</b> Aplicación rat pup</a></li>
+<li class="chapter" data-level="10" data-path="estim.html"><a href="estim.html"><i class="fa fa-check"></i><b>10</b> Métodos de estimación</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="estim.html"><a href="estim.html#ml-y-reml"><i class="fa fa-check"></i><b>9.1</b> ML y REML</a></li>
-<li><a href="estim.html#ejemplo-comparando-reml-y-ml-usando-lme4">Ejemplo: comparando REML y ML usando <strong>lme4</strong></a></li>
-<li><a href="estim.html#ejemplo-comparando-reml-y-ml-usando-nlme">Ejemplo: comparando REML y ML usando <strong>nlme</strong></a></li>
+<li class="chapter" data-level="10.1" data-path="estim.html"><a href="estim.html#ml-y-reml"><i class="fa fa-check"></i><b>10.1</b> ML y REML</a></li>
+<li class="chapter" data-level="" data-path="estim.html"><a href="estim.html#ejemplo-comparando-reml-y-ml-usando-lme4"><i class="fa fa-check"></i>Ejemplo: comparando REML y ML usando <strong>lme4</strong></a></li>
+<li class="chapter" data-level="" data-path="estim.html"><a href="estim.html#ejemplo-comparando-reml-y-ml-usando-nlme"><i class="fa fa-check"></i>Ejemplo: comparando REML y ML usando <strong>nlme</strong></a></li>
 <li class="chapter" data-level="" data-path="estim.html"><a href="estim.html#ejercicios-2"><i class="fa fa-check"></i>Ejercicios</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="ph.html"><a href="ph.html"><i class="fa fa-check"></i><b>10</b> Pruebas de hipótesis</a>
+<li class="chapter" data-level="11" data-path="ph.html"><a href="ph.html"><i class="fa fa-check"></i><b>11</b> Pruebas de hipótesis</a>
 <ul>
-<li class="chapter" data-level="10.1" data-path="ph.html"><a href="ph.html#prueba-razón-de-verosimilitud"><i class="fa fa-check"></i><b>10.1</b> Prueba razón de verosimilitud</a></li>
-<li class="chapter" data-level="10.2" data-path="ph.html"><a href="ph.html#prueba-de-wald"><i class="fa fa-check"></i><b>10.2</b> Prueba de Wald</a></li>
-<li class="chapter" data-level="10.3" data-path="ph.html"><a href="ph.html#prueba-de-hipótesis-sobre-los-efectos-fijos"><i class="fa fa-check"></i><b>10.3</b> Prueba de hipótesis sobre los efectos fijos</a>
+<li class="chapter" data-level="11.1" data-path="ph.html"><a href="ph.html#prueba-razón-de-verosimilitud"><i class="fa fa-check"></i><b>11.1</b> Prueba razón de verosimilitud</a></li>
+<li class="chapter" data-level="11.2" data-path="ph.html"><a href="ph.html#prueba-de-wald"><i class="fa fa-check"></i><b>11.2</b> Prueba de Wald</a></li>
+<li class="chapter" data-level="11.3" data-path="ph.html"><a href="ph.html#prueba-de-hipótesis-sobre-los-efectos-fijos"><i class="fa fa-check"></i><b>11.3</b> Prueba de hipótesis sobre los efectos fijos</a>
 <ul>
 <li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejemplo-1"><i class="fa fa-check"></i>Ejemplo</a></li>
 <li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejemplo-2"><i class="fa fa-check"></i>Ejemplo</a></li>
 </ul></li>
-<li class="chapter" data-level="10.4" data-path="ph.html"><a href="ph.html#prueba-de-hipótesis-sobre-componentes-de-varianza"><i class="fa fa-check"></i><b>10.4</b> Prueba de hipótesis sobre componentes de varianza</a>
+<li class="chapter" data-level="11.4" data-path="ph.html"><a href="ph.html#prueba-de-hipótesis-sobre-componentes-de-varianza"><i class="fa fa-check"></i><b>11.4</b> Prueba de hipótesis sobre componentes de varianza</a>
 <ul>
-<li class="chapter" data-level="10.4.1" data-path="ph.html"><a href="ph.html#componentes-de-varianza-lejos-del-borde"><i class="fa fa-check"></i><b>10.4.1</b> Componentes de varianza lejos del borde</a></li>
-<li class="chapter" data-level="10.4.2" data-path="ph.html"><a href="ph.html#componentes-de-varianza-en-el-borde"><i class="fa fa-check"></i><b>10.4.2</b> Componentes de varianza en el borde</a></li>
+<li class="chapter" data-level="11.4.1" data-path="ph.html"><a href="ph.html#componentes-de-varianza-lejos-del-borde"><i class="fa fa-check"></i><b>11.4.1</b> Componentes de varianza lejos del borde</a></li>
+<li class="chapter" data-level="11.4.2" data-path="ph.html"><a href="ph.html#componentes-de-varianza-en-el-borde"><i class="fa fa-check"></i><b>11.4.2</b> Componentes de varianza en el borde</a></li>
 <li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejemplo-3"><i class="fa fa-check"></i>Ejemplo</a></li>
 <li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejemplo-4"><i class="fa fa-check"></i>Ejemplo</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejercicios-3"><i class="fa fa-check"></i>Ejercicios</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="reg-diagnos.html"><a href="reg-diagnos.html"><i class="fa fa-check"></i><b>11</b> Diagnóstico del modelo de regresión de efectos mixtos</a>
-<ul>
-<li class="chapter" data-level="11.1" data-path="reg-diagnos.html"><a href="reg-diagnos.html#supuestos-del-modelo-de-regresión"><i class="fa fa-check"></i><b>11.1</b> Supuestos del modelo de regresión</a></li>
-<li class="chapter" data-level="11.2" data-path="reg-diagnos.html"><a href="reg-diagnos.html#los-residuos"><i class="fa fa-check"></i><b>11.2</b> Los residuos</a></li>
-<li class="chapter" data-level="11.3" data-path="reg-diagnos.html"><a href="reg-diagnos.html#diagnóstico-del-modelo-de-regresión-prueba-de-hipótesis-e-inferencia-visual"><i class="fa fa-check"></i><b>11.3</b> Diagnóstico del modelo de regresión: prueba de hipótesis e inferencia visual</a>
-<ul>
-<li class="chapter" data-level="11.3.1" data-path="reg-diagnos.html"><a href="reg-diagnos.html#ajustando-el-modelo"><i class="fa fa-check"></i><b>11.3.1</b> Ajustando el modelo</a></li>
-<li class="chapter" data-level="11.3.2" data-path="reg-diagnos.html"><a href="reg-diagnos.html#varianza-constante-de-los-residuos-mediante-inferencia-visual"><i class="fa fa-check"></i><b>11.3.2</b> Varianza constante de los residuos mediante inferencia visual</a></li>
-<li class="chapter" data-level="11.3.3" data-path="reg-diagnos.html"><a href="reg-diagnos.html#varianza-constante-de-los-residuos-mediante-prueba-de-hipótesis"><i class="fa fa-check"></i><b>11.3.3</b> Varianza constante de los residuos mediante prueba de hipótesis</a></li>
-<li class="chapter" data-level="" data-path="reg-diagnos.html"><a href="reg-diagnos.html#ejemplo-5"><i class="fa fa-check"></i>Ejemplo</a></li>
-<li class="chapter" data-level="11.3.4" data-path="reg-diagnos.html"><a href="reg-diagnos.html#distribución-normal-de-los-residuos-mediante-inferencia-visual"><i class="fa fa-check"></i><b>11.3.4</b> Distribución normal de los residuos mediante inferencia visual</a></li>
-<li class="chapter" data-level="" data-path="reg-diagnos.html"><a href="reg-diagnos.html#ejemplo-6"><i class="fa fa-check"></i>Ejemplo</a></li>
-<li class="chapter" data-level="11.3.5" data-path="reg-diagnos.html"><a href="reg-diagnos.html#distribución-normal-de-los-residuos-mediante-prueba-de-hipótesis"><i class="fa fa-check"></i><b>11.3.5</b> Distribución normal de los residuos mediante prueba de hipótesis</a></li>
-</ul></li>
-</ul></li>
 <li class="chapter" data-level="12" data-path="var-fun.html"><a href="var-fun.html"><i class="fa fa-check"></i><b>12</b> Modelando la heterocedasticidad</a>
 <ul>
 <li class="chapter" data-level="12.1" data-path="var-fun.html"><a href="var-fun.html#opciones-para-modelar-la-varianza"><i class="fa fa-check"></i><b>12.1</b> Opciones para modelar la varianza</a></li>
 <li class="chapter" data-level="12.2" data-path="var-fun.html"><a href="var-fun.html#varfixed"><i class="fa fa-check"></i><b>12.2</b> varFixed</a></li>
-<li><a href="var-fun.html#ejemplo-sigma2_y-dependiendo-de-una-variable-cuantitativa">Ejemplo: <span class="math inline">\(\sigma^2_y\)</span> dependiendo de una variable cuantitativa</a></li>
+<li class="chapter" data-level="" data-path="var-fun.html"><a href="var-fun.html#ejemplo-sigma2_y-dependiendo-de-una-variable-cuantitativa"><i class="fa fa-check"></i>Ejemplo: <span class="math inline">\(\sigma^2_y\)</span> dependiendo de una variable cuantitativa</a></li>
+<li class="chapter" data-level="12.3" data-path="var-fun.html"><a href="var-fun.html#varident"><i class="fa fa-check"></i><b>12.3</b> varIdent</a></li>
+<li class="chapter" data-level="" data-path="var-fun.html"><a href="var-fun.html#ejemplo-sigma2_y-dependiendo-de-una-variable-cualitativa"><i class="fa fa-check"></i>Ejemplo: <span class="math inline">\(\sigma^2_y\)</span> dependiendo de una variable cualitativa</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>13</b> Modelos Lineales Generalizados Mixtos</a>
+<li class="chapter" data-level="13" data-path="predict-new.html"><a href="predict-new.html"><i class="fa fa-check"></i><b>13</b> Predicción</a></li>
+<li class="chapter" data-level="14" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>14</b> Modelos Lineales Generalizados Mixtos</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="glmm.html"><a href="glmm.html#videos-de-apoyo"><i class="fa fa-check"></i><b>13.1</b> Videos de apoyo</a></li>
+<li class="chapter" data-level="14.1" data-path="glmm.html"><a href="glmm.html#videos-de-apoyo"><i class="fa fa-check"></i><b>14.1</b> Videos de apoyo</a></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html"><i class="fa fa-check"></i><b>14</b> Paquete <strong>glmmTMB</strong></a>
+<li class="chapter" data-level="15" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html"><i class="fa fa-check"></i><b>15</b> Paquete <strong>glmmTMB</strong></a>
 <ul>
-<li class="chapter" data-level="14.1" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#función-glmmtmb"><i class="fa fa-check"></i><b>14.1</b> Función <code>glmmTMB</code></a></li>
+<li class="chapter" data-level="15.1" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#función-glmmtmb"><i class="fa fa-check"></i><b>15.1</b> Función <code>glmmTMB</code></a></li>
 <li class="chapter" data-level="" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#ejemplo-modelo-normal-con-intercepto-aleatorio-2"><i class="fa fa-check"></i>Ejemplo: modelo normal con intercepto aleatorio</a></li>
 <li class="chapter" data-level="" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#ejemplo-recuperando-los-interceptos-aleatorios-1"><i class="fa fa-check"></i>Ejemplo: recuperando los interceptos aleatorios</a></li>
 <li class="chapter" data-level="" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#ejemplo-modelo-gamma-con-intercepto-aleatorio-1"><i class="fa fa-check"></i>Ejemplo: modelo gamma con intercepto aleatorio</a></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="pac-glmm.html"><a href="pac-glmm.html"><i class="fa fa-check"></i><b>15</b> Paquete <strong>glmm</strong></a>
+<li class="chapter" data-level="16" data-path="pac-glmm.html"><a href="pac-glmm.html"><i class="fa fa-check"></i><b>16</b> Paquete <strong>glmm</strong></a>
 <ul>
-<li class="chapter" data-level="15.1" data-path="pac-glmm.html"><a href="pac-glmm.html#función-glmm"><i class="fa fa-check"></i><b>15.1</b> Función <code>glmm</code></a></li>
+<li class="chapter" data-level="16.1" data-path="pac-glmm.html"><a href="pac-glmm.html#función-glmm"><i class="fa fa-check"></i><b>16.1</b> Función <code>glmm</code></a></li>
 <li class="chapter" data-level="" data-path="pac-glmm.html"><a href="pac-glmm.html#ejemplo-modelo-poisson-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo Poisson con intercepto aleatorio</a></li>
 </ul></li>
-<li class="chapter" data-level="16" data-path="pac-MASS.html"><a href="pac-MASS.html"><i class="fa fa-check"></i><b>16</b> Paquete <strong>MASS</strong></a>
+<li class="chapter" data-level="17" data-path="pac-MASS.html"><a href="pac-MASS.html"><i class="fa fa-check"></i><b>17</b> Paquete <strong>MASS</strong></a>
 <ul>
-<li class="chapter" data-level="16.1" data-path="pac-MASS.html"><a href="pac-MASS.html#función-glmmpql"><i class="fa fa-check"></i><b>16.1</b> Función <code>glmmPQL</code></a></li>
+<li class="chapter" data-level="17.1" data-path="pac-MASS.html"><a href="pac-MASS.html#función-glmmpql"><i class="fa fa-check"></i><b>17.1</b> Función <code>glmmPQL</code></a></li>
 <li class="chapter" data-level="" data-path="pac-MASS.html"><a href="pac-MASS.html#ejemplo-modelo-bernoulli-binomial-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo Bernoulli (binomial) con intercepto aleatorio</a></li>
-<li class="chapter" data-level="16.2" data-path="pac-MASS.html"><a href="pac-MASS.html#what-it-means-for-aic-na-in-glmmpql-mass-summary-output"><i class="fa fa-check"></i><b>16.2</b> what it means for AIC NA in glmmPQL (MASS) summary output?</a></li>
-<li class="chapter" data-level="16.3" data-path="pac-MASS.html"><a href="pac-MASS.html#two-questions-on-the-results-from-glmmpqlmass"><i class="fa fa-check"></i><b>16.3</b> Two questions on the results from glmmPQL(MASS)</a></li>
-<li class="chapter" data-level="16.4" data-path="pac-MASS.html"><a href="pac-MASS.html#how-do-i-interpret-the-variance-of-random-effect-in-a-generalized-linear-mixed-model"><i class="fa fa-check"></i><b>16.4</b> How do I interpret the variance of random effect in a generalized linear mixed model?</a></li>
+<li class="chapter" data-level="17.2" data-path="pac-MASS.html"><a href="pac-MASS.html#what-it-means-for-aic-na-in-glmmpql-mass-summary-output"><i class="fa fa-check"></i><b>17.2</b> what it means for AIC NA in glmmPQL (MASS) summary output?</a></li>
+<li class="chapter" data-level="17.3" data-path="pac-MASS.html"><a href="pac-MASS.html#two-questions-on-the-results-from-glmmpqlmass"><i class="fa fa-check"></i><b>17.3</b> Two questions on the results from glmmPQL(MASS)</a></li>
+<li class="chapter" data-level="17.4" data-path="pac-MASS.html"><a href="pac-MASS.html#how-do-i-interpret-the-variance-of-random-effect-in-a-generalized-linear-mixed-model"><i class="fa fa-check"></i><b>17.4</b> How do I interpret the variance of random effect in a generalized linear mixed model?</a></li>
 </ul></li>
-<li class="chapter" data-level="17" data-path="glmm_poisson.html"><a href="glmm_poisson.html"><i class="fa fa-check"></i><b>17</b> GLMM Poisson</a></li>
-<li class="chapter" data-level="18" data-path="glmm_gamma.html"><a href="glmm_gamma.html"><i class="fa fa-check"></i><b>18</b> GLMM gamma</a></li>
-<li class="chapter" data-level="19" data-path="residuals.html"><a href="residuals.html"><i class="fa fa-check"></i><b>19</b> Diagnósticos con DHARMa</a>
+<li class="chapter" data-level="18" data-path="glmm_poisson.html"><a href="glmm_poisson.html"><i class="fa fa-check"></i><b>18</b> GLMM Poisson</a></li>
+<li class="chapter" data-level="19" data-path="glmm_gamma.html"><a href="glmm_gamma.html"><i class="fa fa-check"></i><b>19</b> GLMM gamma</a></li>
+<li class="chapter" data-level="20" data-path="residuals.html"><a href="residuals.html"><i class="fa fa-check"></i><b>20</b> Diagnósticos con DHARMa</a>
 <ul>
 <li class="chapter" data-level="" data-path="residuals.html"><a href="residuals.html#ejemplo-modelo-gamma-mixto"><i class="fa fa-check"></i>Ejemplo: modelo gamma mixto</a></li>
 </ul></li>
-<li class="chapter" data-level="20" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>20</b> Simulación de glmm</a></li>
-<li class="chapter" data-level="21" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>21</b> Otro material interesante</a></li>
+<li class="chapter" data-level="21" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>21</b> Simulación de glmm</a></li>
+<li class="chapter" data-level="22" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>22</b> Otro material interesante</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -319,11 +298,11 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="pac-nlme" class="section level1" number="6">
-<h1><span class="header-section-number">6</span> Paquete <strong>nlme</strong></h1>
-<p>El paquete <strong>nlme</strong> de <span class="citation">José Pinheiro, Bates, and R-core (<a href="#ref-R-nlme" role="doc-biblioref">2021</a>)</span> es otro de los paquetes para modelos mixtos. Al visitar este <a href="https://cran.r-project.org/web/packages/nlme">enlace</a> se encontrará la página de apoyo del paquete, allí se puede consultar el manual de referencia.</p>
-<div id="función-lme" class="section level2" number="6.1">
-<h2><span class="header-section-number">6.1</span> Función <code>lme</code></h2>
+<div id="pac-nlme" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">7</span> Paquete <strong>nlme</strong><a href="pac-nlme.html#pac-nlme" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>El paquete <strong>nlme</strong> de <span class="citation">José Pinheiro, Bates, and R Core Team (<a href="#ref-R-nlme" role="doc-biblioref">2022</a>)</span> es otro de los paquetes para modelos mixtos. Al visitar este <a href="https://cran.r-project.org/web/packages/nlme">enlace</a> se encontrará la página de apoyo del paquete, allí se puede consultar el manual de referencia.</p>
+<div id="función-lme" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Función <code>lme</code><a href="pac-nlme.html#función-lme" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>La función <code>lme</code> es la principal función del paquete <strong>nlme</strong>. Esta función sirve para ajustar un modelo mixto y su estructura es la siguiente:</p>
 <div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="pac-nlme.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lme</span>(fixed, data, random, correlation, weights, subset, method,</span>
 <span id="cb49-2"><a href="pac-nlme.html#cb49-2" aria-hidden="true" tabindex="-1"></a>    na.action, control, <span class="at">contrasts =</span> <span class="cn">NULL</span>, <span class="at">keep.data =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
@@ -335,11 +314,11 @@ div.csl-indent {
 <li><code>method</code>: valor lógico que sirve para indicar si queremos estimaciones maximizando la <a href="https://en.wikipedia.org/wiki/Restricted_maximum_likelihood">verosimilitud restringida</a> o la verosimilitud usual, las dos opciones son <code>ML</code> o <code>REML</code>.</li>
 </ul>
 </div>
-<div id="ejemplo-modelo-normal-con-intercepto-aleatorio-1" class="section level2 unnumbered">
-<h2>Ejemplo: modelo normal con intercepto aleatorio</h2>
+<div id="ejemplo-modelo-normal-con-intercepto-aleatorio-1" class="section level2 unnumbered hasAnchor">
+<h2>Ejemplo: modelo normal con intercepto aleatorio<a href="pac-nlme.html#ejemplo-modelo-normal-con-intercepto-aleatorio-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>En este ejemplo vamos a simular observaciones <span class="math inline">\(n_i=50\)</span> observaciones para <span class="math inline">\(G=10\)</span> grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función <code>lmer</code> para estimar los parámetros del modelo.</p>
-<p><span class="math display">\[\begin{align*} 
-y_{ij} | b_0 &amp;\sim  N(\mu_{ij}, \sigma^2_y) \\ 
+<p><span class="math display">\[\begin{align*}
+y_{ij} | b_0 &amp;\sim  N(\mu_{ij}, \sigma^2_y) \\
 \mu_{ij} &amp;= 4 - 6 x_{ij} + b_{0i} \\
 \sigma^2_y &amp;= 16 \\
 b_{0} &amp;\sim N(0, \sigma^2_{b0}=625) \\
@@ -396,17 +375,17 @@ Solución.
   box-shadow:         1px 1px 3px 2px #00ffff;">
 
 <div class="rmdtip">
-<p>Compare los resultados de la tabla anterior obtenida con la función <code>lme</code> anterior con los resultados obtenidos con la función <code>lmer</code> de capítulo <a href="pac-lme4.html#pac-lme4">4</a>.</p>
+<p>Compare los resultados de la tabla anterior obtenida con la función <code>lme</code> anterior con los resultados obtenidos con la función <code>lmer</code> de capítulo <a href="pac-lme4.html#pac-lme4">5</a>.</p>
 ¿Hay alguna similitud?
 </div>
 </div>
 
 </div>
 </div>
-<h3>References</h3>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-R-nlme" class="csl-entry">
-Pinheiro, José, Douglas Bates, and R-core. 2021. <em>Nlme: Linear and Nonlinear Mixed Effects Models</em>. <a href="https://svn.r-project.org/R-packages/trunk/nlme/">https://svn.r-project.org/R-packages/trunk/nlme/</a>.
+Pinheiro, José, Douglas Bates, and R Core Team. 2022. <em>Nlme: Linear and Nonlinear Mixed Effects Models</em>. <a href="https://svn.r-project.org/R-packages/trunk/nlme/">https://svn.r-project.org/R-packages/trunk/nlme/</a>.
 </div>
 </div>
             </section>
@@ -419,7 +398,6 @@ Pinheiro, José, Douglas Bates, and R-core. 2021. <em>Nlme: Linear and Nonlinear
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -460,7 +438,7 @@ gitbook.start({
 },
 "download": null,
 "search": {
-"engine": "lunr",
+"engine": "fuse",
 "options": null
 },
 "toc": {
@@ -476,7 +454,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

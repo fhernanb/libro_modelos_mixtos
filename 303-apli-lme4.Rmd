@@ -64,27 +64,13 @@ Para obtener la tabla de resumen usamos:
 summary(fit)
 ```
 
-De la salida anterior se obtienen los siguientes parámetros ($\Theta$):
+De la salida anterior se obtienen los siguientes parámetros estimado
 
-```{r Tabla 1 sobre resultados del modelo ajustado, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
-library(dplyr)
-library(kableExtra)
+$$
+\hat{\boldsymbol{\Theta}} = (251.40, 10.47, 25.59, 24.74, 5.92, 10.25)^\top
+$$
 
-Tabla_1 <- tibble::tribble(
-  ~x,
-  251.40,
-  10.47,
-  25.59,
-  24.74,
-  5.92,
-  10.25
-)
-rownames(Tabla_1) <- c("$\\beta_{0}$", "$\\beta_{1}$", "$\\sigma_{reaction}$", "$\\sigma_{b0}$", "$\\sigma_{b1}$", "$\\sigma_{b0b1}$")
-
-knitr::kable(Tabla_1, col.names = "$\\Theta$") %>%
-  kable_styling(full_width = FALSE) %>%
-  footnote(symbol = "El útimo parámetro estimado se obtiene utilizando la ecuación\n de [correlación](https://en.wikipedia.org/wiki/Correlation_and_dependence) ($\\rho$) que relaciona la covarianza y desviaciones de los\n efectos aleatorios: $\\rho_{b0b1} = \\sigma_{b0b1}/(\\sigma_{b0} \times \\sigma_{b1})$.")
-```
+El último parámetro estimado se obtiene utilizando la ecuación de [correlación](https://en.wikipedia.org/wiki/Correlation_and_dependence) que relaciona la correlación, la covarianza y las desviaciones de los efectos aleatorios: $\rho_{b0b1} = \sigma_{b0b1}/(\sigma_{b0} \times \sigma_{b1})$
 
 Usando la información anterior se puede escribir el modelo ajustado de la siguiente manera:
 
@@ -142,7 +128,7 @@ Los efectos fijos y aleatorios de la expresión anterior para cada uno de los in
 coef(fit)
 ```
 
-A continuación podras observar el diagrama de dispersión mostrado al inicio de este capitulo, agregandole a la misma la recta de regresión para cada individuo. El código de `R` para obtener esto se presenta a continuación:
+A continuación usted podrá observar el diagrama de dispersión mostrado al inicio de este capitulo con la recta de regresión para cada individuo. El código de `R` para obtener esto se presenta a continuación:
 
 ```{r Gráfico con recta de regresión, fig.align = "center"}
 

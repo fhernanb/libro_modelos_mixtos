@@ -1,0 +1,13 @@
+# Introducción {#intro}
+
+Los métodos estadísticos empleados en las distintas áreas de la ciencia, tienen como objetivo fundamental adentrar al investigador en la complejidad del fenómeno a investigar. A menudo, muchos de estos fenomenos quedan fuera del alcance de los métodos estadísticos clásicos (comúnmente enseñados en las clases introductorias de estadística), dado que los mismos suelen ser sencillos o muy restrictivos. Como es sabido, lo fundamental en el uso de la estadística es que los modelos a utilizar logren representar la complejidad del fenomeno que se intenta comprender.
+
+En el intento de construir modelos acordes al fenomeno que se intentaba comprender, la estadística, y su posibilidad cuasi infinita de desarrollo y aplicación metodológica, propusieron los denominados **modelos mixtos**. Estos modelos no se desarrollaron exclusivamente como un conjunto de procedimientos novedosos, sino como la consecuencia del intento de emplear un modelo que permitiera acercar al investigador al fenomeno a estudiar.
+
+La disponibilidad en el uso de esta metodología, significa que el investigador esta mejor equipado que nunca para el análisis de sus datos. La perspectiva en su uso en las distintas áreas de la ciencia es brillante, puesto que estos modelos cada vez van cogiendo más popularidad, aun cuando hoy en día sigue siendo un desafió saber de que forma aplicarlos.
+
+## La complejidad estructural tenida en cuenta por los modelos mixtos
+
+Los primeros modelos de regresión lineal (denominados también modelos de regresión clásicos), fueron creados bajo supuestos muy rigidos los cuales, a pesar de simplificar su uso, acabaron por tomarse inadecuados para diversas situaciones de datos. Un ejemplo común de esta situación corresponde a conjuntos de datos con estructuras jerárquicas. Es decir, un conjunto de datos con un nivel básico de observaciones anidadas dentro de un nivel de agrupamiento de orden superior. 
+
+Estas estructuras jerárquicas pueden ser de distinto tipo. Una de ellas es la estructura de *dos niveles*, siendo un ejemplo de este tipo de estructura, un determinado número de estudiantes asistiendo a un curso de estadística con dos profesores distintos. Aquí, los estudiantes se podrían clasificar dentro del nivel básico de la estructura (denominada también micro-nivel o de primer nivel) y los dos profesores dentro del nivel de orden superior (conocido también como macro-nivel o, de modo más general, el contexto). Otro tipo de estructura corresponde a la estructura de *tres o más niveles*, como por ejemplo un conjunto de estudiantes asistiendo al curso de estadística con dos profesores distintos en dos universidades.
