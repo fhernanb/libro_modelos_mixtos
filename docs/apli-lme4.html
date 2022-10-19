@@ -290,7 +290,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-3"><a href="apli-lme4.html#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> sleepstudy, <span class="fu">aes</span>(<span class="at">x =</span> Days, <span class="at">y =</span> Reaction, <span class="at">color =</span> Subject)) <span class="sc">+</span></span>
 <span id="cb3-4"><a href="apli-lme4.html#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb3-5"><a href="apli-lme4.html#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb3-6"><a href="apli-lme4.html#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Subject) <span class="sc">+</span> </span>
+<span id="cb3-6"><a href="apli-lme4.html#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Subject) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Reaction time&quot;</span>) <span class="sc">+</span> </span>
 <span id="cb3-7"><a href="apli-lme4.html#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/plot_sleepstudy_lme4-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>De la figura anterior vemos que el tiempo de reacción promedio, tanto en el día 0 como en los siguientes días de prueba (del día 1 al día 9), son distintos en cada uno de los individuos. Esta situación conlleva a probar la hipótesis de que el tiempo de reacción promedio en una serie de pruebas varía según los individuos. Esto es, ajustar un modelo donde el intercepto y la pendiente se consideran como efectos aleatorios.</p>
@@ -343,9 +343,9 @@ N\left ( \left [ \begin{matrix}
 ## Correlation of Fixed Effects:
 ##      (Intr)
 ## Days -0.138</code></pre>
-<p>De la salida anterior se obtienen los siguientes parámetros estimado</p>
+<p>De la salida anterior se obtienen los siguientes parámetros estimados</p>
 <p><span class="math display">\[
-\hat{\boldsymbol{\Theta}} = (251.40, 10.47, 25.59, 24.74, 5.92, 10.25)^\top
+\hat{\boldsymbol{\Theta}} = (\hat{\beta_0}=251.40, \hat{\beta_1}=10.47, \hat{\sigma}_{reaction}=25.59, \hat{\sigma}_{b0}=24.74, \hat{\sigma}_{b1}=5.92, \hat{\sigma}_{b0b1}=10.25)^\top
 \]</span></p>
 <p>El último parámetro estimado se obtiene utilizando la ecuación de <a href="https://en.wikipedia.org/wiki/Correlation_and_dependence">correlación</a> que relaciona la correlación, la covarianza y las desviaciones de los efectos aleatorios: <span class="math inline">\(\rho_{b0b1} = \sigma_{b0b1}/(\sigma_{b0} \times \sigma_{b1})\)</span></p>
 <p>Usando la información anterior se puede escribir el modelo ajustado de la siguiente manera:</p>
@@ -440,17 +440,17 @@ Reaction_{i=308, j} &amp;\sim  N(\hat{\mu}_{i=308, j}, \hat{\sigma}^2_{Reaction}
 <span id="cb13-7"><a href="apli-lme4.html#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="fl">251.40</span>, <span class="at">slope =</span> <span class="fl">10.47</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
 <span id="cb13-8"><a href="apli-lme4.html#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb13-9"><a href="apli-lme4.html#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Subject) <span class="sc">+</span> </span>
-<span id="cb13-10"><a href="apli-lme4.html#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<span id="cb13-10"><a href="apli-lme4.html#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Reaction time&quot;</span>)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/Gr%C3%A1fico%20con%20recta%20de%20regresi%C3%B3n-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>La figura anterior corresponde a un modelo de intercepto y pendiente aleatoria, en el que se permite que tanto los interceptos como las pendientes varíen según los individuos. Las líneas continuas corresponde a la recta de regresión ajustada a los datos. Los puntos representan las observaciones (tiempo de reacción promedio por día) medidas en cada uno de los individuos. La línea negra discontinua representa el valor medio global de la distribución de los efectos aleatorios.</p>
-<p>A continuación podra observar distintas figuras donde se ajustaron cuatro modelos distintos, entre ellos el modelo mixto con intercepto y pendiente aleatoria ya evaluado aquí (Figura 4). Con base en estas figuras, se plantean los ejercicios posteriores a las mismas figuras:</p>
+<p>A continuación usted encontrará una figura con cuatro páneles donde se muestran los resultados de cuatro modelos distintos, entre ellos el modelo mixto con intercepto y pendiente aleatoria del ejemplo anterior. Con base en estas figuras, responda las preguntas siguientes.</p>
 <p><img src="libro_mod_mixtos_files/figure-html/Graficos%20de%20los%20distintos%20modelo-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div id="ejercicios" class="section level2 unnumbered hasAnchor">
 <h2>Ejercicios<a href="apli-lme4.html#ejercicios" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ol style="list-style-type: decimal">
-<li><p>Ajuste el modelo con intercepto aleatorio mostrado en la anterior Figura 2. ¿Qué opina de este modelo?</p></li>
-<li><p>Ajuste el modelo con pendiente aleatoria presentada en la anterior Figura 3. ¿Qué opina de este modelo?</p></li>
-<li><p>Ajustar solo un intercepto aleatorio permite que los individuos varíen asumiendo que los mismos tienen una pendiente común (Figura 2). Al ajustar solo una pendiente aleatoria (Figura 3) permite que la pendiente de un predictor varíe en función de los individuos (la variable de agrupación). Con base esto y teniendo en cuenta el modelo de intercepto y pendiente aleatoria (Figura 4), evalúe cual de estos estos modelos permite un mejor ajuste de los datos presentados en la base de datos <code>sleepstudy</code> del paquete <code>lme4</code>.</p></li>
+<li><p>Ajuste el modelo con intercepto aleatorio mostrado en el panel 2. ¿Qué opina de este modelo?</p></li>
+<li><p>Ajuste el modelo con pendiente aleatoria presentado en el panel 3. ¿Qué opina de este modelo?</p></li>
+<li><p>Ajustar solo un intercepto aleatorio permite que los individuos varíen asumiendo que los mismos tienen una pendiente común (panel 2). Al ajustar solo una pendiente aleatoria (panel 3) permite que la pendiente de un predictor varíe en función de los individuos (la variable de agrupación). Con base esto y teniendo en cuenta el modelo de intercepto y pendiente aleatoria (panel 4), evalúe cual de estos estos modelos permite un mejor ajuste de los datos presentados en la base de datos <code>sleepstudy</code> del paquete <code>lme4</code>.</p></li>
 </ol>
 
 </div>

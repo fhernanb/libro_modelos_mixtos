@@ -16,13 +16,12 @@ head(sleepstudy)
 Esta base de datos sobre el tiempo de reacción promedio por día para un conjunto de individuos, en un estudio de privación del sueño, contiene la información sobre el tiempo de reacción promedio (`Reaction`), el número de días de privación del sueño (`Days`), donde el día 0 corresponde al día en el que los indiviuos tenían su cantidad normal de sueño, y el número del individuo (en total 18) sobre el que se realizó la observación (`Subject`). A partir del día 0, hubo una restricción en cada individuo a 3 horas de sueño por noche.
 
 ```{r plot_sleepstudy_lme4, fig.align="center"}
-
 library(ggplot2)
 
 ggplot(data = sleepstudy, aes(x = Days, y = Reaction, color = Subject)) +
   geom_point() +
   theme_bw() +
-  facet_wrap(~ Subject) + 
+  facet_wrap(~ Subject) + labs(y = "Reaction time") + 
   theme(legend.position = "none")
 ```
 
@@ -64,10 +63,10 @@ Para obtener la tabla de resumen usamos:
 summary(fit)
 ```
 
-De la salida anterior se obtienen los siguientes parámetros estimado
+De la salida anterior se obtienen los siguientes parámetros estimados
 
 $$
-\hat{\boldsymbol{\Theta}} = (251.40, 10.47, 25.59, 24.74, 5.92, 10.25)^\top
+\hat{\boldsymbol{\Theta}} = (\hat{\beta_0}=251.40, \hat{\beta_1}=10.47, \hat{\sigma}_{reaction}=25.59, \hat{\sigma}_{b0}=24.74, \hat{\sigma}_{b1}=5.92, \hat{\sigma}_{b0b1}=10.25)^\top
 $$
 
 El último parámetro estimado se obtiene utilizando la ecuación de [correlación](https://en.wikipedia.org/wiki/Correlation_and_dependence) que relaciona la correlación, la covarianza y las desviaciones de los efectos aleatorios: $\rho_{b0b1} = \sigma_{b0b1}/(\sigma_{b0} \times \sigma_{b1})$
@@ -95,14 +94,12 @@ N\left ( \left [ \begin{matrix}
 Los elementos $b_{0i}$ y $b_{1i}$ se deben substituir por sus respectivas predicciones $\tilde{b}_{0i}$ y $\tilde{b}_{1i}$ y se pueden obtener del modelo ajustado de esta forma:
 
 ```{r Prediciones de los efectos aleatorios}
-
 ranef(fit)
 ```
 
 Y los valores de los efectos fijos estimados se pueden obtener así:
 
 ```{r Valores de los efectos fijos estimados}
-
 fixef(fit)
 ```
 
@@ -124,14 +121,12 @@ Reaction_{i=308, j} &\sim  N(\hat{\mu}_{i=308, j}, \hat{\sigma}^2_{Reaction}) \\
 Los efectos fijos y aleatorios de la expresión anterior para cada uno de los individuos se pueden obtener con `R` de la siguiente forma:
 
 ```{r Efectos fijos y aleatorios para cada uno de los individuos}
-
 coef(fit)
 ```
 
 A continuación usted podrá observar el diagrama de dispersión mostrado al inicio de este capitulo con la recta de regresión para cada individuo. El código de `R` para obtener esto se presenta a continuación:
 
 ```{r Gráfico con recta de regresión, fig.align = "center"}
-
 fit <- lmer(Reaction ~ Days + (Days | Subject), REML = TRUE, data = sleepstudy)
 sleepstudy$pred_inter_pend_aleatorio <- predict(fit)
 
@@ -141,12 +136,12 @@ ggplot(data = sleepstudy, aes(x = Days, y = pred_inter_pend_aleatorio, color = S
   geom_abline(intercept = 251.40, slope = 10.47, color = "black", linetype = "dashed", size = 0.5) +
   theme_bw() +
   facet_wrap(~ Subject) + 
-  theme(legend.position = "none")
+  theme(legend.position = "none") + labs(y = "Reaction time")
 ```
 
 La figura anterior corresponde a un modelo de intercepto y pendiente aleatoria, en el que se permite que tanto los interceptos como las pendientes varíen según los individuos. Las líneas continuas corresponde a la recta de regresión ajustada a los datos. Los puntos representan las observaciones (tiempo de reacción promedio por día) medidas en cada uno de los individuos. La línea negra discontinua representa el valor medio global de la distribución de los efectos aleatorios.
 
-A continuación podra observar distintas figuras donde se ajustaron cuatro modelos distintos, entre ellos el modelo mixto con intercepto y pendiente aleatoria ya evaluado aquí (Figura 4). Con base en estas figuras, se plantean los ejercicios posteriores a las mismas figuras:
+A continuación usted encontrará una figura con cuatro páneles donde se muestran los resultados de cuatro modelos distintos, entre ellos el modelo mixto con intercepto y pendiente aleatoria del ejemplo anterior. Con base en estas figuras, responda las preguntas siguientes.
 
 ```{r Graficos de los distintos modelo, echo = FALSE, eval = TRUE, message = FALSE, fig.align="center"}
 
@@ -160,7 +155,7 @@ Graf_1 <- ggplot(data = sleepstudy, aes(x = Days, y = modelo_simple, color = Sub
   geom_abline(intercept = 251.40, slope = 10.47, color = "black", linetype = "solid", size = 0.5) +
   theme_bw() +
   theme(legend.position = "none") +
-  labs(x = "Días", y = "Tiempo de reacción predicho", title = 'Modelo de regresión clásico') +
+  labs(x = "Días", y = "Tiempo de reacción", title = 'Modelo de regresión clásico') +
   theme(axis.text = element_text(size = 8, color = "black", face = "bold"), 
         axis.title = element_text(size = 8, face = "bold"),
         plot.title = element_text(size = 8, color = "black", face = "bold"))
@@ -173,7 +168,7 @@ Graf_2 <- ggplot(data = sleepstudy, aes(x = Days, y = pred_inter_aleatorio, colo
   geom_point(aes(x = Days, y = Reaction, color = Subject)) +
   theme_bw() +
   theme(legend.position = "none") +
-  labs(x = "Días", y = "Tiempo de reacción predicho", title = 'Modelo mixto con intercepto aleatorio') +
+  labs(x = "Días", y = "Tiempo de reacción", title = 'Modelo mixto con intercepto aleatorio') +
   theme(axis.text = element_text(size = 8, color = "black", face = "bold"), 
         axis.title = element_text(size = 8, face = "bold"),
         plot.title = element_text(size = 8, color = "black", face = "bold"))
@@ -186,7 +181,7 @@ Graf_3 <- ggplot(data = sleepstudy, aes(x = Days, y = pred_pend_aleatorio, color
   geom_point(aes(x = Days, y = Reaction, color = Subject)) +
   theme_bw() +
   theme(legend.position = "none") +
-  labs(x = "Días", y = "Tiempo de reacción predicho", title = 'Modelo mixto con pendiente aleatoria') +
+  labs(x = "Días", y = "Tiempo de reacción", title = 'Modelo mixto con pendiente aleatoria') +
   theme(axis.text = element_text(size = 8, color = "black", face = "bold"), 
         axis.title = element_text(size = 8, face = "bold"),
         plot.title = element_text(size = 8, color = "black", face = "bold"))
@@ -199,19 +194,21 @@ Graf_4 <- ggplot(data = sleepstudy, aes(x = Days, y = pred_inter_pend_aleatorio,
   geom_point(aes(x = Days, y = Reaction, color = Subject)) +
   theme_bw() +
   theme(legend.position = "none") +
-  labs(x = "Días", y = "Tiempo de reacción predicho", title = 'Modelo mixto con intercepto y pendiente\n aleatoria') +
+  labs(x = "Días", y = "Tiempo de reacción", title = 'Modelo mixto con intercepto y pendiente\n aleatoria') +
   theme(axis.text = element_text(size = 8, color = "black", face = "bold"), 
         axis.title = element_text(size = 8, face = "bold"),
         plot.title = element_text(size = 8, color = "black", face = "bold"))
 
-plots(Graf_1, Graf_2, Graf_3, Graf_4, n_columns = 2, tags = paste("Figura ", 1:4))
+plots(Graf_1, Graf_2, Graf_3, Graf_4, n_columns = 2, 
+      tags = paste0("Panel ", 1:4))
 ```
 
 
 ## Ejercicios {-}
 
-1. Ajuste el modelo con intercepto aleatorio mostrado en la anterior Figura 2. ¿Qué opina de este modelo?
+1. Ajuste el modelo con intercepto aleatorio mostrado en el panel 2. ¿Qué opina de este modelo?
 
-2. Ajuste el modelo con pendiente aleatoria presentada en la anterior Figura 3. ¿Qué opina de este modelo?
+2. Ajuste el modelo con pendiente aleatoria presentado en el panel 3. ¿Qué opina de este modelo?
 
-3. Ajustar solo un intercepto aleatorio permite que los individuos varíen asumiendo que los mismos tienen una pendiente común (Figura 2). Al ajustar solo una pendiente aleatoria (Figura 3) permite que la pendiente de un predictor varíe en función de los individuos (la variable de agrupación). Con base esto y teniendo en cuenta el modelo de intercepto y pendiente aleatoria (Figura 4), evalúe cual de estos estos modelos permite un mejor ajuste de los datos presentados en la base de datos `sleepstudy` del paquete `lme4`.
+3. Ajustar solo un intercepto aleatorio permite que los individuos varíen asumiendo que los mismos tienen una pendiente común (panel 2). Al ajustar solo una pendiente aleatoria (panel 3) permite que la pendiente de un predictor varíe en función de los individuos (la variable de agrupación). Con base esto y teniendo en cuenta el modelo de intercepto y pendiente aleatoria (panel 4), evalúe cual de estos estos modelos permite un mejor ajuste de los datos presentados en la base de datos `sleepstudy` del paquete `lme4`.
+

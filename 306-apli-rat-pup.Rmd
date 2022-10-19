@@ -28,17 +28,20 @@ Vamos a usar la función `anova.lme` para estudiar la importancia de cada efecto
 anova(mod31)
 ```
 
-El otro modelo inicial `mod31a` es un modelo lineal sin intercepto aleatorio y se ajusta con la función `gls`.
+El otro modelo inicial `mod31a` es un modelo lineal sin intercepto aleatorio y se ajusta con la función `gls` y no con `lm`, esto se hace para poder comparar los modelos `mod31` y `mod31a`.
 
 ```{r}
 mod31a <- gls(weight ~ Treatment * sex + Lsize,
               data=RatPupWeight, method = "REML")
 ```
 
+Para comparar los modelos `mod31` y `mod31a` se puede usar nuevamente la función `anova.lme`. En este caso la hipótesis nula es $H_0: \sigma_{b0}=0$ frente a $H_1: \sigma_{b0} > 0$.
 
 ```{r}
 anova(mod31, mod31a)
 ```
+
+De la salida anterior se tiene que el estadístico de la prueba LRT (likelihood ratio test) es 89.40562 con un valor-P inferior a 0.0001, es quiere decir que hay evidencias en contra de $H_0$, lo que significa que incluir $b_0$ mejora el modelo.
 
 ```{r}
 mod32a <- lme(weight ~ Treatment * sex + Lsize, random= ~ 1 | Litter,
