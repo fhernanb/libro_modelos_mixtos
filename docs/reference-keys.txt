@@ -47,4 +47,3 @@ glmm_gamma
 residuals
 simul-glmm
 blobs
-fig:unnamed-chunk-2
