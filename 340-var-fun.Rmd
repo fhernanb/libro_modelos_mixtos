@@ -3,7 +3,6 @@
 En este capítulo se mostrará como usar el paquete `nlme` de @R-nlme para permitir heterocedasticidad en un modelo lineal mixto.
 
 ## Opciones para modelar la varianza
-
 En la siguiente tabla se muestran las diferentes opciones para modelar la varianza $\sigma^2_y$ de la variable respuesta $Y$.
 
 | Clase         | Modelo                                                     |
@@ -15,8 +14,6 @@ En la siguiente tabla se muestran las diferentes opciones para modelar la varian
 | varConstPower | $\sigma^2_y = \sigma^2 (\delta_1 + |x_{ij}|^{\delta_2})^2$ |
 | varComb       | Combinación de las anteriores expresiones                  |
 
-
-</div>
 
 ## varFixed
 
