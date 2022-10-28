@@ -1,6 +1,6 @@
 # Modelando la heterocedasticidad {#var-fun}
 
-En este capítulo se mostrará como usar el paquete `nlme` de @R-nlme para modelar heterocedasticidad.
+En este capítulo se mostrará como usar el paquete `nlme` de @R-nlme para permitir heterocedasticidad en un modelo lineal mixto.
 
 ## Opciones para modelar la varianza
 
@@ -13,19 +13,22 @@ En la siguiente tabla se muestran las diferentes opciones para modelar la varian
 | varPower      | $\sigma^2_y = \sigma^2 |x_{ij}|^{2\delta}$                 |
 | varExp        | $\sigma^2_y = \sigma^2 e^{2 \delta x_{ij}}$                |
 | varConstPower | $\sigma^2_y = \sigma^2 (\delta_1 + |x_{ij}|^{\delta_2})^2$ |
-| varComb       |                                                            |
+| varComb       | Combinación de las anteriores expresiones                  |
+
+
+</div>
 
 ## varFixed
 
 En esta sección vamos a simular datos de un modelo lineal mixto en el cual $\sigma^2_y$ dependa de una variable cuantitativa para luego estimar los parámetros del modelo.
 
 ## Ejemplo: $\sigma^2_y$ dependiendo de una variable cuantitativa  {-}
-En este ejemplo vamos a simular observaciones $n_i=10$ observaciones para $G=20$ grupos (en total 200 obs) que tengan la estructura mostrada abajo. En este ejemplo la varianza $\sigma^2_y$ no es constante, depende de la varianza general $\sigma^2=9$ y de la variable $X$, es decir $\sigma^2_y = 9 \, x_{ij}$.
+En este ejemplo vamos a simular observaciones $n_i=10$ observaciones para $G=20$ grupos (en total 200 observaciones) que tengan la estructura mostrada abajo. En este ejemplo la varianza $\sigma^2_y$ no es constante, depende de la varianza general $\sigma^2=9$ y de la variable $X$, es decir $\sigma^2_{yij} = 9 \times x_{ij}$.
 
 \begin{align*} 
-y_{ij} | b_0 &\sim  N(\mu_{ij}, \sigma^2_y) \\ 
+y_{ij} | b_0 &\sim  N(\mu_{ij}, \sigma^2_{ij}) \\ 
 \mu_{ij} &= 4 - 6 x_{ij} + b_{0i} \\
-\sigma^2_y &= 9 \times x_{ij} \\
+\sigma^2_{yij} &= 9 \times x_{ij} \\
 b_{0} &\sim N(0, \sigma^2_{b0}=64) \\
 x_{ij} &\sim U(0, 200)
 \end{align*}
@@ -42,7 +45,7 @@ Solución.
 
 </div>
 
-El código para simular las 500 observaciones se muestra a continuación. Observe que se fijó la semilla para que el lector pueda replicar el ejemplo y obtener los mismos resultados.
+El código para simular las 200 observaciones se muestra a continuación. Observe que se fijó la semilla para que el lector pueda replicar el ejemplo y obtener los mismos resultados.
 
 ```{r, eval=TRUE, echo=TRUE}
 ni <- 10
@@ -119,15 +122,15 @@ La varianza $\sigma^2_y$ se puede modelar también para modelos lineales, se le 
 En esta sección vamos a simular datos de un modelo lineal mixto en el cual $\sigma^2_y$ dependa de una variable cualitativa para luego estimar los parámetros del modelo.
 
 ## Ejemplo: $\sigma^2_y$ dependiendo de una variable cualitativa  {-}
-En este ejemplo vamos a simular observaciones $n_i=10$ observaciones para $G=20$ grupos (en total 200 obs) que tengan la estructura mostrada abajo. En este ejemplo la varianza $\sigma^2_y$ no es constante, depende de la varianza general $\sigma^2=9$ y de la variable sexo, para los hombres la varianza será $\sigma^2_y = 9 \times \delta_H$ y para las mujeres la varianza será $\sigma^2_y = 9 \times \delta_M$. Los valores de $\delta$ a usar en la simulación son $\delta_H=1$ y $\delta_M=6$, esto para hacer que las observaciones de la mujeres tengan mayor variabilidad.
+En este ejemplo vamos a simular observaciones $n_i=10$ observaciones para $G=20$ grupos (en total 200 obs) que tengan la estructura mostrada abajo. En este ejemplo la varianza $\sigma^2_y$ no es constante, depende de la varianza general $\sigma^2=9$ y de la variable sexo, para los hombres la varianza será $\sigma^2_y = \sigma^2 \times \delta_H^2$ y para las mujeres la varianza será $\sigma^2_y = \sigma^2 \times \delta_M^2$. Los valores de $\delta$ a usar en la simulación son $\delta_H=1$ y $\delta_M=6$, esto para hacer que las observaciones de la mujeres tengan mayor variabilidad.
 
 El modelo de interés se puede resumir de la siguiente manera.
 
 \begin{align*} 
 y_{ij} | b_0 &\sim  N(\mu_{ij}, \sigma^2_y) \\ 
 \mu_{ij} &= 4 - 6 x_{ij} + b_{0i} \\
-\text{Hombre} \quad \sigma^2_y &= 9 \times 1 \\
-\text{Mujer} \quad \sigma^2_y &= 9 \times 6 \\
+\text{Hombre} \quad \sigma^2_y &= 9 \times 1^2 \\
+\text{Mujer}  \quad \sigma^2_y &= 9 \times 6^2 \\
 b_{0} &\sim N(0, \sigma^2_{b0}=64) \\
 x_{ij} &\sim U(0, 200)
 \end{align*}
@@ -144,7 +147,7 @@ Solución.
 
 </div>
 
-El código para simular las 500 observaciones se muestra a continuación. Observe que se fijó la semilla para que el lector pueda replicar el ejemplo y obtener los mismos resultados.
+El código para simular las 200 observaciones se muestra a continuación. Observe que se fijó la semilla para que el lector pueda replicar el ejemplo y obtener los mismos resultados.
 
 ```{r, eval=TRUE, echo=TRUE}
 ni <- 10
@@ -181,7 +184,7 @@ Vamos a explorar el gráfico de residuales versus la covariable sexo para ver si
 plot(fit0, resid(., type = "p") ~ x | sexo, abline = 0, pch=20)
 ```
 
-De la figura anterior vemos claramente los residuales no se comportan igual para hombres y mujeres, esto es un indicio de que se debe modelar la varianza $\sigma^2_y$ teniendo en cuenta el sexo.
+De la figura anterior vemos claramente que los residuales no se comportan igual para hombres y mujeres, esto es un indicio de que se debe modelar la varianza $\sigma^2_y$ teniendo en cuenta el sexo.
 
 El siguiente modelo permite que la varianza $\sigma^2_y$ sea función del sexo usando una estructura `varIdent`.
 
