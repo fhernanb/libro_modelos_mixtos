@@ -3,3 +3,4 @@
 En este capítulo se muestran enlaces a algunos recursos en la web con ejemplo de modelos lineales mixtos con varios niveles.
 
 1. [Modelo multinivel con 3 niveles y lme4](https://www.alexanderdemos.org/Mixed5.html).
+2. [Modelos longitudinales con 2 y 3 niveles](https://rpsychologist.com/r-guide-longitudinal-lme-lmer).
