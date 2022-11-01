@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>12 Modelando la heterocedasticidad | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
-  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
   <meta property="og:title" content="12 Modelando la heterocedasticidad | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2022-10-28" />
+<meta name="date" content="2022-11-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,8 +53,6 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
-<link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
-<script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
 
 
 <style type="text/css">
@@ -239,6 +237,10 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="var-fun.html"><a href="var-fun.html#ejemplo-sigma2_y-dependiendo-de-una-variable-cuantitativa"><i class="fa fa-check"></i>Ejemplo: <span class="math inline">\(\sigma^2_y\)</span> dependiendo de una variable cuantitativa</a></li>
 <li class="chapter" data-level="12.3" data-path="var-fun.html"><a href="var-fun.html#varident"><i class="fa fa-check"></i><b>12.3</b> varIdent</a></li>
 <li class="chapter" data-level="" data-path="var-fun.html"><a href="var-fun.html#ejemplo-sigma2_y-dependiendo-de-una-variable-cualitativa"><i class="fa fa-check"></i>Ejemplo: <span class="math inline">\(\sigma^2_y\)</span> dependiendo de una variable cualitativa</a></li>
+<li class="chapter" data-level="12.4" data-path="var-fun.html"><a href="var-fun.html#varexp"><i class="fa fa-check"></i><b>12.4</b> varExp</a></li>
+<li class="chapter" data-level="" data-path="var-fun.html"><a href="var-fun.html#ejemplo-sigma2_y-con-estructura-exponencial"><i class="fa fa-check"></i>Ejemplo: <span class="math inline">\(\sigma^2_y\)</span> con estructura exponencial</a></li>
+<li class="chapter" data-level="12.5" data-path="var-fun.html"><a href="var-fun.html#varconstpower"><i class="fa fa-check"></i><b>12.5</b> varConstPower</a></li>
+<li class="chapter" data-level="" data-path="var-fun.html"><a href="var-fun.html#ejemplo-sigma_y2-dependiendo-de-una-variable-constante-más-la-potencia-de-una-variable-cuantitativa"><i class="fa fa-check"></i>Ejemplo: <span class="math inline">\(\sigma_y^2\)</span> dependiendo de una variable constante más la potencia de una variable cuantitativa</a></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="predict-new.html"><a href="predict-new.html"><i class="fa fa-check"></i><b>13</b> Predicción</a></li>
 <li class="chapter" data-level="14" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>14</b> Modelos Lineales Generalizados Mixtos</a>
@@ -296,7 +298,7 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="var-fun" class="section level1 hasAnchor" number="12">
 <h1><span class="header-section-number">12</span> Modelando la heterocedasticidad<a href="var-fun.html#var-fun" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>En este capítulo se mostrará como usar el paquete <code>nlme</code> de <span class="citation">José Pinheiro, Bates, and R Core Team (<a href="#ref-R-nlme" role="doc-biblioref">2022</a>)</span> para permitir heterocedasticidad en un modelo lineal mixto.</p>
+<p>En este capítulo se mostrará como usar el paquete <code>nlme</code> de <span class="citation">Pinheiro, Bates, and R Core Team (<a href="#ref-R-nlme" role="doc-biblioref">2022</a>)</span> para permitir heterocedasticidad en un modelo lineal mixto.</p>
 <div id="opciones-para-modelar-la-varianza" class="section level2 hasAnchor" number="12.1">
 <h2><span class="header-section-number">12.1</span> Opciones para modelar la varianza<a href="var-fun.html#opciones-para-modelar-la-varianza" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>En la siguiente tabla se muestran las diferentes opciones para modelar la varianza <span class="math inline">\(\sigma^2_y\)</span> de la variable respuesta <span class="math inline">\(Y\)</span>.</p>
@@ -363,35 +365,35 @@ Solución.
 </div>
 </div>
 <p>El código para simular las 200 observaciones se muestra a continuación. Observe que se fijó la semilla para que el lector pueda replicar el ejemplo y obtener los mismos resultados.</p>
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="var-fun.html#cb153-1" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb153-2"><a href="var-fun.html#cb153-2" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb153-3"><a href="var-fun.html#cb153-3" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
-<span id="cb153-4"><a href="var-fun.html#cb153-4" aria-hidden="true" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
-<span id="cb153-5"><a href="var-fun.html#cb153-5" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
-<span id="cb153-6"><a href="var-fun.html#cb153-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb153-7"><a href="var-fun.html#cb153-7" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">200</span>)</span>
-<span id="cb153-8"><a href="var-fun.html#cb153-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb153-9"><a href="var-fun.html#cb153-9" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">64</span>)) <span class="co"># Intercepto aleatorio</span></span>
-<span id="cb153-10"><a href="var-fun.html#cb153-10" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)              <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
-<span id="cb153-11"><a href="var-fun.html#cb153-11" aria-hidden="true" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="sc">-</span> <span class="dv">6</span> <span class="sc">*</span> x <span class="sc">+</span> b0</span>
-<span id="cb153-12"><a href="var-fun.html#cb153-12" aria-hidden="true" tabindex="-1"></a>sigma2_y <span class="ot">&lt;-</span> <span class="dv">9</span> <span class="sc">*</span> x</span>
-<span id="cb153-13"><a href="var-fun.html#cb153-13" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb153-14"><a href="var-fun.html#cb153-14" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>nobs, <span class="at">mean=</span>media, <span class="at">sd=</span><span class="fu">sqrt</span>(sigma2_y))</span>
-<span id="cb153-15"><a href="var-fun.html#cb153-15" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, x, y)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="var-fun.html#cb1-1" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb1-2"><a href="var-fun.html#cb1-2" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb1-3"><a href="var-fun.html#cb1-3" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
+<span id="cb1-4"><a href="var-fun.html#cb1-4" aria-hidden="true" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
+<span id="cb1-5"><a href="var-fun.html#cb1-5" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
+<span id="cb1-6"><a href="var-fun.html#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb1-7"><a href="var-fun.html#cb1-7" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">200</span>)</span>
+<span id="cb1-8"><a href="var-fun.html#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb1-9"><a href="var-fun.html#cb1-9" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">64</span>)) <span class="co"># Intercepto aleatorio</span></span>
+<span id="cb1-10"><a href="var-fun.html#cb1-10" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)              <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
+<span id="cb1-11"><a href="var-fun.html#cb1-11" aria-hidden="true" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="sc">-</span> <span class="dv">6</span> <span class="sc">*</span> x <span class="sc">+</span> b0</span>
+<span id="cb1-12"><a href="var-fun.html#cb1-12" aria-hidden="true" tabindex="-1"></a>sigma2_y <span class="ot">&lt;-</span> <span class="dv">9</span> <span class="sc">*</span> x</span>
+<span id="cb1-13"><a href="var-fun.html#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb1-14"><a href="var-fun.html#cb1-14" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>nobs, <span class="at">mean=</span>media, <span class="at">sd=</span><span class="fu">sqrt</span>(sigma2_y))</span>
+<span id="cb1-15"><a href="var-fun.html#cb1-15" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, x, y)</span></code></pre></div>
 <p>Primero vamos a ajustar un modelo <code>fit0</code> que asume varianza <span class="math inline">\(\sigma^2_y\)</span> constante para compararlo con el modelo <code>fit1</code> que si modela la varianza en función de la covariable <span class="math inline">\(X\)</span>.</p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="var-fun.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb154-2"><a href="var-fun.html#cb154-2" aria-hidden="true" tabindex="-1"></a>fit0 <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> grupo, <span class="at">data=</span>datos)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="var-fun.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb2-2"><a href="var-fun.html#cb2-2" aria-hidden="true" tabindex="-1"></a>fit0 <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> grupo, <span class="at">data=</span>datos)</span></code></pre></div>
 <p>Vamos a explorar el gráfico de residuales versus la covariable <span class="math inline">\(X\)</span> para ver si hay un indicio de heterocedasticidad (varianza no costante).</p>
-<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="var-fun.html#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit0, <span class="fu">resid</span>(., <span class="at">type =</span> <span class="st">&quot;p&quot;</span>) <span class="sc">~</span> x, <span class="at">abline =</span> <span class="dv">0</span>, <span class="at">pch=</span><span class="dv">20</span>)</span></code></pre></div>
-<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-121-1.png" width="672" /></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="var-fun.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit0, <span class="fu">resid</span>(., <span class="at">type =</span> <span class="st">&quot;p&quot;</span>) <span class="sc">~</span> x, <span class="at">abline =</span> <span class="dv">0</span>, <span class="at">pch=</span><span class="dv">20</span>)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>De la figura anterior vemos claramente una forma de “corneta”, cerrada a izquierda y abierta a la derecha, esto es un indicio de que se debe modelar la varianza <span class="math inline">\(\sigma^2_y\)</span>.</p>
 <p>El siguiente modelo permite que la varianza <span class="math inline">\(\sigma^2_y\)</span> sea función de <span class="math inline">\(X\)</span> usando una estructura <code>varFixed</code>.</p>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="var-fun.html#cb156-1" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> grupo, <span class="at">weights=</span><span class="fu">varFixed</span>(<span class="sc">~</span> x), <span class="at">data=</span>datos)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="var-fun.html#cb4-1" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> grupo, <span class="at">weights=</span><span class="fu">varFixed</span>(<span class="sc">~</span> x), <span class="at">data=</span>datos)</span></code></pre></div>
 <p>A continuación repetimos la misma figura de residuales anterior. De esta figura logramos ver que se eliminó el patrón de “corneta” observado antes.</p>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="var-fun.html#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit1, <span class="fu">resid</span>(., <span class="at">type =</span> <span class="st">&quot;p&quot;</span>) <span class="sc">~</span> x, <span class="at">abline =</span> <span class="dv">0</span>, <span class="at">pch=</span><span class="dv">20</span>)</span></code></pre></div>
-<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-123-1.png" width="672" /></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="var-fun.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit1, <span class="fu">resid</span>(., <span class="at">type =</span> <span class="st">&quot;p&quot;</span>) <span class="sc">~</span> x, <span class="at">abline =</span> <span class="dv">0</span>, <span class="at">pch=</span><span class="dv">20</span>)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>La función <code>summary</code> se puede usar sobre el objeto <code>fit1</code> para obtener una tabla de resumen, a continuación se ilustra el uso y la salida de <code>summary</code>.</p>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="var-fun.html#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit1)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="var-fun.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit1)</span></code></pre></div>
 <pre><code>## Linear mixed-effects model fit by REML
 ##   Data: datos 
 ##        AIC      BIC    logLik
@@ -421,7 +423,7 @@ Solución.
 ## Number of Groups: 20</code></pre>
 <p>Según el resultado anterior <span class="math inline">\(\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=4.2623, \hat{\beta}_1=-5.9942, \hat{\sigma}=2.8419, \hat{\sigma}_{b0}=7.1821)^\top\)</span> mientras que el vector real de parámetros es <span class="math inline">\(\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma=3, \sigma_{b0}=8)^\top\)</span>.</p>
 <p>En el código de abajo usamos la función <code>anova.lme</code> para comparar los dos modelos anteriores. Del resultado vemos que ambos modelos tienen 4 parámetros y que el modelo <code>fit1</code> tiene el menor valor de BIC y mayor valor de verosimilitud, esto indica que el modelo <code>fit1</code> es más apropiado para modelar los datos.</p>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="var-fun.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit0, fit1)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="var-fun.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit0, fit1)</span></code></pre></div>
 <pre><code>##      Model df      AIC      BIC    logLik
 ## fit0     1  4 1912.618 1925.771 -952.3089
 ## fit1     2  4 1886.683 1899.836 -939.3417</code></pre>
@@ -460,40 +462,40 @@ Solución.
 </div>
 </div>
 <p>El código para simular las 200 observaciones se muestra a continuación. Observe que se fijó la semilla para que el lector pueda replicar el ejemplo y obtener los mismos resultados.</p>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="var-fun.html#cb162-1" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb162-2"><a href="var-fun.html#cb162-2" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb162-3"><a href="var-fun.html#cb162-3" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
-<span id="cb162-4"><a href="var-fun.html#cb162-4" aria-hidden="true" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
-<span id="cb162-5"><a href="var-fun.html#cb162-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb162-6"><a href="var-fun.html#cb162-6" aria-hidden="true" tabindex="-1"></a>sexo <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="st">&quot;Hombre&quot;</span>, <span class="st">&quot;Mujer&quot;</span>), <span class="at">size=</span>nobs, <span class="at">replace=</span><span class="cn">TRUE</span>)</span>
-<span id="cb162-7"><a href="var-fun.html#cb162-7" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
-<span id="cb162-8"><a href="var-fun.html#cb162-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb162-9"><a href="var-fun.html#cb162-9" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">200</span>)</span>
-<span id="cb162-10"><a href="var-fun.html#cb162-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb162-11"><a href="var-fun.html#cb162-11" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">64</span>)) <span class="co"># Intercepto aleatorio</span></span>
-<span id="cb162-12"><a href="var-fun.html#cb162-12" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)              <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
-<span id="cb162-13"><a href="var-fun.html#cb162-13" aria-hidden="true" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="sc">-</span> <span class="dv">6</span> <span class="sc">*</span> x <span class="sc">+</span> b0</span>
-<span id="cb162-14"><a href="var-fun.html#cb162-14" aria-hidden="true" tabindex="-1"></a>delta_h <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb162-15"><a href="var-fun.html#cb162-15" aria-hidden="true" tabindex="-1"></a>delta_m <span class="ot">&lt;-</span> <span class="dv">6</span></span>
-<span id="cb162-16"><a href="var-fun.html#cb162-16" aria-hidden="true" tabindex="-1"></a>sigma2_y <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(sexo <span class="sc">==</span> <span class="st">&quot;Hombre&quot;</span>, <span class="dv">9</span> <span class="sc">*</span> delta_h<span class="sc">^</span><span class="dv">2</span>, <span class="dv">9</span> <span class="sc">*</span> delta_m<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb162-17"><a href="var-fun.html#cb162-17" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb162-18"><a href="var-fun.html#cb162-18" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>nobs, <span class="at">mean=</span>media, <span class="at">sd=</span><span class="fu">sqrt</span>(sigma2_y))</span>
-<span id="cb162-19"><a href="var-fun.html#cb162-19" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, sexo, x, y)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="var-fun.html#cb10-1" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb10-2"><a href="var-fun.html#cb10-2" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb10-3"><a href="var-fun.html#cb10-3" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
+<span id="cb10-4"><a href="var-fun.html#cb10-4" aria-hidden="true" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
+<span id="cb10-5"><a href="var-fun.html#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb10-6"><a href="var-fun.html#cb10-6" aria-hidden="true" tabindex="-1"></a>sexo <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="st">&quot;Hombre&quot;</span>, <span class="st">&quot;Mujer&quot;</span>), <span class="at">size=</span>nobs, <span class="at">replace=</span><span class="cn">TRUE</span>)</span>
+<span id="cb10-7"><a href="var-fun.html#cb10-7" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
+<span id="cb10-8"><a href="var-fun.html#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb10-9"><a href="var-fun.html#cb10-9" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">200</span>)</span>
+<span id="cb10-10"><a href="var-fun.html#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb10-11"><a href="var-fun.html#cb10-11" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">64</span>)) <span class="co"># Intercepto aleatorio</span></span>
+<span id="cb10-12"><a href="var-fun.html#cb10-12" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)              <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
+<span id="cb10-13"><a href="var-fun.html#cb10-13" aria-hidden="true" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="sc">-</span> <span class="dv">6</span> <span class="sc">*</span> x <span class="sc">+</span> b0</span>
+<span id="cb10-14"><a href="var-fun.html#cb10-14" aria-hidden="true" tabindex="-1"></a>delta_h <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb10-15"><a href="var-fun.html#cb10-15" aria-hidden="true" tabindex="-1"></a>delta_m <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb10-16"><a href="var-fun.html#cb10-16" aria-hidden="true" tabindex="-1"></a>sigma2_y <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(sexo <span class="sc">==</span> <span class="st">&quot;Hombre&quot;</span>, <span class="dv">9</span> <span class="sc">*</span> delta_h<span class="sc">^</span><span class="dv">2</span>, <span class="dv">9</span> <span class="sc">*</span> delta_m<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb10-17"><a href="var-fun.html#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb10-18"><a href="var-fun.html#cb10-18" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>nobs, <span class="at">mean=</span>media, <span class="at">sd=</span><span class="fu">sqrt</span>(sigma2_y))</span>
+<span id="cb10-19"><a href="var-fun.html#cb10-19" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, sexo, x, y)</span></code></pre></div>
 <p>Primero vamos a ajustar un modelo <code>fit0</code> que asume varianza <span class="math inline">\(\sigma^2_y\)</span> constante para compararlo con el modelo <code>fit1</code> que si modela la varianza en función de la covariable sexo.</p>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="var-fun.html#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb163-2"><a href="var-fun.html#cb163-2" aria-hidden="true" tabindex="-1"></a>fit0 <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> grupo, <span class="at">data=</span>datos)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="var-fun.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb11-2"><a href="var-fun.html#cb11-2" aria-hidden="true" tabindex="-1"></a>fit0 <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> grupo, <span class="at">data=</span>datos)</span></code></pre></div>
 <p>Vamos a explorar el gráfico de residuales versus la covariable sexo para ver si hay un indicio de heterocedasticidad (varianza no costante).</p>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="var-fun.html#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit0, <span class="fu">resid</span>(., <span class="at">type =</span> <span class="st">&quot;p&quot;</span>) <span class="sc">~</span> x <span class="sc">|</span> sexo, <span class="at">abline =</span> <span class="dv">0</span>, <span class="at">pch=</span><span class="dv">20</span>)</span></code></pre></div>
-<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-130-1.png" width="672" /></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="var-fun.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit0, <span class="fu">resid</span>(., <span class="at">type =</span> <span class="st">&quot;p&quot;</span>) <span class="sc">~</span> x <span class="sc">|</span> sexo, <span class="at">abline =</span> <span class="dv">0</span>, <span class="at">pch=</span><span class="dv">20</span>)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p>De la figura anterior vemos claramente que los residuales no se comportan igual para hombres y mujeres, esto es un indicio de que se debe modelar la varianza <span class="math inline">\(\sigma^2_y\)</span> teniendo en cuenta el sexo.</p>
 <p>El siguiente modelo permite que la varianza <span class="math inline">\(\sigma^2_y\)</span> sea función del sexo usando una estructura <code>varIdent</code>.</p>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="var-fun.html#cb165-1" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> grupo, <span class="at">weights =</span> <span class="fu">varIdent</span>(<span class="at">form =</span> <span class="sc">~</span> <span class="dv">1</span><span class="sc">|</span> sexo), </span>
-<span id="cb165-2"><a href="var-fun.html#cb165-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">data=</span>datos)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="var-fun.html#cb13-1" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> grupo, <span class="at">weights =</span> <span class="fu">varIdent</span>(<span class="at">form =</span> <span class="sc">~</span> <span class="dv">1</span><span class="sc">|</span> sexo), </span>
+<span id="cb13-2"><a href="var-fun.html#cb13-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">data=</span>datos)</span></code></pre></div>
 <p>A continuación repetimos la misma figura de residuales anterior. De esta figura logramos ver que se eliminó el patrón observado antes.</p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="var-fun.html#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit1, <span class="fu">resid</span>(., <span class="at">type =</span> <span class="st">&quot;p&quot;</span>) <span class="sc">~</span> x <span class="sc">|</span> sexo, <span class="at">abline =</span> <span class="dv">0</span>, <span class="at">pch=</span><span class="dv">20</span>)</span></code></pre></div>
-<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-132-1.png" width="672" /></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="var-fun.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit1, <span class="fu">resid</span>(., <span class="at">type =</span> <span class="st">&quot;p&quot;</span>) <span class="sc">~</span> x <span class="sc">|</span> sexo, <span class="at">abline =</span> <span class="dv">0</span>, <span class="at">pch=</span><span class="dv">20</span>)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 <p>La función <code>summary</code> se puede usar sobre el objeto <code>fit1</code> para obtener una tabla de resumen, a continuación se ilustra el uso y la salida de <code>summary</code>.</p>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="var-fun.html#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit1)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="var-fun.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit1)</span></code></pre></div>
 <pre><code>## Linear mixed-effects model fit by REML
 ##   Data: datos 
 ##        AIC      BIC    logLik
@@ -525,6 +527,216 @@ Solución.
 ## Number of Observations: 200
 ## Number of Groups: 20</code></pre>
 <p>Según el resultado anterior <span class="math inline">\(\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=3.92, \hat{\beta}_1=-5.99, \hat{\sigma}=2.63, \hat{\delta}_H=1, \hat{\delta}_M=6.73, \hat{\sigma}_{b0}=7.84)^\top\)</span> mientras que el vector real de parámetros es <span class="math inline">\(\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma=3, \delta_H=1, \delta_H=6, \sigma_{b0}=8)^\top\)</span>.</p>
+</div>
+<div id="varexp" class="section level2 hasAnchor" number="12.4">
+<h2><span class="header-section-number">12.4</span> varExp<a href="var-fun.html#varexp" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>En esta sección vamos a simular datos de un modelo lineal mixto en el cual <span class="math inline">\(\sigma^2_y\)</span> dependa de una variable cuantitativa para luego estimar los parámetros del modelo. El siguiente ejemplo fue creado por <em>Verónica Seguro</em> y <em>Yojan Alcaraz</em>, muchas gracias por el aporte.</p>
+</div>
+<div id="ejemplo-sigma2_y-con-estructura-exponencial" class="section level2 unnumbered hasAnchor">
+<h2>Ejemplo: <span class="math inline">\(\sigma^2_y\)</span> con estructura exponencial<a href="var-fun.html#ejemplo-sigma2_y-con-estructura-exponencial" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Vamos a simular en este ejemplo un conjunto de <span class="math inline">\(n_i = 30\)</span> observaciones para <span class="math inline">\(G = 10\)</span> grupos (en total 300 obs) que tengan la estructura mostrada abajo. En este ejemplo, la varianza <span class="math inline">\(\sigma_y^2\)</span> no es constante, depende de la varianza general <span class="math inline">\(\sigma^2 = 1.7\)</span> y de una función exponencial de la variable <span class="math inline">\(X\)</span> y de la variable sexo. Para los hombres la varianza será <span class="math inline">\(\sigma_y^2 = \sigma^2 \times e^{2\delta_H x_{ij}}\)</span> y para las mujeres la varianza será <span class="math inline">\(\sigma_y^2 = \sigma^2 \times e^{2\delta_M x_{ij}}\)</span>. Los valores de <span class="math inline">\(\delta\)</span> a usar en la simulación son <span class="math inline">\(\delta_H =1\)</span> y <span class="math inline">\(\delta_M = 2\)</span>,esto para hacer que las observaciones de la mujeres tengan mayor variabilidad.</p>
+<p>El modelo de interés se puede resumir de la siguiente manera.</p>
+<p><span class="math display">\[\begin{align*}
+y_{ij} | b_0 &amp;\sim  N(\mu_{ij}, \sigma^2_y) \\
+\mu_{ij} &amp;= 4 - 6 x_{ij} + b_{0i} \\
+\text{Hombre} \quad \sigma^2_y &amp;= 1.7 \times e^{2 \times 1 \times x_{ij}} \\
+\text{Mujer}  \quad \sigma^2_y &amp;= 1.7 \times e^{2 \times 2 \times x_{ij}} \\
+b_{0} &amp;\sim N(0, \sigma^2_{b0}=64) \\
+x_{ij} &amp;\sim U(0, 2)
+\end{align*}\]</span></p>
+<p>El vector de parámetros de este modelo es:</p>
+<p><span class="math display">\[
+\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma=1.3038, \delta_H =1, \delta_M = 2, \sigma_{b0}=8)^\top
+\]</span></p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+<div class="rmdexercise">
+Solución.
+</div>
+</div>
+<p>El código para simular las 300 observaciones se muestra a continuación. Observe que se fijó la semilla para que el lector pueda replicar el ejemplo y obtener los mismos resultados.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="var-fun.html#cb17-1" aria-hidden="true" tabindex="-1"></a>semilla <span class="ot">&lt;-</span> <span class="dv">12345</span></span>
+<span id="cb17-2"><a href="var-fun.html#cb17-2" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">30</span> </span>
+<span id="cb17-3"><a href="var-fun.html#cb17-3" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb17-4"><a href="var-fun.html#cb17-4" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
+<span id="cb17-5"><a href="var-fun.html#cb17-5" aria-hidden="true" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
+<span id="cb17-6"><a href="var-fun.html#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(semilla)</span>
+<span id="cb17-7"><a href="var-fun.html#cb17-7" aria-hidden="true" tabindex="-1"></a>sexo <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="st">&quot;Hombre&quot;</span>, <span class="st">&quot;Mujer&quot;</span>), <span class="at">size=</span>nobs, <span class="at">replace=</span><span class="cn">TRUE</span>)</span>
+<span id="cb17-8"><a href="var-fun.html#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(semilla)</span>
+<span id="cb17-9"><a href="var-fun.html#cb17-9" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
+<span id="cb17-10"><a href="var-fun.html#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(semilla)</span>
+<span id="cb17-11"><a href="var-fun.html#cb17-11" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">2</span>)</span>
+<span id="cb17-12"><a href="var-fun.html#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(semilla)</span>
+<span id="cb17-13"><a href="var-fun.html#cb17-13" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">64</span>)) <span class="co"># Intercepto aleatorio</span></span>
+<span id="cb17-14"><a href="var-fun.html#cb17-14" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)              <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
+<span id="cb17-15"><a href="var-fun.html#cb17-15" aria-hidden="true" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="sc">-</span> <span class="dv">6</span> <span class="sc">*</span> x <span class="sc">+</span> b0</span>
+<span id="cb17-16"><a href="var-fun.html#cb17-16" aria-hidden="true" tabindex="-1"></a>delta_h <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb17-17"><a href="var-fun.html#cb17-17" aria-hidden="true" tabindex="-1"></a>delta_m <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb17-18"><a href="var-fun.html#cb17-18" aria-hidden="true" tabindex="-1"></a>sigma2_y <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(sexo <span class="sc">==</span> <span class="st">&quot;Hombre&quot;</span>, <span class="fl">1.7</span> <span class="sc">*</span> <span class="fu">exp</span>(<span class="dv">2</span><span class="sc">*</span>delta_h<span class="sc">*</span>x), <span class="fl">1.7</span> <span class="sc">*</span> <span class="fu">exp</span>(<span class="dv">2</span><span class="sc">*</span>delta_m<span class="sc">*</span>x))</span>
+<span id="cb17-19"><a href="var-fun.html#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(semilla)</span>
+<span id="cb17-20"><a href="var-fun.html#cb17-20" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(nobs, <span class="at">mean =</span> media, <span class="at">sd =</span> <span class="fu">sqrt</span>(sigma2_y))</span>
+<span id="cb17-21"><a href="var-fun.html#cb17-21" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, sexo, x, y)</span></code></pre></div>
+<p>Veamos en el siguiente gráfico la diferencia de las densidades entre los hombres y las mujeres:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="var-fun.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb18-2"><a href="var-fun.html#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(y)) <span class="sc">+</span></span>
+<span id="cb18-3"><a href="var-fun.html#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">fill=</span><span class="fu">factor</span>(sexo)), <span class="at">alpha=</span><span class="fl">0.4</span>)<span class="sc">+</span></span>
+<span id="cb18-4"><a href="var-fun.html#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb18-5"><a href="var-fun.html#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Y&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Densidad&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;Sexo&quot;</span>)<span class="sc">+</span></span>
+<span id="cb18-6"><a href="var-fun.html#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() </span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p>Ahora, vamos a ajustar el modelo , que asume varianza <span class="math inline">\(\sigma_y^2\)</span> constante para compararlo con el modelo que si modela la varianza en función de <span class="math inline">\(X\)</span> y de la covariable sexo usando una estructura :</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="var-fun.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb19-2"><a href="var-fun.html#cb19-2" aria-hidden="true" tabindex="-1"></a>fit0 <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span>grupo, <span class="at">data=</span>datos)</span></code></pre></div>
+<p>Vamos a explorar el gráfico de residuales versus la covariable <span class="math inline">\(X\)</span> separando por sexo para ver si hay un indicio de heterocedasticidad (varianza no costante).</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="var-fun.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit0, <span class="fu">resid</span>(., <span class="at">type =</span> <span class="st">&quot;p&quot;</span>) <span class="sc">~</span> x <span class="sc">|</span> sexo, <span class="at">abline =</span> <span class="dv">0</span>, <span class="at">pch=</span><span class="dv">20</span>)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p>De la figura anterior vemos claramente que los residuales no se comportan igual para hombres y mujeres, esto es un indicio de que se debe modelar la varianza <span class="math inline">\(\sigma^2_y\)</span> teniendo en cuenta el sexo.</p>
+<p>Por ello se procede al ajuste del modelo , en donde la varianza es función de <span class="math inline">\(X\)</span> y de la covariable sexo usando una estructura .</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="var-fun.html#cb21-1" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> grupo, <span class="at">weights =</span> <span class="fu">varExp</span>(<span class="at">form =</span> <span class="sc">~</span> x<span class="sc">|</span>sexo), <span class="at">data=</span>datos)</span></code></pre></div>
+<p>Se repite la misma figura de residuales y se observa homogeneidad de varianza sin importar el nivel de la variable sexo:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="var-fun.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit1, <span class="fu">resid</span>(., <span class="at">type =</span> <span class="st">&quot;p&quot;</span>) <span class="sc">~</span> x <span class="sc">|</span> sexo, <span class="at">abline =</span> <span class="dv">0</span>, <span class="at">pch=</span><span class="dv">20</span>)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-24-1.png" width="672" />
+La función se puede usar sobre el objeto para obtener una tabla de resumen, a continuación se ilustra el uso y la salida de .</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="var-fun.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit1)</span></code></pre></div>
+<pre><code>## Linear mixed-effects model fit by REML
+##   Data: datos 
+##        AIC      BIC    logLik
+##   2065.342 2087.525 -1026.671
+## 
+## Random effects:
+##  Formula: ~1 | grupo
+##         (Intercept) Residual
+## StdDev:    6.791002 1.355803
+## 
+## Variance function:
+##  Structure: Exponential of variance covariate, different strata
+##  Formula: ~x | sexo 
+##  Parameter estimates:
+##   Mujer  Hombre 
+## 1.94263 1.02304 
+## Fixed effects:  y ~ x 
+##                 Value Std.Error  DF    t-value p-value
+## (Intercept)  3.450857 2.1662604 289   1.593002  0.1123
+## x           -6.155959 0.5083259 289 -12.110261  0.0000
+##  Correlation: 
+##   (Intr)
+## x -0.095
+## 
+## Standardized Within-Group Residuals:
+##          Min           Q1          Med           Q3          Max 
+## -2.631728926 -0.601368395 -0.008366753  0.630296488  2.839555782 
+## 
+## Number of Observations: 300
+## Number of Groups: 10</code></pre>
+<p>De la salida anterior tenemos que</p>
+<p><span class="math display">\[
+\boldsymbol{\hat{\Theta}}=(\hat{\beta_0}=3.450, \hat{\beta_1}=-6.156, \hat{\sigma}=1.355, \hat{\delta}_H=1.023, \hat{\delta}_M = 1.942, \hat{\sigma}_{b0}=6.791)^\top
+\]</span></p>
+<p>mientras que el vector real de parámetros es</p>
+<p><span class="math display">\[
+\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma=1.3038, \delta_H =1, \delta_M = 2, \sigma_{b0}=8)^\top
+\]</span></p>
+<p>En el código de abajo usamos la función para comparar los dos modelos anteriores. Del resultado vemos que ambos modelos tienen 6 parámetros y que el modelo tiene el menor valor de BIC y mayor valor de verosimilitud, esto indica que el modelo es más apropiado para modelar los datos.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="var-fun.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit0,fit1)</span></code></pre></div>
+<pre><code>##      Model df      AIC      BIC    logLik   Test  L.Ratio p-value
+## fit0     1  4 2700.538 2715.326 -1346.269                        
+## fit1     2  6 2065.342 2087.525 -1026.671 1 vs 2 639.1955  &lt;.0001</code></pre>
+</div>
+<div id="varconstpower" class="section level2 hasAnchor" number="12.5">
+<h2><span class="header-section-number">12.5</span> varConstPower<a href="var-fun.html#varconstpower" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>En esta sección vamos a simular datos de un modelo lineal mixto en el cual la varianza de la respuesta <span class="math inline">\(\sigma_{y}^2 = \sigma^2 (\delta_1 + |x_{ij}|^{\delta_2})^2\)</span> tiene una estructura conformada por una constante más una función potencia de la varianza. El siguiente ejemplo fue creado por <em>Simón Cuartas</em>, muchas gracias por el aporte.</p>
+</div>
+<div id="ejemplo-sigma_y2-dependiendo-de-una-variable-constante-más-la-potencia-de-una-variable-cuantitativa" class="section level2 unnumbered hasAnchor">
+<h2>Ejemplo: <span class="math inline">\(\sigma_y^2\)</span> dependiendo de una variable constante más la potencia de una variable cuantitativa<a href="var-fun.html#ejemplo-sigma_y2-dependiendo-de-una-variable-constante-más-la-potencia-de-una-variable-cuantitativa" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>En este ejemplo vamos a simular <span class="math inline">\(n_i = 50\)</span> observaciones para <span class="math inline">\(G = 100\)</span> grupos (en total 800 observaciones) que tengan la estructura mostrada abajo. En este ejemplo la varianza de la respuesta <span class="math inline">\(\sigma_y^2\)</span> no es constante sino que depende de la varianza general <span class="math inline">\(\sigma^2 = 9\)</span> y de la variable continua <span class="math inline">\(X\)</span> con <span class="math inline">\(\delta_1 = 1.2\)</span> y <span class="math inline">\(\delta_2 = 2.1\)</span>.</p>
+<p><span class="math display">\[
+\begin{aligned}
+  y_{ij} | b_0 &amp; \sim N(\mu_{ij}, \ \sigma_{ij}^2) \\
+  \mu_{ij} &amp; = 4 - 6 x_{ij} + b_{0i} \\
+  \sigma_{yij}^2 &amp; = 9 \times (1.2 + |x_{ij}|^{2.1})^2 \\
+  b_0 &amp; \sim N(0, \ \sigma_{b0}^2 = 64) \\
+  x_{ij} &amp; \sim U(-100, \ 100)
+\end{aligned}
+\]</span></p>
+<p>El vector de parámetros de este modelo es <span class="math inline">\(\boldsymbol{\Theta} = (\beta_0 = 4, \ \beta_1 = -6, \ \sigma = 3, \  \sigma_{b0} = 8, \ \delta_1 = 1.2, \ \delta_2 = 2.1)^{\top}\)</span></p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+<div class="rmdexercise">
+Solución.
+</div>
+</div>
+<p>El código para simular las 5000 observaciones se muestra a continuación. Observe que se fijó la semilla para que el lector pueda replicar el ejemplo y obtener los mismos resultados.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="var-fun.html#cb27-1" aria-hidden="true" tabindex="-1"></a>semilla <span class="ot">&lt;-</span> <span class="dv">123456</span></span>
+<span id="cb27-2"><a href="var-fun.html#cb27-2" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb27-3"><a href="var-fun.html#cb27-3" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb27-4"><a href="var-fun.html#cb27-4" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
+<span id="cb27-5"><a href="var-fun.html#cb27-5" aria-hidden="true" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span>G, <span class="at">each =</span> ni))</span>
+<span id="cb27-6"><a href="var-fun.html#cb27-6" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times =</span> G)</span>
+<span id="cb27-7"><a href="var-fun.html#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(semilla)</span>
+<span id="cb27-8"><a href="var-fun.html#cb27-8" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n =</span> obs, <span class="at">min =</span> <span class="sc">-</span><span class="dv">100</span>, <span class="at">max =</span> <span class="dv">100</span>)</span>
+<span id="cb27-9"><a href="var-fun.html#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(semilla)</span>
+<span id="cb27-10"><a href="var-fun.html#cb27-10" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> G, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="fu">sqrt</span>(<span class="dv">64</span>))</span>
+<span id="cb27-11"><a href="var-fun.html#cb27-11" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x =</span> b0, <span class="at">each =</span> ni)</span>
+<span id="cb27-12"><a href="var-fun.html#cb27-12" aria-hidden="true" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="sc">-</span> <span class="dv">6</span> <span class="sc">*</span> x <span class="sc">+</span> b0</span>
+<span id="cb27-13"><a href="var-fun.html#cb27-13" aria-hidden="true" tabindex="-1"></a>delta_1 <span class="ot">&lt;-</span> <span class="fl">1.2</span></span>
+<span id="cb27-14"><a href="var-fun.html#cb27-14" aria-hidden="true" tabindex="-1"></a>delta_2 <span class="ot">&lt;-</span> <span class="fl">2.1</span></span>
+<span id="cb27-15"><a href="var-fun.html#cb27-15" aria-hidden="true" tabindex="-1"></a>sigma2_y <span class="ot">&lt;-</span> <span class="dv">9</span> <span class="sc">*</span> (delta_1 <span class="sc">+</span> <span class="fu">abs</span>(x) <span class="sc">^</span> delta_2 ) <span class="sc">^</span> <span class="dv">2</span></span>
+<span id="cb27-16"><a href="var-fun.html#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(semilla)</span>
+<span id="cb27-17"><a href="var-fun.html#cb27-17" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> obs, <span class="at">mean =</span> media, <span class="at">sd =</span> <span class="fu">sqrt</span>(sigma2_y))</span>
+<span id="cb27-18"><a href="var-fun.html#cb27-18" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, x, y)</span></code></pre></div>
+<p>Primero vamos a ajustar un modelo <code>fit0</code> que asume varianza <span class="math inline">\(\sigma_{ij}^2\)</span> constante para compararlo con el modelo <code>fit1</code> que sí modela la varianza de la covariable sexo.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="var-fun.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb28-2"><a href="var-fun.html#cb28-2" aria-hidden="true" tabindex="-1"></a>fit0 <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> grupo, <span class="at">data =</span> datos)</span></code></pre></div>
+<p>Vamos a explorar el gráfico de residuales versus la covariable sexo para ver si hay un indicio de heterocedasticidad (varianza no constante).</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="var-fun.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit0, <span class="fu">resid</span>(., <span class="at">type =</span> <span class="st">&quot;p&quot;</span>) <span class="sc">~</span> x, <span class="at">abline =</span> <span class="dv">0</span>, <span class="at">pch=</span><span class="dv">20</span>)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>De la figura anterior vemos que los residuales estandarizados no son constantes, se logra apreciar una forma clara de corbatín. Cuando la covariable <span class="math inline">\(X\)</span> toma valores extremos, es decir, cercanos a <span class="math inline">\(-100\)</span> o a <span class="math inline">\(100\)</span>, los residuales estandarizados presentan mucha variabilidad, mientras que para valores de <span class="math inline">\(X\)</span> cercanos a cero, los residuales presentan poca variabilidad.</p>
+<p>El siguiente modelo permite que la varianza <span class="math inline">\(\sigma_y^2\)</span> sea función de la covariable continua <span class="math inline">\(X\)</span> usando una estructura <code>varConstPower</code>.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="var-fun.html#cb30-1" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> grupo,</span>
+<span id="cb30-2"><a href="var-fun.html#cb30-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">weights =</span> <span class="fu">varConstPower</span>(<span class="at">form =</span> <span class="sc">~</span> x),</span>
+<span id="cb30-3"><a href="var-fun.html#cb30-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> datos)</span></code></pre></div>
+<p>A continuación repetimos la misma figura de residuales anterior. De esta figura logramos ver que se eliminó el patrón observado antes.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="var-fun.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit1, <span class="fu">resid</span>(., <span class="at">type =</span> <span class="st">&quot;p&quot;</span>) <span class="sc">~</span> x, <span class="at">abline =</span> <span class="dv">0</span>, <span class="at">pch=</span><span class="dv">20</span>)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<p>La función <code>summary</code> se puede usar sobre el objeto <code>fit1</code> para obtener una tabla de resumen, a continuación se ilustra el uso y la salida de <code>summary</code>.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="var-fun.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit1)</span></code></pre></div>
+<pre><code>## Linear mixed-effects model fit by REML
+##   Data: datos 
+##      AIC      BIC    logLik
+##   101473 101512.1 -50730.51
+## 
+## Random effects:
+##  Formula: ~1 | grupo
+##         (Intercept) Residual
+## StdDev:    8.880321 2.813496
+## 
+## Variance function:
+##  Structure: Constant plus power of variance covariate
+##  Formula: ~x 
+##  Parameter estimates:
+##    const    power 
+## 1.378660 2.116314 
+## Fixed effects:  y ~ x 
+##                 Value Std.Error   DF   t-value p-value
+## (Intercept)  5.747179 1.2959437 4899  4.434744       0
+## x           -5.572710 0.6257808 4899 -8.905211       0
+##  Correlation: 
+##   (Intr)
+## x -0.045
+## 
+## Standardized Within-Group Residuals:
+##          Min           Q1          Med           Q3          Max 
+## -3.739732278 -0.673908712  0.006686823  0.669941450  3.672055870 
+## 
+## Number of Observations: 5000
+## Number of Groups: 100</code></pre>
+<p>Según el resultado anterior,</p>
+<p><span class="math display">\[\hat{\boldsymbol{\Theta}} = (\hat{\beta}_0 = 5.747, \ \hat{\beta}_1 = -5.572, \ \ \hat{\sigma} = 2.813, \ \hat{\sigma}_{b0} = 8.880, \ \hat{\delta}_1 = 1.379, \ \hat{\delta}_2 = 2.116)^\top \]</span></p>
+<p>Mientras que el vector real de parámetros es: <span class="math inline">\(\boldsymbol{\Theta} = (\beta_0 = 4, \ \beta_1 = -6, \ \sigma = 3, \  \sigma_{b0} = 8, \ \delta_1 = 1, \ \delta_2 = 3)^{\top}\)</span>.</p>
 
 </div>
 </div>

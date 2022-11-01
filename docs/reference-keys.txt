@@ -47,3 +47,6 @@ glmm_gamma
 residuals
 simul-glmm
 blobs
+varexp
+varconstpower
+solución

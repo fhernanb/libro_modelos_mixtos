@@ -204,3 +204,223 @@ summary(fit1)
 
 Según el resultado anterior $\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=3.92, \hat{\beta}_1=-5.99, \hat{\sigma}=2.63, \hat{\delta}_H=1, \hat{\delta}_M=6.73, \hat{\sigma}_{b0}=7.84)^\top$ mientras que el vector real de parámetros es $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma=3, \delta_H=1, \delta_H=6, \sigma_{b0}=8)^\top$.
 
+## varExp
+
+En esta sección vamos a simular datos de un modelo lineal mixto en el cual $\sigma^2_y$ dependa de una variable cuantitativa para luego estimar los parámetros del modelo. El siguiente ejemplo fue creado por *Verónica Seguro* y *Yojan Alcaraz*, muchas gracias por el aporte.
+
+## Ejemplo: $\sigma^2_y$ con estructura exponencial {-}
+
+Vamos a simular en este ejemplo un conjunto de $n_i = 30$ observaciones para $G = 10$ grupos (en total 300 obs) que tengan la estructura mostrada abajo. En este ejemplo, la varianza $\sigma_y^2$ no es constante, depende de la varianza general $\sigma^2 = 1.7$ y de una función exponencial de la variable $X$ y de la variable sexo. Para los hombres la varianza será $\sigma_y^2 = \sigma^2 \times e^{2\delta_H x_{ij}}$ y para las mujeres la varianza será $\sigma_y^2 = \sigma^2 \times e^{2\delta_M x_{ij}}$. Los valores de $\delta$ a usar en la simulación son $\delta_H =1$ y $\delta_M = 2$,esto para hacer que las observaciones de la mujeres tengan mayor variabilidad.
+
+El modelo de interés se puede resumir de la siguiente manera.
+
+\begin{align*}
+y_{ij} | b_0 &\sim  N(\mu_{ij}, \sigma^2_y) \\
+\mu_{ij} &= 4 - 6 x_{ij} + b_{0i} \\
+\text{Hombre} \quad \sigma^2_y &= 1.7 \times e^{2 \times 1 \times x_{ij}} \\
+\text{Mujer}  \quad \sigma^2_y &= 1.7 \times e^{2 \times 2 \times x_{ij}} \\
+b_{0} &\sim N(0, \sigma^2_{b0}=64) \\
+x_{ij} &\sim U(0, 2)
+\end{align*}
+
+El vector de parámetros de este modelo es:
+
+$$
+\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma=1.3038, \delta_H =1, \delta_M = 2, \sigma_{b0}=8)^\top
+$$
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+```{block2, type='rmdexercise'}
+Solución.
+```
+
+</div>
+
+El código para simular las 300 observaciones se muestra a continuación. Observe que se fijó la semilla para que el lector pueda replicar el ejemplo y obtener los mismos resultados.
+
+```{r}
+semilla <- 12345
+ni <- 30 
+G <- 10
+nobs <- ni * G
+grupo <- factor(rep(x=1:G, each=ni))
+set.seed(semilla)
+sexo <- sample(x=c("Hombre", "Mujer"), size=nobs, replace=TRUE)
+set.seed(semilla)
+obs <- rep(x=1:ni, times=G)
+set.seed(semilla)
+x <- runif(n=nobs, min=0, max=2)
+set.seed(semilla)
+b0 <- rnorm(n=G, mean=0, sd=sqrt(64)) # Intercepto aleatorio
+b0 <- rep(x=b0, each=ni)              # El mismo intercepto aleatorio pero repetido
+media <- 4 - 6 * x + b0
+delta_h <- 1
+delta_m <- 2
+sigma2_y <- ifelse(sexo == "Hombre", 1.7 * exp(2*delta_h*x), 1.7 * exp(2*delta_m*x))
+set.seed(semilla)
+y <- rnorm(nobs, mean = media, sd = sqrt(sigma2_y))
+datos <- data.frame(obs, grupo, sexo, x, y)
+```
+
+Veamos en el siguiente gráfico la diferencia de las densidades entre los hombres y las mujeres:
+
+
+```{r}
+library(ggplot2)
+ggplot(datos, aes(y)) +
+  geom_density(aes(fill=factor(sexo)), alpha=0.4)+
+  scale_fill_manual(values = c("blue", "red")) +
+  labs(x = "Y", y = "Densidad", fill = "Sexo")+
+  theme_bw() 
+```
+
+Ahora, vamos a ajustar el modelo \texttt{fit0}, que asume varianza $\sigma_y^2$ constante para compararlo con el modelo \texttt{fit1} que si modela la varianza en función de $X$ y de la covariable sexo usando una estructura \texttt{varExp}:
+
+```{r}
+library(nlme)
+fit0 <- lme(y ~ x, random = ~ 1 |grupo, data=datos)
+```
+
+Vamos a explorar el gráfico de residuales versus la covariable $X$ separando por sexo para ver si hay un indicio de heterocedasticidad (varianza no costante).
+
+```{r}
+plot(fit0, resid(., type = "p") ~ x | sexo, abline = 0, pch=20)
+```
+
+De la figura anterior vemos claramente que los residuales no se comportan igual para hombres y mujeres, esto es un indicio de que se debe modelar la varianza $\sigma^2_y$ teniendo en cuenta el sexo. 
+
+Por ello se procede al ajuste del modelo \texttt{fit1}, en donde la varianza es función de $X$ y de la covariable sexo usando una estructura \texttt{varExp}.
+
+```{r}
+fit1 <- lme(y ~ x, random = ~ 1 | grupo, weights = varExp(form = ~ x|sexo), data=datos)
+```
+
+Se repite la misma figura de residuales y se observa homogeneidad de varianza sin importar el nivel de la variable sexo:
+
+```{r}
+plot(fit1, resid(., type = "p") ~ x | sexo, abline = 0, pch=20)
+```
+La función \texttt{summary} se puede usar sobre el objeto \texttt{fit1} para obtener una tabla de resumen, a continuación se ilustra el uso y la salida de \texttt{summary}.
+
+```{r}
+summary(fit1)
+```
+
+De la salida anterior tenemos que
+
+$$
+\boldsymbol{\hat{\Theta}}=(\hat{\beta_0}=3.450, \hat{\beta_1}=-6.156, \hat{\sigma}=1.355, \hat{\delta}_H=1.023, \hat{\delta}_M = 1.942, \hat{\sigma}_{b0}=6.791)^\top 
+$$
+
+
+mientras que el vector real de parámetros es
+
+$$
+\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma=1.3038, \delta_H =1, \delta_M = 2, \sigma_{b0}=8)^\top 
+$$ 
+
+En el código de abajo usamos la función \texttt{anova.lme} para comparar los dos modelos anteriores. Del resultado vemos que ambos modelos tienen 6 parámetros y que el modelo \texttt{fit1} tiene el menor valor de BIC y mayor valor de verosimilitud, esto indica que el modelo \texttt{fit1} es más apropiado para modelar los datos.
+
+```{r}
+anova(fit0,fit1)
+```
+
+## varConstPower
+
+En esta sección vamos a simular datos de un modelo lineal mixto en el cual la varianza de la respuesta $\sigma_{y}^2 = \sigma^2 (\delta_1 + |x_{ij}|^{\delta_2})^2$ tiene una estructura conformada por una constante más una función potencia de la varianza. El siguiente ejemplo fue creado por *Simón Cuartas*, muchas gracias por el aporte.
+
+## Ejemplo: $\sigma_y^2$ dependiendo de una variable constante más la potencia de una variable cuantitativa {-}
+
+En este ejemplo vamos a simular $n_i = 50$ observaciones para $G = 100$ grupos (en total 800 observaciones) que tengan la estructura mostrada abajo. En este ejemplo la varianza de la respuesta $\sigma_y^2$ no es constante sino que depende de la varianza general $\sigma^2 = 9$ y de la variable continua $X$ con $\delta_1 = 1.2$ y $\delta_2 = 2.1$.
+
+$$
+\begin{aligned}
+  y_{ij} | b_0 & \sim N(\mu_{ij}, \ \sigma_{ij}^2) \\
+  \mu_{ij} & = 4 - 6 x_{ij} + b_{0i} \\
+  \sigma_{yij}^2 & = 9 \times (1.2 + |x_{ij}|^{2.1})^2 \\
+  b_0 & \sim N(0, \ \sigma_{b0}^2 = 64) \\
+  x_{ij} & \sim U(-100, \ 100)
+\end{aligned}
+$$
+
+El vector de parámetros de este modelo es $\boldsymbol{\Theta} = (\beta_0 = 4, \ \beta_1 = -6, \ \sigma = 3, \  \sigma_{b0} = 8, \ \delta_1 = 1.2, \ \delta_2 = 2.1)^{\top}$
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+```{block2, type='rmdexercise'}
+Solución.
+```
+
+</div>
+
+El código para simular las 5000 observaciones se muestra a continuación. Observe que se fijó la semilla para que el lector pueda replicar el ejemplo y obtener los mismos resultados.
+
+```{r}
+semilla <- 123456
+ni <- 50
+G <- 100
+nobs <- ni * G
+grupo <- factor(rep(x = 1:G, each = ni))
+obs <- rep(x = 1:ni, times = G)
+set.seed(semilla)
+x <- runif(n = obs, min = -100, max = 100)
+set.seed(semilla)
+b0 <- rnorm(n = G, mean = 0, sd = sqrt(64))
+b0 <- rep(x = b0, each = ni)
+media <- 4 - 6 * x + b0
+delta_1 <- 1.2
+delta_2 <- 2.1
+sigma2_y <- 9 * (delta_1 + abs(x) ^ delta_2 ) ^ 2
+set.seed(semilla)
+y <- rnorm(n = obs, mean = media, sd = sqrt(sigma2_y))
+datos <- data.frame(obs, grupo, x, y)
+```
+
+Primero vamos a ajustar un modelo `fit0` que asume varianza $\sigma_{ij}^2$ constante para compararlo con el modelo `fit1` que sí modela la varianza de la covariable sexo.
+
+```{r}
+library(nlme)
+fit0 <- lme(y ~ x, random = ~ 1 | grupo, data = datos)
+```
+
+Vamos a explorar el gráfico de residuales versus la covariable sexo para ver si hay un indicio de heterocedasticidad (varianza no constante).
+
+```{r}
+plot(fit0, resid(., type = "p") ~ x, abline = 0, pch=20)
+```
+
+De la figura anterior vemos que los residuales estandarizados no son constantes, se logra apreciar una forma clara de corbatín. Cuando la covariable $X$ toma valores extremos, es decir, cercanos a $-100$ o a $100$, los residuales estandarizados presentan mucha variabilidad, mientras que para valores de $X$ cercanos a cero, los residuales presentan poca variabilidad.
+
+El siguiente modelo permite que la varianza $\sigma_y^2$ sea función de la covariable continua $X$ usando una estructura `varConstPower`.
+
+```{r}
+fit1 <- lme(y ~ x, random = ~ 1 | grupo,
+            weights = varConstPower(form = ~ x),
+            data = datos)
+```
+
+A continuación repetimos la misma figura de residuales anterior. De esta figura logramos ver que se eliminó el patrón observado antes.
+
+```{r}
+plot(fit1, resid(., type = "p") ~ x, abline = 0, pch=20)
+```
+
+La función `summary` se puede usar sobre el objeto `fit1` para obtener una tabla de resumen, a continuación se ilustra el uso y la salida de `summary`.
+
+```{r}
+summary(fit1)
+```
+
+Según el resultado anterior,
+
+$$\hat{\boldsymbol{\Theta}} = (\hat{\beta}_0 = 5.747, \ \hat{\beta}_1 = -5.572, \ \ \hat{\sigma} = 2.813, \ \hat{\sigma}_{b0} = 8.880, \ \hat{\delta}_1 = 1.379, \ \hat{\delta}_2 = 2.116)^\top $$
+
+Mientras que el vector real de parámetros es: $\boldsymbol{\Theta} = (\beta_0 = 4, \ \beta_1 = -6, \ \sigma = 3, \  \sigma_{b0} = 8, \ \delta_1 = 1, \ \delta_2 = 3)^{\top}$.
+
+
+
