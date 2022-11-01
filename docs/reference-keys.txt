@@ -30,6 +30,9 @@ var-fun
 opciones-para-modelar-la-varianza
 varfixed
 varident
+varexp
+varconstpower
+more-levels
 predict-new
 glmm
 videos-de-apoyo
@@ -47,6 +50,3 @@ glmm_gamma
 residuals
 simul-glmm
 blobs
-varexp
-varconstpower
-solución
