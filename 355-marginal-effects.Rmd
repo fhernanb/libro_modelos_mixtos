@@ -1,4 +1,4 @@
-# Paquete marginaleffects {#marginals-effects}
+# Paquete **marginaleffects** {#marginals-effects}
 
 En este capítulo se muestran algunas de las utilidades del paquete `marginaleffects` de @R-marginaleffects. Se le recomienda al lector visitar la [página oficial](https://vincentarelbundock.github.io/marginaleffects/) del paquete para ver más utilidades.
 
