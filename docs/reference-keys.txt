@@ -33,6 +33,7 @@ varident
 varexp
 varconstpower
 more-levels
+marginals-effects
 predict-new
 glmm
 videos-de-apoyo

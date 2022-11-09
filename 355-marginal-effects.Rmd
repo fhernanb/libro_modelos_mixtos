@@ -1,0 +1,92 @@
+# Paquete marginaleffects {#marginals-effects}
+
+En este capítulo se muestran algunas de las utilidades del paquete `marginaleffects` de @R-marginaleffects. Se le recomienda al lector visitar la [página oficial](https://vincentarelbundock.github.io/marginaleffects/) del paquete para ver más utilidades.
+
+## Ejemplo  {-}
+```{r echo=FALSE, out.width="40%", fig.align='center'}
+knitr::include_graphics("images/chicks.jpg")
+```
+
+En este ejemplo vamos a construir un modelo mixto para explicar el peso de unos pollitos en función de la edad y la dieta que recibieron (cuatro niveles). A continuación se muestra un diagrama de dispersión que relacion el peso, la edad y las dietas.
+
+```{r}
+library(lme4)
+library(tidyverse)
+library(patchwork)
+library(marginaleffects)
+```
+
+```{r}
+library(ggplot2)
+
+ggplot(data = ChickWeight, aes(x = Time, y = weight, col=Diet)) +
+  geom_point() +
+  theme_bw() +
+  facet_wrap(~ Chick) + 
+  labs(y = "Weight (gr)", x = "Time (days)") + 
+  theme(legend.position = "right")
+```
+
+De la figura anterior se observa claramente que a medida que aumenta el tiempo, el peso de los pollitos aumenta. Las trayectorias de la evolución del peso corporal parecen tener un patrón lineal o cuadrático del tiempo.
+
+Inicialmente vamos a ajustar dos modelos, en el primero la media $\mu$ se modelará en función del tiempo y en el segundo será una función de grado dos del tiempo. A continuación los dos modelos.
+
+```{r message=FALSE}
+# unconditional linear growth model
+fit1 <- lmer(
+  weight ~ 1 + Time + (1 + Time | Chick),
+  data = ChickWeight)
+
+# conditional quadratic growth model
+fit2 <- lmer(
+  weight ~ 1 + Time + I(Time^2) + Diet + Time:Diet + I(Time^2):Diet + (1 + Time + I(Time^2) | Chick),
+  data = ChickWeight)
+```
+
+Usando la información de los modelos ajustados es posible
+
+```{r}
+pred1 <- predictions(fit1,
+                     newdata = datagrid(Chick = ChickWeight$Chick, Time = 0:21))
+
+p1 <- ggplot(pred1, aes(Time, predicted, level = Chick)) +
+      geom_line() +
+      labs(y = "Predicted weight", x = "Time", title = "Linear growth model")
+
+pred2 <- predictions(fit2,
+                     newdata = datagrid(Chick = ChickWeight$Chick, Time = 0:21))
+
+p2 <- ggplot(pred2, aes(Time, predicted, level = Chick)) +
+      geom_line() +
+      labs(y = "Predicted weight", x = "Time", title = "Quadratic growth model")
+
+p1 + p2
+```
+
+Predicciones para cada pollito, en los 4 mundos contrafactuales con diferentes valores para la variable Dieta:
+
+```{r}
+pred <- predictions(fit2)
+
+ggplot(pred, aes(Time, predicted, level = Chick)) +
+    geom_line() +
+    ylab("Predicted Weight") +
+    facet_wrap(~ Diet, labeller = label_both)
+```
+Para hacer predicciones a nivel de población, establecemos la variable Chick en `NA` y establecemos `include_ranom=FALSE`. Este último argumento lo ofrece la función `insight::get_predicted` que se usa en segundo plano para calcular predicciones:
+
+```{r}
+pred <- predictions(
+    fit2,
+    newdata = datagrid(Chick = NA,
+                       Diet = 1:4,
+                       Time = 0:21),
+    include_random = FALSE)
+
+ggplot(pred, aes(x = Time, y = predicted, ymin = conf.low, ymax = conf.high)) +
+    geom_ribbon(alpha = .1, fill = "red") +
+    geom_line() +
+    facet_wrap(~ Diet, labeller = label_both) +
+    labs(title = "Population-level trajectories")
+```
+

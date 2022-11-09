@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>22 Diagnósticos con DHARMa | Modelos Mixtos con R</title>
+  <title>14 Paquete marginaleffects | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="22 Diagnósticos con DHARMa | Modelos Mixtos con R" />
+  <meta property="og:title" content="14 Paquete marginaleffects | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/images/cover.png" />
   <meta property="og:description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="github-repo" content="fhernanb/libro_mod_pred" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="22 Diagnósticos con DHARMa | Modelos Mixtos con R" />
+  <meta name="twitter:title" content="14 Paquete marginaleffects | Modelos Mixtos con R" />
   
   <meta name="twitter:description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="twitter:image" content="/images/cover.png" />
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="glmm_gamma.html"/>
-<link rel="next" href="simul-glmm.html"/>
+<link rel="prev" href="more-levels.html"/>
+<link rel="next" href="predict-new.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -53,8 +53,6 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
-<link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
-<script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
 
 
 <style type="text/css">
@@ -245,7 +243,10 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="var-fun.html"><a href="var-fun.html#ejemplo-sigma_y2-dependiendo-de-una-variable-constante-más-la-potencia-de-una-variable-cuantitativa"><i class="fa fa-check"></i>Ejemplo: <span class="math inline">\(\sigma_y^2\)</span> dependiendo de una variable constante más la potencia de una variable cuantitativa</a></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="more-levels.html"><a href="more-levels.html"><i class="fa fa-check"></i><b>13</b> Modelos con más de dos niveles</a></li>
-<li class="chapter" data-level="14" data-path="marginals-effects.html"><a href="marginals-effects.html"><i class="fa fa-check"></i><b>14</b> Paquete marginaleffects</a></li>
+<li class="chapter" data-level="14" data-path="marginals-effects.html"><a href="marginals-effects.html"><i class="fa fa-check"></i><b>14</b> Paquete marginaleffects</a>
+<ul>
+<li class="chapter" data-level="" data-path="marginals-effects.html"><a href="marginals-effects.html#ejemplo-5"><i class="fa fa-check"></i>Ejemplo</a></li>
+</ul></li>
 <li class="chapter" data-level="15" data-path="predict-new.html"><a href="predict-new.html"><i class="fa fa-check"></i><b>15</b> Predicción</a></li>
 <li class="chapter" data-level="16" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>16</b> Modelos Lineales Generalizados Mixtos</a>
 <ul>
@@ -300,88 +301,98 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="residuals" class="section level1 hasAnchor" number="22">
-<h1><span class="header-section-number">22</span> Diagnósticos con DHARMa<a href="residuals.html#residuals" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>En este capítulo vamos mostrar el uso del paquete <em>DHARMa</em> de <span class="citation">Hartig (<a href="#ref-R-DHARMa" role="doc-biblioref">2022</a>)</span> para explorar los residuales escalados (scaled residuals) obtenidos por medio de la función <code>residuals</code>. Al visitar este <a href="https://cran.r-project.org/web/packages/DHARMa">enlace</a> se encontrará la página de apoyo del paquete, allí se puede consultar el manual de referencia.</p>
-<div style="-moz-box-shadow: 1px 1px 3px 2px #ffff00;
-  -webkit-box-shadow: 1px 1px 3px 2px #ffff00;
-  box-shadow:         1px 1px 3px 2px #ffff00;">
-
-<div class="rmdnote">
-DHARMa stands for “Diagnostics for HierArchical Regression Models” - which, strictly speaking, would make DHARM. But in German, Darm means intestines; plus, the meaning of DHARMa in Hinduism makes the current abbreviation so much more suitable for a package that tests whether your model is in harmony with your data. Tomado de la viñeta del paquete.
-</div>
-</div>
-<div id="ejemplo-modelo-gamma-mixto" class="section level2 unnumbered hasAnchor">
-<h2>Ejemplo: modelo gamma mixto<a href="residuals.html#ejemplo-modelo-gamma-mixto" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>En este ejemplo vamos a simular observaciones <span class="math inline">\(n_i=50\)</span> observaciones para <span class="math inline">\(G=10\)</span> grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso del paquete <em>DHARMa</em> para determinar entre dos modelos, el modelo <code>fit1</code> será el modelo correcto mientras que el modelo <code>fit0</code> será un modelo sin intercepto aleatorio.</p>
-<p><span class="math display">\[\begin{align*}
-y_{ij} | b_0 &amp;\sim  Gamma(\mu_{ij}, \phi) \\
-\log(\mu_{ij}) &amp;= 2 - 8 x1_{ij} + 3 x2_{ij} + b_{0i} \\
-\phi &amp;= 0.5 \\
-b_{0} &amp;\sim N(0, \sigma^2_{b0}=9) \\
-x1 &amp;\sim U(0, 1) \\
-x2 &amp;\sim U(0, 1)
-\end{align*}\]</span></p>
-<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
-  -webkit-box-shadow: 1px 1px 3px 2px #000000;
-  box-shadow:         1px 1px 3px 2px #000000;">
-
-<div class="rmdexercise">
-Solución.
-</div>
-</div>
-<p>Lo primero es simular los datos. La función <code>rgamma_glm</code> sirve para simular observaciones <span class="math inline">\(Y\)</span> con la parametrización gamma de los glm.</p>
-<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="residuals.html#cb256-1" aria-hidden="true" tabindex="-1"></a>rgamma_glm <span class="ot">&lt;-</span> <span class="cf">function</span>(n, mu, phi) {</span>
-<span id="cb256-2"><a href="residuals.html#cb256-2" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rgamma</span>(<span class="at">n=</span>n, <span class="at">shape=</span><span class="dv">1</span><span class="sc">/</span>phi, <span class="at">scale=</span>mu<span class="sc">*</span>phi)</span>
-<span id="cb256-3"><a href="residuals.html#cb256-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(x)</span>
-<span id="cb256-4"><a href="residuals.html#cb256-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb256-5"><a href="residuals.html#cb256-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb256-6"><a href="residuals.html#cb256-6" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">15</span></span>
-<span id="cb256-7"><a href="residuals.html#cb256-7" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">15</span></span>
-<span id="cb256-8"><a href="residuals.html#cb256-8" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
-<span id="cb256-9"><a href="residuals.html#cb256-9" aria-hidden="true" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
-<span id="cb256-10"><a href="residuals.html#cb256-10" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
-<span id="cb256-11"><a href="residuals.html#cb256-11" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb256-12"><a href="residuals.html#cb256-12" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
-<span id="cb256-13"><a href="residuals.html#cb256-13" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
-<span id="cb256-14"><a href="residuals.html#cb256-14" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb256-15"><a href="residuals.html#cb256-15" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">9</span>)) <span class="co"># Intercepto aleatorio</span></span>
-<span id="cb256-16"><a href="residuals.html#cb256-16" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)             <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
-<span id="cb256-17"><a href="residuals.html#cb256-17" aria-hidden="true" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="dv">2</span> <span class="sc">-</span> <span class="dv">8</span> <span class="sc">*</span> x1 <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> x2 <span class="sc">+</span> b0)</span>
-<span id="cb256-18"><a href="residuals.html#cb256-18" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb256-19"><a href="residuals.html#cb256-19" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rgamma_glm</span>(<span class="at">n=</span>nobs, <span class="at">mu=</span>media, <span class="at">phi=</span><span class="fl">0.5</span>)</span>
-<span id="cb256-20"><a href="residuals.html#cb256-20" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x1, x2, media, y)</span></code></pre></div>
-<p>A continuación se ajustan los dos modelos de interés.</p>
-<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="residuals.html#cb257-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmmTMB)</span>
-<span id="cb257-2"><a href="residuals.html#cb257-2" aria-hidden="true" tabindex="-1"></a>fit0 <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">family=</span><span class="fu">Gamma</span>(<span class="at">link=</span><span class="st">&quot;log&quot;</span>), <span class="at">data =</span> datos)</span>
-<span id="cb257-3"><a href="residuals.html#cb257-3" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> grupo), <span class="at">family=</span><span class="fu">Gamma</span>(<span class="at">link=</span><span class="st">&quot;log&quot;</span>), <span class="at">data =</span> datos)</span></code></pre></div>
-<p>Con el siguiente código se constuyen los gráficos de residuales para el modelo <code>fit0</code>.</p>
-<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="residuals.html#cb258-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DHARMa)</span></code></pre></div>
-<pre><code>## This is DHARMa 0.4.6. For overview type &#39;?DHARMa&#39;. For recent changes, type news(package = &#39;DHARMa&#39;)</code></pre>
-<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="residuals.html#cb260-1" aria-hidden="true" tabindex="-1"></a>simulationOutput0 <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> fit0, <span class="at">plot =</span> F)</span>
-<span id="cb260-2"><a href="residuals.html#cb260-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput0)</span></code></pre></div>
-<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-208-1.png" width="672" /></p>
-<p>De la figura anterior vemos que el valor-P de la prueba KS de normalidad (<span class="math inline">\(H_0:\)</span> la muestra de residuos tiene distribución normal) es 0, lo que indica que hay evidencias para rechazar la normalidad de los errores. Eso implica que el modelo <code>fit0</code> no es el modelo apropiado para los datos. Este resultado es correcto porque sabemos que <code>fit0</code> no incluyó el intercepto aleatorio <span class="math inline">\(b_0\)</span>.</p>
-<p>Con el siguiente código se constuyen los gráficos de residuales para el modelo <code>fit1</code>.</p>
-<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="residuals.html#cb261-1" aria-hidden="true" tabindex="-1"></a>simulationOutput1 <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> fit1, <span class="at">plot =</span> F)</span>
-<span id="cb261-2"><a href="residuals.html#cb261-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput1)</span></code></pre></div>
-<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-209-1.png" width="672" /></p>
-<p>De la figura anterior vemos que el valor-P de la prueba KS de normalidad (<span class="math inline">\(H_0:\)</span> la muestra de residuos tiene distribución normal) es 0.10871, lo que indica que hay <strong>NO hay</strong> evidencias para rechazar la normalidad de los errores. Eso implica que el modelo <code>fit1</code> podría ser un modelo apropiado para los datos. Este resultado es correcto porque sabemos que <code>fit1</code> tiene los elementos con los que se simularon los datos.</p>
-<div style="-moz-box-shadow: 1px 1px 3px 2px #00ffff;
-  -webkit-box-shadow: 1px 1px 3px 2px #00ffff;
-  box-shadow:         1px 1px 3px 2px #00ffff;">
-
-<div class="rmdtip">
-Consulte las <a href="https://cran.r-project.org/web/packages/DHARMa/">viñetas del paquete</a> para ver más ejemplos sobre el paquete <em>DHARMa</em>.
-</div>
-</div>
+<div id="marginals-effects" class="section level1 hasAnchor" number="14">
+<h1><span class="header-section-number">14</span> Paquete marginaleffects<a href="marginals-effects.html#marginals-effects" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>En este capítulo se muestran algunas de las utilidades del paquete <code>marginaleffects</code> de <span class="citation">Arel-Bundock (<a href="#ref-R-marginaleffects" role="doc-biblioref">2022</a>)</span>. Se le recomienda al lector visitar la <a href="https://vincentarelbundock.github.io/marginaleffects/">página oficial</a> del paquete para ver más utilidades.</p>
+<div id="ejemplo-5" class="section level2 unnumbered hasAnchor">
+<h2>Ejemplo<a href="marginals-effects.html#ejemplo-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="images/chicks.jpg" width="40%" style="display: block; margin: auto;" /></p>
+<p>En este ejemplo vamos a construir un modelo mixto para explicar el peso de unos pollitos en función de la edad y la dieta que recibieron (cuatro niveles). A continuación se muestra un diagrama de dispersión que relacion el peso, la edad y las dietas.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="marginals-effects.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span></code></pre></div>
+<pre><code>## Loading required package: Matrix</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="marginals-effects.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## ── Attaching packages
+## ───────────────────────────────────────
+## tidyverse 1.3.2 ──</code></pre>
+<pre><code>## ✔ ggplot2 3.3.6      ✔ purrr   0.3.5 
+## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
+## ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
+## ✔ readr   2.1.3      ✔ forcats 0.5.2 
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ tidyr::expand() masks Matrix::expand()
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ✖ tidyr::pack()   masks Matrix::pack()
+## ✖ tidyr::unpack() masks Matrix::unpack()</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="marginals-effects.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb6-2"><a href="marginals-effects.html#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(marginaleffects)</span></code></pre></div>
+<pre><code>## Warning: package &#39;marginaleffects&#39; was built under R version 4.2.2</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="marginals-effects.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb8-2"><a href="marginals-effects.html#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="marginals-effects.html#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> ChickWeight, <span class="fu">aes</span>(<span class="at">x =</span> Time, <span class="at">y =</span> weight, <span class="at">col=</span>Diet)) <span class="sc">+</span></span>
+<span id="cb8-4"><a href="marginals-effects.html#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb8-5"><a href="marginals-effects.html#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb8-6"><a href="marginals-effects.html#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Chick) <span class="sc">+</span> </span>
+<span id="cb8-7"><a href="marginals-effects.html#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Weight (gr)&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Time (days)&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb8-8"><a href="marginals-effects.html#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;right&quot;</span>)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>De la figura anterior se observa claramente que a medida que aumenta el tiempo, el peso de los pollitos aumenta. Las trayectorias de la evolución del peso corporal parecen tener un patrón lineal o cuadrático del tiempo.</p>
+<p>Inicialmente vamos a ajustar dos modelos, en el primero la media <span class="math inline">\(\mu\)</span> se modelará en función del tiempo y en el segundo será una función de grado dos del tiempo. A continuación los dos modelos.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="marginals-effects.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># unconditional linear growth model</span></span>
+<span id="cb9-2"><a href="marginals-effects.html#cb9-2" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(</span>
+<span id="cb9-3"><a href="marginals-effects.html#cb9-3" aria-hidden="true" tabindex="-1"></a>  weight <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> Time <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> Time <span class="sc">|</span> Chick),</span>
+<span id="cb9-4"><a href="marginals-effects.html#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> ChickWeight)</span>
+<span id="cb9-5"><a href="marginals-effects.html#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="marginals-effects.html#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># conditional quadratic growth model</span></span>
+<span id="cb9-7"><a href="marginals-effects.html#cb9-7" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(</span>
+<span id="cb9-8"><a href="marginals-effects.html#cb9-8" aria-hidden="true" tabindex="-1"></a>  weight <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> Time <span class="sc">+</span> <span class="fu">I</span>(Time<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> Diet <span class="sc">+</span> Time<span class="sc">:</span>Diet <span class="sc">+</span> <span class="fu">I</span>(Time<span class="sc">^</span><span class="dv">2</span>)<span class="sc">:</span>Diet <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> Time <span class="sc">+</span> <span class="fu">I</span>(Time<span class="sc">^</span><span class="dv">2</span>) <span class="sc">|</span> Chick),</span>
+<span id="cb9-9"><a href="marginals-effects.html#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> ChickWeight)</span></code></pre></div>
+<p>Usando la información de los modelos ajustados es posible</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="marginals-effects.html#cb10-1" aria-hidden="true" tabindex="-1"></a>pred1 <span class="ot">&lt;-</span> <span class="fu">predictions</span>(fit1,</span>
+<span id="cb10-2"><a href="marginals-effects.html#cb10-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">newdata =</span> <span class="fu">datagrid</span>(<span class="at">Chick =</span> ChickWeight<span class="sc">$</span>Chick, <span class="at">Time =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">21</span>))</span>
+<span id="cb10-3"><a href="marginals-effects.html#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="marginals-effects.html#cb10-4" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(pred1, <span class="fu">aes</span>(Time, predicted, <span class="at">level =</span> Chick)) <span class="sc">+</span></span>
+<span id="cb10-5"><a href="marginals-effects.html#cb10-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb10-6"><a href="marginals-effects.html#cb10-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Predicted weight&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Time&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Linear growth model&quot;</span>)</span>
+<span id="cb10-7"><a href="marginals-effects.html#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="marginals-effects.html#cb10-8" aria-hidden="true" tabindex="-1"></a>pred2 <span class="ot">&lt;-</span> <span class="fu">predictions</span>(fit2,</span>
+<span id="cb10-9"><a href="marginals-effects.html#cb10-9" aria-hidden="true" tabindex="-1"></a>                     <span class="at">newdata =</span> <span class="fu">datagrid</span>(<span class="at">Chick =</span> ChickWeight<span class="sc">$</span>Chick, <span class="at">Time =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">21</span>))</span>
+<span id="cb10-10"><a href="marginals-effects.html#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="marginals-effects.html#cb10-11" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(pred2, <span class="fu">aes</span>(Time, predicted, <span class="at">level =</span> Chick)) <span class="sc">+</span></span>
+<span id="cb10-12"><a href="marginals-effects.html#cb10-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb10-13"><a href="marginals-effects.html#cb10-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Predicted weight&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Time&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Quadratic growth model&quot;</span>)</span>
+<span id="cb10-14"><a href="marginals-effects.html#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="marginals-effects.html#cb10-15" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span> p2</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Predicciones para cada pollito, en los 4 mundos contrafactuales con diferentes valores para la variable Dieta:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="marginals-effects.html#cb11-1" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predictions</span>(fit2)</span>
+<span id="cb11-2"><a href="marginals-effects.html#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="marginals-effects.html#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pred, <span class="fu">aes</span>(Time, predicted, <span class="at">level =</span> Chick)) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="marginals-effects.html#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb11-5"><a href="marginals-effects.html#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Predicted Weight&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="marginals-effects.html#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> Diet, <span class="at">labeller =</span> label_both)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+Para hacer predicciones a nivel de población, establecemos la variable Chick en <code>NA</code> y establecemos <code>include_ranom=FALSE</code>. Este último argumento lo ofrece la función <code>insight::get_predicted</code> que se usa en segundo plano para calcular predicciones:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="marginals-effects.html#cb12-1" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predictions</span>(</span>
+<span id="cb12-2"><a href="marginals-effects.html#cb12-2" aria-hidden="true" tabindex="-1"></a>    fit2,</span>
+<span id="cb12-3"><a href="marginals-effects.html#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">newdata =</span> <span class="fu">datagrid</span>(<span class="at">Chick =</span> <span class="cn">NA</span>,</span>
+<span id="cb12-4"><a href="marginals-effects.html#cb12-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Diet =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,</span>
+<span id="cb12-5"><a href="marginals-effects.html#cb12-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Time =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">21</span>),</span>
+<span id="cb12-6"><a href="marginals-effects.html#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">include_random =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb12-7"><a href="marginals-effects.html#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="marginals-effects.html#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pred, <span class="fu">aes</span>(<span class="at">x =</span> Time, <span class="at">y =</span> predicted, <span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high)) <span class="sc">+</span></span>
+<span id="cb12-9"><a href="marginals-effects.html#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_ribbon</span>(<span class="at">alpha =</span> .<span class="dv">1</span>, <span class="at">fill =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb12-10"><a href="marginals-effects.html#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb12-11"><a href="marginals-effects.html#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> Diet, <span class="at">labeller =</span> label_both) <span class="sc">+</span></span>
+<span id="cb12-12"><a href="marginals-effects.html#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Population-level trajectories&quot;</span>)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 
 </div>
 </div>
 <h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-R-DHARMa" class="csl-entry">
-Hartig, Florian. 2022. <em>DHARMa: Residual Diagnostics for Hierarchical (Multi-Level / Mixed) Regression Models</em>. <a href="http://florianhartig.github.io/DHARMa/">http://florianhartig.github.io/DHARMa/</a>.
+<div id="ref-R-marginaleffects" class="csl-entry">
+Arel-Bundock, Vincent. 2022. <em>Marginaleffects: Marginal Effects, Marginal Means, Predictions, and Contrasts</em>. <a href="https://vincentarelbundock.github.io/marginaleffects/">https://vincentarelbundock.github.io/marginaleffects/</a>.
 </div>
 </div>
             </section>
@@ -389,8 +400,8 @@ Hartig, Florian. 2022. <em>DHARMa: Residual Diagnostics for Hierarchical (Multi-
           </div>
         </div>
       </div>
-<a href="glmm_gamma.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="simul-glmm.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="more-levels.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="predict-new.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -421,7 +432,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/700-residuals.Rmd",
+"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/355-marginal-effects.Rmd",
 "text": "Edit"
 },
 "history": {
