@@ -55,8 +55,10 @@ En la siguiente figura se relaciona el número de premios `awards` con la variab
 
 ```{r}
 ggplot(datos, aes(factor(awards))) + 
-  geom_bar(aes(fill = factor(female)), position = "fill") +
-  geom_hline(yintercept = 0.5)
+  geom_bar(aes(fill = factor(female)), 
+           position = "fill") +
+  geom_hline(yintercept = 0.5) +
+  ylab("Proporción") + xlab("Número de premios")
 ```
 
 De la figura anterior se observa una posible relación entre el número de premios está relacionado y el género.
