@@ -22,7 +22,7 @@ knitr::write_bib(c(
   'bookdown', 'knitr', 'rmarkdown', 'nlme', 'lme4', 'MPV', 'scatterplot3d', 
   'plotly', 'packages.bib', 'MASS', 'brms', 'MCMCglmm', 
   'glmmADMB', 'RLRsim', 'pbkrtest', 'glmmTMB', 'glmm', 'statmod',
-  'DHARMa', 'marginaleffects', 'mclogit'), 
+  'DHARMa', 'marginaleffects', 'mclogit', 'ordinal'), 
   'packages.bib')
 ```
 

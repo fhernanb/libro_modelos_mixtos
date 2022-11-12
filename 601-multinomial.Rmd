@@ -10,7 +10,7 @@ knitr::include_graphics("images/picts.jpeg")
 
 Este ejemplo está basado en este [tutorial](https://ladal.edu.au/regression.html#Mixed-Effects_Multinomial_Regression). El objetivo es construir un modelo multinomial nominal para explicar la variable `Response` que tiene cuatro niveles: BareNoun, NumeralNoun, QuantAdjNoun y QuantNoun. En esta situación los niveles de `Response` no tienen un orden, por esa razón es que este ejemplo encaja en un modelo multinomial nominal.
 
-Los datos que se van a utilizar en este ejemplo corresponden a un experimento en el cual a un grupo de personas con cierta habilidad de lenguaje (English_Mono, German_Mono, L2_Advanced, L2_Intermediate), se les presentó una figura (_Item_) y ellos debían identificar si la figura se refería a un sustantivo Bare, Numeral, QuantAdj o Quant.
+Los datos que se van a utilizar en este ejemplo corresponden a un experimento en el cual a un grupo de personas con cierta habilidad de lenguaje (English_Mono, German_Mono, L2_Advanced, L2_Intermediate), se les presentaron diez figuras (_Item_) y ellos debían identificar si la figura se refería a un sustantivo Bare, Numeral, QuantAdj o Quant. Las diez figuras son una muestra de todas las figuras que se podrían tener para el experimento, por eso se pueden considerar que la figura (_Item_) puede tener una influencia en la respuesta.
 
 El código para acceder a la base de datos se muestra a continuación.
 
@@ -114,6 +114,52 @@ Cuando se use `predict` con un nuevo conjunto de datos, debemos asegurarnos de q
 ```
 
 </div>
+
+## Ejemplo: modelo multinomial ordinal {-}
+
+```{r echo=FALSE, out.width="60%", fig.align='center'}
+knitr::include_graphics("images/insomnia.jpg")
+```
+
+Este ejemplo fue tomado de la sección 10.3 del libro de @agresti2018introduction. En este ejemplo se analizan los resultados de un ensayo clínico que comparó un fármaco hipnótico activo con un placebo en dos ocasiones en el tratamiento de pacientes con insomnio. La respuesta (hora de conciliar el sueño) cae en una de cuatro categorías ordenadas que son 1 (< 20 min), 2 (20–30 min), 3 (30-60 min) y 4 (> 60 min). Como la respuesta de cada paciente está en una de las cuatro categorías ordenadas, es que se utiliza un modelo multinomial ordinal. 
+
+El código para acceder a la base de datos se muestra a continuación.
+
+
+```{r}
+Insomnia <- read.table("http://www.stat.ufl.edu/~aa/cat/data/Insomnia.dat",
+                       header=TRUE)
+Insomnia$response <- factor(Insomnia$response) # response var for clmm must be factor
+head(Insomnia)
+```
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+```{block2, type='rmdexercise'}
+Solución.
+```
+
+</div>
+
+Vamos ahora a crear el modelo multinomial ordinal con la ayuda de la función `clmm` del paquete **ordinal** de @R-ordinal. Las covariables que vamos a utilizar para predecir a `response` son `occasion`, `treat` y la interacción entre ambas. La variable `case` se refiere al paciente y esta variable se va a utilizar como fuente del intercepto aleatorio $b0$ que se va a incluir en el modelo. El intercepto aleatorio se le indica a `clmm` por medio del término `(1|case)` en la fórmula del modelo.
+
+```{r message=FALSE}
+library(ordinal)
+fit <- clmm(response ~ (1|case) + occasion + treat + occasion:treat,
+            nAGQ=20, data=Insomnia) 
+summary(fit)
+```
+
+
+
+
+
+
+
+
+
 
 
 ## Ejemplo: simulando observaciones de un modelo multinomial nominal {-}
