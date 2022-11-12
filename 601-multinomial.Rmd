@@ -146,10 +146,10 @@ Solución.
 El modelo de interés en este ejemplo es
 
 $$
-\text{logit}[P(Y_{it} \leq j) ] = u_i + a_j + \beta_1 t + \beta_2 x + \beta_3 (t \times x),
+\text{logit}[P(Y_{it} \leq j) ] = b0_i + \beta_{0j} + \beta_1 t + \beta_2 x + \beta_3 (t \times x),
 $$
 
-siendo $i$ el subíndice que identifica a los pacientes $i=1, 2, \ldots, 239$ y $j$ el subíndice que identifica la respuesta ordenada 1, 2, 3 o 4. La variable $t$ se refiere a la ocasión y $x$ al tratamiento.
+siendo $i$ el subíndice que identifica a los pacientes $i=1, 2, \ldots, 239$ y $j$ el subíndice que identifica la respuesta ordenada 1, 2, 3 o 4. La variable $t$ se refiere a la ocasión y $x$ al tratamiento. El intercepto aleatorio se denota como $b0$ y el intercepto fijo para cada nivel de $Y$ se denota por $\beta_{0j}$.
 
 Vamos ahora a crear el modelo multinomial ordinal con la ayuda de la función `clmm` del paquete **ordinal** de @R-ordinal. Las covariables que vamos a utilizar para predecir a `response` son `occasion`, `treat` y la interacción entre ambas. La variable `case` se refiere al paciente y esta variable se va a utilizar como fuente del intercepto aleatorio $b0$ que se va a incluir en el modelo. El intercepto aleatorio se le indica a `clmm` por medio del término `(1|case)` en la fórmula del modelo.
 
@@ -172,16 +172,19 @@ Los efectos aleatorios se puden obtener usando la función `ranef`.
 b0 <- ranef(fit)$case
 ```
 
-
 Usando la información anterior se puede escribir el modelo ajustado de la siguiente manera:
 
+$$
+\text{logit}[P(Y_{it} \leq 1) ] = b0_i -3.49 -1.60 t -0.06 x -1.08 (t \times x),
+$$
+$$
+\text{logit}[P(Y_{it} \leq 2) ] = b0_i -1.49 -1.60 t -0.06 x -1.08 (t \times x),
+$$
 
-
-
-
-
-
-
+$$
+\text{logit}[P(Y_{it} \leq 3) ] = b0_i + 0.56 -1.60 t -0.06 x -1.08 (t \times x),
+$$
+El intercepto aleatorio $\tilde{b}0$ predicho está almacenado en el objeto `b0` y se puede utilizar para completar las expresiones anteriores y así calcular las probabilidades.
 
 
 ## Ejemplo: simulando observaciones de un modelo multinomial nominal {-}

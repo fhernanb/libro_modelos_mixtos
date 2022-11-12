@@ -453,9 +453,9 @@ Solución.
 </div>
 <p>El modelo de interés en este ejemplo es</p>
 <p><span class="math display">\[
-\text{logit}[P(Y_{it} \leq j) ] = u_i + a_j + \beta_1 t + \beta_2 x + \beta_3 (t \times x),
+\text{logit}[P(Y_{it} \leq j) ] = b0_i + \beta_{0j} + \beta_1 t + \beta_2 x + \beta_3 (t \times x),
 \]</span></p>
-<p>siendo <span class="math inline">\(i\)</span> el subíndice que identifica a los pacientes <span class="math inline">\(i=1, 2, \ldots, 239\)</span> y <span class="math inline">\(j\)</span> el subíndice que identifica la respuesta ordenada 1, 2, 3 o 4. La variable <span class="math inline">\(t\)</span> se refiere a la ocasión y <span class="math inline">\(x\)</span> al tratamiento.</p>
+<p>siendo <span class="math inline">\(i\)</span> el subíndice que identifica a los pacientes <span class="math inline">\(i=1, 2, \ldots, 239\)</span> y <span class="math inline">\(j\)</span> el subíndice que identifica la respuesta ordenada 1, 2, 3 o 4. La variable <span class="math inline">\(t\)</span> se refiere a la ocasión y <span class="math inline">\(x\)</span> al tratamiento. El intercepto aleatorio se denota como <span class="math inline">\(b0\)</span> y el intercepto fijo para cada nivel de <span class="math inline">\(Y\)</span> se denota por <span class="math inline">\(\beta_{0j}\)</span>.</p>
 <p>Vamos ahora a crear el modelo multinomial ordinal con la ayuda de la función <code>clmm</code> del paquete <strong>ordinal</strong> de <span class="citation">Christensen (<a href="#ref-R-ordinal" role="doc-biblioref">2019</a>)</span>. Las covariables que vamos a utilizar para predecir a <code>response</code> son <code>occasion</code>, <code>treat</code> y la interacción entre ambas. La variable <code>case</code> se refiere al paciente y esta variable se va a utilizar como fuente del intercepto aleatorio <span class="math inline">\(b0\)</span> que se va a incluir en el modelo. El intercepto aleatorio se le indica a <code>clmm</code> por medio del término <code>(1|case)</code> en la fórmula del modelo.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="multinomial.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ordinal)</span>
 <span id="cb26-2"><a href="multinomial.html#cb26-2" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">clmm</span>(response <span class="sc">~</span> (<span class="dv">1</span><span class="sc">|</span>case) <span class="sc">+</span> occasion <span class="sc">+</span> treat <span class="sc">+</span> occasion<span class="sc">:</span>treat,</span>
@@ -497,6 +497,16 @@ Solución.
 <p>Los efectos aleatorios se puden obtener usando la función <code>ranef</code>.</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="multinomial.html#cb30-1" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">ranef</span>(fit)<span class="sc">$</span>case</span></code></pre></div>
 <p>Usando la información anterior se puede escribir el modelo ajustado de la siguiente manera:</p>
+<p><span class="math display">\[
+\text{logit}[P(Y_{it} \leq 1) ] = b0_i -3.49 -1.60 t -0.06 x -1.08 (t \times x),
+\]</span>
+<span class="math display">\[
+\text{logit}[P(Y_{it} \leq 2) ] = b0_i -1.49 -1.60 t -0.06 x -1.08 (t \times x),
+\]</span></p>
+<p><span class="math display">\[
+\text{logit}[P(Y_{it} \leq 3) ] = b0_i + 0.56 -1.60 t -0.06 x -1.08 (t \times x),
+\]</span>
+El intercepto aleatorio <span class="math inline">\(\tilde{b}0\)</span> predicho está almacenado en el objeto <code>b0</code> y se puede utilizar para completar las expresiones anteriores y así calcular las probabilidades.</p>
 </div>
 <div id="ejemplo-simulando-observaciones-de-un-modelo-multinomial-nominal" class="section level2 unnumbered hasAnchor">
 <h2>Ejemplo: simulando observaciones de un modelo multinomial nominal<a href="multinomial.html#ejemplo-simulando-observaciones-de-un-modelo-multinomial-nominal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -541,7 +551,7 @@ Solución.
 <span id="cb31-20"><a href="multinomial.html#cb31-20" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(datos<span class="sc">$</span>y)</span></code></pre></div>
 <pre><code>## 
 ##    3    2    1 
-##    0  409 1591</code></pre>
+##    0  391 1609</code></pre>
 
 </div>
 </div>
