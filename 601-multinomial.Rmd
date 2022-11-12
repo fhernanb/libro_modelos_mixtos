@@ -1,0 +1,166 @@
+# Modelo multinomial {#multinomial}
+
+En este capítulo se muestran como ajustar un modelo multinomial (nominal y ordinal) con efectos aleatorios.
+
+## Ejemplo: modelo multinomial nominal {-}
+
+```{r echo=FALSE, out.width="60%", fig.align='center'}
+knitr::include_graphics("images/picts.jpeg")
+```
+
+Este ejemplo está basado en este [tutorial](https://ladal.edu.au/regression.html#Mixed-Effects_Multinomial_Regression). El objetivo es construir un modelo multinomial nominal para explicar la variable `Response` que tiene cuatro niveles: BareNoun, NumeralNoun, QuantAdjNoun y QuantNoun. En esta situación los niveles de `Response` no tienen un orden, por esa razón es que este ejemplo encaja en un modelo multinomial nominal.
+
+Los datos que se van a utilizar en este ejemplo corresponden a un experimento en el cual a un grupo de personas con cierta habilidad de lenguaje (English_Mono, German_Mono, L2_Advanced, L2_Intermediate), se les presentó una figura (_Item_) y ellos debían identificar si la figura se refería a un sustantivo Bare, Numeral, QuantAdj o Quant.
+
+El código para acceder a la base de datos se muestra a continuación.
+
+```{r}
+# Para cargar los datos
+pict <- base::readRDS(url("https://slcladal.github.io/data/pict.rda", "rb"))
+# Primeras observaciones de la base de datos
+head(pict, n=6)
+```
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+```{block2, type='rmdexercise'}
+Solución.
+```
+
+</div>
+
+Antes de ajustar el modelo vamos a explorar un poco los datos. Vamos a crear tablas de frecuencia para la variable respuesta, las covariables y la variable de agrupación `Item`.
+
+```{r}
+# Tabla para la respuesta
+table(pict$Response)
+# Tabla para las covariables
+table(pict$Gender)
+table(pict$Group)
+# Tabla para la agrupación
+table(pict$Item)
+```
+
+Vamos a retirar la palabra Noun de las respuestas, de esta manera nos quedará más compacta una tabla que haremos al final.
+
+```{r}
+library(stringr)
+pict$Response <- str_replace(string=pict$Response, 
+                             pattern="Noun.*", 
+                             replacement="")
+pict$Response <- factor(pict$Response)
+```
+
+
+Vamos ahora a crear el modelo multinomial nominal con la ayuda de la función `mblogit` del paquete **mclogit** de @R-mclogit. Las covariables que vamos a utilizar para predecir a `Response` son `Gender`, `Group` y `Age`. La variable `Item` se refiere a la figura o fotografía mostrada a los participantes y esta variable se va a utilizar como fuente del intercepto aleatorio $b0$ que se va a incluir en el modelo. El intercepto aleatorio se le indica a `mblogit` por medio de `random = ~ 1 | Item`.
+
+```{r message=FALSE, warning=FALSE}
+library(mclogit)
+mod1 <- mblogit(formula = Response ~ Gender + Group + Age, 
+                random = ~ 1 | Item, 
+                data = pict)
+```
+
+Con el modelo ajustado podemos explorar qué tan bien logra clasificar las observaciones de los datos de entrenamiento. A continuación el código para calcular las probabilidades estimadas $\hat{P}$, las respuestas estimadas $\widehat{Resp}$ por el modelo, una tabla de confusión tradicional y la tasa de precisión del modelo con los datos de entrenamiento.
+
+```{r}
+# Probabilidades estimadas para cada nivel de Response
+probs <- predict(object=mod1, type="response")
+# Para identificar el nivel de Response con mayor probabilidad
+aux_fun <- function(x) names(x)[which.max(x)]
+Response_hat <- apply(X=probs, MARGIN=1, FUN=aux_fun)
+# Matriz de confusion
+Response_hat <- factor(Response_hat, levels=levels(pict$Response))
+tabla <- table(True_Response=pict$Response, Response_hat)
+tabla
+# Accuracy
+sum(diag(tabla)) / sum(tabla)
+```
+
+Es posible usar el modelo ajustado y la misma función `predict` para hacer predicciones de la respuesta a items que estén en la base de datos pero con algunos cambios en las covariables. Supongamos que queremos predecir la respuesta nominal para los items 1, 3, 9 y 11 cuando los valores de las covariables son las que se muestran a continuación en el objeto `newdata`.
+
+```{r}
+newdata <- data.frame(Item=factor(c(1, 3, 9, 11)), 
+                      Gender=factor(c("Male", "Female", "Female", "Male")),
+                      Group=factor(c("English_Mono", "Geman_Mono", "L2_Advanced", "L2_Intermediate")),
+                      Age=c(18, 20, 23, 17))
+newdata
+```
+
+Para hacer la predicción usamos la función `predict` de la siguiente manera.
+
+```{r}
+probs <- predict(object=mod1, newdata=newdata, type="response")
+probs
+```
+
+En el objeto anterior están las probabilidades de elegir Bare, Numeral, Quant o QuantAdj para los cuatro items. La probabilidad con mayor valor indica la posible elección de cada item. Para extraer la respuesta asociada con la mayor probabilidad podemos hacer lo siguiente.
+
+```{r}
+aux_fun <- function(x) names(x)[which.max(x)]
+apply(X=probs, MARGIN=1, FUN=aux_fun)
+```
+
+De la salida anterior se obtienen las posibles respuestas de cada item cuando los valores de sus covariables son las del objeto `newdata`.
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #ffff00;
+  -webkit-box-shadow: 1px 1px 3px 2px #ffff00;
+  box-shadow:         1px 1px 3px 2px #ffff00;">
+
+```{block2, type='rmdnote'}
+Cuando se use `predict` con un nuevo conjunto de datos, debemos asegurarnos de que la estructura del nuevo conjunto de datos coincida con la estructura de los datos de entrenamiento. Es decir, que si usa covariable usad en el modelo es un factor, en el nuevo conjunto de datos debe ser un factor también.
+```
+
+</div>
+
+
+## Ejemplo: simulando observaciones de un modelo multinomial nominal {-}
+En este ejemplo vamos a simular observaciones $n_i=50$ observaciones para $G=5$ grupos que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar la forma para estimar los parámetros del modelo.
+
+\begin{align*} 
+y_{ij} | b_0 &\sim  Multinomial(\left\lbrace 1, 2, 3 \right\rbrace, \left\lbrace \pi_1, \pi_2, \pi_3 \right\rbrace) \\ 
+\pi_{1i} &= \frac{e^{1.62-0.11x_{ij}+b0}}{1+e^{1.62-0.11x_{ij}+b0}+e^{5.70.2.47x_{ij}+b0}} \\
+\pi_{2i} &= \frac{e^{5.70-2.47x_{ij}+b0}}{1+e^{1.62-0.11x_{ij}+b0}+e^{5.70-2.47x_{ij}+b0}} \\
+\pi_{3i} &= \frac{1}{1+e^{1.62-0.11x_{ij}+b0}+e^{5.70-0.2.47x_{ij}+b0}} \\
+b_{0} &\sim N(0, \sigma^2_{b0}=4) \\
+x_{ij} &\sim U(1, 4)
+\end{align*}
+
+El vector de parámetros de este modelo es $\boldsymbol{\Theta}=(1.62, -0.11, 5.70, -2.47, \sigma_{b0}=2)^\top$.
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+```{block2, type='rmdexercise'}
+Solución.
+```
+
+</div>
+
+El código para simular las 500 observaciones se muestra a continuación. Observe que se fijó la semilla en dos ocasiones para que el lector pueda replicar el ejemplo y obtener los mismos resultados.
+
+```{r, eval=TRUE, echo=TRUE}
+ni <- 10
+G <- 200
+nobs <- ni * G
+grupo <- factor(rep(x=1:G, each=ni))
+obs <- rep(x=1:ni, times=G)
+x <- runif(n=nobs, min=1.2, max=3.9)
+b0 <- rnorm(n=G, mean=0, sd=sqrt(0)) # Intercepto aleatorio
+b0 <- rep(x=b0, each=ni)             # El mismo intercepto aleatorio pero repetido
+num1 <- exp(1.62-0.11*x+b0)
+num2 <- exp(5.70-2.47*x+b0)
+num3 <- 1
+den <- num1 + num2 + num3
+pi1 <- num1 / den
+pi2 <- num2 / den
+pi3 <- num3 / den
+probs <- cbind(pi1, pi2, pi3)
+y <- apply(X=probs, MARGIN=1, which.max)
+y <- factor(y, levels=3:1)
+datos <- data.frame(obs, grupo, x, y)
+table(datos$y)
+```

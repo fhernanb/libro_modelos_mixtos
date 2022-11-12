@@ -19,7 +19,7 @@ Los principales argumentos de la función son:
 - `family.glm`: argumento para indicar la distribución de la variable respuesta.
 
 ## Ejemplo: modelo Poisson con intercepto aleatorio {-}
-En este ejemplo vamos a simular observaciones $n_i=50$ observaciones para $G=10$ grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `glmm` para estimar los parámetros del modelo.
+En este ejemplo vamos a simular $n_i=50$ observaciones para $G=10$ grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `glmm` para estimar los parámetros del modelo.
 
 \begin{align*} 
 y_{ij} | b_0 &\sim  Poisson(\mu_{ij}) \\ 
@@ -28,7 +28,7 @@ b_{0} &\sim N(0, \sigma^2_{b0}=4) \\
 x_{ij} &\sim U(0, 1)
 \end{align*}
 
-El vector de parámetros de este modelo es $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma_{b0}=4)^\top$.
+El vector de parámetros de este modelo es $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma_{b0}=2)^\top$.
 
 <div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
   -webkit-box-shadow: 1px 1px 3px 2px #000000;
@@ -43,8 +43,8 @@ Solución.
 El código para simular las 500 observaciones se muestra a continuación. Observe que se fijó la semilla en dos ocasiones para que el lector pueda replicar el ejemplo y obtener los mismos resultados.
 
 ```{r, eval=TRUE, echo=TRUE}
-ni <- 20
-G <- 5
+ni <- 50
+G <- 10
 nobs <- ni * G
 grupo <- factor(rep(x=1:G, each=ni))
 obs <- rep(x=1:ni, times=G)

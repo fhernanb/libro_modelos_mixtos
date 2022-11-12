@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2022-11-08" />
+<meta name="date" content="2022-11-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -245,7 +245,10 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="var-fun.html"><a href="var-fun.html#ejemplo-sigma_y2-dependiendo-de-una-variable-constante-más-la-potencia-de-una-variable-cuantitativa"><i class="fa fa-check"></i>Ejemplo: <span class="math inline">\(\sigma_y^2\)</span> dependiendo de una variable constante más la potencia de una variable cuantitativa</a></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="more-levels.html"><a href="more-levels.html"><i class="fa fa-check"></i><b>13</b> Modelos con más de dos niveles</a></li>
-<li class="chapter" data-level="14" data-path="marginals-effects.html"><a href="marginals-effects.html"><i class="fa fa-check"></i><b>14</b> Paquete marginaleffects</a></li>
+<li class="chapter" data-level="14" data-path="marginals-effects.html"><a href="marginals-effects.html"><i class="fa fa-check"></i><b>14</b> Paquete <strong>marginaleffects</strong></a>
+<ul>
+<li class="chapter" data-level="" data-path="marginals-effects.html"><a href="marginals-effects.html#ejemplo-5"><i class="fa fa-check"></i>Ejemplo</a></li>
+</ul></li>
 <li class="chapter" data-level="15" data-path="predict-new.html"><a href="predict-new.html"><i class="fa fa-check"></i><b>15</b> Predicción</a></li>
 <li class="chapter" data-level="16" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>16</b> Modelos Lineales Generalizados Mixtos</a>
 <ul>
@@ -273,12 +276,17 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="20" data-path="glmm_poisson.html"><a href="glmm_poisson.html"><i class="fa fa-check"></i><b>20</b> GLMM Poisson</a></li>
 <li class="chapter" data-level="21" data-path="glmm_gamma.html"><a href="glmm_gamma.html"><i class="fa fa-check"></i><b>21</b> GLMM gamma</a></li>
-<li class="chapter" data-level="22" data-path="residuals.html"><a href="residuals.html"><i class="fa fa-check"></i><b>22</b> Diagnósticos con DHARMa</a>
+<li class="chapter" data-level="22" data-path="multinomial.html"><a href="multinomial.html"><i class="fa fa-check"></i><b>22</b> Modelo multinomial</a>
+<ul>
+<li class="chapter" data-level="" data-path="multinomial.html"><a href="multinomial.html#ejemplo-modelo-multinomial-nominal"><i class="fa fa-check"></i>Ejemplo: modelo multinomial nominal</a></li>
+<li class="chapter" data-level="" data-path="multinomial.html"><a href="multinomial.html#ejemplo-simulando-observaciones-de-un-modelo-multinomial-nominal"><i class="fa fa-check"></i>Ejemplo: simulando observaciones de un modelo multinomial nominal</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="residuals.html"><a href="residuals.html"><i class="fa fa-check"></i><b>23</b> Diagnósticos con DHARMa</a>
 <ul>
 <li class="chapter" data-level="" data-path="residuals.html"><a href="residuals.html#ejemplo-modelo-gamma-mixto"><i class="fa fa-check"></i>Ejemplo: modelo gamma mixto</a></li>
 </ul></li>
-<li class="chapter" data-level="23" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>23</b> Simulación de glmm</a></li>
-<li class="chapter" data-level="24" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>24</b> Otro material interesante</a></li>
+<li class="chapter" data-level="24" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>24</b> Simulación de glmm</a></li>
+<li class="chapter" data-level="25" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>25</b> Otro material interesante</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -306,8 +314,8 @@ div.csl-indent {
 <div id="función-glmmpql" class="section level2 hasAnchor" number="19.1">
 <h2><span class="header-section-number">19.1</span> Función <code>glmmPQL</code><a href="pac-MASS.html#función-glmmpql" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>La función <code>glmmPQL</code> es la principal función del paquete <strong>glmmMAAS</strong>. Esta función sirve para ajustar un glmm y su estructura es la siguiente:</p>
-<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="pac-MASS.html#cb211-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glmmPQL</span>(fixed, random, family, data, correlation, weights,</span>
-<span id="cb211-2"><a href="pac-MASS.html#cb211-2" aria-hidden="true" tabindex="-1"></a>        control, <span class="at">niter =</span> <span class="dv">10</span>, <span class="at">verbose =</span> <span class="cn">TRUE</span>, ...)</span></code></pre></div>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="pac-MASS.html#cb222-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glmmPQL</span>(fixed, random, family, data, correlation, weights,</span>
+<span id="cb222-2"><a href="pac-MASS.html#cb222-2" aria-hidden="true" tabindex="-1"></a>        control, <span class="at">niter =</span> <span class="dv">10</span>, <span class="at">verbose =</span> <span class="cn">TRUE</span>, ...)</span></code></pre></div>
 <p>Los principales argumentos de la función son:</p>
 <ul>
 <li><code>formula</code>: es una fórmula similar a la usada en el modelo lineal clásico. Un ejemplo de fórmula sería <code>y ~ 1 + x1 + x2 + (1 + x2 | grupo)</code> con la cual se indican los efectos fijos y los efectos aleatorios del modelo. Más abajo hay una tabla con más detalles sobre la fórmula.</li>
@@ -333,29 +341,29 @@ Solución.
 </div>
 </div>
 <p>El código para simular las 500 observaciones se muestra a continuación. Observe que se fijó la semilla en dos ocasiones para que el lector pueda replicar el ejemplo y obtener los mismos resultados.</p>
-<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="pac-MASS.html#cb212-1" aria-hidden="true" tabindex="-1"></a>logit_inv <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">exp</span>(x) <span class="sc">/</span> (<span class="fu">exp</span>(x) <span class="sc">+</span> <span class="dv">1</span>) <span class="co"># Función enlace inversa</span></span>
-<span id="cb212-2"><a href="pac-MASS.html#cb212-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb212-3"><a href="pac-MASS.html#cb212-3" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb212-4"><a href="pac-MASS.html#cb212-4" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb212-5"><a href="pac-MASS.html#cb212-5" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
-<span id="cb212-6"><a href="pac-MASS.html#cb212-6" aria-hidden="true" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
-<span id="cb212-7"><a href="pac-MASS.html#cb212-7" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
-<span id="cb212-8"><a href="pac-MASS.html#cb212-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
-<span id="cb212-9"><a href="pac-MASS.html#cb212-9" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
-<span id="cb212-10"><a href="pac-MASS.html#cb212-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
-<span id="cb212-11"><a href="pac-MASS.html#cb212-11" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">4</span>)) <span class="co"># Intercepto aleatorio</span></span>
-<span id="cb212-12"><a href="pac-MASS.html#cb212-12" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)             <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
-<span id="cb212-13"><a href="pac-MASS.html#cb212-13" aria-hidden="true" tabindex="-1"></a>prob <span class="ot">&lt;-</span> <span class="fu">logit_inv</span>(<span class="dv">4</span> <span class="sc">-</span> <span class="dv">8</span> <span class="sc">*</span> x <span class="sc">+</span> b0)</span>
-<span id="cb212-14"><a href="pac-MASS.html#cb212-14" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
-<span id="cb212-15"><a href="pac-MASS.html#cb212-15" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="at">n=</span>nobs, <span class="at">size=</span><span class="dv">1</span>, <span class="at">prob=</span>prob)</span>
-<span id="cb212-16"><a href="pac-MASS.html#cb212-16" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x, prob, y)</span></code></pre></div>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="pac-MASS.html#cb223-1" aria-hidden="true" tabindex="-1"></a>logit_inv <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">exp</span>(x) <span class="sc">/</span> (<span class="fu">exp</span>(x) <span class="sc">+</span> <span class="dv">1</span>) <span class="co"># Función enlace inversa</span></span>
+<span id="cb223-2"><a href="pac-MASS.html#cb223-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb223-3"><a href="pac-MASS.html#cb223-3" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb223-4"><a href="pac-MASS.html#cb223-4" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb223-5"><a href="pac-MASS.html#cb223-5" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
+<span id="cb223-6"><a href="pac-MASS.html#cb223-6" aria-hidden="true" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
+<span id="cb223-7"><a href="pac-MASS.html#cb223-7" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
+<span id="cb223-8"><a href="pac-MASS.html#cb223-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb223-9"><a href="pac-MASS.html#cb223-9" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
+<span id="cb223-10"><a href="pac-MASS.html#cb223-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb223-11"><a href="pac-MASS.html#cb223-11" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">4</span>)) <span class="co"># Intercepto aleatorio</span></span>
+<span id="cb223-12"><a href="pac-MASS.html#cb223-12" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)             <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
+<span id="cb223-13"><a href="pac-MASS.html#cb223-13" aria-hidden="true" tabindex="-1"></a>prob <span class="ot">&lt;-</span> <span class="fu">logit_inv</span>(<span class="dv">4</span> <span class="sc">-</span> <span class="dv">8</span> <span class="sc">*</span> x <span class="sc">+</span> b0)</span>
+<span id="cb223-14"><a href="pac-MASS.html#cb223-14" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb223-15"><a href="pac-MASS.html#cb223-15" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="at">n=</span>nobs, <span class="at">size=</span><span class="dv">1</span>, <span class="at">prob=</span>prob)</span>
+<span id="cb223-16"><a href="pac-MASS.html#cb223-16" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x, prob, y)</span></code></pre></div>
 <p>Para estimar los parámetros del modelo se usa la función <code>glmmPQL</code> de la siguiente forma.</p>
-<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="pac-MASS.html#cb213-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb213-2"><a href="pac-MASS.html#cb213-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
-<span id="cb213-3"><a href="pac-MASS.html#cb213-3" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">glmmPQL</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> grupo, <span class="at">niter=</span><span class="dv">20</span>,</span>
-<span id="cb213-4"><a href="pac-MASS.html#cb213-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="at">data =</span> datos)</span></code></pre></div>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="pac-MASS.html#cb224-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb224-2"><a href="pac-MASS.html#cb224-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb224-3"><a href="pac-MASS.html#cb224-3" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">glmmPQL</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> grupo, <span class="at">niter=</span><span class="dv">20</span>,</span>
+<span id="cb224-4"><a href="pac-MASS.html#cb224-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="at">data =</span> datos)</span></code></pre></div>
 <p>La función <code>summary</code> se puede usar sobre el objeto <code>fit1</code> para obtener una tabla de resumen, a continuación se ilustra el uso y la salida de <code>summary</code>.</p>
-<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="pac-MASS.html#cb214-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit1)</span></code></pre></div>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="pac-MASS.html#cb225-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit1)</span></code></pre></div>
 <pre><code>## Linear mixed-effects model fit by maximum likelihood
 ##   Data: datos 
 ##   AIC BIC logLik
