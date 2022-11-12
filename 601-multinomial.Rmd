@@ -143,6 +143,14 @@ Solución.
 
 </div>
 
+El modelo de interés en este ejemplo es
+
+$$
+\text{logit}[P(Y_{it} \leq j) ] = u_i + a_j + \beta_1 t + \beta_2 x + \beta_3 (t \times x),
+$$
+
+siendo $i$ el subíndice que identifica a los pacientes $i=1, 2, \ldots, 239$ y $j$ el subíndice que identifica la respuesta ordenada 1, 2, 3 o 4. La variable $t$ se refiere a la ocasión y $x$ al tratamiento.
+
 Vamos ahora a crear el modelo multinomial ordinal con la ayuda de la función `clmm` del paquete **ordinal** de @R-ordinal. Las covariables que vamos a utilizar para predecir a `response` son `occasion`, `treat` y la interacción entre ambas. La variable `case` se refiere al paciente y esta variable se va a utilizar como fuente del intercepto aleatorio $b0$ que se va a incluir en el modelo. El intercepto aleatorio se le indica a `clmm` por medio del término `(1|case)` en la fórmula del modelo.
 
 ```{r message=FALSE}
@@ -152,6 +160,20 @@ fit <- clmm(response ~ (1|case) + occasion + treat + occasion:treat,
 summary(fit)
 ```
 
+Los efectos fijos se puden obtener usando la función `coef`.
+
+```{r}
+coef(fit)
+```
+
+Los efectos aleatorios se puden obtener usando la función `ranef`.
+
+```{r}
+b0 <- ranef(fit)$case
+```
+
+
+Usando la información anterior se puede escribir el modelo ajustado de la siguiente manera:
 
 
 

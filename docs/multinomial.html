@@ -451,6 +451,11 @@ Cuando se use <code>predict</code> con un nuevo conjunto de datos, debemos asegu
 Solución.
 </div>
 </div>
+<p>El modelo de interés en este ejemplo es</p>
+<p><span class="math display">\[
+\text{logit}[P(Y_{it} \leq j) ] = u_i + a_j + \beta_1 t + \beta_2 x + \beta_3 (t \times x),
+\]</span></p>
+<p>siendo <span class="math inline">\(i\)</span> el subíndice que identifica a los pacientes <span class="math inline">\(i=1, 2, \ldots, 239\)</span> y <span class="math inline">\(j\)</span> el subíndice que identifica la respuesta ordenada 1, 2, 3 o 4. La variable <span class="math inline">\(t\)</span> se refiere a la ocasión y <span class="math inline">\(x\)</span> al tratamiento.</p>
 <p>Vamos ahora a crear el modelo multinomial ordinal con la ayuda de la función <code>clmm</code> del paquete <strong>ordinal</strong> de <span class="citation">Christensen (<a href="#ref-R-ordinal" role="doc-biblioref">2019</a>)</span>. Las covariables que vamos a utilizar para predecir a <code>response</code> son <code>occasion</code>, <code>treat</code> y la interacción entre ambas. La variable <code>case</code> se refiere al paciente y esta variable se va a utilizar como fuente del intercepto aleatorio <span class="math inline">\(b0\)</span> que se va a incluir en el modelo. El intercepto aleatorio se le indica a <code>clmm</code> por medio del término <code>(1|case)</code> en la fórmula del modelo.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="multinomial.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ordinal)</span>
 <span id="cb26-2"><a href="multinomial.html#cb26-2" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">clmm</span>(response <span class="sc">~</span> (<span class="dv">1</span><span class="sc">|</span>case) <span class="sc">+</span> occasion <span class="sc">+</span> treat <span class="sc">+</span> occasion<span class="sc">:</span>treat,</span>
@@ -483,6 +488,15 @@ Solución.
 ## 1|2  -3.4896     0.3588  -9.727
 ## 2|3  -1.4846     0.2903  -5.114
 ## 3|4   0.5613     0.2702   2.078</code></pre>
+<p>Los efectos fijos se puden obtener usando la función <code>coef</code>.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="multinomial.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fit)</span></code></pre></div>
+<pre><code>##            1|2            2|3            3|4       occasion          treat 
+##     -3.4895955     -1.4846367      0.5612784     -1.6015809     -0.0578537 
+## occasion:treat 
+##     -1.0812951</code></pre>
+<p>Los efectos aleatorios se puden obtener usando la función <code>ranef</code>.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="multinomial.html#cb30-1" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">ranef</span>(fit)<span class="sc">$</span>case</span></code></pre></div>
+<p>Usando la información anterior se puede escribir el modelo ajustado de la siguiente manera:</p>
 </div>
 <div id="ejemplo-simulando-observaciones-de-un-modelo-multinomial-nominal" class="section level2 unnumbered hasAnchor">
 <h2>Ejemplo: simulando observaciones de un modelo multinomial nominal<a href="multinomial.html#ejemplo-simulando-observaciones-de-un-modelo-multinomial-nominal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -505,29 +519,29 @@ Solución.
 </div>
 </div>
 <p>El código para simular las 500 observaciones se muestra a continuación. Observe que se fijó la semilla en dos ocasiones para que el lector pueda replicar el ejemplo y obtener los mismos resultados.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="multinomial.html#cb28-1" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb28-2"><a href="multinomial.html#cb28-2" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">200</span></span>
-<span id="cb28-3"><a href="multinomial.html#cb28-3" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
-<span id="cb28-4"><a href="multinomial.html#cb28-4" aria-hidden="true" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
-<span id="cb28-5"><a href="multinomial.html#cb28-5" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
-<span id="cb28-6"><a href="multinomial.html#cb28-6" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="fl">1.2</span>, <span class="at">max=</span><span class="fl">3.9</span>)</span>
-<span id="cb28-7"><a href="multinomial.html#cb28-7" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">0</span>)) <span class="co"># Intercepto aleatorio</span></span>
-<span id="cb28-8"><a href="multinomial.html#cb28-8" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)             <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
-<span id="cb28-9"><a href="multinomial.html#cb28-9" aria-hidden="true" tabindex="-1"></a>num1 <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fl">1.62-0.11</span><span class="sc">*</span>x<span class="sc">+</span>b0)</span>
-<span id="cb28-10"><a href="multinomial.html#cb28-10" aria-hidden="true" tabindex="-1"></a>num2 <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fl">5.70-2.47</span><span class="sc">*</span>x<span class="sc">+</span>b0)</span>
-<span id="cb28-11"><a href="multinomial.html#cb28-11" aria-hidden="true" tabindex="-1"></a>num3 <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb28-12"><a href="multinomial.html#cb28-12" aria-hidden="true" tabindex="-1"></a>den <span class="ot">&lt;-</span> num1 <span class="sc">+</span> num2 <span class="sc">+</span> num3</span>
-<span id="cb28-13"><a href="multinomial.html#cb28-13" aria-hidden="true" tabindex="-1"></a>pi1 <span class="ot">&lt;-</span> num1 <span class="sc">/</span> den</span>
-<span id="cb28-14"><a href="multinomial.html#cb28-14" aria-hidden="true" tabindex="-1"></a>pi2 <span class="ot">&lt;-</span> num2 <span class="sc">/</span> den</span>
-<span id="cb28-15"><a href="multinomial.html#cb28-15" aria-hidden="true" tabindex="-1"></a>pi3 <span class="ot">&lt;-</span> num3 <span class="sc">/</span> den</span>
-<span id="cb28-16"><a href="multinomial.html#cb28-16" aria-hidden="true" tabindex="-1"></a>probs <span class="ot">&lt;-</span> <span class="fu">cbind</span>(pi1, pi2, pi3)</span>
-<span id="cb28-17"><a href="multinomial.html#cb28-17" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">apply</span>(<span class="at">X=</span>probs, <span class="at">MARGIN=</span><span class="dv">1</span>, which.max)</span>
-<span id="cb28-18"><a href="multinomial.html#cb28-18" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">factor</span>(y, <span class="at">levels=</span><span class="dv">3</span><span class="sc">:</span><span class="dv">1</span>)</span>
-<span id="cb28-19"><a href="multinomial.html#cb28-19" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, x, y)</span>
-<span id="cb28-20"><a href="multinomial.html#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(datos<span class="sc">$</span>y)</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="multinomial.html#cb31-1" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb31-2"><a href="multinomial.html#cb31-2" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb31-3"><a href="multinomial.html#cb31-3" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
+<span id="cb31-4"><a href="multinomial.html#cb31-4" aria-hidden="true" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
+<span id="cb31-5"><a href="multinomial.html#cb31-5" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
+<span id="cb31-6"><a href="multinomial.html#cb31-6" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="fl">1.2</span>, <span class="at">max=</span><span class="fl">3.9</span>)</span>
+<span id="cb31-7"><a href="multinomial.html#cb31-7" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">0</span>)) <span class="co"># Intercepto aleatorio</span></span>
+<span id="cb31-8"><a href="multinomial.html#cb31-8" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)             <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
+<span id="cb31-9"><a href="multinomial.html#cb31-9" aria-hidden="true" tabindex="-1"></a>num1 <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fl">1.62-0.11</span><span class="sc">*</span>x<span class="sc">+</span>b0)</span>
+<span id="cb31-10"><a href="multinomial.html#cb31-10" aria-hidden="true" tabindex="-1"></a>num2 <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fl">5.70-2.47</span><span class="sc">*</span>x<span class="sc">+</span>b0)</span>
+<span id="cb31-11"><a href="multinomial.html#cb31-11" aria-hidden="true" tabindex="-1"></a>num3 <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb31-12"><a href="multinomial.html#cb31-12" aria-hidden="true" tabindex="-1"></a>den <span class="ot">&lt;-</span> num1 <span class="sc">+</span> num2 <span class="sc">+</span> num3</span>
+<span id="cb31-13"><a href="multinomial.html#cb31-13" aria-hidden="true" tabindex="-1"></a>pi1 <span class="ot">&lt;-</span> num1 <span class="sc">/</span> den</span>
+<span id="cb31-14"><a href="multinomial.html#cb31-14" aria-hidden="true" tabindex="-1"></a>pi2 <span class="ot">&lt;-</span> num2 <span class="sc">/</span> den</span>
+<span id="cb31-15"><a href="multinomial.html#cb31-15" aria-hidden="true" tabindex="-1"></a>pi3 <span class="ot">&lt;-</span> num3 <span class="sc">/</span> den</span>
+<span id="cb31-16"><a href="multinomial.html#cb31-16" aria-hidden="true" tabindex="-1"></a>probs <span class="ot">&lt;-</span> <span class="fu">cbind</span>(pi1, pi2, pi3)</span>
+<span id="cb31-17"><a href="multinomial.html#cb31-17" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">apply</span>(<span class="at">X=</span>probs, <span class="at">MARGIN=</span><span class="dv">1</span>, which.max)</span>
+<span id="cb31-18"><a href="multinomial.html#cb31-18" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">factor</span>(y, <span class="at">levels=</span><span class="dv">3</span><span class="sc">:</span><span class="dv">1</span>)</span>
+<span id="cb31-19"><a href="multinomial.html#cb31-19" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, x, y)</span>
+<span id="cb31-20"><a href="multinomial.html#cb31-20" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(datos<span class="sc">$</span>y)</span></code></pre></div>
 <pre><code>## 
 ##    3    2    1 
-##    0  392 1608</code></pre>
+##    0  409 1591</code></pre>
 
 </div>
 </div>
