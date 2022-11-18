@@ -71,6 +71,10 @@ x_{ij} &\sim U(0, 1)
 
 El vector de parámetros de este modelo es $\boldsymbol{\Theta}=(\beta_0=2, \beta_1=-8, \sigma_{b0}^2=1, \sigma_{b1}^2=1, \sigma_{b01}=0.5)^\top$.
 
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
 ```{block2, type='rmdexercise'}
 Solución.
 ```
@@ -106,6 +110,4 @@ Delia nos va a mostrar cómo estimar los parámetros del modelo ajustado.
 library(INLA)
 fit2 <- inla( )
 ```
-
-
 
