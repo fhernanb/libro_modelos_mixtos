@@ -78,7 +78,7 @@ summary(fit1)
 
 Según el resultado anterior $\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=4.86, \hat{\beta}_1=-7.81, \hat{\sigma}_{b0}=3.09)^\top$ mientras que el vector real de parámetros es $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-8, \sigma_{b0}=2)^\top$.
 
-## what it means for AIC NA in glmmPQL (MASS) summary output?
+## What it means for AIC NA in glmmPQL (MASS) summary output?
 
 Esta pregunta fue hecha en StackOverFlow y puede ser consultada en este [enlace](https://stackoverflow.com/questions/58713374/what-it-means-for-aic-na-in-glmmpql-mass-summary-output).
 

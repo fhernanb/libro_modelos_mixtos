@@ -257,7 +257,7 @@ El valor de $\hat{\phi}$ se encuentra en la línea **Residual** y columna **Vari
 En este ejemplo vamos a simular observaciones $n_i=20$ observaciones para $G=10$ grupos (en total 200 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `glmer` para estimar los parámetros del modelo.
 
 \begin{align*} 
-y_{ij} | b_0, b_1 &\sim  InvGauss(\mu_{ij}, \phi) \\ 
+y_{ij} | b_0, b_1 &\sim InvGauss(\mu_{ij}, \phi) \\ 
 \log(\mu_{ij}) &= 2 - 8 x_{ij} + b_{0i} + b_{1i} x_{ij} \\
 \phi &= 0.5 \\
 \left (
@@ -305,7 +305,7 @@ set.seed(12345)
 Sigma <- matrix(c(1, 0.5, # Matriz de var-cov
                   0.5, 1), ncol=2, nrow=2)
 
-b <- MASS::mvrnorm(n=G, mu=rep(0, 2), Sigma=Sigma) # Simulando b0 y b1
+b <- MASS::mvrnorm(n=G, mu=rep(0, 2), Sigma=Sigma)   # Simulando b0 y b1
 b <- apply(b, MARGIN=2, function(c) rep(c, each=ni)) # Replicando
 b0 <- as.vector(b[, 1]) # Separando los b0
 b1 <- as.vector(b[, 2]) # Separando los b1

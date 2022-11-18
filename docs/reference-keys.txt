@@ -46,6 +46,7 @@ función-glmmpql
 what-it-means-for-aic-na-in-glmmpql-mass-summary-output
 two-questions-on-the-results-from-glmmpqlmass
 how-do-i-interpret-the-variance-of-random-effect-in-a-generalized-linear-mixed-model
+pac-INLA
 glmm_poisson
 glmm_gamma
 multinomial

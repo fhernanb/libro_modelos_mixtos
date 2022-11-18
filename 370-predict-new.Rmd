@@ -2,6 +2,4 @@
 
 En este capítulo se mostrará como usar hacer predicciones para nuevas observaciones.
 
-Debo revisar la siguiente pregunta.
-
 https://stats.stackexchange.com/questions/147836/prediction-interval-for-lmer-mixed-effects-model-in-r

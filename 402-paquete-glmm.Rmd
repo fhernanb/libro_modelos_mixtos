@@ -28,7 +28,7 @@ b_{0} &\sim N(0, \sigma^2_{b0}=4) \\
 x_{ij} &\sim U(0, 1)
 \end{align*}
 
-El vector de parámetros de este modelo es $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma_{b0}=2)^\top$.
+El vector de parámetros de este modelo es $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma^2_{b0}=4)^\top$.
 
 <div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
   -webkit-box-shadow: 1px 1px 3px 2px #000000;
@@ -40,7 +40,7 @@ Solución.
 
 </div>
 
-El código para simular las 500 observaciones se muestra a continuación. Observe que se fijó la semilla en dos ocasiones para que el lector pueda replicar el ejemplo y obtener los mismos resultados.
+El código para simular las observaciones se muestra a continuación.
 
 ```{r, eval=TRUE, echo=TRUE}
 ni <- 50
@@ -48,15 +48,12 @@ G <- 10
 nobs <- ni * G
 grupo <- factor(rep(x=1:G, each=ni))
 obs <- rep(x=1:ni, times=G)
-set.seed(1234567)
 x <- runif(n=nobs, min=0, max=1)
-set.seed(1234567)
 b0 <- rnorm(n=G, mean=0, sd=sqrt(4)) # Intercepto aleatorio
 b0 <- rep(x=b0, each=ni)             # El mismo intercepto aleatorio pero repetido
 media <- exp(4 - 6 * x + b0)
-set.seed(1234567)
 y <- rpois(n=nobs, lambda=media)
-datos <- data.frame(obs, grupo, b0, x, media, y)
+datos <- data.frame(obs, grupo, b0, x, y)
 ```
 
 Vamos a explorar los datos simulados.
@@ -75,41 +72,29 @@ ggplot(datos, aes(x, y, color=grupo) ) +
   labs(colour="Grupo/Cluster")
 ```
 
-Para estimar los parámetros del modelo se usa la función `glmm` de la siguiente forma.
+Para estimar los parámetros del modelo se usa la función `glmm` de la siguiente forma. Vamos a usar `m=10` para que no se demore, usted puede repetir el ejemplo aumentando `m`.
 
-```{r, message = FALSE, eval = FALSE, echo = TRUE}
+```{r, message = FALSE, eval = TRUE, echo = TRUE}
 library(glmm)
 fit1 <- glmm(y ~ x, random = list(y ~ 0 + grupo), varcomps.names = c("b0"),
-             family.glmm = poisson.glmm, data = datos, m = 10000)
+             family.glmm = poisson.glmm, data = datos, m = 10)
 ```
 
-La función `summary` se puede usar sobre el objeto `fit1` para obtener una tabla de resumen, a continuación se ilustra el uso y la salida de `summary`.
+Existen varias funciones genéricas que se pueden utilizar para recuperar el vector de parámetros $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma^2_{b0}=4)^\top$. Abajo el código para realizarlo.
 
-```{r, eval=FALSE}
-summary(fit1)
+```{r, eval=TRUE}
+coef(fit1)      # Efectos fijos
+varcomps(fit1)  # Componentes de varianza
+logLik(fit1)    # Log-verosimilitud
 ```
 
-```{}
-Call:
-glmm(fixed = y ~ x, random = list(y ~ 0 + grupo), varcomps.names = c("b0"), 
-    data = datos, family.glmm = poisson.glmm, m = 10000)
+También se pueden extraer los valores del objeto `fit1` así.
 
-
-Link is: "log"
-
-Fixed Effects:
-            Estimate Std. Error z value Pr(>|z|)    
-(Intercept)        0          0   28.39   <2e-16 ***
-x                -10          0 -115.47   <2e-16 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-
-Variance Components for Random Effects (P-values are one-tailed):
-   Estimate Std. Error z value Pr(>|z|)/2  
-b0        0          0   2.212     0.0135 *
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+```{r}
+fit1$beta           # Efectos fijos
+fit1$nu             # Componentes de varianza
+fit1$loglike.value  # Log-verosimilitud
 ```
 
-Nota: este paquete se debe usar con precaución.
+De la salida anterior vemos que el vector de parámetros estimados es $\hat{\boldsymbol{\Theta}}=(`r coef(fit1)[1]`, `r coef(fit1)[2]`, `r varcomps(fit1)`)^\top$ mientras que el verdadero es $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma^2_{b0}=4)^\top$.
+
