@@ -52,3 +52,4 @@ multinomial
 residuals
 simul-glmm
 blobs
+paquete-inla
