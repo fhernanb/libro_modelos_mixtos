@@ -1,8 +1,8 @@
-# Paquete **INLA** 
+# Paquete **gamlss** 
 
-El paquete **INLA** (integrated nested Laplace approximation) se utiliza para hacer inferencia bayesiana aproximada de diversos modelos. Al visitar este [enlace](https://www.r-inla.org/home) se encontrará un gran contenido que le podría servir para conocer más sobre INLA.
+El paquete **gamlss** de @R-gamlss se utiliza para estimar modelos en los que la variable respuesta puede tener casi cualquier distribución. Al visitar este [enlace](https://cran.r-project.org/web/packages/gamlss/) se encontrará la página de apoyo del paquete, allí se puede consultar el manual de referencia.
 
-## Ejemplo: modelo Poisson con intercepto aleatorio {-}
+## Ejemplo: modelo Normal con intercepto aleatorio {-}
 En este ejemplo vamos a simular $n_i=50$ observaciones para $G=10$ grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `inla` para estimar los parámetros del modelo.
 
 \begin{align*} 
@@ -24,67 +24,28 @@ Solución.
 
 </div>
 
-El código para simular las observaciones se muestra a continuación. Se fijó la semilla con `set.seed(1234)` para que el lector pueda replicar el ejemplo.
+El código para simular las observaciones se muestra a continuación.
 
 ```{r}
-gen_data_1 <- function() {
-  ni <- 50
-  G <- 10
-  nobs <- ni * G
-  grupo <- factor(rep(x=1:G, each=ni))
-  obs <- rep(x=1:ni, times=G)
-  x <- runif(n=nobs, min=0, max=1)
-  b0 <- rnorm(n=G, mean=0, sd=sqrt(4)) # Intercepto aleatorio
-  b0 <- rep(x=b0, each=ni)             # El mismo intercepto aleatorio pero repetido
-  media <- exp(4 - 6 * x + b0)
-  y <- rpois(n=nobs, lambda=media)
-  datos <- data.frame(obs, grupo, b0, x, y)
-  datos
-}
-
-set.seed(1234)
-datos <- gen_data_1()
-head(datos)
+ni <- 50
+G <- 10
+nobs <- ni * G
+grupo <- factor(rep(x=1:G, each=ni))
+obs <- rep(x=1:ni, times=G)
+x <- runif(n=nobs, min=0, max=1)
+b0 <- rnorm(n=G, mean=0, sd=sqrt(4)) # Intercepto aleatorio
+b0 <- rep(x=b0, each=ni)             # El mismo intercepto aleatorio pero repetido
+media <- exp(4 - 6 * x + b0)
+y <- rpois(n=nobs, lambda=media)
+datos <- data.frame(obs, grupo, b0, x, y)
 ```
 
-Para estimar los parámetros del modelo con INLA se usa el siguiente código.
+Delia nos va a mostrar cómo estimar los parámetros del modelo ajustado.
 
 ```{r eval = FALSE, echo = TRUE}
 library(INLA)
-fit1 <- inla(y ~ x+ f(grupo, model = "iid"),
-             data = datos, family = "poisson"
-             )
+fit1 <- inla( )
 ```
-
-Aplicando la función `summary` sobre el objeto `fit1` se obtiene:
-
-```{r eval=FALSE}
-summary(fit1)
-```
-
-```
-Time used:
-    Pre = 0.321, Running = 1.7, Post = 0.0978, Total = 2.12 
-Fixed effects:
-              mean    sd 0.025quant 0.5quant 0.975quant mode kld
-(Intercept)  4.402 0.555      3.292    4.403      5.509   NA   0
-x           -6.007 0.048     -6.102   -6.007     -5.913   NA   0
-
-Random effects:
-  Name	  Model
-    grupo IID model
-
-Model hyperparameters:
-                    mean    sd 0.025quant 0.5quant 0.975quant mode
-Precision for grupo 0.40 0.175      0.138    0.374      0.787   NA
-
-Marginal log-Likelihood:  -1110.13 
- is computed 
-Posterior summaries for the linear predictor and the fitted values are computed
-(Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')
-```
-
-De la salida anterior se tiene que $\hat{\boldsymbol{\Theta}}=(\hat{\beta_0}=4.402, \hat{\beta_1}=-6.007, \hat{\sigma}^2_{b0}=(1/0.40)^2=2.5^2)^\top$ mientras que $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma^2_{b0}=4)^\top$.
 
 ## Ejemplo: modelo Poisson con intercepto y pendiente aleatoria {-}
 En este ejemplo vamos a simular $n_i=50$ observaciones para $G=10$ grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `inla` para estimar los parámetros del modelo.
@@ -138,7 +99,7 @@ b <- apply(b, MARGIN=2, function(c) rep(c, each=ni)) # Replicando
 b0 <- as.vector(b[, 1]) # Separando los b0
 b1 <- as.vector(b[, 2]) # Separando los b1
 
-media <- exp(2 - 8 * x + b0 + b1 * x)
+media <- exp(2 - 8 * x + b0 + b0 + b1 * x)
 y <- rpois(n=nobs, lambda=media)
 datos <- data.frame(obs, grupo, b0, b1, x, y)
 ```

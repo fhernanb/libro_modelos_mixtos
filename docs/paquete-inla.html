@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>20 Paquete INLA | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
-  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.30 and GitBook 2.6.7" />
 
   <meta property="og:title" content="20 Paquete INLA | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2022-11-18" />
+<meta name="date" content="2022-11-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="pac-MASS.html"/>
-<link rel="next" href="glmm_poisson.html"/>
+<link rel="next" href="paquete-gamlss.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -53,8 +53,6 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
-<link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
-<script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
 
 
 <style type="text/css">
@@ -122,28 +120,6 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<style type="text/css">
-/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
-</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -279,20 +255,25 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="paquete-inla.html"><a href="paquete-inla.html#ejemplo-modelo-poisson-con-intercepto-aleatorio-1"><i class="fa fa-check"></i>Ejemplo: modelo Poisson con intercepto aleatorio</a></li>
 <li class="chapter" data-level="" data-path="paquete-inla.html"><a href="paquete-inla.html#ejemplo-modelo-poisson-con-intercepto-y-pendiente-aleatoria"><i class="fa fa-check"></i>Ejemplo: modelo Poisson con intercepto y pendiente aleatoria</a></li>
 </ul></li>
-<li class="chapter" data-level="21" data-path="glmm_poisson.html"><a href="glmm_poisson.html"><i class="fa fa-check"></i><b>21</b> GLMM Poisson</a></li>
-<li class="chapter" data-level="22" data-path="glmm_gamma.html"><a href="glmm_gamma.html"><i class="fa fa-check"></i><b>22</b> GLMM gamma</a></li>
-<li class="chapter" data-level="23" data-path="multinomial.html"><a href="multinomial.html"><i class="fa fa-check"></i><b>23</b> Modelo multinomial</a>
+<li class="chapter" data-level="21" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html"><i class="fa fa-check"></i><b>21</b> Paquete <strong>gamlss</strong></a>
+<ul>
+<li class="chapter" data-level="" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#ejemplo-modelo-normal-con-intercepto-aleatorio-3"><i class="fa fa-check"></i>Ejemplo: modelo Normal con intercepto aleatorio</a></li>
+<li class="chapter" data-level="" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#ejemplo-modelo-poisson-con-intercepto-y-pendiente-aleatoria-1"><i class="fa fa-check"></i>Ejemplo: modelo Poisson con intercepto y pendiente aleatoria</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="glmm_poisson.html"><a href="glmm_poisson.html"><i class="fa fa-check"></i><b>22</b> GLMM Poisson</a></li>
+<li class="chapter" data-level="23" data-path="glmm_gamma.html"><a href="glmm_gamma.html"><i class="fa fa-check"></i><b>23</b> GLMM gamma</a></li>
+<li class="chapter" data-level="24" data-path="multinomial.html"><a href="multinomial.html"><i class="fa fa-check"></i><b>24</b> Modelo multinomial</a>
 <ul>
 <li class="chapter" data-level="" data-path="multinomial.html"><a href="multinomial.html#ejemplo-modelo-multinomial-nominal"><i class="fa fa-check"></i>Ejemplo: modelo multinomial nominal</a></li>
 <li class="chapter" data-level="" data-path="multinomial.html"><a href="multinomial.html#ejemplo-modelo-multinomial-ordinal"><i class="fa fa-check"></i>Ejemplo: modelo multinomial ordinal</a></li>
 <li class="chapter" data-level="" data-path="multinomial.html"><a href="multinomial.html#ejemplo-simulando-observaciones-de-un-modelo-multinomial-nominal"><i class="fa fa-check"></i>Ejemplo: simulando observaciones de un modelo multinomial nominal</a></li>
 </ul></li>
-<li class="chapter" data-level="24" data-path="residuals.html"><a href="residuals.html"><i class="fa fa-check"></i><b>24</b> Diagnósticos con DHARMa</a>
+<li class="chapter" data-level="25" data-path="residuals.html"><a href="residuals.html"><i class="fa fa-check"></i><b>25</b> Diagnósticos con DHARMa</a>
 <ul>
 <li class="chapter" data-level="" data-path="residuals.html"><a href="residuals.html#ejemplo-modelo-gamma-mixto"><i class="fa fa-check"></i>Ejemplo: modelo gamma mixto</a></li>
 </ul></li>
-<li class="chapter" data-level="25" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>25</b> Simulación de glmm</a></li>
-<li class="chapter" data-level="26" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>26</b> Otro material interesante</a></li>
+<li class="chapter" data-level="26" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>26</b> Simulación de glmm</a></li>
+<li class="chapter" data-level="27" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>27</b> Otro material interesante</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -336,20 +317,58 @@ Solución.
 </div>
 </div>
 <p>El código para simular las observaciones se muestra a continuación.</p>
-<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="paquete-inla.html#cb237-1" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb237-2"><a href="paquete-inla.html#cb237-2" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb237-3"><a href="paquete-inla.html#cb237-3" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
-<span id="cb237-4"><a href="paquete-inla.html#cb237-4" aria-hidden="true" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
-<span id="cb237-5"><a href="paquete-inla.html#cb237-5" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
-<span id="cb237-6"><a href="paquete-inla.html#cb237-6" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
-<span id="cb237-7"><a href="paquete-inla.html#cb237-7" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">4</span>)) <span class="co"># Intercepto aleatorio</span></span>
-<span id="cb237-8"><a href="paquete-inla.html#cb237-8" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)             <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
-<span id="cb237-9"><a href="paquete-inla.html#cb237-9" aria-hidden="true" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="dv">4</span> <span class="sc">-</span> <span class="dv">6</span> <span class="sc">*</span> x <span class="sc">+</span> b0)</span>
-<span id="cb237-10"><a href="paquete-inla.html#cb237-10" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="at">n=</span>nobs, <span class="at">lambda=</span>media)</span>
-<span id="cb237-11"><a href="paquete-inla.html#cb237-11" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x, y)</span></code></pre></div>
-<p>Delia nos va a mostrar cómo estimar los parámetros del modelo ajustado.</p>
-<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="paquete-inla.html#cb238-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(INLA)</span>
-<span id="cb238-2"><a href="paquete-inla.html#cb238-2" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">inla</span>( )</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="paquete-inla.html#cb1-1" aria-hidden="true" tabindex="-1"></a>gen_data_1 <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb1-2"><a href="paquete-inla.html#cb1-2" aria-hidden="true" tabindex="-1"></a>  ni <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb1-3"><a href="paquete-inla.html#cb1-3" aria-hidden="true" tabindex="-1"></a>  G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb1-4"><a href="paquete-inla.html#cb1-4" aria-hidden="true" tabindex="-1"></a>  nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
+<span id="cb1-5"><a href="paquete-inla.html#cb1-5" aria-hidden="true" tabindex="-1"></a>  grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
+<span id="cb1-6"><a href="paquete-inla.html#cb1-6" aria-hidden="true" tabindex="-1"></a>  obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
+<span id="cb1-7"><a href="paquete-inla.html#cb1-7" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
+<span id="cb1-8"><a href="paquete-inla.html#cb1-8" aria-hidden="true" tabindex="-1"></a>  b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">4</span>)) <span class="co"># Intercepto aleatorio</span></span>
+<span id="cb1-9"><a href="paquete-inla.html#cb1-9" aria-hidden="true" tabindex="-1"></a>  b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)             <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
+<span id="cb1-10"><a href="paquete-inla.html#cb1-10" aria-hidden="true" tabindex="-1"></a>  media <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="dv">4</span> <span class="sc">-</span> <span class="dv">6</span> <span class="sc">*</span> x <span class="sc">+</span> b0)</span>
+<span id="cb1-11"><a href="paquete-inla.html#cb1-11" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="at">n=</span>nobs, <span class="at">lambda=</span>media)</span>
+<span id="cb1-12"><a href="paquete-inla.html#cb1-12" aria-hidden="true" tabindex="-1"></a>  datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x, y)</span>
+<span id="cb1-13"><a href="paquete-inla.html#cb1-13" aria-hidden="true" tabindex="-1"></a>  datos</span>
+<span id="cb1-14"><a href="paquete-inla.html#cb1-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-15"><a href="paquete-inla.html#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="paquete-inla.html#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb1-17"><a href="paquete-inla.html#cb1-17" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">gen_data_1</span>()</span>
+<span id="cb1-18"><a href="paquete-inla.html#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(datos)</span></code></pre></div>
+<pre><code>##   obs grupo        b0         x  y
+## 1   1     1 0.8738612 0.1137034 74
+## 2   2     1 0.8738612 0.6222994  2
+## 3   3     1 0.8738612 0.6092747  6
+## 4   4     1 0.8738612 0.6233794  3
+## 5   5     1 0.8738612 0.8609154  1
+## 6   6     1 0.8738612 0.6403106  0</code></pre>
+<p>Para estimar los parámetros del modelo con INLA se usa el siguiente código.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="paquete-inla.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(INLA)</span>
+<span id="cb3-2"><a href="paquete-inla.html#cb3-2" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">inla</span>(y <span class="sc">~</span> x<span class="sc">+</span> <span class="fu">f</span>(grupo, <span class="at">model =</span> <span class="st">&quot;iid&quot;</span>),</span>
+<span id="cb3-3"><a href="paquete-inla.html#cb3-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> datos, <span class="at">family =</span> <span class="st">&quot;poisson&quot;</span></span>
+<span id="cb3-4"><a href="paquete-inla.html#cb3-4" aria-hidden="true" tabindex="-1"></a>             )</span></code></pre></div>
+<p>Aplicando la función <code>summary</code> sobre el objeto <code>fit1</code> se obtiene:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="paquete-inla.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit1)</span></code></pre></div>
+<pre><code>Time used:
+    Pre = 0.321, Running = 1.7, Post = 0.0978, Total = 2.12 
+Fixed effects:
+              mean    sd 0.025quant 0.5quant 0.975quant mode kld
+(Intercept)  4.402 0.555      3.292    4.403      5.509   NA   0
+x           -6.007 0.048     -6.102   -6.007     -5.913   NA   0
+
+Random effects:
+  Name    Model
+    grupo IID model
+
+Model hyperparameters:
+                    mean    sd 0.025quant 0.5quant 0.975quant mode
+Precision for grupo 0.40 0.175      0.138    0.374      0.787   NA
+
+Marginal log-Likelihood:  -1110.13 
+ is computed 
+Posterior summaries for the linear predictor and the fitted values are computed
+(Posterior marginals needs also &#39;control.compute=list(return.marginals.predictor=TRUE)&#39;)</code></pre>
+<p>De la salida anterior se tiene que <span class="math inline">\(\hat{\boldsymbol{\Theta}}=(\hat{\beta_0}=4.402, \hat{\beta_1}=-6.007, \hat{\sigma}^2_{b0}=(1/0.40)^2=2.5^2)^\top\)</span> mientras que <span class="math inline">\(\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma^2_{b0}=4)^\top\)</span>.</p>
 </div>
 <div id="ejemplo-modelo-poisson-con-intercepto-y-pendiente-aleatoria" class="section level2 unnumbered hasAnchor">
 <h2>Ejemplo: modelo Poisson con intercepto y pendiente aleatoria<a href="paquete-inla.html#ejemplo-modelo-poisson-con-intercepto-y-pendiente-aleatoria" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -382,27 +401,27 @@ Solución.
 </div>
 </div>
 <p>El código para simular las observaciones se muestra a continuación.</p>
-<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="paquete-inla.html#cb239-1" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb239-2"><a href="paquete-inla.html#cb239-2" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb239-3"><a href="paquete-inla.html#cb239-3" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
-<span id="cb239-4"><a href="paquete-inla.html#cb239-4" aria-hidden="true" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
-<span id="cb239-5"><a href="paquete-inla.html#cb239-5" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
-<span id="cb239-6"><a href="paquete-inla.html#cb239-6" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
-<span id="cb239-7"><a href="paquete-inla.html#cb239-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb239-8"><a href="paquete-inla.html#cb239-8" aria-hidden="true" tabindex="-1"></a>Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="co"># Matriz de var-cov</span></span>
-<span id="cb239-9"><a href="paquete-inla.html#cb239-9" aria-hidden="true" tabindex="-1"></a>                  <span class="fl">0.5</span>, <span class="dv">1</span>), <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">nrow=</span><span class="dv">2</span>)</span>
-<span id="cb239-10"><a href="paquete-inla.html#cb239-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb239-11"><a href="paquete-inla.html#cb239-11" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(<span class="at">n=</span>G, <span class="at">mu=</span><span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="at">Sigma=</span>Sigma)   <span class="co"># Simulando b0 y b1</span></span>
-<span id="cb239-12"><a href="paquete-inla.html#cb239-12" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">apply</span>(b, <span class="at">MARGIN=</span><span class="dv">2</span>, <span class="cf">function</span>(c) <span class="fu">rep</span>(c, <span class="at">each=</span>ni)) <span class="co"># Replicando</span></span>
-<span id="cb239-13"><a href="paquete-inla.html#cb239-13" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">1</span>]) <span class="co"># Separando los b0</span></span>
-<span id="cb239-14"><a href="paquete-inla.html#cb239-14" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">2</span>]) <span class="co"># Separando los b1</span></span>
-<span id="cb239-15"><a href="paquete-inla.html#cb239-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb239-16"><a href="paquete-inla.html#cb239-16" aria-hidden="true" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="dv">2</span> <span class="sc">-</span> <span class="dv">8</span> <span class="sc">*</span> x <span class="sc">+</span> b0 <span class="sc">+</span> b0 <span class="sc">+</span> b1 <span class="sc">*</span> x)</span>
-<span id="cb239-17"><a href="paquete-inla.html#cb239-17" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="at">n=</span>nobs, <span class="at">lambda=</span>media)</span>
-<span id="cb239-18"><a href="paquete-inla.html#cb239-18" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, b1, x, y)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="paquete-inla.html#cb6-1" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb6-2"><a href="paquete-inla.html#cb6-2" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb6-3"><a href="paquete-inla.html#cb6-3" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
+<span id="cb6-4"><a href="paquete-inla.html#cb6-4" aria-hidden="true" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
+<span id="cb6-5"><a href="paquete-inla.html#cb6-5" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
+<span id="cb6-6"><a href="paquete-inla.html#cb6-6" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
+<span id="cb6-7"><a href="paquete-inla.html#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="paquete-inla.html#cb6-8" aria-hidden="true" tabindex="-1"></a>Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="co"># Matriz de var-cov</span></span>
+<span id="cb6-9"><a href="paquete-inla.html#cb6-9" aria-hidden="true" tabindex="-1"></a>                  <span class="fl">0.5</span>, <span class="dv">1</span>), <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">nrow=</span><span class="dv">2</span>)</span>
+<span id="cb6-10"><a href="paquete-inla.html#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="paquete-inla.html#cb6-11" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(<span class="at">n=</span>G, <span class="at">mu=</span><span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="at">Sigma=</span>Sigma)   <span class="co"># Simulando b0 y b1</span></span>
+<span id="cb6-12"><a href="paquete-inla.html#cb6-12" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">apply</span>(b, <span class="at">MARGIN=</span><span class="dv">2</span>, <span class="cf">function</span>(c) <span class="fu">rep</span>(c, <span class="at">each=</span>ni)) <span class="co"># Replicando</span></span>
+<span id="cb6-13"><a href="paquete-inla.html#cb6-13" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">1</span>]) <span class="co"># Separando los b0</span></span>
+<span id="cb6-14"><a href="paquete-inla.html#cb6-14" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">2</span>]) <span class="co"># Separando los b1</span></span>
+<span id="cb6-15"><a href="paquete-inla.html#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="paquete-inla.html#cb6-16" aria-hidden="true" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="dv">2</span> <span class="sc">-</span> <span class="dv">8</span> <span class="sc">*</span> x <span class="sc">+</span> b0 <span class="sc">+</span> b0 <span class="sc">+</span> b1 <span class="sc">*</span> x)</span>
+<span id="cb6-17"><a href="paquete-inla.html#cb6-17" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="at">n=</span>nobs, <span class="at">lambda=</span>media)</span>
+<span id="cb6-18"><a href="paquete-inla.html#cb6-18" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, b1, x, y)</span></code></pre></div>
 <p>Delia nos va a mostrar cómo estimar los parámetros del modelo ajustado.</p>
-<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="paquete-inla.html#cb240-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(INLA)</span>
-<span id="cb240-2"><a href="paquete-inla.html#cb240-2" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">inla</span>( )</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="paquete-inla.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(INLA)</span>
+<span id="cb7-2"><a href="paquete-inla.html#cb7-2" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">inla</span>( )</span></code></pre></div>
 
 </div>
 </div>
@@ -412,7 +431,7 @@ Solución.
         </div>
       </div>
 <a href="pac-MASS.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="glmm_poisson.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="paquete-gamlss.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

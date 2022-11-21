@@ -53,3 +53,4 @@ multinomial
 residuals
 simul-glmm
 blobs
+paquete-gamlss
