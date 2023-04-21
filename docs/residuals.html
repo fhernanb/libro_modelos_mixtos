@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2023-04-20" />
+<meta name="date" content="2023-04-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -293,8 +293,6 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#ejemplo-8"><i class="fa fa-check"></i>Ejemplo</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#ejemplo-modelo-normal-con-intercepto-aleatorio-3"><i class="fa fa-check"></i>Ejemplo: modelo Normal con intercepto aleatorio</a></li>
-<li class="chapter" data-level="" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#ejemplo-modelo-poisson-con-intercepto-y-pendiente-aleatoria-1"><i class="fa fa-check"></i>Ejemplo: modelo Poisson con intercepto y pendiente aleatoria</a></li>
 </ul></li>
 <li class="chapter" data-level="22" data-path="glmm_poisson.html"><a href="glmm_poisson.html"><i class="fa fa-check"></i><b>22</b> GLMM Poisson</a></li>
 <li class="chapter" data-level="23" data-path="glmm_gamma.html"><a href="glmm_gamma.html"><i class="fa fa-check"></i><b>23</b> GLMM gamma</a></li>
@@ -362,46 +360,46 @@ Solución.
 </div>
 </div>
 <p>Lo primero es simular los datos. La función <code>rgamma_glm</code> sirve para simular observaciones <span class="math inline">\(Y\)</span> con la parametrización gamma de los glm.</p>
-<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="residuals.html#cb339-1" aria-hidden="true" tabindex="-1"></a>rgamma_glm <span class="ot">&lt;-</span> <span class="cf">function</span>(n, mu, phi) {</span>
-<span id="cb339-2"><a href="residuals.html#cb339-2" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rgamma</span>(<span class="at">n=</span>n, <span class="at">shape=</span><span class="dv">1</span><span class="sc">/</span>phi, <span class="at">scale=</span>mu<span class="sc">*</span>phi)</span>
-<span id="cb339-3"><a href="residuals.html#cb339-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(x)</span>
-<span id="cb339-4"><a href="residuals.html#cb339-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb339-5"><a href="residuals.html#cb339-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb339-6"><a href="residuals.html#cb339-6" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">15</span></span>
-<span id="cb339-7"><a href="residuals.html#cb339-7" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">15</span></span>
-<span id="cb339-8"><a href="residuals.html#cb339-8" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
-<span id="cb339-9"><a href="residuals.html#cb339-9" aria-hidden="true" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
-<span id="cb339-10"><a href="residuals.html#cb339-10" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
-<span id="cb339-11"><a href="residuals.html#cb339-11" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb339-12"><a href="residuals.html#cb339-12" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
-<span id="cb339-13"><a href="residuals.html#cb339-13" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
-<span id="cb339-14"><a href="residuals.html#cb339-14" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb339-15"><a href="residuals.html#cb339-15" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">9</span>)) <span class="co"># Intercepto aleatorio</span></span>
-<span id="cb339-16"><a href="residuals.html#cb339-16" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)             <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
-<span id="cb339-17"><a href="residuals.html#cb339-17" aria-hidden="true" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="dv">2</span> <span class="sc">-</span> <span class="dv">8</span> <span class="sc">*</span> x1 <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> x2 <span class="sc">+</span> b0)</span>
-<span id="cb339-18"><a href="residuals.html#cb339-18" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb339-19"><a href="residuals.html#cb339-19" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rgamma_glm</span>(<span class="at">n=</span>nobs, <span class="at">mu=</span>media, <span class="at">phi=</span><span class="fl">0.5</span>)</span>
-<span id="cb339-20"><a href="residuals.html#cb339-20" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x1, x2, media, y)</span></code></pre></div>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="residuals.html#cb333-1" aria-hidden="true" tabindex="-1"></a>rgamma_glm <span class="ot">&lt;-</span> <span class="cf">function</span>(n, mu, phi) {</span>
+<span id="cb333-2"><a href="residuals.html#cb333-2" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rgamma</span>(<span class="at">n=</span>n, <span class="at">shape=</span><span class="dv">1</span><span class="sc">/</span>phi, <span class="at">scale=</span>mu<span class="sc">*</span>phi)</span>
+<span id="cb333-3"><a href="residuals.html#cb333-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(x)</span>
+<span id="cb333-4"><a href="residuals.html#cb333-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb333-5"><a href="residuals.html#cb333-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb333-6"><a href="residuals.html#cb333-6" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb333-7"><a href="residuals.html#cb333-7" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb333-8"><a href="residuals.html#cb333-8" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
+<span id="cb333-9"><a href="residuals.html#cb333-9" aria-hidden="true" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
+<span id="cb333-10"><a href="residuals.html#cb333-10" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
+<span id="cb333-11"><a href="residuals.html#cb333-11" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb333-12"><a href="residuals.html#cb333-12" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
+<span id="cb333-13"><a href="residuals.html#cb333-13" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
+<span id="cb333-14"><a href="residuals.html#cb333-14" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb333-15"><a href="residuals.html#cb333-15" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">9</span>)) <span class="co"># Intercepto aleatorio</span></span>
+<span id="cb333-16"><a href="residuals.html#cb333-16" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)             <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
+<span id="cb333-17"><a href="residuals.html#cb333-17" aria-hidden="true" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="dv">2</span> <span class="sc">-</span> <span class="dv">8</span> <span class="sc">*</span> x1 <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> x2 <span class="sc">+</span> b0)</span>
+<span id="cb333-18"><a href="residuals.html#cb333-18" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb333-19"><a href="residuals.html#cb333-19" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rgamma_glm</span>(<span class="at">n=</span>nobs, <span class="at">mu=</span>media, <span class="at">phi=</span><span class="fl">0.5</span>)</span>
+<span id="cb333-20"><a href="residuals.html#cb333-20" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x1, x2, media, y)</span></code></pre></div>
 <p>A continuación se ajustan los dos modelos de interés.</p>
-<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="residuals.html#cb340-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmmTMB)</span>
-<span id="cb340-2"><a href="residuals.html#cb340-2" aria-hidden="true" tabindex="-1"></a>fit0 <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">family=</span><span class="fu">Gamma</span>(<span class="at">link=</span><span class="st">&quot;log&quot;</span>), <span class="at">data =</span> datos)</span>
-<span id="cb340-3"><a href="residuals.html#cb340-3" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> grupo), <span class="at">family=</span><span class="fu">Gamma</span>(<span class="at">link=</span><span class="st">&quot;log&quot;</span>), <span class="at">data =</span> datos)</span></code></pre></div>
+<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="residuals.html#cb334-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmmTMB)</span>
+<span id="cb334-2"><a href="residuals.html#cb334-2" aria-hidden="true" tabindex="-1"></a>fit0 <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">family=</span><span class="fu">Gamma</span>(<span class="at">link=</span><span class="st">&quot;log&quot;</span>), <span class="at">data =</span> datos)</span>
+<span id="cb334-3"><a href="residuals.html#cb334-3" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> grupo), <span class="at">family=</span><span class="fu">Gamma</span>(<span class="at">link=</span><span class="st">&quot;log&quot;</span>), <span class="at">data =</span> datos)</span></code></pre></div>
 <p>Con el siguiente código se constuyen los gráficos de residuales para el modelo <code>fit0</code>.</p>
-<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="residuals.html#cb341-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DHARMa)</span></code></pre></div>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="residuals.html#cb335-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DHARMa)</span></code></pre></div>
 <pre><code>## This is DHARMa 0.4.6. For overview type &#39;?DHARMa&#39;. For recent changes, type news(package = &#39;DHARMa&#39;)</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;DHARMa&#39;</code></pre>
 <pre><code>## The following object is masked from &#39;package:gamlss&#39;:
 ## 
 ##     getQuantile</code></pre>
-<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="residuals.html#cb345-1" aria-hidden="true" tabindex="-1"></a>simulationOutput0 <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> fit0, <span class="at">plot =</span> F)</span>
-<span id="cb345-2"><a href="residuals.html#cb345-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput0)</span></code></pre></div>
-<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-260-1.png" width="672" /></p>
+<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="residuals.html#cb339-1" aria-hidden="true" tabindex="-1"></a>simulationOutput0 <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> fit0, <span class="at">plot =</span> F)</span>
+<span id="cb339-2"><a href="residuals.html#cb339-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput0)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-258-1.png" width="672" /></p>
 <p>De la figura anterior vemos que el valor-P de la prueba KS de normalidad (<span class="math inline">\(H_0:\)</span> la muestra de residuos tiene distribución normal) es 0, lo que indica que hay evidencias para rechazar la normalidad de los errores. Eso implica que el modelo <code>fit0</code> no es el modelo apropiado para los datos. Este resultado es correcto porque sabemos que <code>fit0</code> no incluyó el intercepto aleatorio <span class="math inline">\(b_0\)</span>.</p>
 <p>Con el siguiente código se constuyen los gráficos de residuales para el modelo <code>fit1</code>.</p>
-<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="residuals.html#cb346-1" aria-hidden="true" tabindex="-1"></a>simulationOutput1 <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> fit1, <span class="at">plot =</span> F)</span>
-<span id="cb346-2"><a href="residuals.html#cb346-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput1)</span></code></pre></div>
-<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-261-1.png" width="672" /></p>
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="residuals.html#cb340-1" aria-hidden="true" tabindex="-1"></a>simulationOutput1 <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> fit1, <span class="at">plot =</span> F)</span>
+<span id="cb340-2"><a href="residuals.html#cb340-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput1)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-259-1.png" width="672" /></p>
 <p>De la figura anterior vemos que el valor-P de la prueba KS de normalidad (<span class="math inline">\(H_0:\)</span> la muestra de residuos tiene distribución normal) es 0.10871, lo que indica que hay <strong>NO hay</strong> evidencias para rechazar la normalidad de los errores. Eso implica que el modelo <code>fit1</code> podría ser un modelo apropiado para los datos. Este resultado es correcto porque sabemos que <code>fit1</code> tiene los elementos con los que se simularon los datos.</p>
 <div style="-moz-box-shadow: 1px 1px 3px 2px #00ffff;
   -webkit-box-shadow: 1px 1px 3px 2px #00ffff;

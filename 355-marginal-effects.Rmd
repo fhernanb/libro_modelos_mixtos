@@ -9,12 +9,14 @@ knitr::include_graphics("images/chicks.jpg")
 
 En este ejemplo vamos a construir un modelo mixto para explicar el peso de unos pollitos en función de la edad y la dieta que recibieron (cuatro niveles). A continuación se muestra un diagrama de dispersión que relacion el peso, la edad y las dietas.
 
-```{r}
+```{r message=FALSE}
 library(lme4)
 library(tidyverse)
 library(patchwork)
 library(marginaleffects)
 ```
+
+Para hacer el gráfico de dispersión.
 
 ```{r}
 library(ggplot2)

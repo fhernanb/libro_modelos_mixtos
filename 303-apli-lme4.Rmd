@@ -133,7 +133,7 @@ sleepstudy$pred_inter_pend_aleatorio <- predict(fit)
 ggplot(data = sleepstudy, aes(x = Days, y = pred_inter_pend_aleatorio, color = Subject)) +
   geom_line() +
   geom_point(aes(x = Days, y = Reaction, color = Subject)) +
-  geom_abline(intercept = 251.40, slope = 10.47, color = "black", linetype = "dashed", size = 0.5) +
+  geom_abline(intercept = 251.40, slope = 10.47, color = "black", linetype = "dashed", linewidth = 0.5) +
   theme_bw() +
   facet_wrap(~ Subject) + 
   theme(legend.position = "none") + labs(y = "Reaction time")

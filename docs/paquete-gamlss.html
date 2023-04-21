@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2023-04-20" />
+<meta name="date" content="2023-04-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -293,8 +293,6 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#ejemplo-8"><i class="fa fa-check"></i>Ejemplo</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#ejemplo-modelo-normal-con-intercepto-aleatorio-3"><i class="fa fa-check"></i>Ejemplo: modelo Normal con intercepto aleatorio</a></li>
-<li class="chapter" data-level="" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#ejemplo-modelo-poisson-con-intercepto-y-pendiente-aleatoria-1"><i class="fa fa-check"></i>Ejemplo: modelo Poisson con intercepto y pendiente aleatoria</a></li>
 </ul></li>
 <li class="chapter" data-level="22" data-path="glmm_poisson.html"><a href="glmm_poisson.html"><i class="fa fa-check"></i><b>22</b> GLMM Poisson</a></li>
 <li class="chapter" data-level="23" data-path="glmm_gamma.html"><a href="glmm_gamma.html"><i class="fa fa-check"></i><b>23</b> GLMM gamma</a></li>
@@ -334,6 +332,15 @@ div.csl-indent {
 <div id="paquete-gamlss" class="section level1 hasAnchor" number="21">
 <h1><span class="header-section-number">21</span> Paquete <strong>gamlss</strong><a href="paquete-gamlss.html#paquete-gamlss" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>El paquete <strong>gamlss</strong> de <span class="citation">Stasinopoulos and Rigby (<a href="#ref-R-gamlss" role="doc-biblioref">2022</a>)</span> se utiliza para estimar modelos en los que la variable respuesta puede tener casi cualquier distribución. Al visitar este <a href="https://cran.r-project.org/web/packages/gamlss/">enlace</a> se encontrará la página de apoyo del paquete, allí se puede consultar el manual de referencia.</p>
+<p>El objetivo de este capítulo es mostrar la forma de ajustar un modelo mixto con gamlss y cómo obtener las estimaciones de los efectos fijos y las componentes de varianza.</p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #ffff00;
+  -webkit-box-shadow: 1px 1px 3px 2px #ffff00;
+  box-shadow:         1px 1px 3px 2px #ffff00;">
+
+<div class="rmdnote">
+La función clave para extraer las componentes de varianza en un modelo mixto ajustado con gamlss es la función <code>getSmo( )</code>.
+</div>
+</div>
 <div id="modelo-lineal-mixto-con-intercepto-aleatorio" class="section level2 hasAnchor" number="21.1">
 <h2><span class="header-section-number">21.1</span> Modelo lineal mixto con intercepto aleatorio<a href="paquete-gamlss.html#modelo-lineal-mixto-con-intercepto-aleatorio" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>En esta sección se muestra cómo extraer los efectos fijos y la varianza del intercepto aleatorio con <strong>gamlss</strong></p>
@@ -347,65 +354,85 @@ y_{ij} | b_0 &amp;\sim  N(\mu_{ij}, \sigma^2_y) \\
 b_{0} &amp;\sim N(0, \sigma^2_{b0}=10^2) \\
 x_{ij} &amp;\sim U(0, 10)
 \end{align*}\]</span></p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
 
 <div class="rmdexercise">
 Solución.
 </div>
+</div>
 <p>El código para simular los datos se muestra a continuación.</p>
-<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="paquete-gamlss.html#cb245-1" aria-hidden="true" tabindex="-1"></a>gen_dat_b0 <span class="ot">&lt;-</span> <span class="cf">function</span>(G, ni, beta0, beta1, sigma, sigmab0) {</span>
-<span id="cb245-2"><a href="paquete-gamlss.html#cb245-2" aria-hidden="true" tabindex="-1"></a>  group <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni)</span>
-<span id="cb245-3"><a href="paquete-gamlss.html#cb245-3" aria-hidden="true" tabindex="-1"></a>  b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span>sigmab0), <span class="at">each=</span>ni)</span>
-<span id="cb245-4"><a href="paquete-gamlss.html#cb245-4" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>G<span class="sc">*</span>ni, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">10</span>)</span>
-<span id="cb245-5"><a href="paquete-gamlss.html#cb245-5" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> x <span class="sc">+</span> b0</span>
-<span id="cb245-6"><a href="paquete-gamlss.html#cb245-6" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G<span class="sc">*</span>ni, <span class="at">mean=</span>mu, <span class="at">sd=</span>sigma)</span>
-<span id="cb245-7"><a href="paquete-gamlss.html#cb245-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">group=</span>group, <span class="at">x=</span>x, <span class="at">y=</span>y)</span>
-<span id="cb245-8"><a href="paquete-gamlss.html#cb245-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb245-9"><a href="paquete-gamlss.html#cb245-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb245-10"><a href="paquete-gamlss.html#cb245-10" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb245-11"><a href="paquete-gamlss.html#cb245-11" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb245-12"><a href="paquete-gamlss.html#cb245-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb245-13"><a href="paquete-gamlss.html#cb245-13" aria-hidden="true" tabindex="-1"></a>beta0   <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb245-14"><a href="paquete-gamlss.html#cb245-14" aria-hidden="true" tabindex="-1"></a>beta1   <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">8</span></span>
-<span id="cb245-15"><a href="paquete-gamlss.html#cb245-15" aria-hidden="true" tabindex="-1"></a>sigma   <span class="ot">&lt;-</span> <span class="dv">15</span></span>
-<span id="cb245-16"><a href="paquete-gamlss.html#cb245-16" aria-hidden="true" tabindex="-1"></a>sigmab0 <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb245-17"><a href="paquete-gamlss.html#cb245-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb245-18"><a href="paquete-gamlss.html#cb245-18" aria-hidden="true" tabindex="-1"></a>theta_true <span class="ot">&lt;-</span> <span class="fu">c</span>(beta0, beta1, sigma, sigmab0)</span>
-<span id="cb245-19"><a href="paquete-gamlss.html#cb245-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb245-20"><a href="paquete-gamlss.html#cb245-20" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5734</span>)</span>
-<span id="cb245-21"><a href="paquete-gamlss.html#cb245-21" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">gen_dat_b0</span>(G, ni, beta0, beta1, sigma, sigmab0)</span></code></pre></div>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="paquete-gamlss.html#cb240-1" aria-hidden="true" tabindex="-1"></a>gen_dat_b0 <span class="ot">&lt;-</span> <span class="cf">function</span>(G, ni, beta0, beta1, sigma, sigmab0) {</span>
+<span id="cb240-2"><a href="paquete-gamlss.html#cb240-2" aria-hidden="true" tabindex="-1"></a>  group <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni)</span>
+<span id="cb240-3"><a href="paquete-gamlss.html#cb240-3" aria-hidden="true" tabindex="-1"></a>  b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span>sigmab0), <span class="at">each=</span>ni)</span>
+<span id="cb240-4"><a href="paquete-gamlss.html#cb240-4" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>G<span class="sc">*</span>ni, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">10</span>)</span>
+<span id="cb240-5"><a href="paquete-gamlss.html#cb240-5" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> x <span class="sc">+</span> b0</span>
+<span id="cb240-6"><a href="paquete-gamlss.html#cb240-6" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G<span class="sc">*</span>ni, <span class="at">mean=</span>mu, <span class="at">sd=</span>sigma)</span>
+<span id="cb240-7"><a href="paquete-gamlss.html#cb240-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">group=</span>group, <span class="at">x=</span>x, <span class="at">y=</span>y)</span>
+<span id="cb240-8"><a href="paquete-gamlss.html#cb240-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb240-9"><a href="paquete-gamlss.html#cb240-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb240-10"><a href="paquete-gamlss.html#cb240-10" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb240-11"><a href="paquete-gamlss.html#cb240-11" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb240-12"><a href="paquete-gamlss.html#cb240-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb240-13"><a href="paquete-gamlss.html#cb240-13" aria-hidden="true" tabindex="-1"></a>beta0   <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb240-14"><a href="paquete-gamlss.html#cb240-14" aria-hidden="true" tabindex="-1"></a>beta1   <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">8</span></span>
+<span id="cb240-15"><a href="paquete-gamlss.html#cb240-15" aria-hidden="true" tabindex="-1"></a>sigma   <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb240-16"><a href="paquete-gamlss.html#cb240-16" aria-hidden="true" tabindex="-1"></a>sigmab0 <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb240-17"><a href="paquete-gamlss.html#cb240-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb240-18"><a href="paquete-gamlss.html#cb240-18" aria-hidden="true" tabindex="-1"></a>theta_true <span class="ot">&lt;-</span> <span class="fu">c</span>(beta0, beta1, sigma, sigmab0)</span>
+<span id="cb240-19"><a href="paquete-gamlss.html#cb240-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb240-20"><a href="paquete-gamlss.html#cb240-20" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5734</span>)</span>
+<span id="cb240-21"><a href="paquete-gamlss.html#cb240-21" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">gen_dat_b0</span>(G, ni, beta0, beta1, sigma, sigmab0)</span></code></pre></div>
 <p>Para dibujar los datos se utiliza el siguiente código.</p>
-<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="paquete-gamlss.html#cb246-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb246-2"><a href="paquete-gamlss.html#cb246-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(x, y, <span class="at">color=</span><span class="fu">as.factor</span>(group)) ) <span class="sc">+</span> </span>
-<span id="cb246-3"><a href="paquete-gamlss.html#cb246-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb246-4"><a href="paquete-gamlss.html#cb246-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">colour=</span><span class="st">&quot;Grupo/Cluster&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="paquete-gamlss.html#cb241-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb241-2"><a href="paquete-gamlss.html#cb241-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(x, y, <span class="at">color=</span><span class="fu">as.factor</span>(group)) ) <span class="sc">+</span> </span>
+<span id="cb241-3"><a href="paquete-gamlss.html#cb241-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb241-4"><a href="paquete-gamlss.html#cb241-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">colour=</span><span class="st">&quot;Grupo/Cluster&quot;</span>)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/gamlss01-1.png" width="576" /></p>
 <p>En el siguiente código se ajustan dos modelos, uno con la función <code>lmer</code> y otro con la función <code>gamlss</code>, el modelo <code>mod1</code> se utilizará como modelo de referencia para saber qué tan bien <code>gamlss</code> estima los parámetros del modelo.</p>
-<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="paquete-gamlss.html#cb247-1" aria-hidden="true" tabindex="-1"></a><span class="co"># con lme</span></span>
-<span id="cb247-2"><a href="paquete-gamlss.html#cb247-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(lme4)</span>
-<span id="cb247-3"><a href="paquete-gamlss.html#cb247-3" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(y <span class="sc">~</span> x <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>group), <span class="at">data=</span>datos)</span>
-<span id="cb247-4"><a href="paquete-gamlss.html#cb247-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb247-5"><a href="paquete-gamlss.html#cb247-5" aria-hidden="true" tabindex="-1"></a><span class="co"># con gamlss</span></span>
-<span id="cb247-6"><a href="paquete-gamlss.html#cb247-6" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(gamlss)</span>
-<span id="cb247-7"><a href="paquete-gamlss.html#cb247-7" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">gamlss</span>(y <span class="sc">~</span> x <span class="sc">+</span> <span class="fu">re</span>(<span class="at">random=</span><span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>group), <span class="at">data=</span>datos)</span></code></pre></div>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="paquete-gamlss.html#cb242-1" aria-hidden="true" tabindex="-1"></a><span class="co"># con lme</span></span>
+<span id="cb242-2"><a href="paquete-gamlss.html#cb242-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(lme4)</span>
+<span id="cb242-3"><a href="paquete-gamlss.html#cb242-3" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(y <span class="sc">~</span> x <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>group), <span class="at">data=</span>datos)</span>
+<span id="cb242-4"><a href="paquete-gamlss.html#cb242-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb242-5"><a href="paquete-gamlss.html#cb242-5" aria-hidden="true" tabindex="-1"></a><span class="co"># con gamlss</span></span>
+<span id="cb242-6"><a href="paquete-gamlss.html#cb242-6" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(gamlss)</span>
+<span id="cb242-7"><a href="paquete-gamlss.html#cb242-7" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">gamlss</span>(y <span class="sc">~</span> x <span class="sc">+</span> <span class="fu">re</span>(<span class="at">random=</span><span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>group), <span class="at">data=</span>datos)</span></code></pre></div>
 <pre><code>## GAMLSS-RS iteration 1: Global Deviance = 1620.721 
 ## GAMLSS-RS iteration 2: Global Deviance = 1620.721</code></pre>
 <p>A continuación el código para obtener las estimaciones de <span class="math inline">\(\boldsymbol{\Theta}\)</span> con <code>lmer</code> y <code>gamlss</code>.</p>
-<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="paquete-gamlss.html#cb249-1" aria-hidden="true" tabindex="-1"></a>vc <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(mod1)</span>
-<span id="cb249-2"><a href="paquete-gamlss.html#cb249-2" aria-hidden="true" tabindex="-1"></a>vc <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(vc)</span>
-<span id="cb249-3"><a href="paquete-gamlss.html#cb249-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb249-4"><a href="paquete-gamlss.html#cb249-4" aria-hidden="true" tabindex="-1"></a>theta_lmer <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">fixef</span>(mod1), vc<span class="sc">$</span>sdcor[<span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>])</span>
-<span id="cb249-5"><a href="paquete-gamlss.html#cb249-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb249-6"><a href="paquete-gamlss.html#cb249-6" aria-hidden="true" tabindex="-1"></a>theta_gamlss <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">coef</span>(mod2)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>],</span>
-<span id="cb249-7"><a href="paquete-gamlss.html#cb249-7" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">exp</span>(<span class="fu">coef</span>(mod2, <span class="at">what=</span><span class="st">&#39;sigma&#39;</span>)),</span>
-<span id="cb249-8"><a href="paquete-gamlss.html#cb249-8" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">as.numeric</span>(<span class="fu">VarCorr</span>(<span class="fu">getSmo</span>(mod2))[<span class="dv">1</span>, <span class="dv">2</span>]))</span>
-<span id="cb249-9"><a href="paquete-gamlss.html#cb249-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb249-10"><a href="paquete-gamlss.html#cb249-10" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(theta_true, theta_lmer, theta_gamlss)</span></code></pre></div>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="paquete-gamlss.html#cb244-1" aria-hidden="true" tabindex="-1"></a>vc <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(mod1)</span>
+<span id="cb244-2"><a href="paquete-gamlss.html#cb244-2" aria-hidden="true" tabindex="-1"></a>vc <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(vc)</span>
+<span id="cb244-3"><a href="paquete-gamlss.html#cb244-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb244-4"><a href="paquete-gamlss.html#cb244-4" aria-hidden="true" tabindex="-1"></a>theta_lmer <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">fixef</span>(mod1), vc<span class="sc">$</span>sdcor[<span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>])</span>
+<span id="cb244-5"><a href="paquete-gamlss.html#cb244-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb244-6"><a href="paquete-gamlss.html#cb244-6" aria-hidden="true" tabindex="-1"></a>theta_gamlss <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">coef</span>(mod2)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>],</span>
+<span id="cb244-7"><a href="paquete-gamlss.html#cb244-7" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">exp</span>(<span class="fu">coef</span>(mod2, <span class="at">what=</span><span class="st">&#39;sigma&#39;</span>)),</span>
+<span id="cb244-8"><a href="paquete-gamlss.html#cb244-8" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">as.numeric</span>(<span class="fu">VarCorr</span>(<span class="fu">getSmo</span>(mod2))[<span class="dv">1</span>, <span class="dv">2</span>]))</span>
+<span id="cb244-9"><a href="paquete-gamlss.html#cb244-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb244-10"><a href="paquete-gamlss.html#cb244-10" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(theta_true, theta_lmer, theta_gamlss)</span></code></pre></div>
 <pre><code>##             theta_true theta_lmer theta_gamlss
 ## (Intercept)          5   6.334338     6.333258
 ## x                   -8  -8.032004    -8.031778
 ##                     15  14.286254    13.913564
 ##                     10  12.268947    11.595726</code></pre>
 <p>De la salida anterior vemos que las estimaciones con <code>lmer</code> y <code>gamlss</code> son similares y cercanas a <span class="math inline">\(\boldsymbol{\Theta}\)</span>.</p>
+<p>Para finalizar el ejercicio, vamos a mostrar las curvas estimadas para cada grupo usando los resultados del modelo <code>mod1</code>.</p>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="paquete-gamlss.html#cb246-1" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>pred_y <span class="ot">&lt;-</span> <span class="fu">predict</span>(mod1) <span class="co"># Para obtener y_hat</span></span>
+<span id="cb246-2"><a href="paquete-gamlss.html#cb246-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb246-3"><a href="paquete-gamlss.html#cb246-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> datos, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> pred_y, <span class="at">color =</span> <span class="fu">as.factor</span>(group))) <span class="sc">+</span></span>
+<span id="cb246-4"><a href="paquete-gamlss.html#cb246-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb246-5"><a href="paquete-gamlss.html#cb246-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">color =</span> <span class="fu">as.factor</span>(group))) <span class="sc">+</span></span>
+<span id="cb246-6"><a href="paquete-gamlss.html#cb246-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="fu">fixef</span>(mod1)[<span class="dv">1</span>], </span>
+<span id="cb246-7"><a href="paquete-gamlss.html#cb246-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">slope =</span> <span class="fu">fixef</span>(mod1)[<span class="dv">2</span>], </span>
+<span id="cb246-8"><a href="paquete-gamlss.html#cb246-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, </span>
+<span id="cb246-9"><a href="paquete-gamlss.html#cb246-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, </span>
+<span id="cb246-10"><a href="paquete-gamlss.html#cb246-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb246-11"><a href="paquete-gamlss.html#cb246-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb246-12"><a href="paquete-gamlss.html#cb246-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> group) <span class="sc">+</span> </span>
+<span id="cb246-13"><a href="paquete-gamlss.html#cb246-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Y&quot;</span>)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-200-1.png" width="672" /></p>
+<p>En la figura anterior tenemos un pánel para cada grupo, dentro de ese pánel están los puntos y dos líneas. La línea negra a trazos representa el modelo general con ecuación <span class="math inline">\(Y=6.33 + -8.03 x\)</span>. La línea de color representa el modelo particular para cada grupo, su ecuación se obtiene de la ecuación general agregando el intercepto aleatorio predicho <span class="math inline">\(\tilde{b}_0\)</span>.</p>
 </div>
 </div>
 <div id="modelo-lineal-mixto-con-pendiente-aleatoria" class="section level2 hasAnchor" number="21.2">
@@ -421,66 +448,86 @@ y_{ij} | b_0 &amp;\sim  N(\mu_{ij}, \sigma^2_y) \\
 b_{0} &amp;\sim N(0, \sigma^2_{b0}=20^2) \\
 x_{ij} &amp;\sim U(0, 10)
 \end{align*}\]</span></p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
 
 <div class="rmdexercise">
 Solución.
 </div>
+</div>
 <p>El código para simular los datos se muestra a continuación.</p>
-<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="paquete-gamlss.html#cb251-1" aria-hidden="true" tabindex="-1"></a>gen.dat <span class="ot">&lt;-</span> <span class="cf">function</span>(G, ni, beta0, beta1, sigma, sigmab1) {</span>
-<span id="cb251-2"><a href="paquete-gamlss.html#cb251-2" aria-hidden="true" tabindex="-1"></a>  group <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni)</span>
-<span id="cb251-3"><a href="paquete-gamlss.html#cb251-3" aria-hidden="true" tabindex="-1"></a>  b1 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span>sigmab1), <span class="at">each=</span>ni)</span>
-<span id="cb251-4"><a href="paquete-gamlss.html#cb251-4" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>G<span class="sc">*</span>ni, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">10</span>)</span>
-<span id="cb251-5"><a href="paquete-gamlss.html#cb251-5" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> x <span class="sc">+</span> b1 <span class="sc">*</span> x</span>
-<span id="cb251-6"><a href="paquete-gamlss.html#cb251-6" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G<span class="sc">*</span>ni, <span class="at">mean=</span>mu, <span class="at">sd=</span>sigma)</span>
-<span id="cb251-7"><a href="paquete-gamlss.html#cb251-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">group=</span>group, <span class="at">x=</span>x, <span class="at">y=</span>y)</span>
-<span id="cb251-8"><a href="paquete-gamlss.html#cb251-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb251-9"><a href="paquete-gamlss.html#cb251-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb251-10"><a href="paquete-gamlss.html#cb251-10" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb251-11"><a href="paquete-gamlss.html#cb251-11" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb251-12"><a href="paquete-gamlss.html#cb251-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb251-13"><a href="paquete-gamlss.html#cb251-13" aria-hidden="true" tabindex="-1"></a>beta0 <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb251-14"><a href="paquete-gamlss.html#cb251-14" aria-hidden="true" tabindex="-1"></a>beta1 <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">3</span></span>
-<span id="cb251-15"><a href="paquete-gamlss.html#cb251-15" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">8</span></span>
-<span id="cb251-16"><a href="paquete-gamlss.html#cb251-16" aria-hidden="true" tabindex="-1"></a>sigmab1 <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb251-17"><a href="paquete-gamlss.html#cb251-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb251-18"><a href="paquete-gamlss.html#cb251-18" aria-hidden="true" tabindex="-1"></a>theta_true <span class="ot">&lt;-</span> <span class="fu">c</span>(beta0, beta1, sigma, sigmab1)</span>
-<span id="cb251-19"><a href="paquete-gamlss.html#cb251-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb251-20"><a href="paquete-gamlss.html#cb251-20" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb251-21"><a href="paquete-gamlss.html#cb251-21" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">gen.dat</span>(G, ni, beta0, beta1, sigma, sigmab1)</span></code></pre></div>
+<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="paquete-gamlss.html#cb247-1" aria-hidden="true" tabindex="-1"></a>gen.dat <span class="ot">&lt;-</span> <span class="cf">function</span>(G, ni, beta0, beta1, sigma, sigmab1) {</span>
+<span id="cb247-2"><a href="paquete-gamlss.html#cb247-2" aria-hidden="true" tabindex="-1"></a>  group <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni)</span>
+<span id="cb247-3"><a href="paquete-gamlss.html#cb247-3" aria-hidden="true" tabindex="-1"></a>  b1 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span>sigmab1), <span class="at">each=</span>ni)</span>
+<span id="cb247-4"><a href="paquete-gamlss.html#cb247-4" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>G<span class="sc">*</span>ni, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">10</span>)</span>
+<span id="cb247-5"><a href="paquete-gamlss.html#cb247-5" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> x <span class="sc">+</span> b1 <span class="sc">*</span> x</span>
+<span id="cb247-6"><a href="paquete-gamlss.html#cb247-6" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G<span class="sc">*</span>ni, <span class="at">mean=</span>mu, <span class="at">sd=</span>sigma)</span>
+<span id="cb247-7"><a href="paquete-gamlss.html#cb247-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">group=</span>group, <span class="at">x=</span>x, <span class="at">y=</span>y)</span>
+<span id="cb247-8"><a href="paquete-gamlss.html#cb247-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb247-9"><a href="paquete-gamlss.html#cb247-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb247-10"><a href="paquete-gamlss.html#cb247-10" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb247-11"><a href="paquete-gamlss.html#cb247-11" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb247-12"><a href="paquete-gamlss.html#cb247-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb247-13"><a href="paquete-gamlss.html#cb247-13" aria-hidden="true" tabindex="-1"></a>beta0 <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb247-14"><a href="paquete-gamlss.html#cb247-14" aria-hidden="true" tabindex="-1"></a>beta1 <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">3</span></span>
+<span id="cb247-15"><a href="paquete-gamlss.html#cb247-15" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">8</span></span>
+<span id="cb247-16"><a href="paquete-gamlss.html#cb247-16" aria-hidden="true" tabindex="-1"></a>sigmab1 <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb247-17"><a href="paquete-gamlss.html#cb247-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb247-18"><a href="paquete-gamlss.html#cb247-18" aria-hidden="true" tabindex="-1"></a>theta_true <span class="ot">&lt;-</span> <span class="fu">c</span>(beta0, beta1, sigma, sigmab1)</span>
+<span id="cb247-19"><a href="paquete-gamlss.html#cb247-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb247-20"><a href="paquete-gamlss.html#cb247-20" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb247-21"><a href="paquete-gamlss.html#cb247-21" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">gen.dat</span>(G, ni, beta0, beta1, sigma, sigmab1)</span></code></pre></div>
 <p>Para dibujar los datos se utiliza el siguiente código.</p>
-<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="paquete-gamlss.html#cb252-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb252-2"><a href="paquete-gamlss.html#cb252-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(x, y, <span class="at">color=</span><span class="fu">as.factor</span>(group)) ) <span class="sc">+</span> </span>
-<span id="cb252-3"><a href="paquete-gamlss.html#cb252-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb252-4"><a href="paquete-gamlss.html#cb252-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">colour=</span><span class="st">&quot;Grupo/Cluster&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="paquete-gamlss.html#cb248-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb248-2"><a href="paquete-gamlss.html#cb248-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(x, y, <span class="at">color=</span><span class="fu">as.factor</span>(group)) ) <span class="sc">+</span> </span>
+<span id="cb248-3"><a href="paquete-gamlss.html#cb248-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb248-4"><a href="paquete-gamlss.html#cb248-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">colour=</span><span class="st">&quot;Grupo/Cluster&quot;</span>)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/gamlss02-1.png" width="576" /></p>
 <p>De la figura anterior se observa claramente la pendiente aleatoria.</p>
 <p>En el siguiente código se ajustan dos modelos, uno con la función <code>lmer</code> y otro con la función <code>gamlss</code>, el modelo <code>mod1</code> se utilizará como modelo de referencia para saber qué tan bien <code>gamlss</code> estima los parámetros del modelo.</p>
-<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="paquete-gamlss.html#cb253-1" aria-hidden="true" tabindex="-1"></a><span class="co"># con lme</span></span>
-<span id="cb253-2"><a href="paquete-gamlss.html#cb253-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(lme4)</span>
-<span id="cb253-3"><a href="paquete-gamlss.html#cb253-3" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(y <span class="sc">~</span> x <span class="sc">+</span> (<span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> x<span class="sc">|</span>group), <span class="at">data=</span>datos)</span>
-<span id="cb253-4"><a href="paquete-gamlss.html#cb253-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb253-5"><a href="paquete-gamlss.html#cb253-5" aria-hidden="true" tabindex="-1"></a><span class="co"># con gamlss</span></span>
-<span id="cb253-6"><a href="paquete-gamlss.html#cb253-6" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(gamlss)</span>
-<span id="cb253-7"><a href="paquete-gamlss.html#cb253-7" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">gamlss</span>(y <span class="sc">~</span> x <span class="sc">+</span> <span class="fu">re</span>(<span class="at">random=</span><span class="sc">~-</span><span class="dv">1</span><span class="sc">+</span>x<span class="sc">|</span>group), <span class="at">data=</span>datos)</span></code></pre></div>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="paquete-gamlss.html#cb249-1" aria-hidden="true" tabindex="-1"></a><span class="co"># con lme</span></span>
+<span id="cb249-2"><a href="paquete-gamlss.html#cb249-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(lme4)</span>
+<span id="cb249-3"><a href="paquete-gamlss.html#cb249-3" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(y <span class="sc">~</span> x <span class="sc">+</span> (<span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> x<span class="sc">|</span>group), <span class="at">data=</span>datos)</span>
+<span id="cb249-4"><a href="paquete-gamlss.html#cb249-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb249-5"><a href="paquete-gamlss.html#cb249-5" aria-hidden="true" tabindex="-1"></a><span class="co"># con gamlss</span></span>
+<span id="cb249-6"><a href="paquete-gamlss.html#cb249-6" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(gamlss)</span>
+<span id="cb249-7"><a href="paquete-gamlss.html#cb249-7" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">gamlss</span>(y <span class="sc">~</span> x <span class="sc">+</span> <span class="fu">re</span>(<span class="at">random=</span><span class="sc">~-</span><span class="dv">1</span><span class="sc">+</span>x<span class="sc">|</span>group), <span class="at">data=</span>datos)</span></code></pre></div>
 <pre><code>## GAMLSS-RS iteration 1: Global Deviance = 1397.157 
 ## GAMLSS-RS iteration 2: Global Deviance = 1397.157</code></pre>
 <p>A continuación el código para obtener las estimaciones de <span class="math inline">\(\boldsymbol{\Theta}\)</span> con <code>lmer</code> y <code>gamlss</code>.</p>
-<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="paquete-gamlss.html#cb255-1" aria-hidden="true" tabindex="-1"></a>vc <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(mod1)</span>
-<span id="cb255-2"><a href="paquete-gamlss.html#cb255-2" aria-hidden="true" tabindex="-1"></a>vc <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(vc)</span>
-<span id="cb255-3"><a href="paquete-gamlss.html#cb255-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb255-4"><a href="paquete-gamlss.html#cb255-4" aria-hidden="true" tabindex="-1"></a>theta_lmer <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">fixef</span>(mod1), vc<span class="sc">$</span>sdcor[<span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>])</span>
-<span id="cb255-5"><a href="paquete-gamlss.html#cb255-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb255-6"><a href="paquete-gamlss.html#cb255-6" aria-hidden="true" tabindex="-1"></a>theta_gamlss <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">coef</span>(mod2)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>],</span>
-<span id="cb255-7"><a href="paquete-gamlss.html#cb255-7" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">exp</span>(<span class="fu">coef</span>(mod2, <span class="at">what=</span><span class="st">&#39;sigma&#39;</span>)),</span>
-<span id="cb255-8"><a href="paquete-gamlss.html#cb255-8" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">as.numeric</span>(<span class="fu">VarCorr</span>(<span class="fu">getSmo</span>(mod2))[<span class="dv">1</span>, <span class="dv">2</span>]))</span>
-<span id="cb255-9"><a href="paquete-gamlss.html#cb255-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb255-10"><a href="paquete-gamlss.html#cb255-10" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(theta_true, theta_lmer, theta_gamlss)</span></code></pre></div>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="paquete-gamlss.html#cb251-1" aria-hidden="true" tabindex="-1"></a>vc <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(mod1)</span>
+<span id="cb251-2"><a href="paquete-gamlss.html#cb251-2" aria-hidden="true" tabindex="-1"></a>vc <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(vc)</span>
+<span id="cb251-3"><a href="paquete-gamlss.html#cb251-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb251-4"><a href="paquete-gamlss.html#cb251-4" aria-hidden="true" tabindex="-1"></a>theta_lmer <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">fixef</span>(mod1), vc<span class="sc">$</span>sdcor[<span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>])</span>
+<span id="cb251-5"><a href="paquete-gamlss.html#cb251-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb251-6"><a href="paquete-gamlss.html#cb251-6" aria-hidden="true" tabindex="-1"></a>theta_gamlss <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">coef</span>(mod2)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>],</span>
+<span id="cb251-7"><a href="paquete-gamlss.html#cb251-7" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">exp</span>(<span class="fu">coef</span>(mod2, <span class="at">what=</span><span class="st">&#39;sigma&#39;</span>)),</span>
+<span id="cb251-8"><a href="paquete-gamlss.html#cb251-8" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">as.numeric</span>(<span class="fu">VarCorr</span>(<span class="fu">getSmo</span>(mod2))[<span class="dv">1</span>, <span class="dv">2</span>]))</span>
+<span id="cb251-9"><a href="paquete-gamlss.html#cb251-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb251-10"><a href="paquete-gamlss.html#cb251-10" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(theta_true, theta_lmer, theta_gamlss)</span></code></pre></div>
 <pre><code>##             theta_true theta_lmer theta_gamlss
 ## (Intercept)          5   4.730389     4.997051
 ## x                   -3 -10.434355   -10.639911
 ##                      8   8.184410     7.956222
 ##                     20  19.946959    18.924090</code></pre>
 <p>De la salida anterior vemos que las estimaciones con <code>lmer</code> y <code>gamlss</code> son similares y cercanas a <span class="math inline">\(\boldsymbol{\Theta}\)</span>.</p>
+<p>Para finalizar el ejercicio, vamos a mostrar las curvas estimadas para cada grupo usando los resultados del modelo <code>mod1</code>.</p>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="paquete-gamlss.html#cb253-1" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>pred_y <span class="ot">&lt;-</span> <span class="fu">predict</span>(mod1) <span class="co"># Para obtener y_hat</span></span>
+<span id="cb253-2"><a href="paquete-gamlss.html#cb253-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb253-3"><a href="paquete-gamlss.html#cb253-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> datos, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> pred_y, <span class="at">color =</span> <span class="fu">as.factor</span>(group))) <span class="sc">+</span></span>
+<span id="cb253-4"><a href="paquete-gamlss.html#cb253-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb253-5"><a href="paquete-gamlss.html#cb253-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">color =</span> <span class="fu">as.factor</span>(group))) <span class="sc">+</span></span>
+<span id="cb253-6"><a href="paquete-gamlss.html#cb253-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="fu">fixef</span>(mod1)[<span class="dv">1</span>], </span>
+<span id="cb253-7"><a href="paquete-gamlss.html#cb253-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">slope =</span> <span class="fu">fixef</span>(mod1)[<span class="dv">2</span>], </span>
+<span id="cb253-8"><a href="paquete-gamlss.html#cb253-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, </span>
+<span id="cb253-9"><a href="paquete-gamlss.html#cb253-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, </span>
+<span id="cb253-10"><a href="paquete-gamlss.html#cb253-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb253-11"><a href="paquete-gamlss.html#cb253-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb253-12"><a href="paquete-gamlss.html#cb253-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> group) <span class="sc">+</span> </span>
+<span id="cb253-13"><a href="paquete-gamlss.html#cb253-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Y&quot;</span>)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-205-1.png" width="672" /></p>
+<p>En la figura anterior tenemos un pánel para cada grupo, dentro de ese pánel están los puntos y dos líneas. La línea negra a trazos representa el modelo general con ecuación <span class="math inline">\(Y=4.73 + -10.43 x\)</span>. La línea de color representa el modelo particular para cada grupo, su ecuación se obtiene de la ecuación general agregando la pendiente aleatoria predicha <span class="math inline">\(\tilde{b}_1\)</span>.</p>
 </div>
 </div>
 <div id="modelo-lineal-mixto-con-intercepto-y-pendiente-aleatoria" class="section level2 hasAnchor" number="21.3">
@@ -508,92 +555,96 @@ N\left ( \left [ \begin{matrix}
 \right ) \\
 x_{ij} &amp;\sim U(0, 10)
 \end{align*}\]</span></p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
 
 <div class="rmdexercise">
 Solución.
 </div>
+</div>
 <p>El código para simular los datos se muestra a continuación.</p>
-<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="paquete-gamlss.html#cb257-1" aria-hidden="true" tabindex="-1"></a>gen.dat <span class="ot">&lt;-</span> <span class="cf">function</span>(G, ni, beta0, beta1, sigma, </span>
-<span id="cb257-2"><a href="paquete-gamlss.html#cb257-2" aria-hidden="true" tabindex="-1"></a>                    sigma2b0, sigma2b1, covb0b1) {</span>
-<span id="cb257-3"><a href="paquete-gamlss.html#cb257-3" aria-hidden="true" tabindex="-1"></a>  group <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni)</span>
-<span id="cb257-4"><a href="paquete-gamlss.html#cb257-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(MASS) <span class="co"># Libreria para simular obs de Normal bivariada</span></span>
-<span id="cb257-5"><a href="paquete-gamlss.html#cb257-5" aria-hidden="true" tabindex="-1"></a>  Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(sigma2b0, covb0b1, <span class="co"># Matriz de var-cov</span></span>
-<span id="cb257-6"><a href="paquete-gamlss.html#cb257-6" aria-hidden="true" tabindex="-1"></a>                    covb0b1, sigma2b1), <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">nrow=</span><span class="dv">2</span>)</span>
-<span id="cb257-7"><a href="paquete-gamlss.html#cb257-7" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">mvrnorm</span>(<span class="at">n=</span>G, <span class="at">mu=</span><span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="at">Sigma=</span>Sigma) <span class="co"># Simulando b0 y b1</span></span>
-<span id="cb257-8"><a href="paquete-gamlss.html#cb257-8" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">apply</span>(b, <span class="at">MARGIN=</span><span class="dv">2</span>, <span class="cf">function</span>(c) <span class="fu">rep</span>(c, <span class="at">each=</span>ni)) <span class="co"># Replicando</span></span>
-<span id="cb257-9"><a href="paquete-gamlss.html#cb257-9" aria-hidden="true" tabindex="-1"></a>  b0 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">1</span>]) <span class="co"># Separando los b0</span></span>
-<span id="cb257-10"><a href="paquete-gamlss.html#cb257-10" aria-hidden="true" tabindex="-1"></a>  b1 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">2</span>]) <span class="co"># Separando los b1</span></span>
-<span id="cb257-11"><a href="paquete-gamlss.html#cb257-11" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>G<span class="sc">*</span>ni, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">10</span>)</span>
-<span id="cb257-12"><a href="paquete-gamlss.html#cb257-12" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> x <span class="sc">+</span> b0 <span class="sc">+</span> b1 <span class="sc">*</span> x</span>
-<span id="cb257-13"><a href="paquete-gamlss.html#cb257-13" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G<span class="sc">*</span>ni, <span class="at">mean=</span>mu, <span class="at">sd=</span>sigma)</span>
-<span id="cb257-14"><a href="paquete-gamlss.html#cb257-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">group=</span>group, <span class="at">x=</span>x, <span class="at">y=</span>y)</span>
-<span id="cb257-15"><a href="paquete-gamlss.html#cb257-15" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb257-16"><a href="paquete-gamlss.html#cb257-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb257-17"><a href="paquete-gamlss.html#cb257-17" aria-hidden="true" tabindex="-1"></a>G  <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb257-18"><a href="paquete-gamlss.html#cb257-18" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">30</span></span>
-<span id="cb257-19"><a href="paquete-gamlss.html#cb257-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb257-20"><a href="paquete-gamlss.html#cb257-20" aria-hidden="true" tabindex="-1"></a>beta0 <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb257-21"><a href="paquete-gamlss.html#cb257-21" aria-hidden="true" tabindex="-1"></a>beta1 <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">3</span></span>
-<span id="cb257-22"><a href="paquete-gamlss.html#cb257-22" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">8</span></span>
-<span id="cb257-23"><a href="paquete-gamlss.html#cb257-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb257-24"><a href="paquete-gamlss.html#cb257-24" aria-hidden="true" tabindex="-1"></a>sigma2b0 <span class="ot">&lt;-</span> <span class="dv">40</span></span>
-<span id="cb257-25"><a href="paquete-gamlss.html#cb257-25" aria-hidden="true" tabindex="-1"></a>sigma2b1 <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb257-26"><a href="paquete-gamlss.html#cb257-26" aria-hidden="true" tabindex="-1"></a>covb0b1 <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">3</span></span>
-<span id="cb257-27"><a href="paquete-gamlss.html#cb257-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb257-28"><a href="paquete-gamlss.html#cb257-28" aria-hidden="true" tabindex="-1"></a>theta_true <span class="ot">&lt;-</span> <span class="fu">c</span>(beta0, beta1, sigma, </span>
-<span id="cb257-29"><a href="paquete-gamlss.html#cb257-29" aria-hidden="true" tabindex="-1"></a>                sigma2b0, sigma2b1, covb0b1)</span>
-<span id="cb257-30"><a href="paquete-gamlss.html#cb257-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb257-31"><a href="paquete-gamlss.html#cb257-31" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb257-32"><a href="paquete-gamlss.html#cb257-32" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">gen.dat</span>(G, ni, beta0, beta1, sigma, </span>
-<span id="cb257-33"><a href="paquete-gamlss.html#cb257-33" aria-hidden="true" tabindex="-1"></a>                 sigma2b0, sigma2b1, covb0b1)</span></code></pre></div>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="paquete-gamlss.html#cb254-1" aria-hidden="true" tabindex="-1"></a>gen.dat <span class="ot">&lt;-</span> <span class="cf">function</span>(G, ni, beta0, beta1, sigma, </span>
+<span id="cb254-2"><a href="paquete-gamlss.html#cb254-2" aria-hidden="true" tabindex="-1"></a>                    sigma2b0, sigma2b1, covb0b1) {</span>
+<span id="cb254-3"><a href="paquete-gamlss.html#cb254-3" aria-hidden="true" tabindex="-1"></a>  group <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni)</span>
+<span id="cb254-4"><a href="paquete-gamlss.html#cb254-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(MASS) <span class="co"># Libreria para simular obs de Normal bivariada</span></span>
+<span id="cb254-5"><a href="paquete-gamlss.html#cb254-5" aria-hidden="true" tabindex="-1"></a>  Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(sigma2b0, covb0b1, <span class="co"># Matriz de var-cov</span></span>
+<span id="cb254-6"><a href="paquete-gamlss.html#cb254-6" aria-hidden="true" tabindex="-1"></a>                    covb0b1, sigma2b1), <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">nrow=</span><span class="dv">2</span>)</span>
+<span id="cb254-7"><a href="paquete-gamlss.html#cb254-7" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">mvrnorm</span>(<span class="at">n=</span>G, <span class="at">mu=</span><span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="at">Sigma=</span>Sigma) <span class="co"># Simulando b0 y b1</span></span>
+<span id="cb254-8"><a href="paquete-gamlss.html#cb254-8" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">apply</span>(b, <span class="at">MARGIN=</span><span class="dv">2</span>, <span class="cf">function</span>(c) <span class="fu">rep</span>(c, <span class="at">each=</span>ni)) <span class="co"># Replicando</span></span>
+<span id="cb254-9"><a href="paquete-gamlss.html#cb254-9" aria-hidden="true" tabindex="-1"></a>  b0 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">1</span>]) <span class="co"># Separando los b0</span></span>
+<span id="cb254-10"><a href="paquete-gamlss.html#cb254-10" aria-hidden="true" tabindex="-1"></a>  b1 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">2</span>]) <span class="co"># Separando los b1</span></span>
+<span id="cb254-11"><a href="paquete-gamlss.html#cb254-11" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>G<span class="sc">*</span>ni, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">10</span>)</span>
+<span id="cb254-12"><a href="paquete-gamlss.html#cb254-12" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> x <span class="sc">+</span> b0 <span class="sc">+</span> b1 <span class="sc">*</span> x</span>
+<span id="cb254-13"><a href="paquete-gamlss.html#cb254-13" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G<span class="sc">*</span>ni, <span class="at">mean=</span>mu, <span class="at">sd=</span>sigma)</span>
+<span id="cb254-14"><a href="paquete-gamlss.html#cb254-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">group=</span>group, <span class="at">x=</span>x, <span class="at">y=</span>y)</span>
+<span id="cb254-15"><a href="paquete-gamlss.html#cb254-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb254-16"><a href="paquete-gamlss.html#cb254-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb254-17"><a href="paquete-gamlss.html#cb254-17" aria-hidden="true" tabindex="-1"></a>G  <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb254-18"><a href="paquete-gamlss.html#cb254-18" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb254-19"><a href="paquete-gamlss.html#cb254-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb254-20"><a href="paquete-gamlss.html#cb254-20" aria-hidden="true" tabindex="-1"></a>beta0 <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb254-21"><a href="paquete-gamlss.html#cb254-21" aria-hidden="true" tabindex="-1"></a>beta1 <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">3</span></span>
+<span id="cb254-22"><a href="paquete-gamlss.html#cb254-22" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">8</span></span>
+<span id="cb254-23"><a href="paquete-gamlss.html#cb254-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb254-24"><a href="paquete-gamlss.html#cb254-24" aria-hidden="true" tabindex="-1"></a>sigma2b0 <span class="ot">&lt;-</span> <span class="dv">40</span></span>
+<span id="cb254-25"><a href="paquete-gamlss.html#cb254-25" aria-hidden="true" tabindex="-1"></a>sigma2b1 <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb254-26"><a href="paquete-gamlss.html#cb254-26" aria-hidden="true" tabindex="-1"></a>covb0b1 <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">3</span></span>
+<span id="cb254-27"><a href="paquete-gamlss.html#cb254-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb254-28"><a href="paquete-gamlss.html#cb254-28" aria-hidden="true" tabindex="-1"></a>theta_true <span class="ot">&lt;-</span> <span class="fu">c</span>(beta0, beta1, sigma, </span>
+<span id="cb254-29"><a href="paquete-gamlss.html#cb254-29" aria-hidden="true" tabindex="-1"></a>                sigma2b0, sigma2b1, covb0b1)</span>
+<span id="cb254-30"><a href="paquete-gamlss.html#cb254-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb254-31"><a href="paquete-gamlss.html#cb254-31" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb254-32"><a href="paquete-gamlss.html#cb254-32" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">gen.dat</span>(G, ni, beta0, beta1, sigma, </span>
+<span id="cb254-33"><a href="paquete-gamlss.html#cb254-33" aria-hidden="true" tabindex="-1"></a>                 sigma2b0, sigma2b1, covb0b1)</span></code></pre></div>
 <p>Para dibujar los datos se utiliza el siguiente código.</p>
-<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="paquete-gamlss.html#cb258-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb258-2"><a href="paquete-gamlss.html#cb258-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(x, y, <span class="at">color=</span><span class="fu">as.factor</span>(group)) ) <span class="sc">+</span> </span>
-<span id="cb258-3"><a href="paquete-gamlss.html#cb258-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb258-4"><a href="paquete-gamlss.html#cb258-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">colour=</span><span class="st">&quot;Grupo/Cluster&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="paquete-gamlss.html#cb255-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb255-2"><a href="paquete-gamlss.html#cb255-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(x, y, <span class="at">color=</span><span class="fu">as.factor</span>(group)) ) <span class="sc">+</span> </span>
+<span id="cb255-3"><a href="paquete-gamlss.html#cb255-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb255-4"><a href="paquete-gamlss.html#cb255-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">colour=</span><span class="st">&quot;Grupo/Cluster&quot;</span>)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/gamlss03-1.png" width="576" /></p>
 <p>De la figura anterior se observa claramente la pendiente aleatoria.</p>
 <p>En el siguiente código se ajustan dos modelos, uno con la función <code>lmer</code> y otro con la función <code>gamlss</code>, el modelo <code>mod1</code> se utilizará como modelo de referencia para saber qué tan bien <code>gamlss</code> estima los parámetros del modelo.</p>
-<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="paquete-gamlss.html#cb259-1" aria-hidden="true" tabindex="-1"></a><span class="co"># con lme</span></span>
-<span id="cb259-2"><a href="paquete-gamlss.html#cb259-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(lme4)</span>
-<span id="cb259-3"><a href="paquete-gamlss.html#cb259-3" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb259-4"><a href="paquete-gamlss.html#cb259-4" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(y <span class="sc">~</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> x<span class="sc">|</span>group), <span class="at">data=</span>datos)</span>
-<span id="cb259-5"><a href="paquete-gamlss.html#cb259-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb259-6"><a href="paquete-gamlss.html#cb259-6" aria-hidden="true" tabindex="-1"></a><span class="co"># con gamlss</span></span>
-<span id="cb259-7"><a href="paquete-gamlss.html#cb259-7" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(gamlss)</span>
-<span id="cb259-8"><a href="paquete-gamlss.html#cb259-8" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb259-9"><a href="paquete-gamlss.html#cb259-9" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">gamlss</span>(y <span class="sc">~</span> x <span class="sc">+</span> <span class="fu">re</span>(<span class="at">random=</span><span class="sc">~</span><span class="dv">1</span><span class="sc">+</span>x<span class="sc">|</span>group), <span class="at">data=</span>datos)</span></code></pre></div>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="paquete-gamlss.html#cb256-1" aria-hidden="true" tabindex="-1"></a><span class="co"># con lme</span></span>
+<span id="cb256-2"><a href="paquete-gamlss.html#cb256-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(lme4)</span>
+<span id="cb256-3"><a href="paquete-gamlss.html#cb256-3" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb256-4"><a href="paquete-gamlss.html#cb256-4" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(y <span class="sc">~</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> x<span class="sc">|</span>group), <span class="at">data=</span>datos)</span>
+<span id="cb256-5"><a href="paquete-gamlss.html#cb256-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb256-6"><a href="paquete-gamlss.html#cb256-6" aria-hidden="true" tabindex="-1"></a><span class="co"># con gamlss</span></span>
+<span id="cb256-7"><a href="paquete-gamlss.html#cb256-7" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(gamlss)</span>
+<span id="cb256-8"><a href="paquete-gamlss.html#cb256-8" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb256-9"><a href="paquete-gamlss.html#cb256-9" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">gamlss</span>(y <span class="sc">~</span> x <span class="sc">+</span> <span class="fu">re</span>(<span class="at">random=</span><span class="sc">~</span><span class="dv">1</span><span class="sc">+</span>x<span class="sc">|</span>group), <span class="at">data=</span>datos)</span></code></pre></div>
 <pre><code>## GAMLSS-RS iteration 1: Global Deviance = 4163.48 
 ## GAMLSS-RS iteration 2: Global Deviance = 4163.48</code></pre>
 <p>A continuación el código para obtener las estimaciones de <span class="math inline">\(\boldsymbol{\Theta}\)</span> con <code>lmer</code> y <code>gamlss</code>.</p>
-<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="paquete-gamlss.html#cb261-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Para mod1</span></span>
-<span id="cb261-2"><a href="paquete-gamlss.html#cb261-2" aria-hidden="true" tabindex="-1"></a>vc <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(mod1)</span>
-<span id="cb261-3"><a href="paquete-gamlss.html#cb261-3" aria-hidden="true" tabindex="-1"></a>vc <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(vc)</span>
-<span id="cb261-4"><a href="paquete-gamlss.html#cb261-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb261-5"><a href="paquete-gamlss.html#cb261-5" aria-hidden="true" tabindex="-1"></a>hat_sig2_b0 <span class="ot">&lt;-</span> vc[<span class="dv">1</span>, <span class="dv">4</span>]</span>
-<span id="cb261-6"><a href="paquete-gamlss.html#cb261-6" aria-hidden="true" tabindex="-1"></a>hat_sig2_b1 <span class="ot">&lt;-</span> vc[<span class="dv">2</span>, <span class="dv">4</span>]</span>
-<span id="cb261-7"><a href="paquete-gamlss.html#cb261-7" aria-hidden="true" tabindex="-1"></a>hat_cov_b0b1 <span class="ot">&lt;-</span> vc[<span class="dv">3</span>, <span class="dv">4</span>]</span>
-<span id="cb261-8"><a href="paquete-gamlss.html#cb261-8" aria-hidden="true" tabindex="-1"></a>hat_sigma <span class="ot">&lt;-</span> vc[<span class="dv">4</span>, <span class="dv">5</span>]</span>
-<span id="cb261-9"><a href="paquete-gamlss.html#cb261-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb261-10"><a href="paquete-gamlss.html#cb261-10" aria-hidden="true" tabindex="-1"></a>theta_lmer <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">fixef</span>(mod1), hat_sigma,</span>
-<span id="cb261-11"><a href="paquete-gamlss.html#cb261-11" aria-hidden="true" tabindex="-1"></a>                hat_sig2_b0, hat_sig2_b1, hat_cov_b0b1)</span>
-<span id="cb261-12"><a href="paquete-gamlss.html#cb261-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb261-13"><a href="paquete-gamlss.html#cb261-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Para mod2</span></span>
-<span id="cb261-14"><a href="paquete-gamlss.html#cb261-14" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">getSmo</span>(mod2)</span>
-<span id="cb261-15"><a href="paquete-gamlss.html#cb261-15" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">getVarCov</span>(aux)</span>
-<span id="cb261-16"><a href="paquete-gamlss.html#cb261-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb261-17"><a href="paquete-gamlss.html#cb261-17" aria-hidden="true" tabindex="-1"></a>hat_sig2_b0 <span class="ot">&lt;-</span> aux[<span class="dv">1</span>, <span class="dv">1</span>]</span>
-<span id="cb261-18"><a href="paquete-gamlss.html#cb261-18" aria-hidden="true" tabindex="-1"></a>hat_sig2_b1 <span class="ot">&lt;-</span> aux[<span class="dv">2</span>, <span class="dv">2</span>]</span>
-<span id="cb261-19"><a href="paquete-gamlss.html#cb261-19" aria-hidden="true" tabindex="-1"></a>hat_cov_b0b1 <span class="ot">&lt;-</span> aux[<span class="dv">1</span>,<span class="dv">2</span>]</span>
-<span id="cb261-20"><a href="paquete-gamlss.html#cb261-20" aria-hidden="true" tabindex="-1"></a>hat_sigma <span class="ot">&lt;-</span> <span class="fu">getSmo</span>(mod2)<span class="sc">$</span>sigma</span>
-<span id="cb261-21"><a href="paquete-gamlss.html#cb261-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb261-22"><a href="paquete-gamlss.html#cb261-22" aria-hidden="true" tabindex="-1"></a>theta_gamlss <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">coef</span>(mod2)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>],</span>
-<span id="cb261-23"><a href="paquete-gamlss.html#cb261-23" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">exp</span>(<span class="fu">coef</span>(mod2, <span class="at">what=</span><span class="st">&#39;sigma&#39;</span>)),</span>
-<span id="cb261-24"><a href="paquete-gamlss.html#cb261-24" aria-hidden="true" tabindex="-1"></a>                  hat_sig2_b0, </span>
-<span id="cb261-25"><a href="paquete-gamlss.html#cb261-25" aria-hidden="true" tabindex="-1"></a>                  hat_sig2_b1, </span>
-<span id="cb261-26"><a href="paquete-gamlss.html#cb261-26" aria-hidden="true" tabindex="-1"></a>                  hat_cov_b0b1)</span>
-<span id="cb261-27"><a href="paquete-gamlss.html#cb261-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb261-28"><a href="paquete-gamlss.html#cb261-28" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(theta_true, theta_lmer, theta_gamlss)</span></code></pre></div>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="paquete-gamlss.html#cb258-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Para mod1</span></span>
+<span id="cb258-2"><a href="paquete-gamlss.html#cb258-2" aria-hidden="true" tabindex="-1"></a>vc <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(mod1)</span>
+<span id="cb258-3"><a href="paquete-gamlss.html#cb258-3" aria-hidden="true" tabindex="-1"></a>vc <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(vc)</span>
+<span id="cb258-4"><a href="paquete-gamlss.html#cb258-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb258-5"><a href="paquete-gamlss.html#cb258-5" aria-hidden="true" tabindex="-1"></a>hat_sig2_b0 <span class="ot">&lt;-</span> vc[<span class="dv">1</span>, <span class="dv">4</span>]</span>
+<span id="cb258-6"><a href="paquete-gamlss.html#cb258-6" aria-hidden="true" tabindex="-1"></a>hat_sig2_b1 <span class="ot">&lt;-</span> vc[<span class="dv">2</span>, <span class="dv">4</span>]</span>
+<span id="cb258-7"><a href="paquete-gamlss.html#cb258-7" aria-hidden="true" tabindex="-1"></a>hat_cov_b0b1 <span class="ot">&lt;-</span> vc[<span class="dv">3</span>, <span class="dv">4</span>]</span>
+<span id="cb258-8"><a href="paquete-gamlss.html#cb258-8" aria-hidden="true" tabindex="-1"></a>hat_sigma <span class="ot">&lt;-</span> vc[<span class="dv">4</span>, <span class="dv">5</span>]</span>
+<span id="cb258-9"><a href="paquete-gamlss.html#cb258-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb258-10"><a href="paquete-gamlss.html#cb258-10" aria-hidden="true" tabindex="-1"></a>theta_lmer <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">fixef</span>(mod1), hat_sigma,</span>
+<span id="cb258-11"><a href="paquete-gamlss.html#cb258-11" aria-hidden="true" tabindex="-1"></a>                hat_sig2_b0, hat_sig2_b1, hat_cov_b0b1)</span>
+<span id="cb258-12"><a href="paquete-gamlss.html#cb258-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb258-13"><a href="paquete-gamlss.html#cb258-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Para mod2</span></span>
+<span id="cb258-14"><a href="paquete-gamlss.html#cb258-14" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">getSmo</span>(mod2)</span>
+<span id="cb258-15"><a href="paquete-gamlss.html#cb258-15" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">getVarCov</span>(aux)</span>
+<span id="cb258-16"><a href="paquete-gamlss.html#cb258-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb258-17"><a href="paquete-gamlss.html#cb258-17" aria-hidden="true" tabindex="-1"></a>hat_sig2_b0 <span class="ot">&lt;-</span> aux[<span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb258-18"><a href="paquete-gamlss.html#cb258-18" aria-hidden="true" tabindex="-1"></a>hat_sig2_b1 <span class="ot">&lt;-</span> aux[<span class="dv">2</span>, <span class="dv">2</span>]</span>
+<span id="cb258-19"><a href="paquete-gamlss.html#cb258-19" aria-hidden="true" tabindex="-1"></a>hat_cov_b0b1 <span class="ot">&lt;-</span> aux[<span class="dv">1</span>,<span class="dv">2</span>]</span>
+<span id="cb258-20"><a href="paquete-gamlss.html#cb258-20" aria-hidden="true" tabindex="-1"></a>hat_sigma <span class="ot">&lt;-</span> <span class="fu">getSmo</span>(mod2)<span class="sc">$</span>sigma</span>
+<span id="cb258-21"><a href="paquete-gamlss.html#cb258-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb258-22"><a href="paquete-gamlss.html#cb258-22" aria-hidden="true" tabindex="-1"></a>theta_gamlss <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">coef</span>(mod2)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>],</span>
+<span id="cb258-23"><a href="paquete-gamlss.html#cb258-23" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">exp</span>(<span class="fu">coef</span>(mod2, <span class="at">what=</span><span class="st">&#39;sigma&#39;</span>)),</span>
+<span id="cb258-24"><a href="paquete-gamlss.html#cb258-24" aria-hidden="true" tabindex="-1"></a>                  hat_sig2_b0, </span>
+<span id="cb258-25"><a href="paquete-gamlss.html#cb258-25" aria-hidden="true" tabindex="-1"></a>                  hat_sig2_b1, </span>
+<span id="cb258-26"><a href="paquete-gamlss.html#cb258-26" aria-hidden="true" tabindex="-1"></a>                  hat_cov_b0b1)</span>
+<span id="cb258-27"><a href="paquete-gamlss.html#cb258-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb258-28"><a href="paquete-gamlss.html#cb258-28" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(theta_true, theta_lmer, theta_gamlss)</span></code></pre></div>
 <pre><code>##             theta_true theta_lmer theta_gamlss
 ## (Intercept)          5   4.364926     7.483375
 ## x                   -3  -1.751678    -2.388683
@@ -602,95 +653,24 @@ Solución.
 ##                     50  48.953770    46.894005
 ##                     -3  -5.042857    -4.752448</code></pre>
 <p>De la salida anterior vemos que las estimaciones con <code>lmer</code> y <code>gamlss</code> son similares y cercanas a <span class="math inline">\(\boldsymbol{\Theta}\)</span>.</p>
-</div>
-</div>
-<div id="ejemplo-modelo-normal-con-intercepto-aleatorio-3" class="section level2 unnumbered hasAnchor">
-<h2>Ejemplo: modelo Normal con intercepto aleatorio<a href="paquete-gamlss.html#ejemplo-modelo-normal-con-intercepto-aleatorio-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>En este ejemplo vamos a simular <span class="math inline">\(n_i=50\)</span> observaciones para <span class="math inline">\(G=10\)</span> grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función <code>inla</code> para estimar los parámetros del modelo.</p>
-<p><span class="math display">\[\begin{align*}
-y_{ij} | b_0 &amp;\sim  Poisson(\mu_{ij}) \\
-\log(\mu_{ij}) &amp;= 4 - 6 x_{ij} + b_{0i} \\
-b_{0} &amp;\sim N(0, \sigma^2_{b0}=4) \\
-x_{ij} &amp;\sim U(0, 1)
-\end{align*}\]</span></p>
-<p>El vector de parámetros de este modelo es <span class="math inline">\(\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma^2_{b0}=4)^\top\)</span>.</p>
-<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
-  -webkit-box-shadow: 1px 1px 3px 2px #000000;
-  box-shadow:         1px 1px 3px 2px #000000;">
+<p>Para finalizar el ejercicio, vamos a mostrar las curvas estimadas para cada grupo usando los resultados del modelo <code>mod1</code>.</p>
+<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="paquete-gamlss.html#cb260-1" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>pred_y <span class="ot">&lt;-</span> <span class="fu">predict</span>(mod1) <span class="co"># Para obtener y_hat</span></span>
+<span id="cb260-2"><a href="paquete-gamlss.html#cb260-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb260-3"><a href="paquete-gamlss.html#cb260-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> datos, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> pred_y, <span class="at">color =</span> <span class="fu">as.factor</span>(group))) <span class="sc">+</span></span>
+<span id="cb260-4"><a href="paquete-gamlss.html#cb260-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb260-5"><a href="paquete-gamlss.html#cb260-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">color =</span> <span class="fu">as.factor</span>(group))) <span class="sc">+</span></span>
+<span id="cb260-6"><a href="paquete-gamlss.html#cb260-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="fu">fixef</span>(mod1)[<span class="dv">1</span>], </span>
+<span id="cb260-7"><a href="paquete-gamlss.html#cb260-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">slope =</span> <span class="fu">fixef</span>(mod1)[<span class="dv">2</span>], </span>
+<span id="cb260-8"><a href="paquete-gamlss.html#cb260-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, </span>
+<span id="cb260-9"><a href="paquete-gamlss.html#cb260-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, </span>
+<span id="cb260-10"><a href="paquete-gamlss.html#cb260-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb260-11"><a href="paquete-gamlss.html#cb260-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb260-12"><a href="paquete-gamlss.html#cb260-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> group) <span class="sc">+</span> </span>
+<span id="cb260-13"><a href="paquete-gamlss.html#cb260-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Y&quot;</span>)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-210-1.png" width="672" /></p>
+<p>En la figura anterior tenemos un pánel para cada grupo, dentro de ese pánel están los puntos y dos líneas. La línea negra a trazos representa el modelo general con ecuación <span class="math inline">\(Y=4.36 + -1.75 x\)</span>. La línea de color representa el modelo particular para cada grupo, su ecuación se obtiene de la ecuación general agregando el intercepto y la pendiente aleatoria predichos <span class="math inline">\(\tilde{b}_0\)</span> y <span class="math inline">\(\tilde{b}_1\)</span>.</p>
 
-<div class="rmdexercise">
-Solución.
 </div>
-</div>
-<p>El código para simular las observaciones se muestra a continuación.</p>
-<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="paquete-gamlss.html#cb263-1" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb263-2"><a href="paquete-gamlss.html#cb263-2" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb263-3"><a href="paquete-gamlss.html#cb263-3" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
-<span id="cb263-4"><a href="paquete-gamlss.html#cb263-4" aria-hidden="true" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
-<span id="cb263-5"><a href="paquete-gamlss.html#cb263-5" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
-<span id="cb263-6"><a href="paquete-gamlss.html#cb263-6" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
-<span id="cb263-7"><a href="paquete-gamlss.html#cb263-7" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">4</span>)) <span class="co"># Intercepto aleatorio</span></span>
-<span id="cb263-8"><a href="paquete-gamlss.html#cb263-8" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)             <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
-<span id="cb263-9"><a href="paquete-gamlss.html#cb263-9" aria-hidden="true" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="dv">4</span> <span class="sc">-</span> <span class="dv">6</span> <span class="sc">*</span> x <span class="sc">+</span> b0)</span>
-<span id="cb263-10"><a href="paquete-gamlss.html#cb263-10" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="at">n=</span>nobs, <span class="at">lambda=</span>media)</span>
-<span id="cb263-11"><a href="paquete-gamlss.html#cb263-11" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x, y)</span></code></pre></div>
-<p>Delia nos va a mostrar cómo estimar los parámetros del modelo ajustado.</p>
-<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="paquete-gamlss.html#cb264-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(INLA)</span>
-<span id="cb264-2"><a href="paquete-gamlss.html#cb264-2" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">inla</span>( )</span></code></pre></div>
-</div>
-<div id="ejemplo-modelo-poisson-con-intercepto-y-pendiente-aleatoria-1" class="section level2 unnumbered hasAnchor">
-<h2>Ejemplo: modelo Poisson con intercepto y pendiente aleatoria<a href="paquete-gamlss.html#ejemplo-modelo-poisson-con-intercepto-y-pendiente-aleatoria-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>En este ejemplo vamos a simular <span class="math inline">\(n_i=50\)</span> observaciones para <span class="math inline">\(G=10\)</span> grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función <code>inla</code> para estimar los parámetros del modelo.</p>
-<p><span class="math display">\[\begin{align*}
-y_{ij} | b_0, b_1 &amp;\sim Poisson(\mu_{ij}) \\
-\log(\mu_{ij}) &amp;= 2 - 8 x_{ij} + b_{0i} + b_{1i} x_{ij} \\
-\left (
-\begin{matrix}
-b_{0} \\ b_{1}
-\end{matrix}
-\right ) &amp;\sim
-N\left ( \left [ \begin{matrix}
-0 \\ 0
-\end{matrix} \right ],
-\left [ \begin{matrix}
-\sigma^2_{b0}=1 &amp; \sigma_{b01}=0.5 \\
-\sigma_{b01} &amp; \sigma^2_{b1}=1
-\end{matrix} \right ]
-\right ) \\
-x_{ij} &amp;\sim U(0, 1)
-\end{align*}\]</span></p>
-<p>El vector de parámetros de este modelo es <span class="math inline">\(\boldsymbol{\Theta}=(\beta_0=2, \beta_1=-8, \sigma_{b0}^2=1, \sigma_{b1}^2=1, \sigma_{b01}=0.5)^\top\)</span>.</p>
-<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
-  -webkit-box-shadow: 1px 1px 3px 2px #000000;
-  box-shadow:         1px 1px 3px 2px #000000;">
-
-<div class="rmdexercise">
-Solución.
-</div>
-</div>
-<p>El código para simular las observaciones se muestra a continuación.</p>
-<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="paquete-gamlss.html#cb265-1" aria-hidden="true" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb265-2"><a href="paquete-gamlss.html#cb265-2" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb265-3"><a href="paquete-gamlss.html#cb265-3" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
-<span id="cb265-4"><a href="paquete-gamlss.html#cb265-4" aria-hidden="true" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
-<span id="cb265-5"><a href="paquete-gamlss.html#cb265-5" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
-<span id="cb265-6"><a href="paquete-gamlss.html#cb265-6" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
-<span id="cb265-7"><a href="paquete-gamlss.html#cb265-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb265-8"><a href="paquete-gamlss.html#cb265-8" aria-hidden="true" tabindex="-1"></a>Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="co"># Matriz de var-cov</span></span>
-<span id="cb265-9"><a href="paquete-gamlss.html#cb265-9" aria-hidden="true" tabindex="-1"></a>                  <span class="fl">0.5</span>, <span class="dv">1</span>), <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">nrow=</span><span class="dv">2</span>)</span>
-<span id="cb265-10"><a href="paquete-gamlss.html#cb265-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb265-11"><a href="paquete-gamlss.html#cb265-11" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(<span class="at">n=</span>G, <span class="at">mu=</span><span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="at">Sigma=</span>Sigma)   <span class="co"># Simulando b0 y b1</span></span>
-<span id="cb265-12"><a href="paquete-gamlss.html#cb265-12" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">apply</span>(b, <span class="at">MARGIN=</span><span class="dv">2</span>, <span class="cf">function</span>(c) <span class="fu">rep</span>(c, <span class="at">each=</span>ni)) <span class="co"># Replicando</span></span>
-<span id="cb265-13"><a href="paquete-gamlss.html#cb265-13" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">1</span>]) <span class="co"># Separando los b0</span></span>
-<span id="cb265-14"><a href="paquete-gamlss.html#cb265-14" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">2</span>]) <span class="co"># Separando los b1</span></span>
-<span id="cb265-15"><a href="paquete-gamlss.html#cb265-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb265-16"><a href="paquete-gamlss.html#cb265-16" aria-hidden="true" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="dv">2</span> <span class="sc">-</span> <span class="dv">8</span> <span class="sc">*</span> x <span class="sc">+</span> b0 <span class="sc">+</span> b0 <span class="sc">+</span> b1 <span class="sc">*</span> x)</span>
-<span id="cb265-17"><a href="paquete-gamlss.html#cb265-17" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="at">n=</span>nobs, <span class="at">lambda=</span>media)</span>
-<span id="cb265-18"><a href="paquete-gamlss.html#cb265-18" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, b1, x, y)</span></code></pre></div>
-<p>Delia nos va a mostrar cómo estimar los parámetros del modelo ajustado.</p>
-<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="paquete-gamlss.html#cb266-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(INLA)</span>
-<span id="cb266-2"><a href="paquete-gamlss.html#cb266-2" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">inla</span>( )</span></code></pre></div>
-
 </div>
 </div>
 <h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>

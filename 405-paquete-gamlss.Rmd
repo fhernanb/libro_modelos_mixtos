@@ -2,6 +2,18 @@
 
 El paquete **gamlss** de @R-gamlss se utiliza para estimar modelos en los que la variable respuesta puede tener casi cualquier distribución. Al visitar este [enlace](https://cran.r-project.org/web/packages/gamlss/) se encontrará la página de apoyo del paquete, allí se puede consultar el manual de referencia.
 
+El objetivo de este capítulo es mostrar la forma de ajustar un modelo mixto con gamlss y cómo obtener las estimaciones de los efectos fijos y las componentes de varianza.
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #ffff00;
+  -webkit-box-shadow: 1px 1px 3px 2px #ffff00;
+  box-shadow:         1px 1px 3px 2px #ffff00;">
+
+```{block2, type='rmdnote'}
+La función clave para extraer las componentes de varianza en un modelo mixto ajustado con gamlss es la función `getSmo( )`.
+```
+
+</div>
+
 ## Modelo lineal mixto con intercepto aleatorio
 
 En esta sección se muestra cómo extraer los efectos fijos y la varianza del intercepto aleatorio con **gamlss**
@@ -17,9 +29,15 @@ b_{0} &\sim N(0, \sigma^2_{b0}=10^2) \\
 x_{ij} &\sim U(0, 10)
 \end{align*}
 
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
 ```{block2, type='rmdexercise'}
 Solución.
 ```
+
+</div>
 
 El código para simular los datos se muestra a continuación.
 
@@ -85,6 +103,27 @@ cbind(theta_true, theta_lmer, theta_gamlss)
 
 De la salida anterior vemos que las estimaciones con `lmer` y `gamlss` son similares y cercanas a $\boldsymbol{\Theta}$.
 
+Para finalizar el ejercicio, vamos a mostrar las curvas estimadas para cada grupo usando los resultados del modelo `mod1`.
+
+```{r}
+datos$pred_y <- predict(mod1) # Para obtener y_hat
+
+ggplot(data = datos, aes(x = x, y = pred_y, color = as.factor(group))) +
+  geom_line() +
+  geom_point(aes(x = x, y = y, color = as.factor(group))) +
+  geom_abline(intercept = fixef(mod1)[1], 
+              slope = fixef(mod1)[2], 
+              color = "black", 
+              linetype = "dashed", 
+              linewidth = 0.5) +
+  theme_bw() +
+  facet_wrap(~ group) + 
+  theme(legend.position = "none") + labs(y = "Y")
+```
+
+En la figura anterior tenemos un pánel para cada grupo, dentro de ese pánel están los puntos y dos líneas. La línea negra a trazos representa el modelo general con ecuación $Y=`r round(fixef(mod1)[1], 2)` + `r round(fixef(mod1)[2], 2)` x$. La línea de color representa el modelo particular para cada grupo, su ecuación se obtiene de la ecuación general agregando el intercepto aleatorio predicho $\tilde{b}_0$.
+
+
 ## Modelo lineal mixto con pendiente aleatoria
 
 En esta sección se muestra cómo extraer los efectos fijos y la varianza de la pendiente aleatoria con **gamlss**
@@ -100,9 +139,15 @@ b_{0} &\sim N(0, \sigma^2_{b0}=20^2) \\
 x_{ij} &\sim U(0, 10)
 \end{align*}
 
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
 ```{block2, type='rmdexercise'}
 Solución.
 ```
+
+</div>
 
 El código para simular los datos se muestra a continuación.
 
@@ -170,13 +215,32 @@ cbind(theta_true, theta_lmer, theta_gamlss)
 
 De la salida anterior vemos que las estimaciones con `lmer` y `gamlss` son similares y cercanas a $\boldsymbol{\Theta}$.
 
+Para finalizar el ejercicio, vamos a mostrar las curvas estimadas para cada grupo usando los resultados del modelo `mod1`.
+
+```{r}
+datos$pred_y <- predict(mod1) # Para obtener y_hat
+
+ggplot(data = datos, aes(x = x, y = pred_y, color = as.factor(group))) +
+  geom_line() +
+  geom_point(aes(x = x, y = y, color = as.factor(group))) +
+  geom_abline(intercept = fixef(mod1)[1], 
+              slope = fixef(mod1)[2], 
+              color = "black", 
+              linetype = "dashed", 
+              linewidth = 0.5) +
+  theme_bw() +
+  facet_wrap(~ group) + 
+  theme(legend.position = "none") + labs(y = "Y")
+```
+
+En la figura anterior tenemos un pánel para cada grupo, dentro de ese pánel están los puntos y dos líneas. La línea negra a trazos representa el modelo general con ecuación $Y=`r round(fixef(mod1)[1], 2)` + `r round(fixef(mod1)[2], 2)` x$. La línea de color representa el modelo particular para cada grupo, su ecuación se obtiene de la ecuación general agregando la pendiente aleatoria predicha $\tilde{b}_1$.
+
 ## Modelo lineal mixto con intercepto y pendiente aleatoria
 
 En esta sección se muestra cómo extraer los efectos fijos y la varianza del intercepto y de la pendiente aleatoria con **gamlss**
 
 ### Ejemplo {-}
 Simular $n_i=30$ observaciones para $G=20$ grupos del siguiente modelo. Luego estimar los parámetros del modelo con gamlss.
-
 
 \begin{align*}
 y_{ij} | b_0, b_1 &\sim N(\mu_{ij}, \sigma) \\
@@ -198,9 +262,15 @@ N\left ( \left [ \begin{matrix}
 x_{ij} &\sim U(0, 10)
 \end{align*}
 
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
 ```{block2, type='rmdexercise'}
 Solución.
 ```
+
+</div>
 
 El código para simular los datos se muestra a continuación.
 
@@ -300,112 +370,22 @@ cbind(theta_true, theta_lmer, theta_gamlss)
 
 De la salida anterior vemos que las estimaciones con `lmer` y `gamlss` son similares y cercanas a $\boldsymbol{\Theta}$.
 
-## Ejemplo: modelo Normal con intercepto aleatorio {-}
-En este ejemplo vamos a simular $n_i=50$ observaciones para $G=10$ grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `inla` para estimar los parámetros del modelo.
-
-\begin{align*} 
-y_{ij} | b_0 &\sim  Poisson(\mu_{ij}) \\ 
-\log(\mu_{ij}) &= 4 - 6 x_{ij} + b_{0i} \\
-b_{0} &\sim N(0, \sigma^2_{b0}=4) \\
-x_{ij} &\sim U(0, 1)
-\end{align*}
-
-El vector de parámetros de este modelo es $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma^2_{b0}=4)^\top$.
-
-<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
-  -webkit-box-shadow: 1px 1px 3px 2px #000000;
-  box-shadow:         1px 1px 3px 2px #000000;">
-
-```{block2, type='rmdexercise'}
-Solución.
-```
-
-</div>
-
-El código para simular las observaciones se muestra a continuación.
+Para finalizar el ejercicio, vamos a mostrar las curvas estimadas para cada grupo usando los resultados del modelo `mod1`.
 
 ```{r}
-ni <- 50
-G <- 10
-nobs <- ni * G
-grupo <- factor(rep(x=1:G, each=ni))
-obs <- rep(x=1:ni, times=G)
-x <- runif(n=nobs, min=0, max=1)
-b0 <- rnorm(n=G, mean=0, sd=sqrt(4)) # Intercepto aleatorio
-b0 <- rep(x=b0, each=ni)             # El mismo intercepto aleatorio pero repetido
-media <- exp(4 - 6 * x + b0)
-y <- rpois(n=nobs, lambda=media)
-datos <- data.frame(obs, grupo, b0, x, y)
+datos$pred_y <- predict(mod1) # Para obtener y_hat
+
+ggplot(data = datos, aes(x = x, y = pred_y, color = as.factor(group))) +
+  geom_line() +
+  geom_point(aes(x = x, y = y, color = as.factor(group))) +
+  geom_abline(intercept = fixef(mod1)[1], 
+              slope = fixef(mod1)[2], 
+              color = "black", 
+              linetype = "dashed", 
+              linewidth = 0.5) +
+  theme_bw() +
+  facet_wrap(~ group) + 
+  theme(legend.position = "none") + labs(y = "Y")
 ```
 
-Delia nos va a mostrar cómo estimar los parámetros del modelo ajustado.
-
-```{r eval = FALSE, echo = TRUE}
-library(INLA)
-fit1 <- inla( )
-```
-
-## Ejemplo: modelo Poisson con intercepto y pendiente aleatoria {-}
-En este ejemplo vamos a simular $n_i=50$ observaciones para $G=10$ grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `inla` para estimar los parámetros del modelo.
-
-\begin{align*} 
-y_{ij} | b_0, b_1 &\sim Poisson(\mu_{ij}) \\ 
-\log(\mu_{ij}) &= 2 - 8 x_{ij} + b_{0i} + b_{1i} x_{ij} \\
-\left (
-\begin{matrix}
-b_{0} \\ b_{1}
-\end{matrix} 
-\right ) &\sim 
-N\left ( \left [ \begin{matrix}
-0 \\ 0
-\end{matrix} \right ],
-\left [ \begin{matrix}
-\sigma^2_{b0}=1 & \sigma_{b01}=0.5 \\ 
-\sigma_{b01} & \sigma^2_{b1}=1
-\end{matrix} \right ]
-\right ) \\
-x_{ij} &\sim U(0, 1)
-\end{align*}
-
-El vector de parámetros de este modelo es $\boldsymbol{\Theta}=(\beta_0=2, \beta_1=-8, \sigma_{b0}^2=1, \sigma_{b1}^2=1, \sigma_{b01}=0.5)^\top$.
-
-<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
-  -webkit-box-shadow: 1px 1px 3px 2px #000000;
-  box-shadow:         1px 1px 3px 2px #000000;">
-
-```{block2, type='rmdexercise'}
-Solución.
-```
-
-</div>
-
-El código para simular las observaciones se muestra a continuación.
-
-```{r}
-ni <- 50
-G <- 10
-nobs <- ni * G
-grupo <- factor(rep(x=1:G, each=ni))
-obs <- rep(x=1:ni, times=G)
-x <- runif(n=nobs, min=0, max=1)
-
-Sigma <- matrix(c(1, 0.5, # Matriz de var-cov
-                  0.5, 1), ncol=2, nrow=2)
-
-b <- MASS::mvrnorm(n=G, mu=rep(0, 2), Sigma=Sigma)   # Simulando b0 y b1
-b <- apply(b, MARGIN=2, function(c) rep(c, each=ni)) # Replicando
-b0 <- as.vector(b[, 1]) # Separando los b0
-b1 <- as.vector(b[, 2]) # Separando los b1
-
-media <- exp(2 - 8 * x + b0 + b0 + b1 * x)
-y <- rpois(n=nobs, lambda=media)
-datos <- data.frame(obs, grupo, b0, b1, x, y)
-```
-
-Delia nos va a mostrar cómo estimar los parámetros del modelo ajustado.
-
-```{r eval = FALSE, echo = TRUE}
-library(INLA)
-fit2 <- inla( )
-```
-
+En la figura anterior tenemos un pánel para cada grupo, dentro de ese pánel están los puntos y dos líneas. La línea negra a trazos representa el modelo general con ecuación $Y=`r round(fixef(mod1)[1], 2)` + `r round(fixef(mod1)[2], 2)` x$. La línea de color representa el modelo particular para cada grupo, su ecuación se obtiene de la ecuación general agregando el intercepto y la pendiente aleatoria predichos $\tilde{b}_0$ y $\tilde{b}_1$.
