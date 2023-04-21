@@ -2,6 +2,304 @@
 
 El paquete **gamlss** de @R-gamlss se utiliza para estimar modelos en los que la variable respuesta puede tener casi cualquier distribución. Al visitar este [enlace](https://cran.r-project.org/web/packages/gamlss/) se encontrará la página de apoyo del paquete, allí se puede consultar el manual de referencia.
 
+## Modelo lineal mixto con intercepto aleatorio
+
+En esta sección se muestra cómo extraer los efectos fijos y la varianza del intercepto aleatorio con **gamlss**
+
+### Ejemplo {-}
+Simular $n_i=20$ observaciones para $G=10$ grupos del siguiente modelo. Luego estimar los parámetros del modelo con gamlss.
+
+\begin{align*}
+y_{ij} | b_0 &\sim  N(\mu_{ij}, \sigma^2_y) \\
+\mu_{ij} &= 5 - 8 x_{ij} + b_{0i} \\
+\sigma^2_y &= 15^2 \\
+b_{0} &\sim N(0, \sigma^2_{b0}=10^2) \\
+x_{ij} &\sim U(0, 10)
+\end{align*}
+
+```{block2, type='rmdexercise'}
+Solución.
+```
+
+El código para simular los datos se muestra a continuación.
+
+```{r}
+gen_dat_b0 <- function(G, ni, beta0, beta1, sigma, sigmab0) {
+  group <- rep(1:G, each=ni)
+  b0 <- rep(rnorm(n=G, mean=0, sd=sigmab0), each=ni)
+  x <- runif(n=G*ni, min=0, max=10)
+  mu <- beta0 + beta1 * x + b0
+  y <- rnorm(n=G*ni, mean=mu, sd=sigma)
+  data.frame(group=group, x=x, y=y)
+}
+
+G <- 10
+ni <- 20
+
+beta0   <- 5
+beta1   <- -8
+sigma   <- 15
+sigmab0 <- 10
+
+theta_true <- c(beta0, beta1, sigma, sigmab0)
+
+set.seed(5734)
+datos <- gen_dat_b0(G, ni, beta0, beta1, sigma, sigmab0)
+```
+
+Para dibujar los datos se utiliza el siguiente código.
+
+```{r gamlss01, fig.height=4, fig.width=6}
+library(ggplot2)
+ggplot(datos, aes(x, y, color=as.factor(group)) ) + 
+  geom_point() + 
+  labs(colour="Grupo/Cluster")
+```
+
+En el siguiente código se ajustan dos modelos, uno con la función `lmer` y otro con la función `gamlss`, el modelo `mod1` se utilizará como modelo de referencia para saber qué tan bien `gamlss` estima los parámetros del modelo.
+
+```{r message=FALSE}
+# con lme
+require(lme4)
+mod1 <- lmer(y ~ x + (1|group), data=datos)
+
+# con gamlss
+require(gamlss)
+mod2 <- gamlss(y ~ x + re(random=~1|group), data=datos)
+```
+
+A continuación el código para obtener las estimaciones de $\boldsymbol{\Theta}$ con `lmer` y `gamlss`.
+
+```{r}
+vc <- VarCorr(mod1)
+vc <- as.data.frame(vc)
+
+theta_lmer <- c(fixef(mod1), vc$sdcor[2:1])
+
+theta_gamlss <- c(coef(mod2)[1:2],
+                  exp(coef(mod2, what='sigma')),
+                  as.numeric(VarCorr(getSmo(mod2))[1, 2]))
+
+cbind(theta_true, theta_lmer, theta_gamlss)
+```
+
+De la salida anterior vemos que las estimaciones con `lmer` y `gamlss` son similares y cercanas a $\boldsymbol{\Theta}$.
+
+## Modelo lineal mixto con pendiente aleatoria
+
+En esta sección se muestra cómo extraer los efectos fijos y la varianza de la pendiente aleatoria con **gamlss**
+
+### Ejemplo {-}
+Simular $n_i=20$ observaciones para $G=10$ grupos del siguiente modelo. Luego estimar los parámetros del modelo con gamlss.
+
+\begin{align*}
+y_{ij} | b_0 &\sim  N(\mu_{ij}, \sigma^2_y) \\
+\mu_{ij} &= 5 - 3 x_{ij} + b_{0i} \\
+\sigma^2_y &= 8^2 \\
+b_{0} &\sim N(0, \sigma^2_{b0}=20^2) \\
+x_{ij} &\sim U(0, 10)
+\end{align*}
+
+```{block2, type='rmdexercise'}
+Solución.
+```
+
+El código para simular los datos se muestra a continuación.
+
+```{r}
+gen.dat <- function(G, ni, beta0, beta1, sigma, sigmab1) {
+  group <- rep(1:G, each=ni)
+  b1 <- rep(rnorm(n=G, mean=0, sd=sigmab1), each=ni)
+  x <- runif(n=G*ni, min=0, max=10)
+  mu <- beta0 + beta1 * x + b1 * x
+  y <- rnorm(n=G*ni, mean=mu, sd=sigma)
+  data.frame(group=group, x=x, y=y)
+}
+
+G <- 10
+ni <- 20
+
+beta0 <- 5
+beta1 <- -3
+sigma <- 8
+sigmab1 <- 20
+
+theta_true <- c(beta0, beta1, sigma, sigmab1)
+
+set.seed(1234)
+datos <- gen.dat(G, ni, beta0, beta1, sigma, sigmab1)
+```
+
+Para dibujar los datos se utiliza el siguiente código.
+
+```{r gamlss02, fig.height=4, fig.width=6}
+library(ggplot2)
+ggplot(datos, aes(x, y, color=as.factor(group)) ) + 
+  geom_point() + 
+  labs(colour="Grupo/Cluster")
+```
+
+De la figura anterior se observa claramente la pendiente aleatoria.
+
+En el siguiente código se ajustan dos modelos, uno con la función `lmer` y otro con la función `gamlss`, el modelo `mod1` se utilizará como modelo de referencia para saber qué tan bien `gamlss` estima los parámetros del modelo.
+
+```{r message=FALSE}
+# con lme
+require(lme4)
+mod1 <- lmer(y ~ x + (-1 + x|group), data=datos)
+
+# con gamlss
+require(gamlss)
+mod2 <- gamlss(y ~ x + re(random=~-1+x|group), data=datos)
+```
+
+A continuación el código para obtener las estimaciones de $\boldsymbol{\Theta}$ con `lmer` y `gamlss`.
+
+```{r}
+vc <- VarCorr(mod1)
+vc <- as.data.frame(vc)
+
+theta_lmer <- c(fixef(mod1), vc$sdcor[2:1])
+
+theta_gamlss <- c(coef(mod2)[1:2],
+                  exp(coef(mod2, what='sigma')),
+                  as.numeric(VarCorr(getSmo(mod2))[1, 2]))
+
+cbind(theta_true, theta_lmer, theta_gamlss)
+```
+
+De la salida anterior vemos que las estimaciones con `lmer` y `gamlss` son similares y cercanas a $\boldsymbol{\Theta}$.
+
+## Modelo lineal mixto con intercepto y pendiente aleatoria
+
+En esta sección se muestra cómo extraer los efectos fijos y la varianza del intercepto y de la pendiente aleatoria con **gamlss**
+
+### Ejemplo {-}
+Simular $n_i=30$ observaciones para $G=20$ grupos del siguiente modelo. Luego estimar los parámetros del modelo con gamlss.
+
+
+\begin{align*}
+y_{ij} | b_0, b_1 &\sim N(\mu_{ij}, \sigma) \\
+\mu_{ij} &= 5 - 3 x_{ij} + b_{0i} + b_{1i} x_{ij} \\
+\sigma &= 8 \\
+\left (
+\begin{matrix}
+b_{0} \\ b_{1}
+\end{matrix}
+\right ) &\sim
+N\left ( \left [ \begin{matrix}
+0 \\ 0
+\end{matrix} \right ],
+\left [ \begin{matrix}
+\sigma^2_{b0}=40 & \sigma_{b01}=-3 \\
+\sigma_{b01}=-3 & \sigma^2_{b1}=50
+\end{matrix} \right ]
+\right ) \\
+x_{ij} &\sim U(0, 10)
+\end{align*}
+
+```{block2, type='rmdexercise'}
+Solución.
+```
+
+El código para simular los datos se muestra a continuación.
+
+```{r}
+gen.dat <- function(G, ni, beta0, beta1, sigma, 
+                    sigma2b0, sigma2b1, covb0b1) {
+  group <- rep(1:G, each=ni)
+  library(MASS) # Libreria para simular obs de Normal bivariada
+  Sigma <- matrix(c(sigma2b0, covb0b1, # Matriz de var-cov
+                    covb0b1, sigma2b1), ncol=2, nrow=2)
+  b <- mvrnorm(n=G, mu=rep(0, 2), Sigma=Sigma) # Simulando b0 y b1
+  b <- apply(b, MARGIN=2, function(c) rep(c, each=ni)) # Replicando
+  b0 <- as.vector(b[, 1]) # Separando los b0
+  b1 <- as.vector(b[, 2]) # Separando los b1
+  x <- runif(n=G*ni, min=0, max=10)
+  mu <- beta0 + beta1 * x + b0 + b1 * x
+  y <- rnorm(n=G*ni, mean=mu, sd=sigma)
+  data.frame(group=group, x=x, y=y)
+}
+
+G  <- 20
+ni <- 30
+
+beta0 <- 5
+beta1 <- -3
+sigma <- 8
+
+sigma2b0 <- 40
+sigma2b1 <- 50
+covb0b1 <- -3
+
+theta_true <- c(beta0, beta1, sigma, 
+                sigma2b0, sigma2b1, covb0b1)
+
+set.seed(123)
+datos <- gen.dat(G, ni, beta0, beta1, sigma, 
+                 sigma2b0, sigma2b1, covb0b1)
+```
+
+Para dibujar los datos se utiliza el siguiente código.
+
+```{r gamlss03, fig.height=4, fig.width=6}
+library(ggplot2)
+ggplot(datos, aes(x, y, color=as.factor(group)) ) + 
+  geom_point() + 
+  labs(colour="Grupo/Cluster")
+```
+
+De la figura anterior se observa claramente la pendiente aleatoria.
+
+En el siguiente código se ajustan dos modelos, uno con la función `lmer` y otro con la función `gamlss`, el modelo `mod1` se utilizará como modelo de referencia para saber qué tan bien `gamlss` estima los parámetros del modelo.
+
+```{r message=FALSE}
+# con lme
+require(lme4)
+mod1 <- NULL
+mod1 <- lmer(y ~ x + (1 + x|group), data=datos)
+
+# con gamlss
+require(gamlss)
+mod2 <- NULL
+mod2 <- gamlss(y ~ x + re(random=~1+x|group), data=datos)
+```
+
+A continuación el código para obtener las estimaciones de $\boldsymbol{\Theta}$ con `lmer` y `gamlss`.
+
+```{r}
+# Para mod1
+vc <- VarCorr(mod1)
+vc <- as.data.frame(vc)
+
+hat_sig2_b0 <- vc[1, 4]
+hat_sig2_b1 <- vc[2, 4]
+hat_cov_b0b1 <- vc[3, 4]
+hat_sigma <- vc[4, 5]
+
+theta_lmer <- c(fixef(mod1), hat_sigma,
+                hat_sig2_b0, hat_sig2_b1, hat_cov_b0b1)
+
+# Para mod2
+aux <- getSmo(mod2)
+aux <- getVarCov(aux)
+
+hat_sig2_b0 <- aux[1, 1]
+hat_sig2_b1 <- aux[2, 2]
+hat_cov_b0b1 <- aux[1,2]
+hat_sigma <- getSmo(mod2)$sigma
+
+theta_gamlss <- c(coef(mod2)[1:2],
+                  exp(coef(mod2, what='sigma')),
+                  hat_sig2_b0, 
+                  hat_sig2_b1, 
+                  hat_cov_b0b1)
+
+cbind(theta_true, theta_lmer, theta_gamlss)
+```
+
+De la salida anterior vemos que las estimaciones con `lmer` y `gamlss` son similares y cercanas a $\boldsymbol{\Theta}$.
+
 ## Ejemplo: modelo Normal con intercepto aleatorio {-}
 En este ejemplo vamos a simular $n_i=50$ observaciones para $G=10$ grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `inla` para estimar los parámetros del modelo.
 

@@ -3,15 +3,15 @@
   author = {{R Core Team}},
   organization = {R Foundation for Statistical Computing},
   address = {Vienna, Austria},
-  year = {2022},
+  year = {2023},
   url = {https://www.R-project.org/},
 }
 
 @Manual{R-bookdown,
   title = {bookdown: Authoring Books and Technical Documents with R Markdown},
   author = {Yihui Xie},
-  year = {2022},
-  note = {R package version 0.29},
+  year = {2023},
+  note = {R package version 0.32},
   url = {https://CRAN.R-project.org/package=bookdown},
 }
 
@@ -32,6 +32,14 @@ Regression Models},
   url = {http://florianhartig.github.io/DHARMa/},
 }
 
+@Manual{R-gamlss,
+  title = {gamlss: Generalised Additive Models for Location Scale and Shape},
+  author = {Mikis Stasinopoulos and Bob Rigby},
+  year = {2022},
+  note = {R package version 5.4-10},
+  url = {https://www.gamlss.com/},
+}
+
 @Manual{R-glmm,
   title = {glmm: Generalized Linear Mixed Models via Monte Carlo Likelihood
 Approximation},
@@ -45,15 +53,22 @@ Approximation},
   title = {glmmTMB: Generalized Linear Mixed Models using Template Model Builder},
   author = {Mollie Brooks and Ben Bolker and Kasper Kristensen and Martin Maechler and Arni Magnusson and Hans Skaug and Anders Nielsen and Casper Berg and Koen {van Bentham}},
   year = {2022},
-  note = {R package version 1.1.4},
+  note = {R package version 1.1.5},
   url = {https://github.com/glmmTMB/glmmTMB},
+}
+
+@Manual{R-INLA,
+  title = {INLA: Full Bayesian Analysis of Latent Gaussian Models using Integrated Nested Laplace Approximations},
+  author = {Havard Rue and Finn Lindgren and Elias {Teixeira Krainski}},
+  note = {R package version 99.99.9999},
+  year = {2022},
 }
 
 @Manual{R-knitr,
   title = {knitr: A General-Purpose Package for Dynamic Report Generation in R},
   author = {Yihui Xie},
   year = {2022},
-  note = {R package version 1.40},
+  note = {R package version 1.41},
   url = {https://yihui.org/knitr/},
 }
 
@@ -117,8 +132,8 @@ Overdispersion},
 @Manual{R-ordinal,
   title = {ordinal: Regression Models for Ordinal Data},
   author = {Rune Haubo Bojesen Christensen},
-  year = {2019},
-  note = {R package version 2019.12-10},
+  year = {2022},
+  note = {R package version 2022.11-16},
   url = {https://github.com/runehaubo/ordinal},
 }
 
@@ -134,8 +149,8 @@ Methods for Test in Mixed Models},
 @Manual{R-plotly,
   title = {plotly: Create Interactive Web Graphics via plotly.js},
   author = {Carson Sievert and Chris Parmer and Toby Hocking and Scott Chamberlain and Karthik Ram and Marianne Corvellec and Pedro Despouy},
-  year = {2021},
-  note = {R package version 4.10.0},
+  year = {2022},
+  note = {R package version 4.10.1},
   url = {https://CRAN.R-project.org/package=plotly},
 }
 
@@ -152,7 +167,7 @@ Models},
   title = {rmarkdown: Dynamic Documents for R},
   author = {JJ Allaire and Yihui Xie and Jonathan McPherson and Javier Luraschi and Kevin Ushey and Aron Atkins and Hadley Wickham and Joe Cheng and Winston Chang and Richard Iannone},
   year = {2022},
-  note = {R package version 2.17},
+  note = {R package version 2.19},
   url = {https://CRAN.R-project.org/package=rmarkdown},
 }
 
@@ -218,15 +233,122 @@ Models},
   encoding = {UTF-8},
 }
 
+@Article{gamlss2005,
+  title = {Generalized additive models for location, scale and shape,(with discussion)},
+  journal = {Applied Statistics},
+  volume = {54},
+  part = {3},
+  pages = {507-554},
+  year = {2005},
+  author = {R. A. Rigby and D. M. Stasinopoulos},
+}
+
 @Article{glmmTMB2017,
   author = {Mollie E. Brooks and Kasper Kristensen and Koen J. {van Benthem} and Arni Magnusson and Casper W. Berg and Anders Nielsen and Hans J. Skaug and Martin Maechler and Benjamin M. Bolker},
   title = {{glmmTMB} Balances Speed and Flexibility Among Packages for Zero-inflated Generalized Linear Mixed Modeling},
   year = {2017},
   journal = {The R Journal},
-  url = {https://journal.r-project.org/archive/2017/RJ-2017-066/index.html},
+  doi = {10.32614/RJ-2017-066},
   pages = {378--400},
   volume = {9},
   number = {2},
+}
+
+@Article{INLA2009a,
+  author = {H{\aa}vard Rue and Sara Martino and Nicholas Chopin},
+  title = {Approximate {Bayesian} Inference for Latent {Gaussian} Models Using Integrated Nested {Laplace} Approximations (with discussion).},
+  journal = {Journal of the Royal Statistical Society B},
+  year = {2009},
+  volume = {71},
+  pages = {319--392},
+}
+
+@Article{INLA2013a,
+  title = {Bayesian computing with {INLA}: {N}ew features.},
+  author = {Thiago G. Martins and Daniel Simpson and Finn Lindgren and H{\aa}vard Rue},
+  year = {2013},
+  volume = {67},
+  pages = {68--83},
+  journal = {Computational Statistics and Data Analysis},
+}
+
+@Article{INLA2011a,
+  title = {An Explicit Link between {Gaussian} Fields and {Gaussian} {Markov} Random Fields: The Stochastic Partial Differential Equation Approach (with discussion).},
+  author = {Finn Lindgren and H{\aa}vard Rue and Johan Lindstr{\"o}m},
+  year = {2011},
+  volume = {73},
+  number = {4},
+  pages = {423--498},
+  journal = {Journal of the Royal Statistical Society B},
+}
+
+@Article{INLA2015a,
+  title = {Bayesian Spatial Modelling with {R}-{INLA}},
+  author = {Finn Lindgren and H{\aa}vard Rue},
+  journal = {Journal of Statistical Software},
+  year = {2015},
+  volume = {63},
+  number = {19},
+  pages = {1--25},
+  url = {http://www.jstatsoft.org/v63/i19/},
+}
+
+@Article{INLA2017a,
+  title = {Bayesian computing with {INLA}: {A} review},
+  author = {H{\aa}vard Rue and Andrea I. Riebler and Sigrunn H. S{\o}rbye and Janine B. Illian and Daniel P. Simpson and Finn K. Lindgren},
+  journal = {Annual Reviews of Statistics and Its Applications},
+  year = {2017},
+  volume = {4},
+  number = {March},
+  pages = {395--421},
+  url = {http://arxiv.org/abs/1604.00860},
+}
+
+@Article{INLA2018a,
+  title = {Spatial modelling with {INLA}: {A} review},
+  author = {Haakon Bakka and H{\aa}vard Rue and Geir-Arne Fuglstad and Andrea I. Riebler and David Bolin and Janine Illian and Elias Krainski and Daniel P. Simpson and Finn K. Lindgren},
+  journal = {WIRES (Invited extended review)},
+  year = {2018},
+  volume = {xx},
+  number = {Feb},
+  pages = {xx--xx},
+  url = {http://arxiv.org/abs/1802.06350},
+}
+
+@Article{INLA2016a,
+  title = {Needles: Toward Large-Scale Genomic Prediction with Marker-by-Environment Interaction},
+  author = {Arne {De Coninck} and Bernard {De Baets} and Drosos Kourounis and Fabio Verbosio and Olaf Schenk and Steven Maenhout and Jan Fostier},
+  volume = {203},
+  number = {1},
+  pages = {543--555},
+  year = {2016},
+  doi = {10.1534/genetics.115.179887},
+  journal = {Genetics},
+  url = {http://dx.doi.org/10.1534/genetics.115.179887},
+  eprint = {http://www.genetics.org/content/203/1/543.full.pdf},
+}
+
+@Article{INLA2017b,
+  title = {Enhancing the scalability of selected inversion factorization algorithms in genomic prediction},
+  author = {Fabio Verbosio and Arne {De Coninck} and Drosos Kourounis and Olaf Schenk},
+  journal = {Journal of Computational Science},
+  volume = {22},
+  number = {Supplement C},
+  pages = {99-108},
+  year = {2017},
+  issn = {1877-7503},
+  url = {https://doi.org/10.1016/j.jocs.2017.08.013},
+}
+
+@Article{INLA2018b,
+  title = {Towards the Next Generation of Multiperiod Optimal Power Flow Solvers},
+  author = {D. Kourounis and A. Fuchs and O. Schenk},
+  journal = {IEEE Transactions on Power Systems},
+  year = {2018},
+  volume = {PP},
+  number = {99},
+  pages = {1-10},
+  url = {https://doi.org/10.1109/TPWRS.2017.2789187},
 }
 
 @Book{knitr2015,
