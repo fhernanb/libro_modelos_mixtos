@@ -56,4 +56,5 @@ glmm_gamma
 multinomial
 residuals
 simul-glmm
+sced
 blobs
