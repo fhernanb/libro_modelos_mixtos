@@ -52,7 +52,7 @@ modelo-lineal-mixto-con-intercepto-aleatorio
 modelo-lineal-mixto-con-pendiente-aleatoria
 modelo-lineal-mixto-con-intercepto-y-pendiente-aleatoria
 glmm_poisson
-glmm_gamma
+glmm-gamma
 multinomial
 residuals
 R2

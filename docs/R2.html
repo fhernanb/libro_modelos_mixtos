@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>26 \(R^2\) | Modelos Mixtos con R</title>
+  <title>26 Coeficiente \(R^2\) | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="26 \(R^2\) | Modelos Mixtos con R" />
+  <meta property="og:title" content="26 Coeficiente \(R^2\) | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/images/cover.png" />
   <meta property="og:description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="github-repo" content="fhernanb/libro_mod_pred" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="26 \(R^2\) | Modelos Mixtos con R" />
+  <meta name="twitter:title" content="26 Coeficiente \(R^2\) | Modelos Mixtos con R" />
   
   <meta name="twitter:description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="twitter:image" content="/images/cover.png" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2023-11-17" />
+<meta name="date" content="2023-11-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -295,7 +295,7 @@ div.csl-indent {
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="22" data-path="glmm_poisson.html"><a href="glmm_poisson.html"><i class="fa fa-check"></i><b>22</b> GLMM Poisson</a></li>
-<li class="chapter" data-level="23" data-path="glmm_gamma.html"><a href="glmm_gamma.html"><i class="fa fa-check"></i><b>23</b> GLMM gamma</a></li>
+<li class="chapter" data-level="23" data-path="glmm-gamma.html"><a href="glmm-gamma.html"><i class="fa fa-check"></i><b>23</b> GLMM gamma</a></li>
 <li class="chapter" data-level="24" data-path="multinomial.html"><a href="multinomial.html"><i class="fa fa-check"></i><b>24</b> Modelo multinomial</a>
 <ul>
 <li class="chapter" data-level="" data-path="multinomial.html"><a href="multinomial.html#ejemplo-modelo-multinomial-nominal"><i class="fa fa-check"></i>Ejemplo: modelo multinomial nominal</a></li>
@@ -306,11 +306,12 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="" data-path="residuals.html"><a href="residuals.html#ejemplo-modelo-gamma-mixto"><i class="fa fa-check"></i>Ejemplo: modelo gamma mixto</a></li>
 </ul></li>
-<li class="chapter" data-level="26" data-path="R2.html"><a href="R2.html"><i class="fa fa-check"></i><b>26</b> <span class="math inline">\(R^2\)</span></a>
+<li class="chapter" data-level="26" data-path="R2.html"><a href="R2.html"><i class="fa fa-check"></i><b>26</b> Coeficiente <span class="math inline">\(R^2\)</span></a>
 <ul>
 <li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-normal-con-intercepto-aleatorio-3"><i class="fa fa-check"></i>Ejemplo: modelo normal con intercepto aleatorio</a></li>
 <li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-normal-sin-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo normal sin intercepto aleatorio</a></li>
-<li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-9"><i class="fa fa-check"></i>Ejemplo</a></li>
+<li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-clase-lme"><i class="fa fa-check"></i>Ejemplo: modelo clase lme</a></li>
+<li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-clase-lme4"><i class="fa fa-check"></i>Ejemplo: modelo clase lme4</a></li>
 </ul></li>
 <li class="chapter" data-level="27" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>27</b> Simulación de glmm</a></li>
 <li class="chapter" data-level="28" data-path="sced.html"><a href="sced.html"><i class="fa fa-check"></i><b>28</b> Single case experimental desing (sced)</a>
@@ -340,9 +341,11 @@ div.csl-indent {
 
             <section class="normal" id="section-">
 <div id="R2" class="section level1 hasAnchor" number="26">
-<h1><span class="header-section-number">26</span> <span class="math inline">\(R^2\)</span><a href="R2.html#R2" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<h1><span class="header-section-number">26</span> Coeficiente <span class="math inline">\(R^2\)</span><a href="R2.html#R2" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>En este capítulo vamos mostrar como se puede calcular la medida <span class="math inline">\(R^2\)</span> propuesta por <span class="citation">Nakagawa, Schielzeth, and O’Hara (<a href="#ref-nakagawa2012">2013</a>)</span> y <span class="citation">Nakagawa, Johnson, and Schielzeth (<a href="#ref-nakagawa2017">2017</a>)</span> para modelos lineales generalizados mixtos.</p>
-<p>La función <code>r.squaredGLMM()</code> del paquete <strong>MuMIn</strong> de <span class="citation">Bartoń (<a href="#ref-R-MuMIn">2022</a>)</span> permite calcular <span class="math inline">\(R^2\)</span> para varios tipos de modelos con efectos mixtos.</p>
+<p>La función <code>r.squaredGLMM()</code> del paquete <strong>MuMIn</strong> de <span class="citation">Bartoń (<a href="#ref-R-MuMIn">2022</a>)</span> permite calcular <span class="math inline">\(R^2\)</span> para varios tipos de modelos con efectos mixtos. La función puede calcular <span class="math inline">\(R^2\)</span> para modelos de la clase merMod, lme, glmmTMB, glmmADMB, glmmPQL, cpglm(m) y
+(g)lm.</p>
+<p><span class="citation">Nakagawa, Johnson, and Schielzeth (<a href="#ref-nakagawa2017">2017</a>)</span> define dos <span class="math inline">\(R^2\)</span> para LMM (linear mixed models) de la siguiente manera:</p>
 <ul>
 <li><span class="math inline">\(R^2_{m}\)</span>: representa la varianza explicada por los efectos fijos.</li>
 <li><span class="math inline">\(R^2_{c}\)</span>: representa la varianza explicada por todo el modelo, incluyendo ambos efectos fijos y aleatorios.</li>
@@ -355,7 +358,8 @@ R^2_{m} = \frac{\sigma^2_f}{\sigma^2_f + \sigma^2_\alpha + \sigma^2_\epsilon},
 R^2_{c} = \frac{\sigma^2_f + \sigma^2_\alpha}{\sigma^2_f + \sigma^2_\alpha + \sigma^2_\epsilon},
 \]</span></p>
 <p>donde <span class="math inline">\(\sigma^2_f\)</span> es la varianza asociada a los efectos fijos, <span class="math inline">\(\sigma^2_\alpha\)</span> es la varianza de los efectos aleatorios y <span class="math inline">\(\sigma^2_\epsilon\)</span> es la varianza asociada a los valores de la variable respuesta.</p>
-<p>En los siguiente ejemplos vamos a ilustrar su uso de la función <code>r.squaredGLMM()</code>.</p>
+<p><span class="citation">Nakagawa, Johnson, and Schielzeth (<a href="#ref-nakagawa2017">2017</a>)</span> en su artículo proponen el cálculo de <span class="math inline">\(R^2\)</span> para otros GLMM (generalized linear mixed models). Los autores afirman que el reto al proponer un <span class="math inline">\(R^2\)</span> para los GLMM radica en la definición de <span class="math inline">\(\sigma^2_\epsilon\)</span>. En la implementación de <span class="math inline">\(R^2\)</span> para GLMM hecha por <span class="citation">Bartoń (<a href="#ref-R-MuMIn">2022</a>)</span> se pueden obtener tres formas para cuantificar <span class="math inline">\(\sigma^2_\epsilon\)</span>, esas formas son: “delta”, “lognormal” y “trigamma”.</p>
+<p>En los siguientes ejemplos vamos a ilustrar el uso de la función <code>r.squaredGLMM()</code>.</p>
 <div id="ejemplo-modelo-normal-con-intercepto-aleatorio-3" class="section level2 unnumbered hasAnchor">
 <h2>Ejemplo: modelo normal con intercepto aleatorio<a href="R2.html#ejemplo-modelo-normal-con-intercepto-aleatorio-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>En este ejemplo vamos a simular observaciones <span class="math inline">\(n_i=50\)</span> observaciones para <span class="math inline">\(G=10\)</span> grupos (en total 500 obs) que tengan la estructura mostrada abajo y en la cual la varianza de los efectos aleatorio <span class="math inline">\(b_0\)</span> (<span class="math inline">\(\sigma^2_{b0}=625\)</span>) es más grande que la varianza de las observaciones (<span class="math inline">\(\sigma^2_y=16\)</span>).</p>
@@ -433,8 +437,8 @@ Solución.
 ## [1,] 0.9571738 0.9578291</code></pre>
 <p>De la salida anterior vemos que ambos <span class="math inline">\(R^2\)</span> son muy parecidos. Esto significa que el porcentaje de la varianza explicada por un modelo con ambos tipos de efectos (fijos y aleatorios) es igual a la varianza explicada por un modelo sólo con efectos fijos, en otras palabras, esto indica que NO vale la pena incluir efectos aleatorios en el modelo. Este resultado era el esperado porque los datos fueron simulados con <span class="math inline">\(\sigma^2_{b0}=0\)</span>.</p>
 </div>
-<div id="ejemplo-9" class="section level2 unnumbered hasAnchor">
-<h2>Ejemplo<a href="R2.html#ejemplo-9" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="ejemplo-modelo-clase-lme" class="section level2 unnumbered hasAnchor">
+<h2>Ejemplo: modelo clase lme<a href="R2.html#ejemplo-modelo-clase-lme" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>En este ejemplo vamos a ajustar un modelo para explicar la desde la hipófisis hasta la fisura pterigomaxilar (mm), en función del sexo y la edad de los pacientes (Subject). La base de datos a usar es <code>Orthodont</code>. Luego se desea calcular el <span class="math inline">\(R^2\)</span> para el modelo ajustado.</p>
 <div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
   -webkit-box-shadow: 1px 1px 3px 2px #000000;
@@ -450,11 +454,38 @@ Solución.
 <span id="cb350-3"><a href="R2.html#cb350-3" tabindex="-1"></a></span>
 <span id="cb350-4"><a href="R2.html#cb350-4" tabindex="-1"></a><span class="fu">data</span>(Orthodont, <span class="at">package =</span> <span class="st">&quot;nlme&quot;</span>)</span>
 <span id="cb350-5"><a href="R2.html#cb350-5" tabindex="-1"></a>fm1 <span class="ot">&lt;-</span> <span class="fu">lme</span>(distance <span class="sc">~</span> Sex <span class="sc">*</span> age, <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> Subject, <span class="at">data =</span> Orthodont)</span>
-<span id="cb350-6"><a href="R2.html#cb350-6" tabindex="-1"></a>fmnull <span class="ot">&lt;-</span> <span class="fu">lme</span>(distance <span class="sc">~</span> <span class="dv">1</span>, <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> Subject, <span class="at">data =</span> Orthodont)</span>
-<span id="cb350-7"><a href="R2.html#cb350-7" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fm1)</span></code></pre></div>
+<span id="cb350-6"><a href="R2.html#cb350-6" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fm1)</span></code></pre></div>
 <pre><code>##            R2m       R2c
 ## [1,] 0.4098416 0.7827266</code></pre>
 <p>De la salida anterior se observa que 78.27% de la variabilidad observada se logra explicar con el modelo ajustado con efectos fijos y un intercepto aleatorio.</p>
+</div>
+<div id="ejemplo-modelo-clase-lme4" class="section level2 unnumbered hasAnchor">
+<h2>Ejemplo: modelo clase lme4<a href="R2.html#ejemplo-modelo-clase-lme4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>En este ejemplo vamos a calcular <span class="math inline">\(R^2\)</span> para el modelo gamma presentado en el ejemplo 1 sobre conductores que está en el capítulo <a href="glmm-gamma.html#glmm-gamma">23</a>.</p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+<div class="rmdexercise">
+Solución.
+</div>
+</div>
+<p>A continuación se presenta el mismo código usado en el ejemplo 1 del capítulo <a href="glmm-gamma.html#glmm-gamma">23</a>. En la última línea de este código se calcula el <span class="math inline">\(R^2\)</span>.</p>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="R2.html#cb352-1" tabindex="-1"></a><span class="fu">library</span>(hglm)</span>
+<span id="cb352-2"><a href="R2.html#cb352-2" tabindex="-1"></a><span class="fu">data</span>(semiconductor)</span>
+<span id="cb352-3"><a href="R2.html#cb352-3" tabindex="-1"></a></span>
+<span id="cb352-4"><a href="R2.html#cb352-4" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb352-5"><a href="R2.html#cb352-5" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x3 <span class="sc">+</span> x4 <span class="sc">+</span> x5 <span class="sc">+</span> x6 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Device), </span>
+<span id="cb352-6"><a href="R2.html#cb352-6" tabindex="-1"></a>              <span class="at">data =</span> semiconductor,</span>
+<span id="cb352-7"><a href="R2.html#cb352-7" tabindex="-1"></a>              <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> log))</span>
+<span id="cb352-8"><a href="R2.html#cb352-8" tabindex="-1"></a></span>
+<span id="cb352-9"><a href="R2.html#cb352-9" tabindex="-1"></a><span class="fu">library</span>(MuMIn)</span>
+<span id="cb352-10"><a href="R2.html#cb352-10" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(mod1)</span></code></pre></div>
+<pre><code>##                 R2m       R2c
+## delta     0.7112290 0.7749512
+## lognormal 0.7185672 0.7829469
+## trigamma  0.7033419 0.7663575</code></pre>
+<p>De la salida anterior se observa que el <span class="math inline">\(R^2_c\)</span> es ligeramente mayor al <span class="math inline">\(R^2_m\)</span>. Los valores de <span class="math inline">\(R^2_c\)</span> son alrededor de 77%, esto indica que el modelo <code>mod1</code> con efectos fijos y un intercepto aletorio, logra explicar un 77% de la variabilidad observada. Este resultado es una evidencia en favor del modelo mixto frente al modelo sólo con efectos fijos.</p>
 
 </div>
 </div>

@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2023-11-17" />
+<meta name="date" content="2023-11-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -295,7 +295,7 @@ div.csl-indent {
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="22" data-path="glmm_poisson.html"><a href="glmm_poisson.html"><i class="fa fa-check"></i><b>22</b> GLMM Poisson</a></li>
-<li class="chapter" data-level="23" data-path="glmm_gamma.html"><a href="glmm_gamma.html"><i class="fa fa-check"></i><b>23</b> GLMM gamma</a></li>
+<li class="chapter" data-level="23" data-path="glmm-gamma.html"><a href="glmm-gamma.html"><i class="fa fa-check"></i><b>23</b> GLMM gamma</a></li>
 <li class="chapter" data-level="24" data-path="multinomial.html"><a href="multinomial.html"><i class="fa fa-check"></i><b>24</b> Modelo multinomial</a>
 <ul>
 <li class="chapter" data-level="" data-path="multinomial.html"><a href="multinomial.html#ejemplo-modelo-multinomial-nominal"><i class="fa fa-check"></i>Ejemplo: modelo multinomial nominal</a></li>
@@ -306,11 +306,12 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="" data-path="residuals.html"><a href="residuals.html#ejemplo-modelo-gamma-mixto"><i class="fa fa-check"></i>Ejemplo: modelo gamma mixto</a></li>
 </ul></li>
-<li class="chapter" data-level="26" data-path="R2.html"><a href="R2.html"><i class="fa fa-check"></i><b>26</b> <span class="math inline">\(R^2\)</span></a>
+<li class="chapter" data-level="26" data-path="R2.html"><a href="R2.html"><i class="fa fa-check"></i><b>26</b> Coeficiente <span class="math inline">\(R^2\)</span></a>
 <ul>
 <li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-normal-con-intercepto-aleatorio-3"><i class="fa fa-check"></i>Ejemplo: modelo normal con intercepto aleatorio</a></li>
 <li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-normal-sin-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo normal sin intercepto aleatorio</a></li>
-<li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-9"><i class="fa fa-check"></i>Ejemplo</a></li>
+<li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-clase-lme"><i class="fa fa-check"></i>Ejemplo: modelo clase lme</a></li>
+<li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-clase-lme4"><i class="fa fa-check"></i>Ejemplo: modelo clase lme4</a></li>
 </ul></li>
 <li class="chapter" data-level="27" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>27</b> Simulación de glmm</a></li>
 <li class="chapter" data-level="28" data-path="sced.html"><a href="sced.html"><i class="fa fa-check"></i><b>28</b> Single case experimental desing (sced)</a>
@@ -343,7 +344,7 @@ div.csl-indent {
 <h1 class="title">Modelos Mixtos con R</h1>
 <p class="author"><em>Freddy Hernández Barajas</em></p>
 <p class="author"><em>Jorge Leonardo López Martínez</em></p>
-<p class="date"><em>2023-11-17</em></p>
+<p class="date"><em>2023-11-18</em></p>
 </div>
 <div id="bienvenido" class="section level1 unnumbered hasAnchor">
 <h1>Bienvenido<a href="index.html#bienvenido" class="anchor-section" aria-label="Anchor link to header"></a></h1>
@@ -353,7 +354,7 @@ div.csl-indent {
 <a href="https://leo4luffy.github.io/">Jorge Leonardo López Martínez</a></p>
 <div id="estructura-del-libro" class="section level2 unnumbered hasAnchor">
 <h2>Estructura del libro<a href="index.html#estructura-del-libro" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>En el capítulo <a href="reg-lin.html#reg-lin">2</a> se hace un repaso básico del modelo de regresión lineal clásico. En el capítulo <a href="lmm.html#lmm">3</a> se presentan los modelos mixtos y en el capítulo <a href="glmm.html#glmm">16</a> se presentan los modelos lineales generalizados mixtos. En el capítulo <a href="pac-lme4.html#pac-lme4">5</a> se presenta el paquete <strong>lme4</strong> y sus principales funciones para modelación, mientras que en el capítulo <a href="pac-nlme.html#pac-nlme">7</a> se presenta el paquete <strong>nlme</strong> y sus principales funciones para modelación.</p>
+<p>En el capítulo <a href="reg-lin.html#reg-lin">2</a> se hace un repaso básico del modelo de regresión lineal clásico. En el capítulo <a href="lmm.html#lmm">3</a> se presentan el modelo lineal mixto (LMM) y luego en el capítulo <a href="glmm.html#glmm">16</a> se presentan los modelos lineales generalizados mixtos (GLMM). En el capítulo <a href="pac-lme4.html#pac-lme4">5</a> se presenta el paquete <strong>lme4</strong> y sus principales funciones para modelación, mientras que en el capítulo <a href="pac-nlme.html#pac-nlme">7</a> se presenta el paquete <strong>nlme</strong> y sus principales funciones para modelación. En el capítulo <a href="R2.html#R2">26</a> se muestra la forma de calcular la medida <span class="math inline">\(R^2\)</span> para LMM y GLMM.</p>
 </div>
 <div id="software-y-convenciones" class="section level2 unnumbered hasAnchor">
 <h2>Software y convenciones<a href="index.html#software-y-convenciones" class="anchor-section" aria-label="Anchor link to header"></a></h2>

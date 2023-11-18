@@ -1,4 +1,4 @@
-# GLMM gamma {#glmm_gamma}
+# GLMM gamma {#glmm-gamma}
 
 En este capítulo se presenta un ejemplo de glmm con variable respuesta gamma.
 
@@ -46,9 +46,7 @@ De la figura anterior vemos que la variable respuesta tomá solo valores positiv
 # install.packages("GGally")
 library(GGally)
 
-ggpairs(semiconductor,          # Data frame
-        columns = 2:8) # Columns 
-
+ggpairs(semiconductor, columns = 2:8)
 ```
 
 El primer modelo que vamos a ajustar contiene todos los factores `x` y se puede representar de la siguiente manera.

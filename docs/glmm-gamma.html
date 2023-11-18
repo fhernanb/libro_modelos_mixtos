@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>20 Paquete INLA | Modelos Mixtos con R</title>
+  <title>23 GLMM gamma | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="20 Paquete INLA | Modelos Mixtos con R" />
+  <meta property="og:title" content="23 GLMM gamma | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/images/cover.png" />
   <meta property="og:description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="github-repo" content="fhernanb/libro_mod_pred" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="20 Paquete INLA | Modelos Mixtos con R" />
+  <meta name="twitter:title" content="23 GLMM gamma | Modelos Mixtos con R" />
   
   <meta name="twitter:description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="twitter:image" content="/images/cover.png" />
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="pac-MASS.html"/>
-<link rel="next" href="paquete-gamlss.html"/>
+<link rel="prev" href="glmm_poisson.html"/>
+<link rel="next" href="multinomial.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -340,134 +340,211 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="paquete-inla" class="section level1 hasAnchor" number="20">
-<h1><span class="header-section-number">20</span> Paquete <strong>INLA</strong><a href="paquete-inla.html#paquete-inla" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>El paquete <strong>INLA</strong> (integrated nested Laplace approximation) se utiliza para hacer inferencia bayesiana aproximada de diversos modelos. Al visitar este <a href="https://www.r-inla.org/home">enlace</a> se encontrará un gran contenido que le podría servir para conocer más sobre INLA.</p>
-<div id="ejemplo-modelo-poisson-con-intercepto-aleatorio-1" class="section level2 unnumbered hasAnchor">
-<h2>Ejemplo: modelo Poisson con intercepto aleatorio<a href="paquete-inla.html#ejemplo-modelo-poisson-con-intercepto-aleatorio-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>En este ejemplo vamos a simular <span class="math inline">\(n_i=50\)</span> observaciones para <span class="math inline">\(G=10\)</span> grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función <code>inla</code> para estimar los parámetros del modelo.</p>
+<div id="glmm-gamma" class="section level1 hasAnchor" number="23">
+<h1><span class="header-section-number">23</span> GLMM gamma<a href="glmm-gamma.html#glmm-gamma" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>En este capítulo se presenta un ejemplo de glmm con variable respuesta gamma.</p>
+<p><img src="images/semiconductors.jpg" alt="Tomada de https://www.iqsdirectory.com/" width="50%" style="display: block; margin: auto;" /></p>
+<p>A continuación la base de datos a utilizar.</p>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="glmm-gamma.html#cb280-1" tabindex="-1"></a><span class="fu">library</span>(hglm)</span>
+<span id="cb280-2"><a href="glmm-gamma.html#cb280-2" tabindex="-1"></a><span class="fu">data</span>(semiconductor)</span></code></pre></div>
+<p>En este ejemplo, analizamos los datos de semiconductores tomados de Myers et al. (2002), que implica un experimento diseñado en una planta de semiconductores. Se emplean seis factores, temperatura de laminación, tiempo de laminación, presión de laminación, temperatura de cocción, tiempo de ciclo de cocción y punto de rocío de cocción, y estamos interesados en la curvatura de los dispositivos de sustrato producidos en la planta. La medición de la curvatura se realiza cuatro veces en cada dispositivo fabricado. Cada variable de diseño se toma en dos niveles. Se sabe que la medida no tiene una distribución normal y las medidas tomadas en el mismo dispositivo están correlacionadas. Myers et al. (2002) consideraron un modelo de respuesta gamma con un enlace logarítmico y utilizaron un método GEE asumiendo una correlación de trabajo AR(1).</p>
+<p>Las variables de la base de datos se muestran a continuación.</p>
+<ul>
+<li>Device: Subtrate device</li>
+<li>x1: Lamination Temperature; two levels +1 and -1.</li>
+<li>x2: Lamination Time; two levels: +1 and -1.</li>
+<li>x3: Lamination Presure; two levels: +1 and -1.</li>
+<li>x4: Firing Temperature; two levels: +1 and -1.</li>
+<li>x5: Firing Cycle Time; two levels: +1 and -1.</li>
+<li>x6: Firing Dew Point: two levels: +1 and -1.</li>
+<li>y: Camber measure; in 1e-4 in./in.</li>
+</ul>
+<p>Vamos a explorar las primeras líneas de la base de datos.</p>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="glmm-gamma.html#cb281-1" tabindex="-1"></a><span class="fu">head</span>(semiconductor, <span class="at">n=</span><span class="dv">5</span>)</span></code></pre></div>
+<pre><code>##   Device x1 x2 x3 x4 x5 x6      y
+## 1      1 -1 -1 -1 -1 -1 -1 0.0167
+## 2      1 -1 -1 -1 -1 -1 -1 0.0128
+## 3      1 -1 -1 -1 -1 -1 -1 0.0149
+## 4      1 -1 -1 -1 -1 -1 -1 0.0185
+## 5      2  1 -1 -1 -1  1  1 0.0062</code></pre>
+<p>El siguiente código sirve para construir una densidad para la variable respuesta.</p>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="glmm-gamma.html#cb283-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb283-2"><a href="glmm-gamma.html#cb283-2" tabindex="-1"></a><span class="fu">ggplot</span>(semiconductor, <span class="fu">aes</span>(y)) <span class="sc">+</span> </span>
+<span id="cb283-3"><a href="glmm-gamma.html#cb283-3" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-227-1.png" width="672" /></p>
+<p>De la figura anterior vemos que la variable respuesta tomá solo valores positivos.</p>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="glmm-gamma.html#cb284-1" tabindex="-1"></a><span class="co"># install.packages(&quot;GGally&quot;)</span></span>
+<span id="cb284-2"><a href="glmm-gamma.html#cb284-2" tabindex="-1"></a><span class="fu">library</span>(GGally)</span></code></pre></div>
+<pre><code>## Registered S3 method overwritten by &#39;GGally&#39;:
+##   method from   
+##   +.gg   ggplot2</code></pre>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="glmm-gamma.html#cb286-1" tabindex="-1"></a><span class="fu">ggpairs</span>(semiconductor, <span class="at">columns =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">8</span>)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-228-1.png" width="672" /></p>
+<p>El primer modelo que vamos a ajustar contiene todos los factores <code>x</code> y se puede representar de la siguiente manera.</p>
 <p><span class="math display">\[\begin{align*}
-y_{ij} | b_0 &amp;\sim  Poisson(\mu_{ij}) \\
-\log(\mu_{ij}) &amp;= 4 - 6 x_{ij} + b_{0i} \\
-b_{0} &amp;\sim N(0, \sigma^2_{b0}=4) \\
-x_{ij} &amp;\sim U(0, 1)
+y_{ij} | b_0 &amp;\sim  Gamma(\mu_{ij}, \phi) \\
+\log(\mu_{ij}) &amp;= \beta_0 + \beta_1 x1_{ij} + \beta_2 x2_{ij} + \beta_3 x3_{ij} + \beta_4 x4_{ij} + \beta_5 x5_{ij} + \beta_6 x6_{ij} + b_{0i} \\
+b_{0} &amp;\sim N(0, \sigma^2_{b0})
 \end{align*}\]</span></p>
-<p>El vector de parámetros de este modelo es <span class="math inline">\(\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma^2_{b0}=4)^\top\)</span>.</p>
-<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
-  -webkit-box-shadow: 1px 1px 3px 2px #000000;
-  box-shadow:         1px 1px 3px 2px #000000;">
-
-<div class="rmdexercise">
-Solución.
-</div>
-</div>
-<p>El código para simular las observaciones se muestra a continuación. Se fijó la semilla con <code>set.seed(1234)</code> para que el lector pueda replicar el ejemplo.</p>
-<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="paquete-inla.html#cb233-1" tabindex="-1"></a>gen_data_1 <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
-<span id="cb233-2"><a href="paquete-inla.html#cb233-2" tabindex="-1"></a>  ni <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb233-3"><a href="paquete-inla.html#cb233-3" tabindex="-1"></a>  G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb233-4"><a href="paquete-inla.html#cb233-4" tabindex="-1"></a>  nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
-<span id="cb233-5"><a href="paquete-inla.html#cb233-5" tabindex="-1"></a>  grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
-<span id="cb233-6"><a href="paquete-inla.html#cb233-6" tabindex="-1"></a>  obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
-<span id="cb233-7"><a href="paquete-inla.html#cb233-7" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
-<span id="cb233-8"><a href="paquete-inla.html#cb233-8" tabindex="-1"></a>  b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">4</span>)) <span class="co"># Intercepto aleatorio</span></span>
-<span id="cb233-9"><a href="paquete-inla.html#cb233-9" tabindex="-1"></a>  b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)             <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
-<span id="cb233-10"><a href="paquete-inla.html#cb233-10" tabindex="-1"></a>  media <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="dv">4</span> <span class="sc">-</span> <span class="dv">6</span> <span class="sc">*</span> x <span class="sc">+</span> b0)</span>
-<span id="cb233-11"><a href="paquete-inla.html#cb233-11" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="at">n=</span>nobs, <span class="at">lambda=</span>media)</span>
-<span id="cb233-12"><a href="paquete-inla.html#cb233-12" tabindex="-1"></a>  datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x, y)</span>
-<span id="cb233-13"><a href="paquete-inla.html#cb233-13" tabindex="-1"></a>  datos</span>
-<span id="cb233-14"><a href="paquete-inla.html#cb233-14" tabindex="-1"></a>}</span>
-<span id="cb233-15"><a href="paquete-inla.html#cb233-15" tabindex="-1"></a></span>
-<span id="cb233-16"><a href="paquete-inla.html#cb233-16" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb233-17"><a href="paquete-inla.html#cb233-17" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">gen_data_1</span>()</span>
-<span id="cb233-18"><a href="paquete-inla.html#cb233-18" tabindex="-1"></a><span class="fu">head</span>(datos)</span></code></pre></div>
-<pre><code>##   obs grupo        b0         x  y
-## 1   1     1 0.8738612 0.1137034 74
-## 2   2     1 0.8738612 0.6222994  2
-## 3   3     1 0.8738612 0.6092747  6
-## 4   4     1 0.8738612 0.6233794  3
-## 5   5     1 0.8738612 0.8609154  1
-## 6   6     1 0.8738612 0.6403106  0</code></pre>
-<p>Para estimar los parámetros del modelo con INLA se usa el siguiente código.</p>
-<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="paquete-inla.html#cb235-1" tabindex="-1"></a><span class="fu">library</span>(INLA)</span>
-<span id="cb235-2"><a href="paquete-inla.html#cb235-2" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">inla</span>(y <span class="sc">~</span> x<span class="sc">+</span> <span class="fu">f</span>(grupo, <span class="at">model =</span> <span class="st">&quot;iid&quot;</span>),</span>
-<span id="cb235-3"><a href="paquete-inla.html#cb235-3" tabindex="-1"></a>             <span class="at">data =</span> datos, <span class="at">family =</span> <span class="st">&quot;poisson&quot;</span></span>
-<span id="cb235-4"><a href="paquete-inla.html#cb235-4" tabindex="-1"></a>             )</span></code></pre></div>
-<p>Aplicando la función <code>summary</code> sobre el objeto <code>fit1</code> se obtiene:</p>
-<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="paquete-inla.html#cb236-1" tabindex="-1"></a><span class="fu">summary</span>(fit1)</span></code></pre></div>
-<pre><code>Time used:
-    Pre = 0.321, Running = 1.7, Post = 0.0978, Total = 2.12 
-Fixed effects:
-              mean    sd 0.025quant 0.5quant 0.975quant mode kld
-(Intercept)  4.402 0.555      3.292    4.403      5.509   NA   0
-x           -6.007 0.048     -6.102   -6.007     -5.913   NA   0
-
-Random effects:
-  Name    Model
-    grupo IID model
-
-Model hyperparameters:
-                    mean    sd 0.025quant 0.5quant 0.975quant mode
-Precision for grupo 0.40 0.175      0.138    0.374      0.787   NA
-
-Marginal log-Likelihood:  -1110.13 
- is computed 
-Posterior summaries for the linear predictor and the fitted values are computed
-(Posterior marginals needs also &#39;control.compute=list(return.marginals.predictor=TRUE)&#39;)</code></pre>
-<p>De la salida anterior se tiene que <span class="math inline">\(\hat{\boldsymbol{\Theta}}=(\hat{\beta_0}=4.402, \hat{\beta_1}=-6.007, \hat{\sigma}^2_{b0}=(1/0.40)^2=2.5^2)^\top\)</span> mientras que <span class="math inline">\(\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma^2_{b0}=4)^\top\)</span>.</p>
-</div>
-<div id="ejemplo-modelo-poisson-con-intercepto-y-pendiente-aleatoria" class="section level2 unnumbered hasAnchor">
-<h2>Ejemplo: modelo Poisson con intercepto y pendiente aleatoria<a href="paquete-inla.html#ejemplo-modelo-poisson-con-intercepto-y-pendiente-aleatoria" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>En este ejemplo vamos a simular <span class="math inline">\(n_i=50\)</span> observaciones para <span class="math inline">\(G=10\)</span> grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función <code>inla</code> para estimar los parámetros del modelo.</p>
+<p>Para ajustar el modelo anterior usamos el siguiente código.</p>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="glmm-gamma.html#cb287-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb287-2"><a href="glmm-gamma.html#cb287-2" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x3 <span class="sc">+</span> x4 <span class="sc">+</span> x5 <span class="sc">+</span> x6 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Device), </span>
+<span id="cb287-3"><a href="glmm-gamma.html#cb287-3" tabindex="-1"></a>              <span class="at">data =</span> semiconductor,</span>
+<span id="cb287-4"><a href="glmm-gamma.html#cb287-4" tabindex="-1"></a>              <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> log))</span>
+<span id="cb287-5"><a href="glmm-gamma.html#cb287-5" tabindex="-1"></a></span>
+<span id="cb287-6"><a href="glmm-gamma.html#cb287-6" tabindex="-1"></a><span class="fu">summary</span>(mod1)</span></code></pre></div>
+<pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [glmerMod]
+##  Family: Gamma  ( log )
+## Formula: y ~ x1 + x2 + x3 + x4 + x5 + x6 + (1 | Device)
+##    Data: semiconductor
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##   -547.0   -527.6    282.5   -565.0       55 
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -1.8492 -0.5712 -0.1592  0.7227  2.5022 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  Device   (Intercept) 0.02734  0.1653  
+##  Residual             0.09655  0.3107  
+## Number of obs: 64, groups:  Device, 16
+## 
+## Fixed effects:
+##               Estimate Std. Error t value Pr(&gt;|z|)    
+## (Intercept) -4.7117204  0.0752768 -62.592  &lt; 2e-16 ***
+## x1           0.1842486  0.0752816   2.447  0.01439 *  
+## x2           0.0008432  0.0752894   0.011  0.99106    
+## x3           0.3074319  0.0752836   4.084 4.43e-05 ***
+## x4          -0.0125486  0.0752601  -0.167  0.86758    
+## x5          -0.1943372  0.0752885  -2.581  0.00984 ** 
+## x6          -0.3660413  0.0752584  -4.864 1.15e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##    (Intr) x1     x2     x3     x4     x5    
+## x1  0.000                                   
+## x2  0.001  0.021                            
+## x3  0.000  0.008  0.023                     
+## x4 -0.001  0.005  0.014 -0.007              
+## x5  0.000  0.023  0.008  0.021  0.008       
+## x6  0.000 -0.007  0.008  0.005  0.008  0.014</code></pre>
+<p>Del resumen anterior se observa que los factores <code>x2</code> y <code>x4</code> no son significativos, por esa razón vamos a ajustar otro modelo sin esos factores, el modelo se puede representar así.</p>
 <p><span class="math display">\[\begin{align*}
-y_{ij} | b_0, b_1 &amp;\sim Poisson(\mu_{ij}) \\
-\log(\mu_{ij}) &amp;= 2 - 8 x_{ij} + b_{0i} + b_{1i} x_{ij} \\
-\left (
-\begin{matrix}
-b_{0} \\ b_{1}
-\end{matrix}
-\right ) &amp;\sim
-N\left ( \left [ \begin{matrix}
-0 \\ 0
-\end{matrix} \right ],
-\left [ \begin{matrix}
-\sigma^2_{b0}=1 &amp; \sigma_{b01}=0.5 \\
-\sigma_{b01} &amp; \sigma^2_{b1}=1
-\end{matrix} \right ]
-\right ) \\
-x_{ij} &amp;\sim U(0, 1)
+y_{ij} | b_0 &amp;\sim  Gamma(\mu_{ij}, \phi) \\
+\log(\mu_{ij}) &amp;= \beta_0 + \beta_1 x1_{ij} + \beta_3 x3_{ij} + \beta_5 x5_{ij} + \beta_6 x6_{ij} + b_{0i} \\
+b_{0} &amp;\sim N(0, \sigma^2_{b0})
 \end{align*}\]</span></p>
-<p>El vector de parámetros de este modelo es <span class="math inline">\(\boldsymbol{\Theta}=(\beta_0=2, \beta_1=-8, \sigma_{b0}^2=1, \sigma_{b1}^2=1, \sigma_{b01}=0.5)^\top\)</span>.</p>
-<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
-  -webkit-box-shadow: 1px 1px 3px 2px #000000;
-  box-shadow:         1px 1px 3px 2px #000000;">
+<p>Para ajustar el modelo anterior usamos el siguiente código.</p>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="glmm-gamma.html#cb289-1" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x3 <span class="sc">+</span> x5 <span class="sc">+</span> x6 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Device), </span>
+<span id="cb289-2"><a href="glmm-gamma.html#cb289-2" tabindex="-1"></a>              <span class="at">data =</span> semiconductor,</span>
+<span id="cb289-3"><a href="glmm-gamma.html#cb289-3" tabindex="-1"></a>              <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> log))</span>
+<span id="cb289-4"><a href="glmm-gamma.html#cb289-4" tabindex="-1"></a></span>
+<span id="cb289-5"><a href="glmm-gamma.html#cb289-5" tabindex="-1"></a><span class="fu">summary</span>(mod2)</span></code></pre></div>
+<pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [glmerMod]
+##  Family: Gamma  ( log )
+## Formula: y ~ x1 + x3 + x5 + x6 + (1 | Device)
+##    Data: semiconductor
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##   -551.0   -535.9    282.5   -565.0       57 
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -1.8424 -0.5565 -0.1762  0.7429  2.4663 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  Device   (Intercept) 0.02744  0.1657  
+##  Residual             0.09652  0.3107  
+## Number of obs: 64, groups:  Device, 16
+## 
+## Fixed effects:
+##             Estimate Std. Error t value Pr(&gt;|z|)    
+## (Intercept) -4.71177    0.07542 -62.475  &lt; 2e-16 ***
+## x1           0.18429    0.07541   2.444   0.0145 *  
+## x3           0.30732    0.07540   4.076 4.59e-05 ***
+## x5          -0.19423    0.07543  -2.575   0.0100 *  
+## x6          -0.36594    0.07540  -4.853 1.21e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##    (Intr) x1     x3     x5    
+## x1  0.000                     
+## x3  0.000  0.008              
+## x5  0.000  0.023  0.021       
+## x6  0.000 -0.007  0.005  0.014</code></pre>
+<p>Para comparar los dos modelos ajustados propuestos colocamos los resultados en una única tabla como se muestra a continuación.</p>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="glmm-gamma.html#cb291-1" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;texreg&quot;</span>)</span>
+<span id="cb291-2"><a href="glmm-gamma.html#cb291-2" tabindex="-1"></a><span class="fu">screenreg</span>(<span class="fu">list</span>(mod1, mod2))</span></code></pre></div>
+<pre><code>## 
+## =================================================
+##                          Model 1      Model 2    
+## -------------------------------------------------
+## (Intercept)                -4.71 ***    -4.71 ***
+##                            (0.08)       (0.08)   
+## x1                          0.18 *       0.18 *  
+##                            (0.08)       (0.08)   
+## x2                          0.00                 
+##                            (0.08)                
+## x3                          0.31 ***     0.31 ***
+##                            (0.08)       (0.08)   
+## x4                         -0.01                 
+##                            (0.08)                
+## x5                         -0.19 **     -0.19 *  
+##                            (0.08)       (0.08)   
+## x6                         -0.37 ***    -0.37 ***
+##                            (0.08)       (0.08)   
+## -------------------------------------------------
+## AIC                      -546.99      -550.96    
+## BIC                      -527.56      -535.85    
+## Log Likelihood            282.50       282.48    
+## Num. obs.                  64           64       
+## Num. groups: Device        16           16       
+## Var: Device (Intercept)     0.03         0.03    
+## Var: Residual               0.10         0.10    
+## =================================================
+## *** p &lt; 0.001; ** p &lt; 0.01; * p &lt; 0.05</code></pre>
+<p>El problema de comparar los dos modelos se puede resumir con <span class="math inline">\(H_0:\)</span> las variables <code>x2</code> y <code>x4</code> no aportan al modelo, versus, <span class="math inline">\(H_A:\)</span> al menos una de esas variables si aporta al modelo.</p>
+<p>Para abordar el problema lo podemos hacer por medio de la prueba razón de verosimilitud. Debemos tener en cuenta que el modelo 1 tiene 9 parámetros y el modelo 2 tiene 7 parámetros.</p>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="glmm-gamma.html#cb293-1" tabindex="-1"></a>lrt <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> (<span class="fu">logLik</span>(mod2) <span class="sc">-</span> <span class="fu">logLik</span>(mod1))</span>
+<span id="cb293-2"><a href="glmm-gamma.html#cb293-2" tabindex="-1"></a>lrt</span></code></pre></div>
+<pre><code>## &#39;log Lik.&#39; 0.02762921 (df=7)</code></pre>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="glmm-gamma.html#cb295-1" tabindex="-1"></a><span class="fu">pchisq</span>(<span class="at">q=</span>lrt, <span class="at">df=</span><span class="dv">9-7</span>, <span class="at">lower.tail=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>## &#39;log Lik.&#39; 0.9862804 (df=7)</code></pre>
+<p>De la salida anterior se tiene que el valor-P = 0.9862804 y mayor que cualquier <span class="math inline">\(\alpha\)</span>, eso significa que no hay evidencia para rechazar <span class="math inline">\(H_0\)</span>, en otras palabras, las variables <code>x2</code> y <code>x4</code> no aportan al modelo.</p>
+<p>La prueba de verosimilitud se puede obtener también así:</p>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="glmm-gamma.html#cb297-1" tabindex="-1"></a><span class="fu">anova</span>(mod1, mod2)</span></code></pre></div>
+<pre><code>## Data: semiconductor
+## Models:
+## mod2: y ~ x1 + x3 + x5 + x6 + (1 | Device)
+## mod1: y ~ x1 + x2 + x3 + x4 + x5 + x6 + (1 | Device)
+##      npar     AIC     BIC logLik deviance  Chisq Df Pr(&gt;Chisq)
+## mod2    7 -550.96 -535.85 282.48  -564.96                     
+## mod1    9 -546.99 -527.56 282.50  -564.99 0.0276  2     0.9863</code></pre>
+<p>Es posible obtener el valor-P anterior usando boostrap por medio de la función <code>PBmodcomp</code> del paquete <strong>pbkrtest</strong> de <span class="citation">Halekoh and Højsgaard (<a href="#ref-R-pbkrtest">2021</a>)</span>.</p>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="glmm-gamma.html#cb299-1" tabindex="-1"></a><span class="fu">library</span>(pbkrtest)</span>
+<span id="cb299-2"><a href="glmm-gamma.html#cb299-2" tabindex="-1"></a><span class="fu">PBmodcomp</span>(<span class="at">largeModel=</span>mod1, <span class="at">smallModel=</span>mod2, <span class="at">nsim=</span><span class="dv">100</span>, <span class="at">seed=</span><span class="dv">123</span>)</span></code></pre></div>
+<pre><code>Bootstrap test; time: 100.44 sec; samples: 100; extremes: 100;
+large : y ~ x1 + x2 + x3 + x4 + x5 + x6 + (1 | Device)
+y ~ x1 + x3 + x5 + x6 + (1 | Device)
+         stat df p.value
+LRT    0.0276  2  0.9863
+PBtest 0.0276     1.0000
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</code></pre>
+<p>En el código anterior se usó la semilla <code>seed = 123</code> para simular los nuevos conjuntos de datos. De la salida anterior se observa que el valor-P es mayor que un 5% con lo que se concluye que no hay evidencias para rechazar <span class="math inline">\(H_0\)</span>.</p>
 
-<div class="rmdexercise">
-Solución.
 </div>
-</div>
-<p>El código para simular las observaciones se muestra a continuación.</p>
-<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="paquete-inla.html#cb238-1" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb238-2"><a href="paquete-inla.html#cb238-2" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb238-3"><a href="paquete-inla.html#cb238-3" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
-<span id="cb238-4"><a href="paquete-inla.html#cb238-4" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
-<span id="cb238-5"><a href="paquete-inla.html#cb238-5" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
-<span id="cb238-6"><a href="paquete-inla.html#cb238-6" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
-<span id="cb238-7"><a href="paquete-inla.html#cb238-7" tabindex="-1"></a></span>
-<span id="cb238-8"><a href="paquete-inla.html#cb238-8" tabindex="-1"></a>Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="co"># Matriz de var-cov</span></span>
-<span id="cb238-9"><a href="paquete-inla.html#cb238-9" tabindex="-1"></a>                  <span class="fl">0.5</span>, <span class="dv">1</span>), <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">nrow=</span><span class="dv">2</span>)</span>
-<span id="cb238-10"><a href="paquete-inla.html#cb238-10" tabindex="-1"></a></span>
-<span id="cb238-11"><a href="paquete-inla.html#cb238-11" tabindex="-1"></a>b <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(<span class="at">n=</span>G, <span class="at">mu=</span><span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="at">Sigma=</span>Sigma)   <span class="co"># Simulando b0 y b1</span></span>
-<span id="cb238-12"><a href="paquete-inla.html#cb238-12" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">apply</span>(b, <span class="at">MARGIN=</span><span class="dv">2</span>, <span class="cf">function</span>(c) <span class="fu">rep</span>(c, <span class="at">each=</span>ni)) <span class="co"># Replicando</span></span>
-<span id="cb238-13"><a href="paquete-inla.html#cb238-13" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">1</span>]) <span class="co"># Separando los b0</span></span>
-<span id="cb238-14"><a href="paquete-inla.html#cb238-14" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">2</span>]) <span class="co"># Separando los b1</span></span>
-<span id="cb238-15"><a href="paquete-inla.html#cb238-15" tabindex="-1"></a></span>
-<span id="cb238-16"><a href="paquete-inla.html#cb238-16" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="dv">2</span> <span class="sc">-</span> <span class="dv">8</span> <span class="sc">*</span> x <span class="sc">+</span> b0 <span class="sc">+</span> b1 <span class="sc">*</span> x)</span>
-<span id="cb238-17"><a href="paquete-inla.html#cb238-17" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="at">n=</span>nobs, <span class="at">lambda=</span>media)</span>
-<span id="cb238-18"><a href="paquete-inla.html#cb238-18" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, b1, x, y)</span></code></pre></div>
-<p>Delia nos va a mostrar cómo estimar los parámetros del modelo ajustado.</p>
-<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="paquete-inla.html#cb239-1" tabindex="-1"></a><span class="fu">library</span>(INLA)</span>
-<span id="cb239-2"><a href="paquete-inla.html#cb239-2" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">inla</span>( )</span></code></pre></div>
-
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-R-pbkrtest" class="csl-entry">
+Halekoh, Ulrich, and Søren Højsgaard. 2021. <em>Pbkrtest: Parametric Bootstrap, Kenward-Roger and Satterthwaite Based Methods for Test in Mixed Models</em>. <a href="https://people.math.aau.dk/~sorenh/software/pbkrtest/">https://people.math.aau.dk/~sorenh/software/pbkrtest/</a>.
 </div>
 </div>
             </section>
@@ -475,8 +552,8 @@ Solución.
           </div>
         </div>
       </div>
-<a href="pac-MASS.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="paquete-gamlss.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="glmm_poisson.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="multinomial.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -507,7 +584,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/404-paquete-inla.Rmd",
+"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/502-glmm-gamma.Rmd",
 "text": "Edit"
 },
 "history": {
