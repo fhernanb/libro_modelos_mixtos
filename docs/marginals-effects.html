@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2023-04-29" />
+<meta name="date" content="2023-11-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -306,12 +306,18 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="" data-path="residuals.html"><a href="residuals.html#ejemplo-modelo-gamma-mixto"><i class="fa fa-check"></i>Ejemplo: modelo gamma mixto</a></li>
 </ul></li>
-<li class="chapter" data-level="26" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>26</b> Simulación de glmm</a></li>
-<li class="chapter" data-level="27" data-path="sced.html"><a href="sced.html"><i class="fa fa-check"></i><b>27</b> Single case experimental desing (sced)</a>
+<li class="chapter" data-level="26" data-path="R2.html"><a href="R2.html"><i class="fa fa-check"></i><b>26</b> <span class="math inline">\(R^2\)</span></a>
+<ul>
+<li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-normal-con-intercepto-aleatorio-3"><i class="fa fa-check"></i>Ejemplo: modelo normal con intercepto aleatorio</a></li>
+<li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-normal-sin-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo normal sin intercepto aleatorio</a></li>
+<li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-9"><i class="fa fa-check"></i>Ejemplo</a></li>
+</ul></li>
+<li class="chapter" data-level="27" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>27</b> Simulación de glmm</a></li>
+<li class="chapter" data-level="28" data-path="sced.html"><a href="sced.html"><i class="fa fa-check"></i><b>28</b> Single case experimental desing (sced)</a>
 <ul>
 <li class="chapter" data-level="" data-path="sced.html"><a href="sced.html#ejemplo-simulación-de-un-sced-abab"><i class="fa fa-check"></i>Ejemplo: simulación de un sced ABAB</a></li>
 </ul></li>
-<li class="chapter" data-level="28" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>28</b> Otro material interesante</a></li>
+<li class="chapter" data-level="29" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>29</b> Otro material interesante</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -335,74 +341,74 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="marginals-effects" class="section level1 hasAnchor" number="14">
 <h1><span class="header-section-number">14</span> Paquete <strong>marginaleffects</strong><a href="marginals-effects.html#marginals-effects" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>En este capítulo se muestran algunas de las utilidades del paquete <code>marginaleffects</code> de <span class="citation">Arel-Bundock (<a href="#ref-R-marginaleffects" role="doc-biblioref">2022</a>)</span>. Se le recomienda al lector visitar la <a href="https://vincentarelbundock.github.io/marginaleffects/">página oficial</a> del paquete para ver más utilidades.</p>
+<p>En este capítulo se muestran algunas de las utilidades del paquete <code>marginaleffects</code> de <span class="citation">Arel-Bundock (<a href="#ref-R-marginaleffects">2022</a>)</span>. Se le recomienda al lector visitar la <a href="https://vincentarelbundock.github.io/marginaleffects/">página oficial</a> del paquete para ver más utilidades.</p>
 <div id="ejemplo-5" class="section level2 unnumbered hasAnchor">
 <h2>Ejemplo<a href="marginals-effects.html#ejemplo-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="images/chicks.jpg" width="40%" style="display: block; margin: auto;" /></p>
 <p>En este ejemplo vamos a construir un modelo mixto para explicar el peso de unos pollitos en función de la edad y la dieta que recibieron (cuatro niveles). A continuación se muestra un diagrama de dispersión que relacion el peso, la edad y las dietas.</p>
-<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="marginals-effects.html#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
-<span id="cb187-2"><a href="marginals-effects.html#cb187-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb187-3"><a href="marginals-effects.html#cb187-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb187-4"><a href="marginals-effects.html#cb187-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(marginaleffects)</span></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="marginals-effects.html#cb187-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb187-2"><a href="marginals-effects.html#cb187-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb187-3"><a href="marginals-effects.html#cb187-3" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb187-4"><a href="marginals-effects.html#cb187-4" tabindex="-1"></a><span class="fu">library</span>(marginaleffects)</span></code></pre></div>
 <p>Para hacer el gráfico de dispersión.</p>
-<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="marginals-effects.html#cb188-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb188-2"><a href="marginals-effects.html#cb188-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb188-3"><a href="marginals-effects.html#cb188-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> ChickWeight, <span class="fu">aes</span>(<span class="at">x =</span> Time, <span class="at">y =</span> weight, <span class="at">col=</span>Diet)) <span class="sc">+</span></span>
-<span id="cb188-4"><a href="marginals-effects.html#cb188-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb188-5"><a href="marginals-effects.html#cb188-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb188-6"><a href="marginals-effects.html#cb188-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Chick) <span class="sc">+</span> </span>
-<span id="cb188-7"><a href="marginals-effects.html#cb188-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Weight (gr)&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Time (days)&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb188-8"><a href="marginals-effects.html#cb188-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;right&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="marginals-effects.html#cb188-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb188-2"><a href="marginals-effects.html#cb188-2" tabindex="-1"></a></span>
+<span id="cb188-3"><a href="marginals-effects.html#cb188-3" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> ChickWeight, <span class="fu">aes</span>(<span class="at">x =</span> Time, <span class="at">y =</span> weight, <span class="at">col=</span>Diet)) <span class="sc">+</span></span>
+<span id="cb188-4"><a href="marginals-effects.html#cb188-4" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb188-5"><a href="marginals-effects.html#cb188-5" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb188-6"><a href="marginals-effects.html#cb188-6" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Chick) <span class="sc">+</span> </span>
+<span id="cb188-7"><a href="marginals-effects.html#cb188-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Weight (gr)&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Time (days)&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb188-8"><a href="marginals-effects.html#cb188-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;right&quot;</span>)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-152-1.png" width="672" /></p>
 <p>De la figura anterior se observa claramente que a medida que aumenta el tiempo, el peso de los pollitos aumenta. Las trayectorias de la evolución del peso corporal parecen tener un patrón lineal o cuadrático del tiempo.</p>
 <p>Inicialmente vamos a ajustar dos modelos, en el primero la media <span class="math inline">\(\mu\)</span> se modelará en función del tiempo y en el segundo será una función de grado dos del tiempo. A continuación los dos modelos.</p>
-<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="marginals-effects.html#cb189-1" aria-hidden="true" tabindex="-1"></a><span class="co"># unconditional linear growth model</span></span>
-<span id="cb189-2"><a href="marginals-effects.html#cb189-2" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(</span>
-<span id="cb189-3"><a href="marginals-effects.html#cb189-3" aria-hidden="true" tabindex="-1"></a>  weight <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> Time <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> Time <span class="sc">|</span> Chick),</span>
-<span id="cb189-4"><a href="marginals-effects.html#cb189-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> ChickWeight)</span>
-<span id="cb189-5"><a href="marginals-effects.html#cb189-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb189-6"><a href="marginals-effects.html#cb189-6" aria-hidden="true" tabindex="-1"></a><span class="co"># conditional quadratic growth model</span></span>
-<span id="cb189-7"><a href="marginals-effects.html#cb189-7" aria-hidden="true" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(</span>
-<span id="cb189-8"><a href="marginals-effects.html#cb189-8" aria-hidden="true" tabindex="-1"></a>  weight <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> Time <span class="sc">+</span> <span class="fu">I</span>(Time<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> Diet <span class="sc">+</span> Time<span class="sc">:</span>Diet <span class="sc">+</span> <span class="fu">I</span>(Time<span class="sc">^</span><span class="dv">2</span>)<span class="sc">:</span>Diet <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> Time <span class="sc">+</span> <span class="fu">I</span>(Time<span class="sc">^</span><span class="dv">2</span>) <span class="sc">|</span> Chick),</span>
-<span id="cb189-9"><a href="marginals-effects.html#cb189-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> ChickWeight)</span></code></pre></div>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="marginals-effects.html#cb189-1" tabindex="-1"></a><span class="co"># unconditional linear growth model</span></span>
+<span id="cb189-2"><a href="marginals-effects.html#cb189-2" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(</span>
+<span id="cb189-3"><a href="marginals-effects.html#cb189-3" tabindex="-1"></a>  weight <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> Time <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> Time <span class="sc">|</span> Chick),</span>
+<span id="cb189-4"><a href="marginals-effects.html#cb189-4" tabindex="-1"></a>  <span class="at">data =</span> ChickWeight)</span>
+<span id="cb189-5"><a href="marginals-effects.html#cb189-5" tabindex="-1"></a></span>
+<span id="cb189-6"><a href="marginals-effects.html#cb189-6" tabindex="-1"></a><span class="co"># conditional quadratic growth model</span></span>
+<span id="cb189-7"><a href="marginals-effects.html#cb189-7" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(</span>
+<span id="cb189-8"><a href="marginals-effects.html#cb189-8" tabindex="-1"></a>  weight <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> Time <span class="sc">+</span> <span class="fu">I</span>(Time<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> Diet <span class="sc">+</span> Time<span class="sc">:</span>Diet <span class="sc">+</span> <span class="fu">I</span>(Time<span class="sc">^</span><span class="dv">2</span>)<span class="sc">:</span>Diet <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> Time <span class="sc">+</span> <span class="fu">I</span>(Time<span class="sc">^</span><span class="dv">2</span>) <span class="sc">|</span> Chick),</span>
+<span id="cb189-9"><a href="marginals-effects.html#cb189-9" tabindex="-1"></a>  <span class="at">data =</span> ChickWeight)</span></code></pre></div>
 <p>Usando la información de los modelos ajustados es posible</p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="marginals-effects.html#cb190-1" aria-hidden="true" tabindex="-1"></a>pred1 <span class="ot">&lt;-</span> <span class="fu">predictions</span>(fit1,</span>
-<span id="cb190-2"><a href="marginals-effects.html#cb190-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">newdata =</span> <span class="fu">datagrid</span>(<span class="at">Chick =</span> ChickWeight<span class="sc">$</span>Chick, <span class="at">Time =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">21</span>))</span>
-<span id="cb190-3"><a href="marginals-effects.html#cb190-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb190-4"><a href="marginals-effects.html#cb190-4" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(pred1, <span class="fu">aes</span>(Time, predicted, <span class="at">level =</span> Chick)) <span class="sc">+</span></span>
-<span id="cb190-5"><a href="marginals-effects.html#cb190-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb190-6"><a href="marginals-effects.html#cb190-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Predicted weight&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Time&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Linear growth model&quot;</span>)</span>
-<span id="cb190-7"><a href="marginals-effects.html#cb190-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb190-8"><a href="marginals-effects.html#cb190-8" aria-hidden="true" tabindex="-1"></a>pred2 <span class="ot">&lt;-</span> <span class="fu">predictions</span>(fit2,</span>
-<span id="cb190-9"><a href="marginals-effects.html#cb190-9" aria-hidden="true" tabindex="-1"></a>                     <span class="at">newdata =</span> <span class="fu">datagrid</span>(<span class="at">Chick =</span> ChickWeight<span class="sc">$</span>Chick, <span class="at">Time =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">21</span>))</span>
-<span id="cb190-10"><a href="marginals-effects.html#cb190-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb190-11"><a href="marginals-effects.html#cb190-11" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(pred2, <span class="fu">aes</span>(Time, predicted, <span class="at">level =</span> Chick)) <span class="sc">+</span></span>
-<span id="cb190-12"><a href="marginals-effects.html#cb190-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb190-13"><a href="marginals-effects.html#cb190-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Predicted weight&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Time&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Quadratic growth model&quot;</span>)</span>
-<span id="cb190-14"><a href="marginals-effects.html#cb190-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb190-15"><a href="marginals-effects.html#cb190-15" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span> p2</span></code></pre></div>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="marginals-effects.html#cb190-1" tabindex="-1"></a>pred1 <span class="ot">&lt;-</span> <span class="fu">predictions</span>(fit1,</span>
+<span id="cb190-2"><a href="marginals-effects.html#cb190-2" tabindex="-1"></a>                     <span class="at">newdata =</span> <span class="fu">datagrid</span>(<span class="at">Chick =</span> ChickWeight<span class="sc">$</span>Chick, <span class="at">Time =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">21</span>))</span>
+<span id="cb190-3"><a href="marginals-effects.html#cb190-3" tabindex="-1"></a></span>
+<span id="cb190-4"><a href="marginals-effects.html#cb190-4" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(pred1, <span class="fu">aes</span>(Time, predicted, <span class="at">level =</span> Chick)) <span class="sc">+</span></span>
+<span id="cb190-5"><a href="marginals-effects.html#cb190-5" tabindex="-1"></a>      <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb190-6"><a href="marginals-effects.html#cb190-6" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Predicted weight&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Time&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Linear growth model&quot;</span>)</span>
+<span id="cb190-7"><a href="marginals-effects.html#cb190-7" tabindex="-1"></a></span>
+<span id="cb190-8"><a href="marginals-effects.html#cb190-8" tabindex="-1"></a>pred2 <span class="ot">&lt;-</span> <span class="fu">predictions</span>(fit2,</span>
+<span id="cb190-9"><a href="marginals-effects.html#cb190-9" tabindex="-1"></a>                     <span class="at">newdata =</span> <span class="fu">datagrid</span>(<span class="at">Chick =</span> ChickWeight<span class="sc">$</span>Chick, <span class="at">Time =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">21</span>))</span>
+<span id="cb190-10"><a href="marginals-effects.html#cb190-10" tabindex="-1"></a></span>
+<span id="cb190-11"><a href="marginals-effects.html#cb190-11" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(pred2, <span class="fu">aes</span>(Time, predicted, <span class="at">level =</span> Chick)) <span class="sc">+</span></span>
+<span id="cb190-12"><a href="marginals-effects.html#cb190-12" tabindex="-1"></a>      <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb190-13"><a href="marginals-effects.html#cb190-13" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Predicted weight&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Time&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Quadratic growth model&quot;</span>)</span>
+<span id="cb190-14"><a href="marginals-effects.html#cb190-14" tabindex="-1"></a></span>
+<span id="cb190-15"><a href="marginals-effects.html#cb190-15" tabindex="-1"></a>p1 <span class="sc">+</span> p2</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-154-1.png" width="672" /></p>
 <p>Predicciones para cada pollito, en los 4 mundos contrafactuales con diferentes valores para la variable Dieta:</p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="marginals-effects.html#cb191-1" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predictions</span>(fit2)</span>
-<span id="cb191-2"><a href="marginals-effects.html#cb191-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb191-3"><a href="marginals-effects.html#cb191-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pred, <span class="fu">aes</span>(Time, predicted, <span class="at">level =</span> Chick)) <span class="sc">+</span></span>
-<span id="cb191-4"><a href="marginals-effects.html#cb191-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb191-5"><a href="marginals-effects.html#cb191-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Predicted Weight&quot;</span>) <span class="sc">+</span></span>
-<span id="cb191-6"><a href="marginals-effects.html#cb191-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> Diet, <span class="at">labeller =</span> label_both)</span></code></pre></div>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="marginals-effects.html#cb191-1" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predictions</span>(fit2)</span>
+<span id="cb191-2"><a href="marginals-effects.html#cb191-2" tabindex="-1"></a></span>
+<span id="cb191-3"><a href="marginals-effects.html#cb191-3" tabindex="-1"></a><span class="fu">ggplot</span>(pred, <span class="fu">aes</span>(Time, predicted, <span class="at">level =</span> Chick)) <span class="sc">+</span></span>
+<span id="cb191-4"><a href="marginals-effects.html#cb191-4" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb191-5"><a href="marginals-effects.html#cb191-5" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Predicted Weight&quot;</span>) <span class="sc">+</span></span>
+<span id="cb191-6"><a href="marginals-effects.html#cb191-6" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> Diet, <span class="at">labeller =</span> label_both)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-155-1.png" width="672" />
 Para hacer predicciones a nivel de población, establecemos la variable Chick en <code>NA</code> y establecemos <code>include_ranom=FALSE</code>. Este último argumento lo ofrece la función <code>insight::get_predicted</code> que se usa en segundo plano para calcular predicciones:</p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="marginals-effects.html#cb192-1" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predictions</span>(</span>
-<span id="cb192-2"><a href="marginals-effects.html#cb192-2" aria-hidden="true" tabindex="-1"></a>    fit2,</span>
-<span id="cb192-3"><a href="marginals-effects.html#cb192-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">newdata =</span> <span class="fu">datagrid</span>(<span class="at">Chick =</span> <span class="cn">NA</span>,</span>
-<span id="cb192-4"><a href="marginals-effects.html#cb192-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Diet =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,</span>
-<span id="cb192-5"><a href="marginals-effects.html#cb192-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Time =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">21</span>),</span>
-<span id="cb192-6"><a href="marginals-effects.html#cb192-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">include_random =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb192-7"><a href="marginals-effects.html#cb192-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-8"><a href="marginals-effects.html#cb192-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pred, <span class="fu">aes</span>(<span class="at">x =</span> Time, <span class="at">y =</span> predicted, <span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high)) <span class="sc">+</span></span>
-<span id="cb192-9"><a href="marginals-effects.html#cb192-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_ribbon</span>(<span class="at">alpha =</span> .<span class="dv">1</span>, <span class="at">fill =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
-<span id="cb192-10"><a href="marginals-effects.html#cb192-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb192-11"><a href="marginals-effects.html#cb192-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> Diet, <span class="at">labeller =</span> label_both) <span class="sc">+</span></span>
-<span id="cb192-12"><a href="marginals-effects.html#cb192-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Population-level trajectories&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="marginals-effects.html#cb192-1" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predictions</span>(</span>
+<span id="cb192-2"><a href="marginals-effects.html#cb192-2" tabindex="-1"></a>    fit2,</span>
+<span id="cb192-3"><a href="marginals-effects.html#cb192-3" tabindex="-1"></a>    <span class="at">newdata =</span> <span class="fu">datagrid</span>(<span class="at">Chick =</span> <span class="cn">NA</span>,</span>
+<span id="cb192-4"><a href="marginals-effects.html#cb192-4" tabindex="-1"></a>                       <span class="at">Diet =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,</span>
+<span id="cb192-5"><a href="marginals-effects.html#cb192-5" tabindex="-1"></a>                       <span class="at">Time =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">21</span>),</span>
+<span id="cb192-6"><a href="marginals-effects.html#cb192-6" tabindex="-1"></a>    <span class="at">include_random =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb192-7"><a href="marginals-effects.html#cb192-7" tabindex="-1"></a></span>
+<span id="cb192-8"><a href="marginals-effects.html#cb192-8" tabindex="-1"></a><span class="fu">ggplot</span>(pred, <span class="fu">aes</span>(<span class="at">x =</span> Time, <span class="at">y =</span> predicted, <span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high)) <span class="sc">+</span></span>
+<span id="cb192-9"><a href="marginals-effects.html#cb192-9" tabindex="-1"></a>    <span class="fu">geom_ribbon</span>(<span class="at">alpha =</span> .<span class="dv">1</span>, <span class="at">fill =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb192-10"><a href="marginals-effects.html#cb192-10" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb192-11"><a href="marginals-effects.html#cb192-11" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> Diet, <span class="at">labeller =</span> label_both) <span class="sc">+</span></span>
+<span id="cb192-12"><a href="marginals-effects.html#cb192-12" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Population-level trajectories&quot;</span>)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-156-1.png" width="672" /></p>
 
 </div>

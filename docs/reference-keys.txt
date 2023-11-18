@@ -55,6 +55,7 @@ glmm_poisson
 glmm_gamma
 multinomial
 residuals
+R2
 simul-glmm
 sced
 blobs

@@ -1,0 +1,155 @@
+# $R^2$ {#R2}
+
+En este capítulo vamos mostrar como se puede calcular la medida $R^2$ propuesta por @nakagawa2012 y @nakagawa2017 para modelos lineales generalizados mixtos.
+
+La función `r.squaredGLMM()` del paquete **MuMIn** de @R-MuMIn  permite calcular $R^2$ para varios tipos de modelos con efectos mixtos. 
+
+- $R^2_{m}$: representa la varianza explicada por los efectos fijos.
+- $R^2_{c}$: representa la varianza explicada por todo el modelo, incluyendo ambos efectos fijos y aleatorios.
+
+Las expresiones para obtener ambos $R^2$ son:
+
+$$
+R^2_{m} = \frac{\sigma^2_f}{\sigma^2_f + \sigma^2_\alpha + \sigma^2_\epsilon},
+$$
+
+$$
+R^2_{c} = \frac{\sigma^2_f + \sigma^2_\alpha}{\sigma^2_f + \sigma^2_\alpha + \sigma^2_\epsilon},
+$$
+
+donde $\sigma^2_f$ es la varianza asociada a los efectos fijos, $\sigma^2_\alpha$ es la varianza de los efectos aleatorios y $\sigma^2_\epsilon$ es la varianza asociada a los valores de la variable respuesta.
+
+En los siguiente ejemplos vamos a ilustrar su uso de la función `r.squaredGLMM()`.
+
+## Ejemplo: modelo normal con intercepto aleatorio {-}
+En este ejemplo vamos a simular observaciones $n_i=50$ observaciones para $G=10$ grupos (en total 500 obs) que tengan la estructura mostrada abajo y en la cual la varianza de los efectos aleatorio $b_0$ ($\sigma^2_{b0}=625$) es más grande que la varianza de las observaciones ($\sigma^2_y=16$). 
+
+El objetivo del ejemplo es calcular el $R^2$ para el modelo ajustado correctamente.
+
+El modelo para simular los datos es el siguiente.
+
+\begin{align*} 
+y_{ij} | b_0 &\sim  N(\mu_{ij}, \sigma^2_y) \\ 
+\mu_{ij} &= 4 - 6 x_{ij} + b_{0i} \\
+\sigma^2_y &= 16 \\
+b_{0} &\sim N(0, \sigma^2_{b0}=625) \\
+x_{ij} &\sim U(-5, 6)
+\end{align*}
+
+El vector de parámetros de este modelo es $\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma_y=4, \sigma_{b0}=25)^\top$.
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+```{block2, type='rmdexercise'}
+Solución.
+```
+
+</div>
+
+El código para simular las 500 observaciones se muestra a continuación.
+
+```{r, eval=TRUE, echo=TRUE}
+ni <- 50
+G <- 10
+nobs <- ni * G
+grupo <- factor(rep(x=1:G, each=ni))
+obs <- rep(x=1:ni, times=G)
+x <- runif(n=nobs, min=-5, max=6)
+b0 <- rnorm(n=G, mean=0, sd=sqrt(625)) # Intercepto aleatorio
+b0 <- rep(x=b0, each=ni)               # El mismo intercepto aleatorio pero repetido
+media <- 4 - 6 * x + b0
+y <- rnorm(n=nobs, mean=media, sd=sqrt(16))
+datos <- data.frame(obs, grupo, b0, x, media, y)
+```
+
+Ahora vamos a ajustar el modelo correcto así:
+
+```{r, message=FALSE}
+library(nlme)
+fit1 <- lme(y ~ x, random = ~ 1 | grupo, data=datos)
+```
+
+A continuación vamos a calcular los $R^2$.
+
+```{r}
+library(MuMIn)
+r.squaredGLMM(fit1)
+```
+
+En la salida anterior se reporta la medida marginal y la medida condicional del $R^2$. De los resultados se observa que el $R^2_{m}$ es mayor que el $R^2_{c}$, eso significa que el modelo completo (con efectos fijos y aleatorio) logra explicar un 98\% de la varianza. En otras palabras, significa que si valió la pena ajustar el modelo con esos efectos aleatorios. Era de esperarse que esto sucediera porque los datos se simularon con $\sigma^2_{b0}=625$.
+
+## Ejemplo: modelo normal sin intercepto aleatorio {-}
+En este ejemplo vamos a repetir a simular datos como el ejemplo anterior pero con $\sigma^2_{b0}=0$. La idea es ver si el $R^2$ logra detectar que no se necesita incluir un intercepto aleatorio al ajustar el modelo.
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+```{block2, type='rmdexercise'}
+Solución.
+```
+
+</div>
+
+El código para simular las 500 observaciones se muestra a continuación.
+
+```{r, eval=TRUE, echo=TRUE}
+ni <- 50
+G <- 10
+nobs <- ni * G
+grupo <- factor(rep(x=1:G, each=ni))
+obs <- rep(x=1:ni, times=G)
+x <- runif(n=nobs, min=-5, max=6)
+b0 <- rnorm(n=G, mean=0, sd=0) # Intercepto aleatorio
+b0 <- rep(x=b0, each=ni)               # El mismo intercepto aleatorio pero repetido
+media <- 4 - 6 * x + b0
+y <- rnorm(n=nobs, mean=media, sd=sqrt(16))
+datos <- data.frame(obs, grupo, b0, x, media, y)
+```
+
+Ahora vamos a ajustar el modelo así:
+
+```{r, message=FALSE}
+library(nlme)
+fit2 <- lme(y ~ x, random = ~ 1 | grupo, data=datos)
+```
+
+A continuación vamos a calcular los $R^2$.
+
+```{r}
+library(MuMIn)
+r.squaredGLMM(fit2)
+```
+
+De la salida anterior vemos que ambos $R^2$ son muy parecidos. Esto significa que el porcentaje de la varianza explicada por un modelo con ambos tipos de efectos (fijos y aleatorios) es igual a la varianza explicada por un modelo sólo con efectos fijos, en otras palabras, esto indica que NO vale la pena incluir efectos aleatorios en el modelo. Este resultado era el esperado porque los datos fueron simulados con $\sigma^2_{b0}=0$.
+
+
+## Ejemplo {-}
+En este ejemplo vamos a ajustar un modelo para explicar la desde la hipófisis hasta la fisura pterigomaxilar (mm), en función del sexo y la edad de los pacientes (Subject). La base de datos a usar es `Orthodont`. Luego se desea calcular el $R^2$ para el modelo ajustado.
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+```{block2, type='rmdexercise'}
+Solución.
+```
+
+</div>
+
+El código que vamos a usar es el siguiente.
+
+```{r}
+library(nlme)
+library(MuMIn)
+
+data(Orthodont, package = "nlme")
+fm1 <- lme(distance ~ Sex * age, ~ 1 | Subject, data = Orthodont)
+fmnull <- lme(distance ~ 1, ~ 1 | Subject, data = Orthodont)
+r.squaredGLMM(fm1)
+```
+
+De la salida anterior se observa que 78.27\% de la variabilidad observada se logra explicar con el modelo ajustado con efectos fijos y un intercepto aleatorio. 
+

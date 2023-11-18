@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2023-04-29" />
+<meta name="date" content="2023-11-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -306,12 +306,18 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="" data-path="residuals.html"><a href="residuals.html#ejemplo-modelo-gamma-mixto"><i class="fa fa-check"></i>Ejemplo: modelo gamma mixto</a></li>
 </ul></li>
-<li class="chapter" data-level="26" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>26</b> Simulación de glmm</a></li>
-<li class="chapter" data-level="27" data-path="sced.html"><a href="sced.html"><i class="fa fa-check"></i><b>27</b> Single case experimental desing (sced)</a>
+<li class="chapter" data-level="26" data-path="R2.html"><a href="R2.html"><i class="fa fa-check"></i><b>26</b> <span class="math inline">\(R^2\)</span></a>
+<ul>
+<li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-normal-con-intercepto-aleatorio-3"><i class="fa fa-check"></i>Ejemplo: modelo normal con intercepto aleatorio</a></li>
+<li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-normal-sin-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo normal sin intercepto aleatorio</a></li>
+<li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-9"><i class="fa fa-check"></i>Ejemplo</a></li>
+</ul></li>
+<li class="chapter" data-level="27" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>27</b> Simulación de glmm</a></li>
+<li class="chapter" data-level="28" data-path="sced.html"><a href="sced.html"><i class="fa fa-check"></i><b>28</b> Single case experimental desing (sced)</a>
 <ul>
 <li class="chapter" data-level="" data-path="sced.html"><a href="sced.html#ejemplo-simulación-de-un-sced-abab"><i class="fa fa-check"></i>Ejemplo: simulación de un sced ABAB</a></li>
 </ul></li>
-<li class="chapter" data-level="28" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>28</b> Otro material interesante</a></li>
+<li class="chapter" data-level="29" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>29</b> Otro material interesante</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -337,7 +343,7 @@ div.csl-indent {
 <h1 class="title">Modelos Mixtos con R</h1>
 <p class="author"><em>Freddy Hernández Barajas</em></p>
 <p class="author"><em>Jorge Leonardo López Martínez</em></p>
-<p class="date"><em>2023-04-29</em></p>
+<p class="date"><em>2023-11-17</em></p>
 </div>
 <div id="bienvenido" class="section level1 unnumbered hasAnchor">
 <h1>Bienvenido<a href="index.html#bienvenido" class="anchor-section" aria-label="Anchor link to header"></a></h1>
@@ -351,12 +357,12 @@ div.csl-indent {
 </div>
 <div id="software-y-convenciones" class="section level2 unnumbered hasAnchor">
 <h2>Software y convenciones<a href="index.html#software-y-convenciones" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Para realizar este libro usamos los paquetes <strong>knitr</strong> <span class="citation">(<a href="#ref-xie2015" role="doc-biblioref">Xie 2015</a>)</span> y <strong>bookdown</strong> <span class="citation">(<a href="#ref-R-bookdown" role="doc-biblioref">Xie 2023</a>)</span> que permiten unir la ventajas de LaTeX y R en un mismo archivo.</p>
+<p>Para realizar este libro usamos los paquetes <strong>knitr</strong> <span class="citation">(<a href="#ref-xie2015">Xie 2015</a>)</span> y <strong>bookdown</strong> <span class="citation">(<a href="#ref-R-bookdown">Xie 2023</a>)</span> que permiten unir la ventajas de LaTeX y R en un mismo archivo.</p>
 <p>En todo el libro se presentarán códigos que el lector puede copiar y pegar en su consola de R para obtener los mismos resultados aquí del libro. Los códigos se destacan en una caja de color similar a la mostrada a continuación.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span> <span class="sc">+</span> <span class="dv">6</span></span>
-<span id="cb1-2"><a href="index.html#cb1-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">6</span>)</span>
-<span id="cb1-3"><a href="index.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="sc">*</span> a</span>
-<span id="cb1-4"><a href="index.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" tabindex="-1"></a><span class="dv">4</span> <span class="sc">+</span> <span class="dv">6</span></span>
+<span id="cb1-2"><a href="index.html#cb1-2" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">6</span>)</span>
+<span id="cb1-3"><a href="index.html#cb1-3" tabindex="-1"></a><span class="dv">5</span> <span class="sc">*</span> a</span>
+<span id="cb1-4"><a href="index.html#cb1-4" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span></code></pre></div>
 <p>Los resultados o salidas obtenidos de cualquier código se destacan con dos símbolos de númeral (<code>##</code>) al inicio de cada línea o renglón, esto quiere decir que todo lo que inicie con <code>##</code> son resultados obtenidos y <strong>NO</strong> los debe copiar. Abajo se muestran los resultados obtenidos luego de correr el código anterior.</p>
 <pre><code>## [1] 10</code></pre>
 <pre><code>## [1]  5 25 30</code></pre>

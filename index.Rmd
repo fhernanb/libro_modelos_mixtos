@@ -23,7 +23,7 @@ knitr::write_bib(c(
   'plotly', 'packages.bib', 'MASS', 'brms', 'MCMCglmm', 
   'glmmADMB', 'RLRsim', 'pbkrtest', 'glmmTMB', 'glmm', 'statmod',
   'DHARMa', 'marginaleffects', 'mclogit', 'ordinal', 'INLA',
-  'gamlss'), 
+  'gamlss', 'MuMIn'), 
   'packages.bib')
 ```
 

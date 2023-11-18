@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | Modelos Mixtos con R</title>
+  <title>26 \(R^2\) | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | Modelos Mixtos con R" />
+  <meta property="og:title" content="26 \(R^2\) | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/images/cover.png" />
   <meta property="og:description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="github-repo" content="fhernanb/libro_mod_pred" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | Modelos Mixtos con R" />
+  <meta name="twitter:title" content="26 \(R^2\) | Modelos Mixtos con R" />
   
   <meta name="twitter:description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="twitter:image" content="/images/cover.png" />
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-
+<link rel="prev" href="residuals.html"/>
+<link rel="next" href="simul-glmm.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -339,19 +339,144 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="R2" class="section level1 hasAnchor" number="26">
+<h1><span class="header-section-number">26</span> <span class="math inline">\(R^2\)</span><a href="R2.html#R2" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>En este capítulo vamos mostrar como se puede calcular la medida <span class="math inline">\(R^2\)</span> propuesta por <span class="citation">Nakagawa, Schielzeth, and O’Hara (<a href="#ref-nakagawa2012">2013</a>)</span> y <span class="citation">Nakagawa, Johnson, and Schielzeth (<a href="#ref-nakagawa2017">2017</a>)</span> para modelos lineales generalizados mixtos.</p>
+<p>La función <code>r.squaredGLMM()</code> del paquete <strong>MuMIn</strong> de <span class="citation">Bartoń (<a href="#ref-R-MuMIn">2022</a>)</span> permite calcular <span class="math inline">\(R^2\)</span> para varios tipos de modelos con efectos mixtos.</p>
+<ul>
+<li><span class="math inline">\(R^2_{m}\)</span>: representa la varianza explicada por los efectos fijos.</li>
+<li><span class="math inline">\(R^2_{c}\)</span>: representa la varianza explicada por todo el modelo, incluyendo ambos efectos fijos y aleatorios.</li>
+</ul>
+<p>Las expresiones para obtener ambos <span class="math inline">\(R^2\)</span> son:</p>
+<p><span class="math display">\[
+R^2_{m} = \frac{\sigma^2_f}{\sigma^2_f + \sigma^2_\alpha + \sigma^2_\epsilon},
+\]</span></p>
+<p><span class="math display">\[
+R^2_{c} = \frac{\sigma^2_f + \sigma^2_\alpha}{\sigma^2_f + \sigma^2_\alpha + \sigma^2_\epsilon},
+\]</span></p>
+<p>donde <span class="math inline">\(\sigma^2_f\)</span> es la varianza asociada a los efectos fijos, <span class="math inline">\(\sigma^2_\alpha\)</span> es la varianza de los efectos aleatorios y <span class="math inline">\(\sigma^2_\epsilon\)</span> es la varianza asociada a los valores de la variable respuesta.</p>
+<p>En los siguiente ejemplos vamos a ilustrar su uso de la función <code>r.squaredGLMM()</code>.</p>
+<div id="ejemplo-modelo-normal-con-intercepto-aleatorio-3" class="section level2 unnumbered hasAnchor">
+<h2>Ejemplo: modelo normal con intercepto aleatorio<a href="R2.html#ejemplo-modelo-normal-con-intercepto-aleatorio-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>En este ejemplo vamos a simular observaciones <span class="math inline">\(n_i=50\)</span> observaciones para <span class="math inline">\(G=10\)</span> grupos (en total 500 obs) que tengan la estructura mostrada abajo y en la cual la varianza de los efectos aleatorio <span class="math inline">\(b_0\)</span> (<span class="math inline">\(\sigma^2_{b0}=625\)</span>) es más grande que la varianza de las observaciones (<span class="math inline">\(\sigma^2_y=16\)</span>).</p>
+<p>El objetivo del ejemplo es calcular el <span class="math inline">\(R^2\)</span> para el modelo ajustado correctamente.</p>
+<p>El modelo para simular los datos es el siguiente.</p>
+<p><span class="math display">\[\begin{align*}
+y_{ij} | b_0 &amp;\sim  N(\mu_{ij}, \sigma^2_y) \\
+\mu_{ij} &amp;= 4 - 6 x_{ij} + b_{0i} \\
+\sigma^2_y &amp;= 16 \\
+b_{0} &amp;\sim N(0, \sigma^2_{b0}=625) \\
+x_{ij} &amp;\sim U(-5, 6)
+\end{align*}\]</span></p>
+<p>El vector de parámetros de este modelo es <span class="math inline">\(\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma_y=4, \sigma_{b0}=25)^\top\)</span>.</p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+<div class="rmdexercise">
+Solución.
+</div>
+</div>
+<p>El código para simular las 500 observaciones se muestra a continuación.</p>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="R2.html#cb341-1" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb341-2"><a href="R2.html#cb341-2" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb341-3"><a href="R2.html#cb341-3" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
+<span id="cb341-4"><a href="R2.html#cb341-4" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
+<span id="cb341-5"><a href="R2.html#cb341-5" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
+<span id="cb341-6"><a href="R2.html#cb341-6" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="sc">-</span><span class="dv">5</span>, <span class="at">max=</span><span class="dv">6</span>)</span>
+<span id="cb341-7"><a href="R2.html#cb341-7" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">625</span>)) <span class="co"># Intercepto aleatorio</span></span>
+<span id="cb341-8"><a href="R2.html#cb341-8" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)               <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
+<span id="cb341-9"><a href="R2.html#cb341-9" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="sc">-</span> <span class="dv">6</span> <span class="sc">*</span> x <span class="sc">+</span> b0</span>
+<span id="cb341-10"><a href="R2.html#cb341-10" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>nobs, <span class="at">mean=</span>media, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">16</span>))</span>
+<span id="cb341-11"><a href="R2.html#cb341-11" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x, media, y)</span></code></pre></div>
+<p>Ahora vamos a ajustar el modelo correcto así:</p>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="R2.html#cb342-1" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb342-2"><a href="R2.html#cb342-2" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> grupo, <span class="at">data=</span>datos)</span></code></pre></div>
+<p>A continuación vamos a calcular los <span class="math inline">\(R^2\)</span>.</p>
+<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="R2.html#cb343-1" tabindex="-1"></a><span class="fu">library</span>(MuMIn)</span>
+<span id="cb343-2"><a href="R2.html#cb343-2" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fit1)</span></code></pre></div>
+<pre><code>## Warning: &#39;r.squaredGLMM&#39; now calculates a revised statistic. See the help page.</code></pre>
+<pre><code>##            R2m       R2c
+## [1,] 0.4287911 0.9826349</code></pre>
+<p>En la salida anterior se reporta la medida marginal y la medida condicional del <span class="math inline">\(R^2\)</span>. De los resultados se observa que el <span class="math inline">\(R^2_{m}\)</span> es mayor que el <span class="math inline">\(R^2_{c}\)</span>, eso significa que el modelo completo (con efectos fijos y aleatorio) logra explicar un 98% de la varianza. En otras palabras, significa que si valió la pena ajustar el modelo con esos efectos aleatorios. Era de esperarse que esto sucediera porque los datos se simularon con <span class="math inline">\(\sigma^2_{b0}=625\)</span>.</p>
+</div>
+<div id="ejemplo-modelo-normal-sin-intercepto-aleatorio" class="section level2 unnumbered hasAnchor">
+<h2>Ejemplo: modelo normal sin intercepto aleatorio<a href="R2.html#ejemplo-modelo-normal-sin-intercepto-aleatorio" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>En este ejemplo vamos a repetir a simular datos como el ejemplo anterior pero con <span class="math inline">\(\sigma^2_{b0}=0\)</span>. La idea es ver si el <span class="math inline">\(R^2\)</span> logra detectar que no se necesita incluir un intercepto aleatorio al ajustar el modelo.</p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+<div class="rmdexercise">
+Solución.
+</div>
+</div>
+<p>El código para simular las 500 observaciones se muestra a continuación.</p>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="R2.html#cb346-1" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb346-2"><a href="R2.html#cb346-2" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb346-3"><a href="R2.html#cb346-3" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
+<span id="cb346-4"><a href="R2.html#cb346-4" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
+<span id="cb346-5"><a href="R2.html#cb346-5" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
+<span id="cb346-6"><a href="R2.html#cb346-6" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="sc">-</span><span class="dv">5</span>, <span class="at">max=</span><span class="dv">6</span>)</span>
+<span id="cb346-7"><a href="R2.html#cb346-7" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="dv">0</span>) <span class="co"># Intercepto aleatorio</span></span>
+<span id="cb346-8"><a href="R2.html#cb346-8" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)               <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
+<span id="cb346-9"><a href="R2.html#cb346-9" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="sc">-</span> <span class="dv">6</span> <span class="sc">*</span> x <span class="sc">+</span> b0</span>
+<span id="cb346-10"><a href="R2.html#cb346-10" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>nobs, <span class="at">mean=</span>media, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">16</span>))</span>
+<span id="cb346-11"><a href="R2.html#cb346-11" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x, media, y)</span></code></pre></div>
+<p>Ahora vamos a ajustar el modelo así:</p>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="R2.html#cb347-1" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb347-2"><a href="R2.html#cb347-2" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> grupo, <span class="at">data=</span>datos)</span></code></pre></div>
+<p>A continuación vamos a calcular los <span class="math inline">\(R^2\)</span>.</p>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="R2.html#cb348-1" tabindex="-1"></a><span class="fu">library</span>(MuMIn)</span>
+<span id="cb348-2"><a href="R2.html#cb348-2" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fit2)</span></code></pre></div>
+<pre><code>##            R2m       R2c
+## [1,] 0.9571738 0.9578291</code></pre>
+<p>De la salida anterior vemos que ambos <span class="math inline">\(R^2\)</span> son muy parecidos. Esto significa que el porcentaje de la varianza explicada por un modelo con ambos tipos de efectos (fijos y aleatorios) es igual a la varianza explicada por un modelo sólo con efectos fijos, en otras palabras, esto indica que NO vale la pena incluir efectos aleatorios en el modelo. Este resultado era el esperado porque los datos fueron simulados con <span class="math inline">\(\sigma^2_{b0}=0\)</span>.</p>
+</div>
+<div id="ejemplo-9" class="section level2 unnumbered hasAnchor">
+<h2>Ejemplo<a href="R2.html#ejemplo-9" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>En este ejemplo vamos a ajustar un modelo para explicar la desde la hipófisis hasta la fisura pterigomaxilar (mm), en función del sexo y la edad de los pacientes (Subject). La base de datos a usar es <code>Orthodont</code>. Luego se desea calcular el <span class="math inline">\(R^2\)</span> para el modelo ajustado.</p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+<div class="rmdexercise">
+Solución.
+</div>
+</div>
+<p>El código que vamos a usar es el siguiente.</p>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="R2.html#cb350-1" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb350-2"><a href="R2.html#cb350-2" tabindex="-1"></a><span class="fu">library</span>(MuMIn)</span>
+<span id="cb350-3"><a href="R2.html#cb350-3" tabindex="-1"></a></span>
+<span id="cb350-4"><a href="R2.html#cb350-4" tabindex="-1"></a><span class="fu">data</span>(Orthodont, <span class="at">package =</span> <span class="st">&quot;nlme&quot;</span>)</span>
+<span id="cb350-5"><a href="R2.html#cb350-5" tabindex="-1"></a>fm1 <span class="ot">&lt;-</span> <span class="fu">lme</span>(distance <span class="sc">~</span> Sex <span class="sc">*</span> age, <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> Subject, <span class="at">data =</span> Orthodont)</span>
+<span id="cb350-6"><a href="R2.html#cb350-6" tabindex="-1"></a>fmnull <span class="ot">&lt;-</span> <span class="fu">lme</span>(distance <span class="sc">~</span> <span class="dv">1</span>, <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> Subject, <span class="at">data =</span> Orthodont)</span>
+<span id="cb350-7"><a href="R2.html#cb350-7" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fm1)</span></code></pre></div>
+<pre><code>##            R2m       R2c
+## [1,] 0.4098416 0.7827266</code></pre>
+<p>De la salida anterior se observa que 78.27% de la variabilidad observada se logra explicar con el modelo ajustado con efectos fijos y un intercepto aleatorio.</p>
+
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-R-MuMIn" class="csl-entry">
+Bartoń, Kamil. 2022. <em>MuMIn: Multi-Model Inference</em>. <a href="https://CRAN.R-project.org/package=MuMIn">https://CRAN.R-project.org/package=MuMIn</a>.
+</div>
+<div id="ref-nakagawa2017" class="csl-entry">
+Nakagawa, Shinichi, Paul CD Johnson, and Holger Schielzeth. 2017. <span>“The Coefficient of Determination r 2 and Intra-Class Correlation Coefficient from Generalized Linear Mixed-Effects Models Revisited and Expanded.”</span> <em>Journal of the Royal Society Interface</em> 14 (134): 20170213.
+</div>
+<div id="ref-nakagawa2012" class="csl-entry">
+Nakagawa, Shinichi, H Schielzeth, and Robert B O’Hara. 2013. <span>“A General and Simple Method for Obtaining R2 from Generalized Linear Mixed-Effects Models. Methods Ecol Evol 4: 133–142.”</span>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-
+<a href="residuals.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="simul-glmm.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -382,7 +507,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/%s",
+"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/701-R2.Rmd",
 "text": "Edit"
 },
 "history": {

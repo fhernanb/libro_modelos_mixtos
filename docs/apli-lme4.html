@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2023-04-29" />
+<meta name="date" content="2023-11-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -306,12 +306,18 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="" data-path="residuals.html"><a href="residuals.html#ejemplo-modelo-gamma-mixto"><i class="fa fa-check"></i>Ejemplo: modelo gamma mixto</a></li>
 </ul></li>
-<li class="chapter" data-level="26" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>26</b> Simulación de glmm</a></li>
-<li class="chapter" data-level="27" data-path="sced.html"><a href="sced.html"><i class="fa fa-check"></i><b>27</b> Single case experimental desing (sced)</a>
+<li class="chapter" data-level="26" data-path="R2.html"><a href="R2.html"><i class="fa fa-check"></i><b>26</b> <span class="math inline">\(R^2\)</span></a>
+<ul>
+<li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-normal-con-intercepto-aleatorio-3"><i class="fa fa-check"></i>Ejemplo: modelo normal con intercepto aleatorio</a></li>
+<li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-normal-sin-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo normal sin intercepto aleatorio</a></li>
+<li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-9"><i class="fa fa-check"></i>Ejemplo</a></li>
+</ul></li>
+<li class="chapter" data-level="27" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>27</b> Simulación de glmm</a></li>
+<li class="chapter" data-level="28" data-path="sced.html"><a href="sced.html"><i class="fa fa-check"></i><b>28</b> Single case experimental desing (sced)</a>
 <ul>
 <li class="chapter" data-level="" data-path="sced.html"><a href="sced.html#ejemplo-simulación-de-un-sced-abab"><i class="fa fa-check"></i>Ejemplo: simulación de un sced ABAB</a></li>
 </ul></li>
-<li class="chapter" data-level="28" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>28</b> Otro material interesante</a></li>
+<li class="chapter" data-level="29" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>29</b> Otro material interesante</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -338,8 +344,8 @@ div.csl-indent {
 <p>En este capítulo se mostrará como usar el paquete <code>lme4</code> para la aplicación de modelos mixtos con la base de datos <code>sleepstudy</code> del mismo paquete.</p>
 <p><img src="images/sleep_study.png" width="40%" style="display: block; margin: auto;" /></p>
 <p>A continuación la base de datos a utilizar.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="apli-lme4.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
-<span id="cb36-2"><a href="apli-lme4.html#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sleepstudy)</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="apli-lme4.html#cb36-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb36-2"><a href="apli-lme4.html#cb36-2" tabindex="-1"></a><span class="fu">head</span>(sleepstudy)</span></code></pre></div>
 <pre><code>##   Reaction Days Subject
 ## 1 249.5600    0     308
 ## 2 258.7047    1     308
@@ -348,13 +354,13 @@ div.csl-indent {
 ## 5 356.8519    4     308
 ## 6 414.6901    5     308</code></pre>
 <p>Esta base de datos sobre el tiempo de reacción promedio por día para un conjunto de individuos, en un estudio de privación del sueño, contiene la información sobre el tiempo de reacción promedio (<code>Reaction</code>), el número de días de privación del sueño (<code>Days</code>), donde el día 0 corresponde al día en el que los indiviuos tenían su cantidad normal de sueño, y el número del individuo (en total 18) sobre el que se realizó la observación (<code>Subject</code>). A partir del día 0, hubo una restricción en cada individuo a 3 horas de sueño por noche.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="apli-lme4.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb38-2"><a href="apli-lme4.html#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-3"><a href="apli-lme4.html#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> sleepstudy, <span class="fu">aes</span>(<span class="at">x =</span> Days, <span class="at">y =</span> Reaction, <span class="at">color =</span> Subject)) <span class="sc">+</span></span>
-<span id="cb38-4"><a href="apli-lme4.html#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb38-5"><a href="apli-lme4.html#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb38-6"><a href="apli-lme4.html#cb38-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Subject) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Reaction time&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb38-7"><a href="apli-lme4.html#cb38-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="apli-lme4.html#cb38-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb38-2"><a href="apli-lme4.html#cb38-2" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="apli-lme4.html#cb38-3" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> sleepstudy, <span class="fu">aes</span>(<span class="at">x =</span> Days, <span class="at">y =</span> Reaction, <span class="at">color =</span> Subject)) <span class="sc">+</span></span>
+<span id="cb38-4"><a href="apli-lme4.html#cb38-4" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb38-5"><a href="apli-lme4.html#cb38-5" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb38-6"><a href="apli-lme4.html#cb38-6" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Subject) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Reaction time&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb38-7"><a href="apli-lme4.html#cb38-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/plot_sleepstudy_lme4-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>De la figura anterior vemos que el tiempo de reacción promedio, tanto en el día 0 como en los siguientes días de prueba (del día 1 al día 9), son distintos en cada uno de los individuos. Esta situación conlleva a probar la hipótesis de que el tiempo de reacción promedio en una serie de pruebas varía según los individuos. Esto es, ajustar un modelo donde el intercepto y la pendiente se consideran como efectos aleatorios.</p>
 <p>Un modelo lineal mixto que describe la anterior situación se puede escribir como:</p>
@@ -378,9 +384,9 @@ N\left ( \left [ \begin{matrix}
 <p>Aquí, los individuos (<span class="math inline">\(i\)</span>) varían en el tiempo de reacción promedio tanto en su intercepto (<span class="math inline">\(b_{0i}\)</span>) como en su pendiente (<span class="math inline">\(b_{1i}\)</span>), que en conjunto componen la varianza total en dicho tiempo atribuible a la variación entre individuos. Esta contribución individual se cuantifica usando un modelo de intercepto y pendiente aleatoria con distribución normal (<span class="math inline">\(N\)</span>). La variación entre individuos en intercepto y pendiente es <span class="math inline">\(\sigma^2_{b0}\)</span> y <span class="math inline">\(\sigma^2_{b1}\)</span>, respectivamente. La covarianza entre el intercepto y la pendiente esta dada por <span class="math inline">\(\sigma_{b01}\)</span>.</p>
 <p>El vector de parámetros para este modelo sería <span class="math inline">\(\boldsymbol{\Theta}=(\beta_0, \beta_1, \sigma_{reaction}, \sigma_{b0}, \sigma_{b1}, \sigma_{b0b1})^\top\)</span>.</p>
 <p>Para ajustar el modelo de intercepto y pendiente aleatoria planteado usando el paquete <code>lme4</code> podemos usar el siguiente código:</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="apli-lme4.html#cb39-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (Days <span class="sc">|</span> Subject), <span class="at">REML =</span> <span class="cn">TRUE</span>, <span class="at">data =</span> sleepstudy)</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="apli-lme4.html#cb39-1" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (Days <span class="sc">|</span> Subject), <span class="at">REML =</span> <span class="cn">TRUE</span>, <span class="at">data =</span> sleepstudy)</span></code></pre></div>
 <p>Para obtener la tabla de resumen usamos:</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="apli-lme4.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="apli-lme4.html#cb40-1" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
 ## Formula: Reaction ~ Days + (Days | Subject)
 ##    Data: sleepstudy
@@ -430,7 +436,7 @@ N\left ( \left [ \begin{matrix}
 \right )
 \end{align*}\]</span></p>
 <p>Los elementos <span class="math inline">\(b_{0i}\)</span> y <span class="math inline">\(b_{1i}\)</span> se deben substituir por sus respectivas predicciones <span class="math inline">\(\tilde{b}_{0i}\)</span> y <span class="math inline">\(\tilde{b}_{1i}\)</span> y se pueden obtener del modelo ajustado de esta forma:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="apli-lme4.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ranef</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="apli-lme4.html#cb42-1" tabindex="-1"></a><span class="fu">ranef</span>(fit)</span></code></pre></div>
 <pre><code>## $Subject
 ##     (Intercept)        Days
 ## 308   2.2585509   9.1989758
@@ -454,7 +460,7 @@ N\left ( \left [ \begin{matrix}
 ## 
 ## with conditional variances for &quot;Subject&quot;</code></pre>
 <p>Y los valores de los efectos fijos estimados se pueden obtener así:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="apli-lme4.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="apli-lme4.html#cb44-1" tabindex="-1"></a><span class="fu">fixef</span>(fit)</span></code></pre></div>
 <pre><code>## (Intercept)        Days 
 ##   251.40510    10.46729</code></pre>
 <p>Con base en la información anterior de efectos aleatorios y fijos, es posible escribir la ecuación del modelo para cada individuo. Para esto, se debe considerar los efectos fijos estimados (<span class="math inline">\(\hat{\beta}_0 \approx 251.40\)</span> y <span class="math inline">\(\hat{\beta}_1\approx 10.47\)</span>) y los efectos aleatorios de cada uno de los individuos (por ejemplo para el individuo <code>308</code>, <span class="math inline">\(\tilde{b}_{0, i=308} \approx 2.26\)</span> y <span class="math inline">\(\tilde{b}_{1, i=308} \approx 9.20\)</span>). Así, el valor medio del individuo <code>308</code> se calcula como:</p>
@@ -469,7 +475,7 @@ Reaction_{i=308, j} &amp;\sim  N(\hat{\mu}_{i=308, j}, \hat{\sigma}^2_{Reaction}
 \hat{\sigma}_{Reaction} &amp;= 25.59
 \end{align*}\]</span></p>
 <p>Los efectos fijos y aleatorios de la expresión anterior para cada uno de los individuos se pueden obtener con <code>R</code> de la siguiente forma:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="apli-lme4.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="apli-lme4.html#cb46-1" tabindex="-1"></a><span class="fu">coef</span>(fit)</span></code></pre></div>
 <pre><code>## $Subject
 ##     (Intercept)       Days
 ## 308    253.6637 19.6662617
@@ -494,24 +500,24 @@ Reaction_{i=308, j} &amp;\sim  N(\hat{\mu}_{i=308, j}, \hat{\sigma}^2_{Reaction}
 ## attr(,&quot;class&quot;)
 ## [1] &quot;coef.mer&quot;</code></pre>
 <p>A continuación usted podrá observar el diagrama de dispersión mostrado al inicio de este capitulo con la recta de regresión para cada individuo. El código de <code>R</code> para obtener esto se presenta a continuación:</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="apli-lme4.html#cb48-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (Days <span class="sc">|</span> Subject), <span class="at">REML =</span> <span class="cn">TRUE</span>, <span class="at">data =</span> sleepstudy)</span>
-<span id="cb48-2"><a href="apli-lme4.html#cb48-2" aria-hidden="true" tabindex="-1"></a>sleepstudy<span class="sc">$</span>pred_inter_pend_aleatorio <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit)</span>
-<span id="cb48-3"><a href="apli-lme4.html#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-4"><a href="apli-lme4.html#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> sleepstudy, <span class="fu">aes</span>(<span class="at">x =</span> Days, <span class="at">y =</span> pred_inter_pend_aleatorio, <span class="at">color =</span> Subject)) <span class="sc">+</span></span>
-<span id="cb48-5"><a href="apli-lme4.html#cb48-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb48-6"><a href="apli-lme4.html#cb48-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> Days, <span class="at">y =</span> Reaction, <span class="at">color =</span> Subject)) <span class="sc">+</span></span>
-<span id="cb48-7"><a href="apli-lme4.html#cb48-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="fl">251.40</span>, <span class="at">slope =</span> <span class="fl">10.47</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb48-8"><a href="apli-lme4.html#cb48-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb48-9"><a href="apli-lme4.html#cb48-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Subject) <span class="sc">+</span> </span>
-<span id="cb48-10"><a href="apli-lme4.html#cb48-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Reaction time&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="apli-lme4.html#cb48-1" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (Days <span class="sc">|</span> Subject), <span class="at">REML =</span> <span class="cn">TRUE</span>, <span class="at">data =</span> sleepstudy)</span>
+<span id="cb48-2"><a href="apli-lme4.html#cb48-2" tabindex="-1"></a>sleepstudy<span class="sc">$</span>pred_inter_pend_aleatorio <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit)</span>
+<span id="cb48-3"><a href="apli-lme4.html#cb48-3" tabindex="-1"></a></span>
+<span id="cb48-4"><a href="apli-lme4.html#cb48-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> sleepstudy, <span class="fu">aes</span>(<span class="at">x =</span> Days, <span class="at">y =</span> pred_inter_pend_aleatorio, <span class="at">color =</span> Subject)) <span class="sc">+</span></span>
+<span id="cb48-5"><a href="apli-lme4.html#cb48-5" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb48-6"><a href="apli-lme4.html#cb48-6" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> Days, <span class="at">y =</span> Reaction, <span class="at">color =</span> Subject)) <span class="sc">+</span></span>
+<span id="cb48-7"><a href="apli-lme4.html#cb48-7" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="fl">251.40</span>, <span class="at">slope =</span> <span class="fl">10.47</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb48-8"><a href="apli-lme4.html#cb48-8" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb48-9"><a href="apli-lme4.html#cb48-9" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Subject) <span class="sc">+</span> </span>
+<span id="cb48-10"><a href="apli-lme4.html#cb48-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Reaction time&quot;</span>)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/Gr%C3%A1fico%20con%20recta%20de%20regresi%C3%B3n-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>La figura anterior corresponde a un modelo de intercepto y pendiente aleatoria, en el que se permite que tanto los interceptos como las pendientes varíen según los individuos. Las líneas continuas corresponde a la recta de regresión ajustada a los datos. Los puntos representan las observaciones (tiempo de reacción promedio por día) medidas en cada uno de los individuos. La línea negra discontinua representa el valor medio global de la distribución de los efectos aleatorios.</p>
 <p>A continuación usted encontrará una figura con cuatro páneles donde se muestran los resultados de cuatro modelos distintos, entre ellos el modelo mixto con intercepto y pendiente aleatoria del ejemplo anterior. Con base en estas figuras, responda las preguntas siguientes.</p>
 <pre><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
 ## ℹ Please use `linewidth` instead.
 ## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-## generated.</code></pre>
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning
+## was generated.</code></pre>
 <p><img src="libro_mod_mixtos_files/figure-html/Graficos%20de%20los%20distintos%20modelo-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div id="ejercicios" class="section level2 unnumbered hasAnchor">
 <h2>Ejercicios<a href="apli-lme4.html#ejercicios" class="anchor-section" aria-label="Anchor link to header"></a></h2>
