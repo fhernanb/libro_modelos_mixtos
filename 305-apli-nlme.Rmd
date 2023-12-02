@@ -15,7 +15,7 @@ head(Oxboys)
 
 Esta base de datos sobre crecimiento contiene la información sobre altura (`heigth`), edad estandarizada (`age`) de un grupo de 26 jóvenes. Como la base de datos `Oxboys` es de la clase groupedData, es posible aplicar un `plot` directamente y el resultado se muestra continuación.
 
-```{r plot_oxboys_nlme}
+```{r plot_oxboys_nlme, fig.width=12}
 plot(Oxboys)
 ```
 

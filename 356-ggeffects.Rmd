@@ -1,0 +1,5 @@
+# Paquete **ggeffects** {#ggeffects}
+
+En este capítulo se muestran algunas de las utilidades del paquete `ggeffects` de @R-ggeffects. Se le recomienda al lector visitar la [página oficial](https://strengejacke.github.io/ggeffects/index.html) del paquete para ver más utilidades.
+
+

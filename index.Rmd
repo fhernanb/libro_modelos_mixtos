@@ -23,17 +23,37 @@ knitr::write_bib(c(
   'plotly', 'packages.bib', 'MASS', 'brms', 'MCMCglmm', 
   'glmmADMB', 'RLRsim', 'pbkrtest', 'glmmTMB', 'glmm', 'statmod',
   'DHARMa', 'marginaleffects', 'mclogit', 'ordinal', 'INLA',
-  'gamlss', 'MuMIn'), 
+  'gamlss', 'MuMIn', 'ggeffects'), 
   'packages.bib')
 ```
 
 ```{r echo=FALSE, eval=FALSE}
 # lista de paquetes necesarios para compilar el libro
-list.of.packages <- c("MPV", "scatterplot3d", "kableExtra", "RLRsim",
-                      "ggforce", "DT", "demoR", "ggeffects", "showtext",
-                      "merTools", "see", "statmod", "patchwork", "emdbook",
-                      "DHARMa", "glmmTMB", "glmm", "GGally", "hglm", "texreg",
-                      "stargazer", "flair")
+list.of.packages <- c("MPV", 
+                      "scatterplot3d", 
+                      "kableExtra", 
+                      "RLRsim",
+                      "ggforce", 
+                      "DT", 
+                      "demoR", 
+                      "ggeffects", 
+                      "showtext",
+                      "merTools", 
+                      "see", 
+                      "statmod", 
+                      "patchwork", 
+                      "emdbook",
+                      "DHARMa", 
+                      "glmmTMB", 
+                      "glmm", 
+                      "GGally", 
+                      "hglm", 
+                      "texreg",
+                      "stargazer", 
+                      "flair", 
+                      "tidyverse" 
+                      "marginaleffects",
+                      "ggeffects")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 ```
@@ -50,7 +70,7 @@ Este libro está destinado para usuarios de R interesados en aplicar modelos mix
 
 ## Estructura del libro {-}
 
-En el capítulo \@ref(reg-lin) se hace un repaso básico del modelo de regresión lineal clásico. En el capítulo \@ref(lmm) se presentan el modelo lineal mixto (LMM) y luego en el capítulo \@ref(glmm) se presentan los modelos lineales generalizados mixtos (GLMM). En el capítulo \@ref(pac-lme4) se presenta el paquete **lme4** y sus principales funciones para modelación, mientras que en el capítulo \@ref(pac-nlme) se presenta el paquete **nlme** y sus principales funciones para modelación. En el capítulo \@ref(R2) se muestra la forma de calcular la medida $R^2$ para LMM y GLMM.
+En el capítulo \@ref(reg-lin) se hace un repaso básico del modelo de regresión lineal clásico. En el capítulo \@ref(lmm) se presentan el modelo lineal mixto (LMM) y luego en el capítulo \@ref(glmm) se presentan los modelos lineales generalizados mixtos (GLMM). En el capítulo \@ref(pac-lme4) se presenta el paquete **lme4** y sus principales funciones para modelación, mientras que en el capítulo \@ref(pac-nlme) se presenta el paquete **nlme** y sus principales funciones para modelación. En el capítulo \@ref(ph) se muestran ejemplos de cómo proceder para comparar diferentes modelos usando pruebas de hipótesis.. En el capítulo \@ref(R2) se muestra la forma de calcular la medida $R^2$ para LMM y GLMM.
 
 ## Software y convenciones {-}
 

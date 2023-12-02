@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>11 Pruebas de hipótesis | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
-  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
 
   <meta property="og:title" content="11 Pruebas de hipótesis | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2023-11-18" />
+<meta name="date" content="2023-12-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -122,6 +122,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
@@ -247,78 +251,84 @@ div.csl-indent {
 <li class="chapter" data-level="13" data-path="more-levels.html"><a href="more-levels.html"><i class="fa fa-check"></i><b>13</b> Modelos con más de dos niveles</a></li>
 <li class="chapter" data-level="14" data-path="marginals-effects.html"><a href="marginals-effects.html"><i class="fa fa-check"></i><b>14</b> Paquete <strong>marginaleffects</strong></a>
 <ul>
-<li class="chapter" data-level="" data-path="marginals-effects.html"><a href="marginals-effects.html#ejemplo-5"><i class="fa fa-check"></i>Ejemplo</a></li>
+<li class="chapter" data-level="" data-path="marginals-effects.html"><a href="marginals-effects.html#ejemplo-chickweight-lineal"><i class="fa fa-check"></i>Ejemplo ChickWeight lineal</a></li>
+<li class="chapter" data-level="" data-path="marginals-effects.html"><a href="marginals-effects.html#ejemplo-chickweight-cuadrático"><i class="fa fa-check"></i>Ejemplo ChickWeight cuadrático</a></li>
+<li class="chapter" data-level="14.1" data-path="marginals-effects.html"><a href="marginals-effects.html#ejemplo-5"><i class="fa fa-check"></i><b>14.1</b> Ejemplo</a></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="predict-new.html"><a href="predict-new.html"><i class="fa fa-check"></i><b>15</b> Predicción</a></li>
-<li class="chapter" data-level="16" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>16</b> Modelos Lineales Generalizados Mixtos</a>
+<li class="chapter" data-level="15" data-path="ggeffects.html"><a href="ggeffects.html"><i class="fa fa-check"></i><b>15</b> Paquete <strong>ggeffects</strong></a></li>
+<li class="chapter" data-level="16" data-path="predict-new.html"><a href="predict-new.html"><i class="fa fa-check"></i><b>16</b> Predicción</a></li>
+<li class="chapter" data-level="17" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>17</b> Modelos Lineales Generalizados Mixtos</a>
 <ul>
-<li class="chapter" data-level="16.1" data-path="glmm.html"><a href="glmm.html#videos-de-apoyo"><i class="fa fa-check"></i><b>16.1</b> Videos de apoyo</a></li>
+<li class="chapter" data-level="17.1" data-path="glmm.html"><a href="glmm.html#videos-de-apoyo"><i class="fa fa-check"></i><b>17.1</b> Videos de apoyo</a></li>
 </ul></li>
-<li class="chapter" data-level="17" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html"><i class="fa fa-check"></i><b>17</b> Paquete <strong>glmmTMB</strong></a>
+<li class="chapter" data-level="18" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html"><i class="fa fa-check"></i><b>18</b> Paquete <strong>glmmTMB</strong></a>
 <ul>
-<li class="chapter" data-level="17.1" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#función-glmmtmb"><i class="fa fa-check"></i><b>17.1</b> Función <code>glmmTMB</code></a></li>
+<li class="chapter" data-level="18.1" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#función-glmmtmb"><i class="fa fa-check"></i><b>18.1</b> Función <code>glmmTMB</code></a></li>
 <li class="chapter" data-level="" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#ejemplo-modelo-normal-con-intercepto-aleatorio-2"><i class="fa fa-check"></i>Ejemplo: modelo normal con intercepto aleatorio</a></li>
 <li class="chapter" data-level="" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#ejemplo-recuperando-los-interceptos-aleatorios-1"><i class="fa fa-check"></i>Ejemplo: recuperando los interceptos aleatorios</a></li>
 <li class="chapter" data-level="" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#ejemplo-modelo-gamma-con-intercepto-aleatorio-1"><i class="fa fa-check"></i>Ejemplo: modelo gamma con intercepto aleatorio</a></li>
 </ul></li>
-<li class="chapter" data-level="18" data-path="pac-glmm.html"><a href="pac-glmm.html"><i class="fa fa-check"></i><b>18</b> Paquete <strong>glmm</strong></a>
+<li class="chapter" data-level="19" data-path="pac-glmm.html"><a href="pac-glmm.html"><i class="fa fa-check"></i><b>19</b> Paquete <strong>glmm</strong></a>
 <ul>
-<li class="chapter" data-level="18.1" data-path="pac-glmm.html"><a href="pac-glmm.html#función-glmm"><i class="fa fa-check"></i><b>18.1</b> Función <code>glmm</code></a></li>
+<li class="chapter" data-level="19.1" data-path="pac-glmm.html"><a href="pac-glmm.html#función-glmm"><i class="fa fa-check"></i><b>19.1</b> Función <code>glmm</code></a></li>
 <li class="chapter" data-level="" data-path="pac-glmm.html"><a href="pac-glmm.html#ejemplo-modelo-poisson-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo Poisson con intercepto aleatorio</a></li>
 </ul></li>
-<li class="chapter" data-level="19" data-path="pac-MASS.html"><a href="pac-MASS.html"><i class="fa fa-check"></i><b>19</b> Paquete <strong>MASS</strong></a>
+<li class="chapter" data-level="20" data-path="pac-MASS.html"><a href="pac-MASS.html"><i class="fa fa-check"></i><b>20</b> Paquete <strong>MASS</strong></a>
 <ul>
-<li class="chapter" data-level="19.1" data-path="pac-MASS.html"><a href="pac-MASS.html#función-glmmpql"><i class="fa fa-check"></i><b>19.1</b> Función <code>glmmPQL</code></a></li>
+<li class="chapter" data-level="20.1" data-path="pac-MASS.html"><a href="pac-MASS.html#función-glmmpql"><i class="fa fa-check"></i><b>20.1</b> Función <code>glmmPQL</code></a></li>
 <li class="chapter" data-level="" data-path="pac-MASS.html"><a href="pac-MASS.html#ejemplo-modelo-bernoulli-binomial-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo Bernoulli (binomial) con intercepto aleatorio</a></li>
-<li class="chapter" data-level="19.2" data-path="pac-MASS.html"><a href="pac-MASS.html#what-it-means-for-aic-na-in-glmmpql-mass-summary-output"><i class="fa fa-check"></i><b>19.2</b> What it means for AIC NA in glmmPQL (MASS) summary output?</a></li>
-<li class="chapter" data-level="19.3" data-path="pac-MASS.html"><a href="pac-MASS.html#two-questions-on-the-results-from-glmmpqlmass"><i class="fa fa-check"></i><b>19.3</b> Two questions on the results from glmmPQL(MASS)</a></li>
-<li class="chapter" data-level="19.4" data-path="pac-MASS.html"><a href="pac-MASS.html#how-do-i-interpret-the-variance-of-random-effect-in-a-generalized-linear-mixed-model"><i class="fa fa-check"></i><b>19.4</b> How do I interpret the variance of random effect in a generalized linear mixed model?</a></li>
+<li class="chapter" data-level="20.2" data-path="pac-MASS.html"><a href="pac-MASS.html#what-it-means-for-aic-na-in-glmmpql-mass-summary-output"><i class="fa fa-check"></i><b>20.2</b> What it means for AIC NA in glmmPQL (MASS) summary output?</a></li>
+<li class="chapter" data-level="20.3" data-path="pac-MASS.html"><a href="pac-MASS.html#two-questions-on-the-results-from-glmmpqlmass"><i class="fa fa-check"></i><b>20.3</b> Two questions on the results from glmmPQL(MASS)</a></li>
+<li class="chapter" data-level="20.4" data-path="pac-MASS.html"><a href="pac-MASS.html#how-do-i-interpret-the-variance-of-random-effect-in-a-generalized-linear-mixed-model"><i class="fa fa-check"></i><b>20.4</b> How do I interpret the variance of random effect in a generalized linear mixed model?</a></li>
 </ul></li>
-<li class="chapter" data-level="20" data-path="paquete-inla.html"><a href="paquete-inla.html"><i class="fa fa-check"></i><b>20</b> Paquete <strong>INLA</strong></a>
+<li class="chapter" data-level="21" data-path="paquete-inla.html"><a href="paquete-inla.html"><i class="fa fa-check"></i><b>21</b> Paquete <strong>INLA</strong></a>
 <ul>
 <li class="chapter" data-level="" data-path="paquete-inla.html"><a href="paquete-inla.html#ejemplo-modelo-poisson-con-intercepto-aleatorio-1"><i class="fa fa-check"></i>Ejemplo: modelo Poisson con intercepto aleatorio</a></li>
 <li class="chapter" data-level="" data-path="paquete-inla.html"><a href="paquete-inla.html#ejemplo-modelo-poisson-con-intercepto-y-pendiente-aleatoria"><i class="fa fa-check"></i>Ejemplo: modelo Poisson con intercepto y pendiente aleatoria</a></li>
 </ul></li>
-<li class="chapter" data-level="21" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html"><i class="fa fa-check"></i><b>21</b> Paquete <strong>gamlss</strong></a>
+<li class="chapter" data-level="22" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html"><i class="fa fa-check"></i><b>22</b> Paquete <strong>gamlss</strong></a>
 <ul>
-<li class="chapter" data-level="21.1" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#modelo-lineal-mixto-con-intercepto-aleatorio"><i class="fa fa-check"></i><b>21.1</b> Modelo lineal mixto con intercepto aleatorio</a>
+<li class="chapter" data-level="22.1" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#modelo-lineal-mixto-con-intercepto-aleatorio"><i class="fa fa-check"></i><b>22.1</b> Modelo lineal mixto con intercepto aleatorio</a>
 <ul>
 <li class="chapter" data-level="" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#ejemplo-6"><i class="fa fa-check"></i>Ejemplo</a></li>
 </ul></li>
-<li class="chapter" data-level="21.2" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#modelo-lineal-mixto-con-pendiente-aleatoria"><i class="fa fa-check"></i><b>21.2</b> Modelo lineal mixto con pendiente aleatoria</a>
+<li class="chapter" data-level="22.2" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#modelo-lineal-mixto-con-pendiente-aleatoria"><i class="fa fa-check"></i><b>22.2</b> Modelo lineal mixto con pendiente aleatoria</a>
 <ul>
 <li class="chapter" data-level="" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#ejemplo-7"><i class="fa fa-check"></i>Ejemplo</a></li>
 </ul></li>
-<li class="chapter" data-level="21.3" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#modelo-lineal-mixto-con-intercepto-y-pendiente-aleatoria"><i class="fa fa-check"></i><b>21.3</b> Modelo lineal mixto con intercepto y pendiente aleatoria</a>
+<li class="chapter" data-level="22.3" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#modelo-lineal-mixto-con-intercepto-y-pendiente-aleatoria"><i class="fa fa-check"></i><b>22.3</b> Modelo lineal mixto con intercepto y pendiente aleatoria</a>
 <ul>
 <li class="chapter" data-level="" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#ejemplo-8"><i class="fa fa-check"></i>Ejemplo</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="22" data-path="glmm_poisson.html"><a href="glmm_poisson.html"><i class="fa fa-check"></i><b>22</b> GLMM Poisson</a></li>
-<li class="chapter" data-level="23" data-path="glmm-gamma.html"><a href="glmm-gamma.html"><i class="fa fa-check"></i><b>23</b> GLMM gamma</a></li>
-<li class="chapter" data-level="24" data-path="multinomial.html"><a href="multinomial.html"><i class="fa fa-check"></i><b>24</b> Modelo multinomial</a>
+<li class="chapter" data-level="23" data-path="glmm_poisson.html"><a href="glmm_poisson.html"><i class="fa fa-check"></i><b>23</b> GLMM Poisson</a></li>
+<li class="chapter" data-level="24" data-path="glmm-gamma.html"><a href="glmm-gamma.html"><i class="fa fa-check"></i><b>24</b> GLMM gamma</a></li>
+<li class="chapter" data-level="25" data-path="multinomial.html"><a href="multinomial.html"><i class="fa fa-check"></i><b>25</b> Modelo multinomial</a>
 <ul>
 <li class="chapter" data-level="" data-path="multinomial.html"><a href="multinomial.html#ejemplo-modelo-multinomial-nominal"><i class="fa fa-check"></i>Ejemplo: modelo multinomial nominal</a></li>
 <li class="chapter" data-level="" data-path="multinomial.html"><a href="multinomial.html#ejemplo-modelo-multinomial-ordinal"><i class="fa fa-check"></i>Ejemplo: modelo multinomial ordinal</a></li>
 <li class="chapter" data-level="" data-path="multinomial.html"><a href="multinomial.html#ejemplo-simulando-observaciones-de-un-modelo-multinomial-nominal"><i class="fa fa-check"></i>Ejemplo: simulando observaciones de un modelo multinomial nominal</a></li>
 </ul></li>
-<li class="chapter" data-level="25" data-path="residuals.html"><a href="residuals.html"><i class="fa fa-check"></i><b>25</b> Diagnósticos con DHARMa</a>
+<li class="chapter" data-level="26" data-path="residuals.html"><a href="residuals.html"><i class="fa fa-check"></i><b>26</b> Diagnósticos con DHARMa</a>
 <ul>
 <li class="chapter" data-level="" data-path="residuals.html"><a href="residuals.html#ejemplo-modelo-gamma-mixto"><i class="fa fa-check"></i>Ejemplo: modelo gamma mixto</a></li>
 </ul></li>
-<li class="chapter" data-level="26" data-path="R2.html"><a href="R2.html"><i class="fa fa-check"></i><b>26</b> Coeficiente <span class="math inline">\(R^2\)</span></a>
+<li class="chapter" data-level="27" data-path="R2.html"><a href="R2.html"><i class="fa fa-check"></i><b>27</b> Coeficiente <span class="math inline">\(R^2\)</span></a>
 <ul>
 <li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-normal-con-intercepto-aleatorio-3"><i class="fa fa-check"></i>Ejemplo: modelo normal con intercepto aleatorio</a></li>
 <li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-normal-sin-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo normal sin intercepto aleatorio</a></li>
 <li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-clase-lme"><i class="fa fa-check"></i>Ejemplo: modelo clase lme</a></li>
 <li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-clase-lme4"><i class="fa fa-check"></i>Ejemplo: modelo clase lme4</a></li>
 </ul></li>
-<li class="chapter" data-level="27" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>27</b> Simulación de glmm</a></li>
-<li class="chapter" data-level="28" data-path="sced.html"><a href="sced.html"><i class="fa fa-check"></i><b>28</b> Single case experimental desing (sced)</a>
+<li class="chapter" data-level="28" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>28</b> Simulación de glmm</a>
+<ul>
+<li class="chapter" data-level="28.1" data-path="simul-glmm.html"><a href="simul-glmm.html#ejemplo-para-datos-de-crecimiento"><i class="fa fa-check"></i><b>28.1</b> Ejemplo para datos de crecimiento</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="sced.html"><a href="sced.html"><i class="fa fa-check"></i><b>29</b> Single case experimental desing (sced)</a>
 <ul>
 <li class="chapter" data-level="" data-path="sced.html"><a href="sced.html#ejemplo-simulación-de-un-sced-abab"><i class="fa fa-check"></i>Ejemplo: simulación de un sced ABAB</a></li>
 </ul></li>
-<li class="chapter" data-level="29" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>29</b> Otro material interesante</a></li>
+<li class="chapter" data-level="30" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>30</b> Otro material interesante</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -371,11 +381,11 @@ t = \frac{\hat{\beta}_k - \beta_{k0}}{se(\hat{\beta}_k)},
 <h3>Ejemplo<a href="ph.html#ejemplo-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><img src="images/chicks_growth.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>La base de datos <code>ChickWeight</code> contiene información sobre el peso de un grupo de pollos versus el tiempo bajo diferentes dietas. Abajo una ilustración de los datos.</p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="ph.html#cb102-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb102-2"><a href="ph.html#cb102-2" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> ChickWeight, <span class="fu">aes</span>(<span class="at">x =</span> Time, <span class="at">y =</span> weight, <span class="at">color =</span> Diet)) <span class="sc">+</span></span>
-<span id="cb102-3"><a href="ph.html#cb102-3" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb102-4"><a href="ph.html#cb102-4" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb102-5"><a href="ph.html#cb102-5" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Chick)</span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="ph.html#cb105-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb105-2"><a href="ph.html#cb105-2" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> ChickWeight, <span class="fu">aes</span>(<span class="at">x =</span> Time, <span class="at">y =</span> weight, <span class="at">color =</span> Diet)) <span class="sc">+</span></span>
+<span id="cb105-3"><a href="ph.html#cb105-3" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb105-4"><a href="ph.html#cb105-4" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb105-5"><a href="ph.html#cb105-5" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Chick)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/plot_ChickWeight-1.png" width="960" /></p>
 <p>El objetivo es comparar los siguientes dos modelos.</p>
 <p>Modelo 1</p>
@@ -400,26 +410,26 @@ Solución.
 </div>
 <p>El problema de este ejercicio se puede resumir con <span class="math inline">\(H_0:\)</span> la variable Dieta no aporta al modelo, versus, <span class="math inline">\(H_A:\)</span> la variable Dieta si aporta al modelo.</p>
 <p>Para ajustar ambos modelos se usa el siguiente código.</p>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="ph.html#cb103-1" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb103-2"><a href="ph.html#cb103-2" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lme</span>(weight <span class="sc">~</span> Time, <span class="at">data =</span> ChickWeight, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> Chick, <span class="at">method=</span><span class="st">&#39;ML&#39;</span>)</span>
-<span id="cb103-3"><a href="ph.html#cb103-3" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">lme</span>(weight <span class="sc">~</span> Time <span class="sc">+</span> Diet, <span class="at">data =</span> ChickWeight, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> Chick, <span class="at">method=</span><span class="st">&#39;ML&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="ph.html#cb106-1" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb106-2"><a href="ph.html#cb106-2" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lme</span>(weight <span class="sc">~</span> Time, <span class="at">data =</span> ChickWeight, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> Chick, <span class="at">method=</span><span class="st">&#39;ML&#39;</span>)</span>
+<span id="cb106-3"><a href="ph.html#cb106-3" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">lme</span>(weight <span class="sc">~</span> Time <span class="sc">+</span> Diet, <span class="at">data =</span> ChickWeight, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> Chick, <span class="at">method=</span><span class="st">&#39;ML&#39;</span>)</span></code></pre></div>
 <p>Para calcular la prueba razón de verosimilitud se usa el siguiente código.</p>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="ph.html#cb104-1" tabindex="-1"></a>lrt <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> (<span class="fu">logLik</span>(mod1) <span class="sc">-</span> <span class="fu">logLik</span>(mod2))</span>
-<span id="cb104-2"><a href="ph.html#cb104-2" tabindex="-1"></a>lrt</span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="ph.html#cb107-1" tabindex="-1"></a>lrt <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> (<span class="fu">logLik</span>(mod1) <span class="sc">-</span> <span class="fu">logLik</span>(mod2))</span>
+<span id="cb107-2"><a href="ph.html#cb107-2" tabindex="-1"></a>lrt</span></code></pre></div>
 <pre><code>## &#39;log Lik.&#39; 17.14349 (df=4)</code></pre>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="ph.html#cb106-1" tabindex="-1"></a><span class="fu">pchisq</span>(<span class="at">q=</span>lrt, <span class="at">df=</span><span class="dv">7-4</span>, <span class="at">lower.tail=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="ph.html#cb109-1" tabindex="-1"></a><span class="fu">pchisq</span>(<span class="at">q=</span>lrt, <span class="at">df=</span><span class="dv">7-4</span>, <span class="at">lower.tail=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## &#39;log Lik.&#39; 0.000660304 (df=4)</code></pre>
 <p>De la salida anterior se tiene que el valor-P = 0.000660304 y menor que cualquier <span class="math inline">\(\alpha\)</span>. Sin embargo, como este valor-P puede ser “anticonservativo” (más pequeño de lo que debería ser), es mejor no sacar conclusiones apresuradas y rechazar <span class="math inline">\(H_0\)</span>.</p>
 <p>La prueba de verosimilitud se puede obtener también así:</p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="ph.html#cb108-1" tabindex="-1"></a><span class="fu">anova</span>(mod1, mod2)</span></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="ph.html#cb111-1" tabindex="-1"></a><span class="fu">anova</span>(mod1, mod2)</span></code></pre></div>
 <pre><code>##      Model df      AIC      BIC    logLik   Test  L.Ratio p-value
 ## mod1     1  4 5630.344 5647.782 -2811.172                        
 ## mod2     2  7 5619.201 5649.718 -2802.600 1 vs 2 17.14349   7e-04</code></pre>
 <p>Para obtener un valor-P más acorde al problema podemos usar simulación. La función <code>simulate.lme</code> simula datos de modelos especificados por medio de los argumentos <code>object</code> y <code>m2</code>, ajusta los modelos, y entrega los valores de log-verosimilitud, con los se puede obtener el estadístico de la prueba de razón de verosimilitud. A continuación el código para obtener el valor-P con simulación.</p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="ph.html#cb110-1" tabindex="-1"></a>simul <span class="ot">&lt;-</span> <span class="fu">simulate.lme</span>(<span class="at">object=</span>mod1, <span class="at">m2=</span>mod2, <span class="at">method =</span> <span class="st">&#39;ML&#39;</span>, <span class="at">nsim=</span><span class="dv">1000</span>)</span>
-<span id="cb110-2"><a href="ph.html#cb110-2" tabindex="-1"></a>lrts_nlme <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> (simul<span class="sc">$</span>null<span class="sc">$</span>ML[, <span class="dv">2</span>] <span class="sc">-</span> simul<span class="sc">$</span>alt<span class="sc">$</span>ML[, <span class="dv">2</span>])</span>
-<span id="cb110-3"><a href="ph.html#cb110-3" tabindex="-1"></a>acumulada1 <span class="ot">&lt;-</span> <span class="fu">ecdf</span>(<span class="at">x=</span>lrts_nlme) <span class="co"># F(x) para los valores LRT</span></span>
-<span id="cb110-4"><a href="ph.html#cb110-4" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">acumulada1</span>(<span class="fl">17.14349</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="ph.html#cb113-1" tabindex="-1"></a>simul <span class="ot">&lt;-</span> <span class="fu">simulate.lme</span>(<span class="at">object=</span>mod1, <span class="at">m2=</span>mod2, <span class="at">method =</span> <span class="st">&#39;ML&#39;</span>, <span class="at">nsim=</span><span class="dv">1000</span>)</span>
+<span id="cb113-2"><a href="ph.html#cb113-2" tabindex="-1"></a>lrts_nlme <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> (simul<span class="sc">$</span>null<span class="sc">$</span>ML[, <span class="dv">2</span>] <span class="sc">-</span> simul<span class="sc">$</span>alt<span class="sc">$</span>ML[, <span class="dv">2</span>])</span>
+<span id="cb113-3"><a href="ph.html#cb113-3" tabindex="-1"></a>acumulada1 <span class="ot">&lt;-</span> <span class="fu">ecdf</span>(<span class="at">x=</span>lrts_nlme) <span class="co"># F(x) para los valores LRT</span></span>
+<span id="cb113-4"><a href="ph.html#cb113-4" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">acumulada1</span>(<span class="fl">17.14349</span>)</span></code></pre></div>
 <pre><code>## [1] 0.001</code></pre>
 <p>De la salida anterior se tiene que el valor-P = 0.001 y ya no es tan pequeño como el valor-P anterior. Por esta razón hay evidencias rechazar <span class="math inline">\(H_0\)</span> y por lo tanto la variable Dieta si aporta al modelo.</p>
 </div>
@@ -427,13 +437,13 @@ Solución.
 <h3>Ejemplo<a href="ph.html#ejemplo-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><img src="images/orthdontic_measurement.png" width="40%" style="display: block; margin: auto;" /></p>
 <p>La base de datos <code>Orthodont</code> contiene información sobre una medida de distancia intrafacial para jóvenes sometidos a ortodoncia.</p>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="ph.html#cb112-1" tabindex="-1"></a><span class="fu">data</span>(Orthodont, <span class="at">package=</span><span class="st">&quot;nlme&quot;</span>)</span>
-<span id="cb112-2"><a href="ph.html#cb112-2" tabindex="-1"></a></span>
-<span id="cb112-3"><a href="ph.html#cb112-3" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb112-4"><a href="ph.html#cb112-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> Orthodont, <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> distance, <span class="at">color =</span> Sex)) <span class="sc">+</span></span>
-<span id="cb112-5"><a href="ph.html#cb112-5" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb112-6"><a href="ph.html#cb112-6" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb112-7"><a href="ph.html#cb112-7" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Subject)</span></code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="ph.html#cb115-1" tabindex="-1"></a><span class="fu">data</span>(Orthodont, <span class="at">package=</span><span class="st">&quot;nlme&quot;</span>)</span>
+<span id="cb115-2"><a href="ph.html#cb115-2" tabindex="-1"></a></span>
+<span id="cb115-3"><a href="ph.html#cb115-3" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb115-4"><a href="ph.html#cb115-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> Orthodont, <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> distance, <span class="at">color =</span> Sex)) <span class="sc">+</span></span>
+<span id="cb115-5"><a href="ph.html#cb115-5" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb115-6"><a href="ph.html#cb115-6" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb115-7"><a href="ph.html#cb115-7" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Subject)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/plot_Orthodont-1.png" width="768" /></p>
 <p>El objetivo es comparar los siguientes dos modelos.</p>
 <p>Modelo 1</p>
@@ -458,18 +468,18 @@ Solución.
 </div>
 <p>El problema de este ejercicio se puede resumir con <span class="math inline">\(H_0:\)</span> la variable Sexo no aporta al modelo, versus, <span class="math inline">\(H_A:\)</span> la variable Sexo si aporta al modelo.</p>
 <p>Para ajustar ambos modelos se usa el siguiente código.</p>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="ph.html#cb113-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
-<span id="cb113-2"><a href="ph.html#cb113-2" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(distance <span class="sc">~</span> age <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Subject), <span class="at">data=</span>Orthodont, <span class="at">REML=</span><span class="cn">FALSE</span>)</span>
-<span id="cb113-3"><a href="ph.html#cb113-3" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(distance <span class="sc">~</span> age <span class="sc">+</span> Sex <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Subject), <span class="at">data=</span>Orthodont, <span class="at">REML=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="ph.html#cb116-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb116-2"><a href="ph.html#cb116-2" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(distance <span class="sc">~</span> age <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Subject), <span class="at">data=</span>Orthodont, <span class="at">REML=</span><span class="cn">FALSE</span>)</span>
+<span id="cb116-3"><a href="ph.html#cb116-3" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(distance <span class="sc">~</span> age <span class="sc">+</span> Sex <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Subject), <span class="at">data=</span>Orthodont, <span class="at">REML=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <p>Para calcular la prueba razón de verosimilitud se usa el siguiente código.</p>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="ph.html#cb114-1" tabindex="-1"></a>lrt <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> (<span class="fu">logLik</span>(mod1) <span class="sc">-</span> <span class="fu">logLik</span>(mod2))</span>
-<span id="cb114-2"><a href="ph.html#cb114-2" tabindex="-1"></a>lrt</span></code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="ph.html#cb117-1" tabindex="-1"></a>lrt <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> (<span class="fu">logLik</span>(mod1) <span class="sc">-</span> <span class="fu">logLik</span>(mod2))</span>
+<span id="cb117-2"><a href="ph.html#cb117-2" tabindex="-1"></a>lrt</span></code></pre></div>
 <pre><code>## &#39;log Lik.&#39; 8.533057 (df=4)</code></pre>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="ph.html#cb116-1" tabindex="-1"></a><span class="fu">pchisq</span>(<span class="at">q=</span>lrt, <span class="at">df=</span><span class="dv">5-4</span>, <span class="at">lower.tail=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="ph.html#cb119-1" tabindex="-1"></a><span class="fu">pchisq</span>(<span class="at">q=</span>lrt, <span class="at">df=</span><span class="dv">5-4</span>, <span class="at">lower.tail=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## &#39;log Lik.&#39; 0.003487534 (df=4)</code></pre>
 <p>De la salida anterior se tiene que el valor-P = 0.003487534 y menor que cualquier <span class="math inline">\(\alpha\)</span>. Sin embargo, como este valor-P puede ser “anticonservativo” (más pequeño de lo que debería ser), es mejor no sacar conclusiones apresuradas y rechazar <span class="math inline">\(H_0\)</span>.</p>
 <p>La prueba de verosimilitud se puede obtener también así:</p>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="ph.html#cb118-1" tabindex="-1"></a><span class="fu">anova</span>(mod1, mod2)</span></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="ph.html#cb121-1" tabindex="-1"></a><span class="fu">anova</span>(mod1, mod2)</span></code></pre></div>
 <pre><code>## Data: Orthodont
 ## Models:
 ## mod1: distance ~ age + (1 | Subject)
@@ -480,17 +490,17 @@ Solución.
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>Para obtener un valor-P más acorde al problema podemos usar simulación. La función <code>simulate.lme</code> simula respuestas <span class="math inline">\(y_{ij}\)</span> del modelo dado. A continuación el código para obtener el valor-P con simulación (¡tarda varios minutos!).</p>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="ph.html#cb120-1" tabindex="-1"></a>nrep <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
-<span id="cb120-2"><a href="ph.html#cb120-2" tabindex="-1"></a>lrts_lme4 <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nrep)</span>
-<span id="cb120-3"><a href="ph.html#cb120-3" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nrep) {</span>
-<span id="cb120-4"><a href="ph.html#cb120-4" tabindex="-1"></a>  new_y_h0 <span class="ot">&lt;-</span> <span class="fu">simulate</span>(mod1) <span class="co"># Asumiendo H0 verdadera</span></span>
-<span id="cb120-5"><a href="ph.html#cb120-5" tabindex="-1"></a>  Orthodont<span class="sc">$</span>new_y_h0 <span class="ot">&lt;-</span> new_y_h0<span class="sc">$</span>sim_1</span>
-<span id="cb120-6"><a href="ph.html#cb120-6" tabindex="-1"></a>  aux0 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(new_y_h0 <span class="sc">~</span> age <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Subject), <span class="at">data=</span>Orthodont, <span class="at">REML=</span><span class="cn">FALSE</span>)</span>
-<span id="cb120-7"><a href="ph.html#cb120-7" tabindex="-1"></a>  aux1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(new_y_h0 <span class="sc">~</span> age <span class="sc">+</span> Sex <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Subject), <span class="at">data=</span>Orthodont, <span class="at">REML=</span><span class="cn">FALSE</span>)</span>
-<span id="cb120-8"><a href="ph.html#cb120-8" tabindex="-1"></a>  lrts_lme4[i] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> (<span class="fu">logLik</span>(aux0) <span class="sc">-</span> <span class="fu">logLik</span>(aux1))</span>
-<span id="cb120-9"><a href="ph.html#cb120-9" tabindex="-1"></a>}</span>
-<span id="cb120-10"><a href="ph.html#cb120-10" tabindex="-1"></a>acumulada2 <span class="ot">&lt;-</span> <span class="fu">ecdf</span>(<span class="at">x=</span>lrts_lme4) <span class="co"># F(x) para los valores LRT</span></span>
-<span id="cb120-11"><a href="ph.html#cb120-11" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">acumulada1</span>(<span class="fl">8.533057</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="ph.html#cb123-1" tabindex="-1"></a>nrep <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
+<span id="cb123-2"><a href="ph.html#cb123-2" tabindex="-1"></a>lrts_lme4 <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nrep)</span>
+<span id="cb123-3"><a href="ph.html#cb123-3" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nrep) {</span>
+<span id="cb123-4"><a href="ph.html#cb123-4" tabindex="-1"></a>  new_y_h0 <span class="ot">&lt;-</span> <span class="fu">simulate</span>(mod1) <span class="co"># Asumiendo H0 verdadera</span></span>
+<span id="cb123-5"><a href="ph.html#cb123-5" tabindex="-1"></a>  Orthodont<span class="sc">$</span>new_y_h0 <span class="ot">&lt;-</span> new_y_h0<span class="sc">$</span>sim_1</span>
+<span id="cb123-6"><a href="ph.html#cb123-6" tabindex="-1"></a>  aux0 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(new_y_h0 <span class="sc">~</span> age <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Subject), <span class="at">data=</span>Orthodont, <span class="at">REML=</span><span class="cn">FALSE</span>)</span>
+<span id="cb123-7"><a href="ph.html#cb123-7" tabindex="-1"></a>  aux1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(new_y_h0 <span class="sc">~</span> age <span class="sc">+</span> Sex <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Subject), <span class="at">data=</span>Orthodont, <span class="at">REML=</span><span class="cn">FALSE</span>)</span>
+<span id="cb123-8"><a href="ph.html#cb123-8" tabindex="-1"></a>  lrts_lme4[i] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> (<span class="fu">logLik</span>(aux0) <span class="sc">-</span> <span class="fu">logLik</span>(aux1))</span>
+<span id="cb123-9"><a href="ph.html#cb123-9" tabindex="-1"></a>}</span>
+<span id="cb123-10"><a href="ph.html#cb123-10" tabindex="-1"></a>acumulada2 <span class="ot">&lt;-</span> <span class="fu">ecdf</span>(<span class="at">x=</span>lrts_lme4) <span class="co"># F(x) para los valores LRT</span></span>
+<span id="cb123-11"><a href="ph.html#cb123-11" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">acumulada1</span>(<span class="fl">8.533057</span>)</span></code></pre></div>
 <pre><code>## [1] 0.005</code></pre>
 <p>De la salida anterior se tiene que el valor-P = 0.005 y ya no es tan pequeño como el valor-P anterior. Por esta razón hay evidencias rechazar <span class="math inline">\(H_0\)</span> y por lo tanto la variable Sexo si aporta al modelo.</p>
 </div>
@@ -541,22 +551,22 @@ Solución.
 </div>
 </div>
 <p>La función <code>gen_dat_b0</code> de abajo permite simular <code>m</code> observaciones de <code>n</code> grupos con intercepto aleatorio <span class="math inline">\(b_0 \sim N(0, \sigma^2_{b0})\)</span>. Adicionalmente, es posible elegir los efectos fijos <code>beta0</code>, <code>beta_1</code> y la varianza <code>sigma</code> de la variable respuesta.</p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="ph.html#cb122-1" tabindex="-1"></a>gen_dat_b0 <span class="ot">&lt;-</span> <span class="cf">function</span>(n, m, beta0, beta1, sigmay, sigmab0, <span class="at">seed=</span><span class="cn">NULL</span>) {</span>
-<span id="cb122-2"><a href="ph.html#cb122-2" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">is.null</span>(seed)) seed <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">runif</span>(<span class="dv">1</span>)<span class="sc">*</span><span class="fl">2e9</span>)</span>
-<span id="cb122-3"><a href="ph.html#cb122-3" tabindex="-1"></a>  group <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="at">each=</span>m)</span>
-<span id="cb122-4"><a href="ph.html#cb122-4" tabindex="-1"></a>  <span class="fu">set.seed</span>(seed)</span>
-<span id="cb122-5"><a href="ph.html#cb122-5" tabindex="-1"></a>  b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">rnorm</span>(<span class="at">n=</span>n, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span>sigmab0), <span class="at">each=</span>m)</span>
-<span id="cb122-6"><a href="ph.html#cb122-6" tabindex="-1"></a>  <span class="fu">set.seed</span>(seed)</span>
-<span id="cb122-7"><a href="ph.html#cb122-7" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>n<span class="sc">*</span>m, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">10</span>)</span>
-<span id="cb122-8"><a href="ph.html#cb122-8" tabindex="-1"></a>  <span class="fu">set.seed</span>(seed)</span>
-<span id="cb122-9"><a href="ph.html#cb122-9" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>n<span class="sc">*</span>m, <span class="at">mean=</span>beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> x <span class="sc">+</span> b0, <span class="at">sd=</span>sigmay)</span>
-<span id="cb122-10"><a href="ph.html#cb122-10" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">group=</span>group, <span class="at">x=</span>x, <span class="at">y=</span>y)</span>
-<span id="cb122-11"><a href="ph.html#cb122-11" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="ph.html#cb125-1" tabindex="-1"></a>gen_dat_b0 <span class="ot">&lt;-</span> <span class="cf">function</span>(n, m, beta0, beta1, sigmay, sigmab0, <span class="at">seed=</span><span class="cn">NULL</span>) {</span>
+<span id="cb125-2"><a href="ph.html#cb125-2" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">is.null</span>(seed)) seed <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">runif</span>(<span class="dv">1</span>)<span class="sc">*</span><span class="fl">2e9</span>)</span>
+<span id="cb125-3"><a href="ph.html#cb125-3" tabindex="-1"></a>  group <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="at">each=</span>m)</span>
+<span id="cb125-4"><a href="ph.html#cb125-4" tabindex="-1"></a>  <span class="fu">set.seed</span>(seed)</span>
+<span id="cb125-5"><a href="ph.html#cb125-5" tabindex="-1"></a>  b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">rnorm</span>(<span class="at">n=</span>n, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span>sigmab0), <span class="at">each=</span>m)</span>
+<span id="cb125-6"><a href="ph.html#cb125-6" tabindex="-1"></a>  <span class="fu">set.seed</span>(seed)</span>
+<span id="cb125-7"><a href="ph.html#cb125-7" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>n<span class="sc">*</span>m, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">10</span>)</span>
+<span id="cb125-8"><a href="ph.html#cb125-8" tabindex="-1"></a>  <span class="fu">set.seed</span>(seed)</span>
+<span id="cb125-9"><a href="ph.html#cb125-9" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>n<span class="sc">*</span>m, <span class="at">mean=</span>beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> x <span class="sc">+</span> b0, <span class="at">sd=</span>sigmay)</span>
+<span id="cb125-10"><a href="ph.html#cb125-10" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">group=</span>group, <span class="at">x=</span>x, <span class="at">y=</span>y)</span>
+<span id="cb125-11"><a href="ph.html#cb125-11" tabindex="-1"></a>}</span></code></pre></div>
 <p>Vamos ahora a generar 10 observaciones para 10 grupos con intercepto aleatorio con una varianza <span class="math inline">\(\sigma^2_{b0}=2^2=4\)</span>. La semilla se va a fijar en un valor de 1220872376 por cuestiones didácticas.</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="ph.html#cb123-1" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">gen_dat_b0</span>(<span class="at">n=</span><span class="dv">10</span>, <span class="at">m=</span><span class="dv">10</span>, </span>
-<span id="cb123-2"><a href="ph.html#cb123-2" tabindex="-1"></a>                    <span class="at">beta0=</span><span class="dv">4</span>, <span class="at">beta1=</span><span class="sc">-</span><span class="dv">6</span>, </span>
-<span id="cb123-3"><a href="ph.html#cb123-3" tabindex="-1"></a>                    <span class="at">sigmay=</span><span class="dv">2</span>, <span class="at">sigmab0=</span><span class="dv">2</span>, <span class="at">seed=</span><span class="dv">1220872376</span>)</span>
-<span id="cb123-4"><a href="ph.html#cb123-4" tabindex="-1"></a><span class="fu">head</span>(datos)</span></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="ph.html#cb126-1" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">gen_dat_b0</span>(<span class="at">n=</span><span class="dv">10</span>, <span class="at">m=</span><span class="dv">10</span>, </span>
+<span id="cb126-2"><a href="ph.html#cb126-2" tabindex="-1"></a>                    <span class="at">beta0=</span><span class="dv">4</span>, <span class="at">beta1=</span><span class="sc">-</span><span class="dv">6</span>, </span>
+<span id="cb126-3"><a href="ph.html#cb126-3" tabindex="-1"></a>                    <span class="at">sigmay=</span><span class="dv">2</span>, <span class="at">sigmab0=</span><span class="dv">2</span>, <span class="at">seed=</span><span class="dv">1220872376</span>)</span>
+<span id="cb126-4"><a href="ph.html#cb126-4" tabindex="-1"></a><span class="fu">head</span>(datos)</span></code></pre></div>
 <pre><code>##   group        x          y
 ## 1     1 3.817132 -20.106729
 ## 2     1 8.951117 -49.950457
@@ -565,11 +575,11 @@ Solución.
 ## 5     1 1.263282  -1.070788
 ## 6     1 6.114367 -33.423587</code></pre>
 <p>Vamos a ajustar dos modelos, el primero sin incluir <span class="math inline">\(b_0\)</span> y el segundo incluyendo <span class="math inline">\(b_0\)</span>.</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="ph.html#cb125-1" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb125-2"><a href="ph.html#cb125-2" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">gls</span>(y <span class="sc">~</span> x, <span class="at">data=</span>datos, <span class="at">method=</span><span class="st">&quot;REML&quot;</span>) <span class="co"># Igual resultado con lm</span></span>
-<span id="cb125-3"><a href="ph.html#cb125-3" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span><span class="sc">|</span> group, <span class="at">data=</span>datos, <span class="at">method=</span><span class="st">&quot;REML&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="ph.html#cb128-1" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb128-2"><a href="ph.html#cb128-2" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">gls</span>(y <span class="sc">~</span> x, <span class="at">data=</span>datos, <span class="at">method=</span><span class="st">&quot;REML&quot;</span>) <span class="co"># Igual resultado con lm</span></span>
+<span id="cb128-3"><a href="ph.html#cb128-3" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span><span class="sc">|</span> group, <span class="at">data=</span>datos, <span class="at">method=</span><span class="st">&quot;REML&quot;</span>)</span></code></pre></div>
 <p>Resultados del primer modelo.</p>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="ph.html#cb126-1" tabindex="-1"></a><span class="fu">summary</span>(fit1)</span></code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="ph.html#cb129-1" tabindex="-1"></a><span class="fu">summary</span>(fit1)</span></code></pre></div>
 <pre><code>## Generalized least squares fit by REML
 ##   Model: y ~ x 
 ##   Data: datos 
@@ -592,7 +602,7 @@ Solución.
 ## Residual standard error: 2.50842 
 ## Degrees of freedom: 100 total; 98 residual</code></pre>
 <p>Resultados del segundo modelo.</p>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="ph.html#cb128-1" tabindex="-1"></a><span class="fu">summary</span>(fit2)</span></code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="ph.html#cb131-1" tabindex="-1"></a><span class="fu">summary</span>(fit2)</span></code></pre></div>
 <pre><code>## Linear mixed-effects model fit by REML
 ##   Data: datos 
 ##        AIC      BIC    logLik
@@ -618,46 +628,46 @@ Solución.
 ## Number of Observations: 100
 ## Number of Groups: 10</code></pre>
 <p>Ahora vamos a calcular el estadístico y su valor-P.</p>
-<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="ph.html#cb130-1" tabindex="-1"></a>lrt <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> (<span class="fu">logLik</span>(fit1) <span class="sc">-</span> <span class="fu">logLik</span>(fit2))</span>
-<span id="cb130-2"><a href="ph.html#cb130-2" tabindex="-1"></a>lrt</span></code></pre></div>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="ph.html#cb133-1" tabindex="-1"></a>lrt <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> (<span class="fu">logLik</span>(fit1) <span class="sc">-</span> <span class="fu">logLik</span>(fit2))</span>
+<span id="cb133-2"><a href="ph.html#cb133-2" tabindex="-1"></a>lrt</span></code></pre></div>
 <pre><code>## &#39;log Lik.&#39; 3.04712 (df=3)</code></pre>
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="ph.html#cb132-1" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(<span class="at">q=</span><span class="fl">3.04712</span>, <span class="at">df=</span><span class="dv">1</span>, <span class="at">lower.tail=</span><span class="cn">FALSE</span>)</span>
-<span id="cb132-2"><a href="ph.html#cb132-2" tabindex="-1"></a>p_value</span></code></pre></div>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="ph.html#cb135-1" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(<span class="at">q=</span><span class="fl">3.04712</span>, <span class="at">df=</span><span class="dv">1</span>, <span class="at">lower.tail=</span><span class="cn">FALSE</span>)</span>
+<span id="cb135-2"><a href="ph.html#cb135-2" tabindex="-1"></a>p_value</span></code></pre></div>
 <pre><code>## [1] 0.08088045</code></pre>
 <p>De la salida anterior se tiene que <span class="math inline">\(valor-P = 0.0809\)</span> y como <span class="math inline">\(\alpha=0.05\)</span>, por lo tanto NO hay evidencias para rechazar <span class="math inline">\(H_0: \sigma^2_{b0} = 0\)</span>. ¿No es extraña esta conclusión 🤔?</p>
 <p>Lo anterior ocurre porque la distribución del estadístico <span class="math inline">\(LR\)</span> no es un <span class="math inline">\(\chi^2\)</span> sino una mezcla de distribuciones <span class="math inline">\(\chi^2_1\)</span> y <span class="math inline">\(\chi^2_0\)</span> con pesos iguales a 0.5. A continuación vamos a mostrar la distribución de <span class="math inline">\(LR\)</span> en este ejemplo.</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="ph.html#cb134-1" tabindex="-1"></a><span class="fu">library</span>(emdbook) <span class="co"># Para usar la función dchibarsq</span></span>
-<span id="cb134-2"><a href="ph.html#cb134-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb134-3"><a href="ph.html#cb134-3" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">0</span>), <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span> </span>
-<span id="cb134-4"><a href="ph.html#cb134-4" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dchibarsq, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">df =</span> <span class="dv">1</span>)) <span class="sc">+</span> </span>
-<span id="cb134-5"><a href="ph.html#cb134-5" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">0</span>, <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="ph.html#cb137-1" tabindex="-1"></a><span class="fu">library</span>(emdbook) <span class="co"># Para usar la función dchibarsq</span></span>
+<span id="cb137-2"><a href="ph.html#cb137-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb137-3"><a href="ph.html#cb137-3" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">0</span>), <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span> </span>
+<span id="cb137-4"><a href="ph.html#cb137-4" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dchibarsq, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">df =</span> <span class="dv">1</span>)) <span class="sc">+</span> </span>
+<span id="cb137-5"><a href="ph.html#cb137-5" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">0</span>, <span class="dv">5</span>)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-102-1.png" width="672" /></p>
 <p>Para calcular el valor-P de la prueba hacemos</p>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="ph.html#cb135-1" tabindex="-1"></a><span class="fu">pchibarsq</span>(<span class="at">p=</span><span class="fl">3.04712</span>, <span class="at">df =</span> <span class="dv">1</span>, <span class="at">mix =</span> <span class="fl">0.5</span>, <span class="at">lower.tail=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="ph.html#cb138-1" tabindex="-1"></a><span class="fu">pchibarsq</span>(<span class="at">p=</span><span class="fl">3.04712</span>, <span class="at">df =</span> <span class="dv">1</span>, <span class="at">mix =</span> <span class="fl">0.5</span>, <span class="at">lower.tail=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## [1] 0.04044023</code></pre>
 <p>También es posible obtener el valor-P usando simulación. Vamos a simular 50 conjuntos de datos suponiendo <span class="math inline">\(H_0\)</span> verdadera y luego calcularemos los <code>lrt</code> para así tener la distribución empírica de los <code>lrt</code> bajo la hipótesis nula <span class="math inline">\(H_0: \sigma^2_{b0} = 0\)</span> verdadera. En un aplicación se deberían generar más conjuntos de pero aquí vamos a usar sólo 50 por comodidad.</p>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="ph.html#cb137-1" tabindex="-1"></a>pseudo_gen_dat <span class="ot">&lt;-</span> <span class="cf">function</span>(nobs, beta0, beta1, sigmay) {</span>
-<span id="cb137-2"><a href="ph.html#cb137-2" tabindex="-1"></a>  group <span class="ot">&lt;-</span> datos<span class="sc">$</span>group <span class="co"># Aqui la diferencia</span></span>
-<span id="cb137-3"><a href="ph.html#cb137-3" tabindex="-1"></a>  x <span class="ot">&lt;-</span> datos<span class="sc">$</span>x         <span class="co"># Aqui la diferencia</span></span>
-<span id="cb137-4"><a href="ph.html#cb137-4" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>nobs, <span class="at">mean=</span>beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> x, <span class="at">sd=</span>sigmay)</span>
-<span id="cb137-5"><a href="ph.html#cb137-5" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">group=</span>group, <span class="at">x=</span>x, <span class="at">y=</span>y)</span>
-<span id="cb137-6"><a href="ph.html#cb137-6" tabindex="-1"></a>}</span>
-<span id="cb137-7"><a href="ph.html#cb137-7" tabindex="-1"></a></span>
-<span id="cb137-8"><a href="ph.html#cb137-8" tabindex="-1"></a>nrep <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb137-9"><a href="ph.html#cb137-9" tabindex="-1"></a>lrts <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nrep)</span>
-<span id="cb137-10"><a href="ph.html#cb137-10" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nrep) {</span>
-<span id="cb137-11"><a href="ph.html#cb137-11" tabindex="-1"></a>  pseudo_datos <span class="ot">&lt;-</span> <span class="fu">pseudo_gen_dat</span>(<span class="at">nobs=</span><span class="dv">100</span>, <span class="at">beta0=</span><span class="fl">4.64931</span>, </span>
-<span id="cb137-12"><a href="ph.html#cb137-12" tabindex="-1"></a>                                 <span class="at">beta1=</span><span class="sc">-</span><span class="fl">6.00175</span>, <span class="at">sigma=</span><span class="fl">2.50842</span>)</span>
-<span id="cb137-13"><a href="ph.html#cb137-13" tabindex="-1"></a>  m1 <span class="ot">&lt;-</span> <span class="fu">gls</span>(y <span class="sc">~</span> x, <span class="at">data=</span>pseudo_datos, <span class="at">method=</span><span class="st">&quot;REML&quot;</span>)</span>
-<span id="cb137-14"><a href="ph.html#cb137-14" tabindex="-1"></a>  m2 <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span><span class="sc">|</span> group, <span class="at">data=</span>pseudo_datos, <span class="at">method=</span><span class="st">&quot;REML&quot;</span>)</span>
-<span id="cb137-15"><a href="ph.html#cb137-15" tabindex="-1"></a>  lrts[i] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> (<span class="fu">logLik</span>(m1) <span class="sc">-</span> <span class="fu">logLik</span>(m2))</span>
-<span id="cb137-16"><a href="ph.html#cb137-16" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="ph.html#cb140-1" tabindex="-1"></a>pseudo_gen_dat <span class="ot">&lt;-</span> <span class="cf">function</span>(nobs, beta0, beta1, sigmay) {</span>
+<span id="cb140-2"><a href="ph.html#cb140-2" tabindex="-1"></a>  group <span class="ot">&lt;-</span> datos<span class="sc">$</span>group <span class="co"># Aqui la diferencia</span></span>
+<span id="cb140-3"><a href="ph.html#cb140-3" tabindex="-1"></a>  x <span class="ot">&lt;-</span> datos<span class="sc">$</span>x         <span class="co"># Aqui la diferencia</span></span>
+<span id="cb140-4"><a href="ph.html#cb140-4" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>nobs, <span class="at">mean=</span>beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> x, <span class="at">sd=</span>sigmay)</span>
+<span id="cb140-5"><a href="ph.html#cb140-5" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">group=</span>group, <span class="at">x=</span>x, <span class="at">y=</span>y)</span>
+<span id="cb140-6"><a href="ph.html#cb140-6" tabindex="-1"></a>}</span>
+<span id="cb140-7"><a href="ph.html#cb140-7" tabindex="-1"></a></span>
+<span id="cb140-8"><a href="ph.html#cb140-8" tabindex="-1"></a>nrep <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb140-9"><a href="ph.html#cb140-9" tabindex="-1"></a>lrts <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nrep)</span>
+<span id="cb140-10"><a href="ph.html#cb140-10" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nrep) {</span>
+<span id="cb140-11"><a href="ph.html#cb140-11" tabindex="-1"></a>  pseudo_datos <span class="ot">&lt;-</span> <span class="fu">pseudo_gen_dat</span>(<span class="at">nobs=</span><span class="dv">100</span>, <span class="at">beta0=</span><span class="fl">4.64931</span>, </span>
+<span id="cb140-12"><a href="ph.html#cb140-12" tabindex="-1"></a>                                 <span class="at">beta1=</span><span class="sc">-</span><span class="fl">6.00175</span>, <span class="at">sigma=</span><span class="fl">2.50842</span>)</span>
+<span id="cb140-13"><a href="ph.html#cb140-13" tabindex="-1"></a>  m1 <span class="ot">&lt;-</span> <span class="fu">gls</span>(y <span class="sc">~</span> x, <span class="at">data=</span>pseudo_datos, <span class="at">method=</span><span class="st">&quot;REML&quot;</span>)</span>
+<span id="cb140-14"><a href="ph.html#cb140-14" tabindex="-1"></a>  m2 <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span><span class="sc">|</span> group, <span class="at">data=</span>pseudo_datos, <span class="at">method=</span><span class="st">&quot;REML&quot;</span>)</span>
+<span id="cb140-15"><a href="ph.html#cb140-15" tabindex="-1"></a>  lrts[i] <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> (<span class="fu">logLik</span>(m1) <span class="sc">-</span> <span class="fu">logLik</span>(m2))</span>
+<span id="cb140-16"><a href="ph.html#cb140-16" tabindex="-1"></a>}</span></code></pre></div>
 <p>Dibujando la densidad de los <code>lrt</code>.</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="ph.html#cb138-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(lrts), <span class="at">main=</span><span class="st">&#39;Densidad empírica de los lrts&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="ph.html#cb141-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(lrts), <span class="at">main=</span><span class="st">&#39;Densidad empírica de los lrts&#39;</span>)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/dist_empirica_lrts-1.png" width="672" /></p>
 <p>Calculando el valor-P.</p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="ph.html#cb139-1" tabindex="-1"></a>acumulada <span class="ot">&lt;-</span> <span class="fu">ecdf</span>(<span class="at">x=</span>lrts) <span class="co"># F(x) para los valores LRT</span></span>
-<span id="cb139-2"><a href="ph.html#cb139-2" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">acumulada</span>(<span class="fl">3.04712</span>)    <span class="co"># Valor-P</span></span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="ph.html#cb142-1" tabindex="-1"></a>acumulada <span class="ot">&lt;-</span> <span class="fu">ecdf</span>(<span class="at">x=</span>lrts) <span class="co"># F(x) para los valores LRT</span></span>
+<span id="cb142-2"><a href="ph.html#cb142-2" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">acumulada</span>(<span class="fl">3.04712</span>)    <span class="co"># Valor-P</span></span></code></pre></div>
 <pre><code>## [1] 0.04</code></pre>
 <p>De la salida anterior se tiene que <span class="math inline">\(valor-P &lt; \alpha\)</span> por lo tanto SI hay evidencias para rechazar <span class="math inline">\(H_0: \sigma^2_{b0} = 0\)</span>. ¿Es esto coherente ahora 🙂?</p>
 <div style="-moz-box-shadow: 1px 1px 3px 2px #808080;
@@ -669,8 +679,8 @@ Los resultados anteriores se obtuvieron usando <code>nrep &lt;- 50</code>, en la
 </div>
 </div>
 <p>El paquete <strong>RLRsim</strong> de <span class="citation">Scheipl (<a href="#ref-R-RLRsim">2022</a>)</span> tiene la función <code>exactRLRT</code> que permite extraer el valor-P mediante simulación. Abajo un ejemplo de como usarla en el presente ejemplo.</p>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="ph.html#cb141-1" tabindex="-1"></a><span class="fu">library</span>(RLRsim)</span>
-<span id="cb141-2"><a href="ph.html#cb141-2" tabindex="-1"></a><span class="fu">exactRLRT</span>(<span class="at">m=</span>fit2, <span class="at">nsim=</span><span class="dv">1000</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="ph.html#cb144-1" tabindex="-1"></a><span class="fu">library</span>(RLRsim)</span>
+<span id="cb144-2"><a href="ph.html#cb144-2" tabindex="-1"></a><span class="fu">exactRLRT</span>(<span class="at">m=</span>fit2, <span class="at">nsim=</span><span class="dv">1000</span>)</span></code></pre></div>
 <pre><code>## 
 ##  simulated finite sample distribution of RLRT.
 ##  
@@ -718,36 +728,36 @@ Solución.
 </div>
 </div>
 <p>La función <code>gen_dat_b0_b1</code> de abajo permite simular <code>m</code> observaciones de <code>n</code> grupos con intercepto y pendiente aleatoria según el modelo exigido.</p>
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="ph.html#cb143-1" tabindex="-1"></a>gen_dat_b0_b1 <span class="ot">&lt;-</span> <span class="cf">function</span>(n, m, beta0, beta1, </span>
-<span id="cb143-2"><a href="ph.html#cb143-2" tabindex="-1"></a>                          sigma2y, </span>
-<span id="cb143-3"><a href="ph.html#cb143-3" tabindex="-1"></a>                          sigma2b0, sigma2b1, sigmab0b1,</span>
-<span id="cb143-4"><a href="ph.html#cb143-4" tabindex="-1"></a>                          <span class="at">seed=</span><span class="cn">NULL</span>) {</span>
-<span id="cb143-5"><a href="ph.html#cb143-5" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">is.null</span>(seed)) seed <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">runif</span>(<span class="dv">1</span>)<span class="sc">*</span><span class="fl">2e9</span>)</span>
-<span id="cb143-6"><a href="ph.html#cb143-6" tabindex="-1"></a>  group <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="at">each=</span>m)</span>
-<span id="cb143-7"><a href="ph.html#cb143-7" tabindex="-1"></a>  Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(sigma2b0, sigmab0b1, </span>
-<span id="cb143-8"><a href="ph.html#cb143-8" tabindex="-1"></a>                    sigmab0b1, sigma2b1), <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">nrow=</span><span class="dv">2</span>)</span>
-<span id="cb143-9"><a href="ph.html#cb143-9" tabindex="-1"></a>  </span>
-<span id="cb143-10"><a href="ph.html#cb143-10" tabindex="-1"></a>  <span class="fu">set.seed</span>(seed)</span>
-<span id="cb143-11"><a href="ph.html#cb143-11" tabindex="-1"></a>  b <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(<span class="at">n=</span>n, <span class="at">mu=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), </span>
-<span id="cb143-12"><a href="ph.html#cb143-12" tabindex="-1"></a>                     <span class="at">Sigma=</span>Sigma, <span class="at">empirical=</span><span class="cn">TRUE</span>)  </span>
-<span id="cb143-13"><a href="ph.html#cb143-13" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">apply</span>(<span class="at">X=</span>b, <span class="at">MARGIN=</span><span class="dv">2</span>, rep, <span class="at">each=</span>m)</span>
-<span id="cb143-14"><a href="ph.html#cb143-14" tabindex="-1"></a>  b0 <span class="ot">&lt;-</span> b[, <span class="dv">1</span>] <span class="co"># Extrayendo los b0</span></span>
-<span id="cb143-15"><a href="ph.html#cb143-15" tabindex="-1"></a>  b1 <span class="ot">&lt;-</span> b[, <span class="dv">2</span>] <span class="co"># Extrayendo los b1</span></span>
-<span id="cb143-16"><a href="ph.html#cb143-16" tabindex="-1"></a>  </span>
-<span id="cb143-17"><a href="ph.html#cb143-17" tabindex="-1"></a>  <span class="fu">set.seed</span>(seed)</span>
-<span id="cb143-18"><a href="ph.html#cb143-18" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>n<span class="sc">*</span>m, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">10</span>)</span>
-<span id="cb143-19"><a href="ph.html#cb143-19" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> x <span class="sc">+</span> b0 <span class="sc">+</span> b1 <span class="sc">*</span> x</span>
-<span id="cb143-20"><a href="ph.html#cb143-20" tabindex="-1"></a>  <span class="fu">set.seed</span>(seed)</span>
-<span id="cb143-21"><a href="ph.html#cb143-21" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>n<span class="sc">*</span>m, <span class="at">mean=</span>mu, <span class="at">sd=</span><span class="fu">sqrt</span>(sigma2y))</span>
-<span id="cb143-22"><a href="ph.html#cb143-22" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">group=</span>group, <span class="at">x=</span>x, <span class="at">y=</span>y)</span>
-<span id="cb143-23"><a href="ph.html#cb143-23" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="ph.html#cb146-1" tabindex="-1"></a>gen_dat_b0_b1 <span class="ot">&lt;-</span> <span class="cf">function</span>(n, m, beta0, beta1, </span>
+<span id="cb146-2"><a href="ph.html#cb146-2" tabindex="-1"></a>                          sigma2y, </span>
+<span id="cb146-3"><a href="ph.html#cb146-3" tabindex="-1"></a>                          sigma2b0, sigma2b1, sigmab0b1,</span>
+<span id="cb146-4"><a href="ph.html#cb146-4" tabindex="-1"></a>                          <span class="at">seed=</span><span class="cn">NULL</span>) {</span>
+<span id="cb146-5"><a href="ph.html#cb146-5" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">is.null</span>(seed)) seed <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">runif</span>(<span class="dv">1</span>)<span class="sc">*</span><span class="fl">2e9</span>)</span>
+<span id="cb146-6"><a href="ph.html#cb146-6" tabindex="-1"></a>  group <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>n, <span class="at">each=</span>m)</span>
+<span id="cb146-7"><a href="ph.html#cb146-7" tabindex="-1"></a>  Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(sigma2b0, sigmab0b1, </span>
+<span id="cb146-8"><a href="ph.html#cb146-8" tabindex="-1"></a>                    sigmab0b1, sigma2b1), <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">nrow=</span><span class="dv">2</span>)</span>
+<span id="cb146-9"><a href="ph.html#cb146-9" tabindex="-1"></a>  </span>
+<span id="cb146-10"><a href="ph.html#cb146-10" tabindex="-1"></a>  <span class="fu">set.seed</span>(seed)</span>
+<span id="cb146-11"><a href="ph.html#cb146-11" tabindex="-1"></a>  b <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(<span class="at">n=</span>n, <span class="at">mu=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), </span>
+<span id="cb146-12"><a href="ph.html#cb146-12" tabindex="-1"></a>                     <span class="at">Sigma=</span>Sigma, <span class="at">empirical=</span><span class="cn">TRUE</span>)  </span>
+<span id="cb146-13"><a href="ph.html#cb146-13" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">apply</span>(<span class="at">X=</span>b, <span class="at">MARGIN=</span><span class="dv">2</span>, rep, <span class="at">each=</span>m)</span>
+<span id="cb146-14"><a href="ph.html#cb146-14" tabindex="-1"></a>  b0 <span class="ot">&lt;-</span> b[, <span class="dv">1</span>] <span class="co"># Extrayendo los b0</span></span>
+<span id="cb146-15"><a href="ph.html#cb146-15" tabindex="-1"></a>  b1 <span class="ot">&lt;-</span> b[, <span class="dv">2</span>] <span class="co"># Extrayendo los b1</span></span>
+<span id="cb146-16"><a href="ph.html#cb146-16" tabindex="-1"></a>  </span>
+<span id="cb146-17"><a href="ph.html#cb146-17" tabindex="-1"></a>  <span class="fu">set.seed</span>(seed)</span>
+<span id="cb146-18"><a href="ph.html#cb146-18" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>n<span class="sc">*</span>m, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">10</span>)</span>
+<span id="cb146-19"><a href="ph.html#cb146-19" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> x <span class="sc">+</span> b0 <span class="sc">+</span> b1 <span class="sc">*</span> x</span>
+<span id="cb146-20"><a href="ph.html#cb146-20" tabindex="-1"></a>  <span class="fu">set.seed</span>(seed)</span>
+<span id="cb146-21"><a href="ph.html#cb146-21" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>n<span class="sc">*</span>m, <span class="at">mean=</span>mu, <span class="at">sd=</span><span class="fu">sqrt</span>(sigma2y))</span>
+<span id="cb146-22"><a href="ph.html#cb146-22" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">group=</span>group, <span class="at">x=</span>x, <span class="at">y=</span>y)</span>
+<span id="cb146-23"><a href="ph.html#cb146-23" tabindex="-1"></a>}</span></code></pre></div>
 <p>Vamos ahora a generar 10 observaciones para 10 grupos con intercepto y pendiente aleatoria. La semilla se va a fijar en un valor de 1234 por cuestiones didácticas.</p>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="ph.html#cb144-1" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">gen_dat_b0_b1</span>(<span class="at">n=</span><span class="dv">10</span>, <span class="at">m=</span><span class="dv">10</span>, </span>
-<span id="cb144-2"><a href="ph.html#cb144-2" tabindex="-1"></a>                       <span class="at">beta0=</span><span class="dv">4</span>, <span class="at">beta1=</span><span class="sc">-</span><span class="dv">6</span>, </span>
-<span id="cb144-3"><a href="ph.html#cb144-3" tabindex="-1"></a>                       <span class="at">sigma2y=</span><span class="dv">4</span>, </span>
-<span id="cb144-4"><a href="ph.html#cb144-4" tabindex="-1"></a>                       <span class="at">sigma2b0=</span><span class="dv">10</span>, <span class="at">sigma2b1=</span><span class="dv">2</span>, <span class="at">sigmab0b1=</span><span class="dv">3</span>,</span>
-<span id="cb144-5"><a href="ph.html#cb144-5" tabindex="-1"></a>                       <span class="at">seed=</span><span class="dv">1234</span>)</span>
-<span id="cb144-6"><a href="ph.html#cb144-6" tabindex="-1"></a><span class="fu">head</span>(datos)</span></code></pre></div>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="ph.html#cb147-1" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">gen_dat_b0_b1</span>(<span class="at">n=</span><span class="dv">10</span>, <span class="at">m=</span><span class="dv">10</span>, </span>
+<span id="cb147-2"><a href="ph.html#cb147-2" tabindex="-1"></a>                       <span class="at">beta0=</span><span class="dv">4</span>, <span class="at">beta1=</span><span class="sc">-</span><span class="dv">6</span>, </span>
+<span id="cb147-3"><a href="ph.html#cb147-3" tabindex="-1"></a>                       <span class="at">sigma2y=</span><span class="dv">4</span>, </span>
+<span id="cb147-4"><a href="ph.html#cb147-4" tabindex="-1"></a>                       <span class="at">sigma2b0=</span><span class="dv">10</span>, <span class="at">sigma2b1=</span><span class="dv">2</span>, <span class="at">sigmab0b1=</span><span class="dv">3</span>,</span>
+<span id="cb147-5"><a href="ph.html#cb147-5" tabindex="-1"></a>                       <span class="at">seed=</span><span class="dv">1234</span>)</span>
+<span id="cb147-6"><a href="ph.html#cb147-6" tabindex="-1"></a><span class="fu">head</span>(datos)</span></code></pre></div>
 <pre><code>##   group        x         y
 ## 1     1 1.137034  -6.60088
 ## 2     1 6.222994 -39.51716
@@ -756,22 +766,22 @@ Solución.
 ## 5     1 8.609154 -56.04992
 ## 6     1 6.403106 -40.33074</code></pre>
 <p>Vamos a ajustar dos modelos, el primero sólo con <span class="math inline">\(b_0\)</span> y el segundo incluyendo <span class="math inline">\(b_0\)</span> y <span class="math inline">\(b_1\)</span>.</p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="ph.html#cb146-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
-<span id="cb146-2"><a href="ph.html#cb146-2" tabindex="-1"></a>fit0 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(y <span class="sc">~</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> group), <span class="at">data=</span>datos, <span class="at">REML=</span><span class="cn">TRUE</span>)</span>
-<span id="cb146-3"><a href="ph.html#cb146-3" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(y <span class="sc">~</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> x <span class="sc">|</span> group), <span class="at">data=</span>datos, <span class="at">REML=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="ph.html#cb149-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb149-2"><a href="ph.html#cb149-2" tabindex="-1"></a>fit0 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(y <span class="sc">~</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> group), <span class="at">data=</span>datos, <span class="at">REML=</span><span class="cn">TRUE</span>)</span>
+<span id="cb149-3"><a href="ph.html#cb149-3" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(y <span class="sc">~</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> x <span class="sc">|</span> group), <span class="at">data=</span>datos, <span class="at">REML=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Vamos a calcular ahora el valor del estadístico de la prueba razón de verosimilitudes así:</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="ph.html#cb147-1" tabindex="-1"></a>lrt <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> (<span class="fu">logLik</span>(fit0) <span class="sc">-</span> <span class="fu">logLik</span>(fit1))</span>
-<span id="cb147-2"><a href="ph.html#cb147-2" tabindex="-1"></a>lrt</span></code></pre></div>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="ph.html#cb150-1" tabindex="-1"></a>lrt <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> (<span class="fu">logLik</span>(fit0) <span class="sc">-</span> <span class="fu">logLik</span>(fit1))</span>
+<span id="cb150-2"><a href="ph.html#cb150-2" tabindex="-1"></a>lrt</span></code></pre></div>
 <pre><code>## &#39;log Lik.&#39; 122.1118 (df=4)</code></pre>
 <p>Como la distribución del estadístico es una mezcla de distribuciones vamos a calcular el valor P de la siguiente manera.</p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="ph.html#cb149-1" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span> (<span class="dv">1</span><span class="sc">-</span><span class="fu">pchisq</span>(lrt, <span class="dv">1</span>)) <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> (<span class="dv">1</span><span class="sc">-</span><span class="fu">pchisq</span>(lrt, <span class="dv">2</span>))</span>
-<span id="cb149-2"><a href="ph.html#cb149-2" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(p_value)</span>
-<span id="cb149-3"><a href="ph.html#cb149-3" tabindex="-1"></a>p_value  <span class="co"># p-value from equal mixture chi_1^2:chi_2^2</span></span></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="ph.html#cb152-1" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span> (<span class="dv">1</span><span class="sc">-</span><span class="fu">pchisq</span>(lrt, <span class="dv">1</span>)) <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> (<span class="dv">1</span><span class="sc">-</span><span class="fu">pchisq</span>(lrt, <span class="dv">2</span>))</span>
+<span id="cb152-2"><a href="ph.html#cb152-2" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(p_value)</span>
+<span id="cb152-3"><a href="ph.html#cb152-3" tabindex="-1"></a>p_value  <span class="co"># p-value from equal mixture chi_1^2:chi_2^2</span></span></code></pre></div>
 <pre><code>## [1] 0</code></pre>
 <p>De la salida anterior vemos que el valor-P es muy pequeño, eso significa que rechazamos <span class="math inline">\(H_0\)</span> y concluimos que el modelo con <span class="math inline">\(b_0\)</span> y <span class="math inline">\(b_1\)</span> es más apropiado que el modelo que tiene sólo intercepto aleatorio. La conclusión a la que llegamos es correcta porque así fue que generamos los datos.</p>
-<p>Es posible obtener el valor-P anterior usando boostrap por medio de la función <code>PBmodcomp</code> del paquete <strong>pbkrtest</strong> de <span class="citation">Halekoh and Højsgaard (<a href="#ref-R-pbkrtest">2021</a>)</span>.</p>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="ph.html#cb151-1" tabindex="-1"></a><span class="fu">library</span>(pbkrtest)</span>
-<span id="cb151-2"><a href="ph.html#cb151-2" tabindex="-1"></a><span class="fu">PBmodcomp</span>(<span class="at">largeModel=</span>fit1, <span class="at">smallModel=</span>fit0, <span class="at">nsim=</span><span class="dv">1000</span>, <span class="at">seed=</span><span class="dv">123</span>)</span></code></pre></div>
+<p>Es posible obtener el valor-P anterior usando boostrap por medio de la función <code>PBmodcomp</code> del paquete <strong>pbkrtest</strong> de <span class="citation">(<a href="#ref-R-pbkrtest"><strong>R-pbkrtest?</strong></a>)</span>.</p>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="ph.html#cb154-1" tabindex="-1"></a><span class="fu">library</span>(pbkrtest)</span>
+<span id="cb154-2"><a href="ph.html#cb154-2" tabindex="-1"></a><span class="fu">PBmodcomp</span>(<span class="at">largeModel=</span>fit1, <span class="at">smallModel=</span>fit0, <span class="at">nsim=</span><span class="dv">1000</span>, <span class="at">seed=</span><span class="dv">123</span>)</span></code></pre></div>
 <pre><code>Bootstrap test; time: 21.86 sec; samples: 1000; extremes: 0;
 Requested samples: 1000 Used samples: 999 Extremes: 0
 large : y ~ x + (1 + x | group)
@@ -845,8 +855,8 @@ Reaction_{ij} &amp;\sim  N(\mu_{ij}, \sigma^2_{reaction}) \\
 <ul>
 <li>¿Cuál es el error que comete user9171 al usar el siguiente código?</li>
 </ul>
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="ph.html#cb153-1" tabindex="-1"></a> <span class="sc">&gt;</span> <span class="fu">anova</span>(fit.fe, fit.me)</span>
-<span id="cb153-2"><a href="ph.html#cb153-2" tabindex="-1"></a> Error<span class="sc">:</span> <span class="er">$</span> operator not defined <span class="cf">for</span> this S4 class</span></code></pre></div>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="ph.html#cb156-1" tabindex="-1"></a> <span class="sc">&gt;</span> <span class="fu">anova</span>(fit.fe, fit.me)</span>
+<span id="cb156-2"><a href="ph.html#cb156-2" tabindex="-1"></a> Error<span class="sc">:</span> <span class="er">$</span> operator not defined <span class="cf">for</span> this S4 class</span></code></pre></div>
 <ul>
 <li>¿Qué le respondió Karl Ove Hufthammer?</li>
 <li>Karl le agrega en su respuesta “And really the choice of whether to include the random effects should be based on theory (e.g., the sampling plan), not on a statistical test”. ¿Qué quiere decir eso?</li>
@@ -866,9 +876,6 @@ Reaction_{ij} &amp;\sim  N(\mu_{ij}, \sigma^2_{reaction}) \\
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Galecki2012" class="csl-entry">
 Galecki, A., and T. Burzykowski. 2012. <em>Linear Mixed-Effects Models Using r</em>. 1st ed. New York: Springer.
-</div>
-<div id="ref-R-pbkrtest" class="csl-entry">
-Halekoh, Ulrich, and Søren Højsgaard. 2021. <em>Pbkrtest: Parametric Bootstrap, Kenward-Roger and Satterthwaite Based Methods for Test in Mixed Models</em>. <a href="https://people.math.aau.dk/~sorenh/software/pbkrtest/">https://people.math.aau.dk/~sorenh/software/pbkrtest/</a>.
 </div>
 <div id="ref-PinhieroBates2000" class="csl-entry">
 Pinheiro, J., and D. Bates. 2000. <em>Mixed-Effects Models in s and s-PLUS</em>. 1st ed. New York: Springer.

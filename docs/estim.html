@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>10 Métodos de estimación | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
-  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
 
   <meta property="og:title" content="10 Métodos de estimación | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2023-11-18" />
+<meta name="date" content="2023-12-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -122,6 +122,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
@@ -247,78 +251,84 @@ div.csl-indent {
 <li class="chapter" data-level="13" data-path="more-levels.html"><a href="more-levels.html"><i class="fa fa-check"></i><b>13</b> Modelos con más de dos niveles</a></li>
 <li class="chapter" data-level="14" data-path="marginals-effects.html"><a href="marginals-effects.html"><i class="fa fa-check"></i><b>14</b> Paquete <strong>marginaleffects</strong></a>
 <ul>
-<li class="chapter" data-level="" data-path="marginals-effects.html"><a href="marginals-effects.html#ejemplo-5"><i class="fa fa-check"></i>Ejemplo</a></li>
+<li class="chapter" data-level="" data-path="marginals-effects.html"><a href="marginals-effects.html#ejemplo-chickweight-lineal"><i class="fa fa-check"></i>Ejemplo ChickWeight lineal</a></li>
+<li class="chapter" data-level="" data-path="marginals-effects.html"><a href="marginals-effects.html#ejemplo-chickweight-cuadrático"><i class="fa fa-check"></i>Ejemplo ChickWeight cuadrático</a></li>
+<li class="chapter" data-level="14.1" data-path="marginals-effects.html"><a href="marginals-effects.html#ejemplo-5"><i class="fa fa-check"></i><b>14.1</b> Ejemplo</a></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="predict-new.html"><a href="predict-new.html"><i class="fa fa-check"></i><b>15</b> Predicción</a></li>
-<li class="chapter" data-level="16" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>16</b> Modelos Lineales Generalizados Mixtos</a>
+<li class="chapter" data-level="15" data-path="ggeffects.html"><a href="ggeffects.html"><i class="fa fa-check"></i><b>15</b> Paquete <strong>ggeffects</strong></a></li>
+<li class="chapter" data-level="16" data-path="predict-new.html"><a href="predict-new.html"><i class="fa fa-check"></i><b>16</b> Predicción</a></li>
+<li class="chapter" data-level="17" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>17</b> Modelos Lineales Generalizados Mixtos</a>
 <ul>
-<li class="chapter" data-level="16.1" data-path="glmm.html"><a href="glmm.html#videos-de-apoyo"><i class="fa fa-check"></i><b>16.1</b> Videos de apoyo</a></li>
+<li class="chapter" data-level="17.1" data-path="glmm.html"><a href="glmm.html#videos-de-apoyo"><i class="fa fa-check"></i><b>17.1</b> Videos de apoyo</a></li>
 </ul></li>
-<li class="chapter" data-level="17" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html"><i class="fa fa-check"></i><b>17</b> Paquete <strong>glmmTMB</strong></a>
+<li class="chapter" data-level="18" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html"><i class="fa fa-check"></i><b>18</b> Paquete <strong>glmmTMB</strong></a>
 <ul>
-<li class="chapter" data-level="17.1" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#función-glmmtmb"><i class="fa fa-check"></i><b>17.1</b> Función <code>glmmTMB</code></a></li>
+<li class="chapter" data-level="18.1" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#función-glmmtmb"><i class="fa fa-check"></i><b>18.1</b> Función <code>glmmTMB</code></a></li>
 <li class="chapter" data-level="" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#ejemplo-modelo-normal-con-intercepto-aleatorio-2"><i class="fa fa-check"></i>Ejemplo: modelo normal con intercepto aleatorio</a></li>
 <li class="chapter" data-level="" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#ejemplo-recuperando-los-interceptos-aleatorios-1"><i class="fa fa-check"></i>Ejemplo: recuperando los interceptos aleatorios</a></li>
 <li class="chapter" data-level="" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#ejemplo-modelo-gamma-con-intercepto-aleatorio-1"><i class="fa fa-check"></i>Ejemplo: modelo gamma con intercepto aleatorio</a></li>
 </ul></li>
-<li class="chapter" data-level="18" data-path="pac-glmm.html"><a href="pac-glmm.html"><i class="fa fa-check"></i><b>18</b> Paquete <strong>glmm</strong></a>
+<li class="chapter" data-level="19" data-path="pac-glmm.html"><a href="pac-glmm.html"><i class="fa fa-check"></i><b>19</b> Paquete <strong>glmm</strong></a>
 <ul>
-<li class="chapter" data-level="18.1" data-path="pac-glmm.html"><a href="pac-glmm.html#función-glmm"><i class="fa fa-check"></i><b>18.1</b> Función <code>glmm</code></a></li>
+<li class="chapter" data-level="19.1" data-path="pac-glmm.html"><a href="pac-glmm.html#función-glmm"><i class="fa fa-check"></i><b>19.1</b> Función <code>glmm</code></a></li>
 <li class="chapter" data-level="" data-path="pac-glmm.html"><a href="pac-glmm.html#ejemplo-modelo-poisson-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo Poisson con intercepto aleatorio</a></li>
 </ul></li>
-<li class="chapter" data-level="19" data-path="pac-MASS.html"><a href="pac-MASS.html"><i class="fa fa-check"></i><b>19</b> Paquete <strong>MASS</strong></a>
+<li class="chapter" data-level="20" data-path="pac-MASS.html"><a href="pac-MASS.html"><i class="fa fa-check"></i><b>20</b> Paquete <strong>MASS</strong></a>
 <ul>
-<li class="chapter" data-level="19.1" data-path="pac-MASS.html"><a href="pac-MASS.html#función-glmmpql"><i class="fa fa-check"></i><b>19.1</b> Función <code>glmmPQL</code></a></li>
+<li class="chapter" data-level="20.1" data-path="pac-MASS.html"><a href="pac-MASS.html#función-glmmpql"><i class="fa fa-check"></i><b>20.1</b> Función <code>glmmPQL</code></a></li>
 <li class="chapter" data-level="" data-path="pac-MASS.html"><a href="pac-MASS.html#ejemplo-modelo-bernoulli-binomial-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo Bernoulli (binomial) con intercepto aleatorio</a></li>
-<li class="chapter" data-level="19.2" data-path="pac-MASS.html"><a href="pac-MASS.html#what-it-means-for-aic-na-in-glmmpql-mass-summary-output"><i class="fa fa-check"></i><b>19.2</b> What it means for AIC NA in glmmPQL (MASS) summary output?</a></li>
-<li class="chapter" data-level="19.3" data-path="pac-MASS.html"><a href="pac-MASS.html#two-questions-on-the-results-from-glmmpqlmass"><i class="fa fa-check"></i><b>19.3</b> Two questions on the results from glmmPQL(MASS)</a></li>
-<li class="chapter" data-level="19.4" data-path="pac-MASS.html"><a href="pac-MASS.html#how-do-i-interpret-the-variance-of-random-effect-in-a-generalized-linear-mixed-model"><i class="fa fa-check"></i><b>19.4</b> How do I interpret the variance of random effect in a generalized linear mixed model?</a></li>
+<li class="chapter" data-level="20.2" data-path="pac-MASS.html"><a href="pac-MASS.html#what-it-means-for-aic-na-in-glmmpql-mass-summary-output"><i class="fa fa-check"></i><b>20.2</b> What it means for AIC NA in glmmPQL (MASS) summary output?</a></li>
+<li class="chapter" data-level="20.3" data-path="pac-MASS.html"><a href="pac-MASS.html#two-questions-on-the-results-from-glmmpqlmass"><i class="fa fa-check"></i><b>20.3</b> Two questions on the results from glmmPQL(MASS)</a></li>
+<li class="chapter" data-level="20.4" data-path="pac-MASS.html"><a href="pac-MASS.html#how-do-i-interpret-the-variance-of-random-effect-in-a-generalized-linear-mixed-model"><i class="fa fa-check"></i><b>20.4</b> How do I interpret the variance of random effect in a generalized linear mixed model?</a></li>
 </ul></li>
-<li class="chapter" data-level="20" data-path="paquete-inla.html"><a href="paquete-inla.html"><i class="fa fa-check"></i><b>20</b> Paquete <strong>INLA</strong></a>
+<li class="chapter" data-level="21" data-path="paquete-inla.html"><a href="paquete-inla.html"><i class="fa fa-check"></i><b>21</b> Paquete <strong>INLA</strong></a>
 <ul>
 <li class="chapter" data-level="" data-path="paquete-inla.html"><a href="paquete-inla.html#ejemplo-modelo-poisson-con-intercepto-aleatorio-1"><i class="fa fa-check"></i>Ejemplo: modelo Poisson con intercepto aleatorio</a></li>
 <li class="chapter" data-level="" data-path="paquete-inla.html"><a href="paquete-inla.html#ejemplo-modelo-poisson-con-intercepto-y-pendiente-aleatoria"><i class="fa fa-check"></i>Ejemplo: modelo Poisson con intercepto y pendiente aleatoria</a></li>
 </ul></li>
-<li class="chapter" data-level="21" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html"><i class="fa fa-check"></i><b>21</b> Paquete <strong>gamlss</strong></a>
+<li class="chapter" data-level="22" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html"><i class="fa fa-check"></i><b>22</b> Paquete <strong>gamlss</strong></a>
 <ul>
-<li class="chapter" data-level="21.1" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#modelo-lineal-mixto-con-intercepto-aleatorio"><i class="fa fa-check"></i><b>21.1</b> Modelo lineal mixto con intercepto aleatorio</a>
+<li class="chapter" data-level="22.1" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#modelo-lineal-mixto-con-intercepto-aleatorio"><i class="fa fa-check"></i><b>22.1</b> Modelo lineal mixto con intercepto aleatorio</a>
 <ul>
 <li class="chapter" data-level="" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#ejemplo-6"><i class="fa fa-check"></i>Ejemplo</a></li>
 </ul></li>
-<li class="chapter" data-level="21.2" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#modelo-lineal-mixto-con-pendiente-aleatoria"><i class="fa fa-check"></i><b>21.2</b> Modelo lineal mixto con pendiente aleatoria</a>
+<li class="chapter" data-level="22.2" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#modelo-lineal-mixto-con-pendiente-aleatoria"><i class="fa fa-check"></i><b>22.2</b> Modelo lineal mixto con pendiente aleatoria</a>
 <ul>
 <li class="chapter" data-level="" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#ejemplo-7"><i class="fa fa-check"></i>Ejemplo</a></li>
 </ul></li>
-<li class="chapter" data-level="21.3" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#modelo-lineal-mixto-con-intercepto-y-pendiente-aleatoria"><i class="fa fa-check"></i><b>21.3</b> Modelo lineal mixto con intercepto y pendiente aleatoria</a>
+<li class="chapter" data-level="22.3" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#modelo-lineal-mixto-con-intercepto-y-pendiente-aleatoria"><i class="fa fa-check"></i><b>22.3</b> Modelo lineal mixto con intercepto y pendiente aleatoria</a>
 <ul>
 <li class="chapter" data-level="" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#ejemplo-8"><i class="fa fa-check"></i>Ejemplo</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="22" data-path="glmm_poisson.html"><a href="glmm_poisson.html"><i class="fa fa-check"></i><b>22</b> GLMM Poisson</a></li>
-<li class="chapter" data-level="23" data-path="glmm-gamma.html"><a href="glmm-gamma.html"><i class="fa fa-check"></i><b>23</b> GLMM gamma</a></li>
-<li class="chapter" data-level="24" data-path="multinomial.html"><a href="multinomial.html"><i class="fa fa-check"></i><b>24</b> Modelo multinomial</a>
+<li class="chapter" data-level="23" data-path="glmm_poisson.html"><a href="glmm_poisson.html"><i class="fa fa-check"></i><b>23</b> GLMM Poisson</a></li>
+<li class="chapter" data-level="24" data-path="glmm-gamma.html"><a href="glmm-gamma.html"><i class="fa fa-check"></i><b>24</b> GLMM gamma</a></li>
+<li class="chapter" data-level="25" data-path="multinomial.html"><a href="multinomial.html"><i class="fa fa-check"></i><b>25</b> Modelo multinomial</a>
 <ul>
 <li class="chapter" data-level="" data-path="multinomial.html"><a href="multinomial.html#ejemplo-modelo-multinomial-nominal"><i class="fa fa-check"></i>Ejemplo: modelo multinomial nominal</a></li>
 <li class="chapter" data-level="" data-path="multinomial.html"><a href="multinomial.html#ejemplo-modelo-multinomial-ordinal"><i class="fa fa-check"></i>Ejemplo: modelo multinomial ordinal</a></li>
 <li class="chapter" data-level="" data-path="multinomial.html"><a href="multinomial.html#ejemplo-simulando-observaciones-de-un-modelo-multinomial-nominal"><i class="fa fa-check"></i>Ejemplo: simulando observaciones de un modelo multinomial nominal</a></li>
 </ul></li>
-<li class="chapter" data-level="25" data-path="residuals.html"><a href="residuals.html"><i class="fa fa-check"></i><b>25</b> Diagnósticos con DHARMa</a>
+<li class="chapter" data-level="26" data-path="residuals.html"><a href="residuals.html"><i class="fa fa-check"></i><b>26</b> Diagnósticos con DHARMa</a>
 <ul>
 <li class="chapter" data-level="" data-path="residuals.html"><a href="residuals.html#ejemplo-modelo-gamma-mixto"><i class="fa fa-check"></i>Ejemplo: modelo gamma mixto</a></li>
 </ul></li>
-<li class="chapter" data-level="26" data-path="R2.html"><a href="R2.html"><i class="fa fa-check"></i><b>26</b> Coeficiente <span class="math inline">\(R^2\)</span></a>
+<li class="chapter" data-level="27" data-path="R2.html"><a href="R2.html"><i class="fa fa-check"></i><b>27</b> Coeficiente <span class="math inline">\(R^2\)</span></a>
 <ul>
 <li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-normal-con-intercepto-aleatorio-3"><i class="fa fa-check"></i>Ejemplo: modelo normal con intercepto aleatorio</a></li>
 <li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-normal-sin-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo normal sin intercepto aleatorio</a></li>
 <li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-clase-lme"><i class="fa fa-check"></i>Ejemplo: modelo clase lme</a></li>
 <li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-clase-lme4"><i class="fa fa-check"></i>Ejemplo: modelo clase lme4</a></li>
 </ul></li>
-<li class="chapter" data-level="27" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>27</b> Simulación de glmm</a></li>
-<li class="chapter" data-level="28" data-path="sced.html"><a href="sced.html"><i class="fa fa-check"></i><b>28</b> Single case experimental desing (sced)</a>
+<li class="chapter" data-level="28" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>28</b> Simulación de glmm</a>
+<ul>
+<li class="chapter" data-level="28.1" data-path="simul-glmm.html"><a href="simul-glmm.html#ejemplo-para-datos-de-crecimiento"><i class="fa fa-check"></i><b>28.1</b> Ejemplo para datos de crecimiento</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="sced.html"><a href="sced.html"><i class="fa fa-check"></i><b>29</b> Single case experimental desing (sced)</a>
 <ul>
 <li class="chapter" data-level="" data-path="sced.html"><a href="sced.html#ejemplo-simulación-de-un-sced-abab"><i class="fa fa-check"></i>Ejemplo: simulación de un sced ABAB</a></li>
 </ul></li>
-<li class="chapter" data-level="29" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>29</b> Otro material interesante</a></li>
+<li class="chapter" data-level="30" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>30</b> Otro material interesante</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -376,83 +386,83 @@ N\left ( \left ( \begin{matrix}
 x_{ij} &amp;\sim U(0, 5)
 \end{align*}\]</span>
 <p>Vamos a simular datos balanceados del anterior modelo considerando cinco grupos y diez observaciones por grupo. Para hacer esto vamos a usar la siguiente función.</p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="estim.html#cb79-1" tabindex="-1"></a>gen_data <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
-<span id="cb79-2"><a href="estim.html#cb79-2" tabindex="-1"></a>  ni <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb79-3"><a href="estim.html#cb79-3" tabindex="-1"></a>  G  <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb79-4"><a href="estim.html#cb79-4" tabindex="-1"></a>  nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G <span class="co"># Numero total de observaciones</span></span>
-<span id="cb79-5"><a href="estim.html#cb79-5" tabindex="-1"></a>  grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni)) <span class="co"># Para crear la variable grupal</span></span>
-<span id="cb79-6"><a href="estim.html#cb79-6" tabindex="-1"></a>  obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">each=</span>G) <span class="co"># Para identificar las obs por grupo</span></span>
-<span id="cb79-7"><a href="estim.html#cb79-7" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">5</span>) <span class="co"># La covariable</span></span>
-<span id="cb79-8"><a href="estim.html#cb79-8" tabindex="-1"></a>  <span class="fu">library</span>(MASS) <span class="co"># Libreria para simular obs de Normal bivariada</span></span>
-<span id="cb79-9"><a href="estim.html#cb79-9" tabindex="-1"></a>  Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">3</span>, <span class="co"># Matriz de var-cov</span></span>
-<span id="cb79-10"><a href="estim.html#cb79-10" tabindex="-1"></a>                    <span class="dv">3</span>, <span class="dv">50</span>), <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">nrow=</span><span class="dv">2</span>)</span>
-<span id="cb79-11"><a href="estim.html#cb79-11" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">mvrnorm</span>(<span class="at">n=</span>G, <span class="at">mu=</span><span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="at">Sigma=</span>Sigma) <span class="co"># Simulando b0 y b1</span></span>
-<span id="cb79-12"><a href="estim.html#cb79-12" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">apply</span>(b, <span class="at">MARGIN=</span><span class="dv">2</span>, <span class="cf">function</span>(c) <span class="fu">rep</span>(c, <span class="at">each=</span>ni)) <span class="co"># Replicando</span></span>
-<span id="cb79-13"><a href="estim.html#cb79-13" tabindex="-1"></a>  b0 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">1</span>]) <span class="co"># Separando los b0</span></span>
-<span id="cb79-14"><a href="estim.html#cb79-14" tabindex="-1"></a>  b1 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">2</span>]) <span class="co"># Separando los b1</span></span>
-<span id="cb79-15"><a href="estim.html#cb79-15" tabindex="-1"></a>  media <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="sc">-</span> <span class="dv">5</span> <span class="sc">*</span> x <span class="sc">+</span> b0 <span class="sc">+</span> b1 <span class="sc">*</span> x <span class="co"># La media</span></span>
-<span id="cb79-16"><a href="estim.html#cb79-16" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>nobs, <span class="at">mean=</span>media, <span class="at">sd=</span><span class="dv">2</span>) <span class="co"># La variable respuesta</span></span>
-<span id="cb79-17"><a href="estim.html#cb79-17" tabindex="-1"></a>  datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(grupo, obs, x, y) <span class="co"># El dataframe</span></span>
-<span id="cb79-18"><a href="estim.html#cb79-18" tabindex="-1"></a>}</span>
-<span id="cb79-19"><a href="estim.html#cb79-19" tabindex="-1"></a></span>
-<span id="cb79-20"><a href="estim.html#cb79-20" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)     <span class="co"># Fijando la semilla para replicar el ejemplo</span></span>
-<span id="cb79-21"><a href="estim.html#cb79-21" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">gen_data</span>()  <span class="co"># Creando los datos</span></span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="estim.html#cb82-1" tabindex="-1"></a>gen_data <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb82-2"><a href="estim.html#cb82-2" tabindex="-1"></a>  ni <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb82-3"><a href="estim.html#cb82-3" tabindex="-1"></a>  G  <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb82-4"><a href="estim.html#cb82-4" tabindex="-1"></a>  nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G <span class="co"># Numero total de observaciones</span></span>
+<span id="cb82-5"><a href="estim.html#cb82-5" tabindex="-1"></a>  grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni)) <span class="co"># Para crear la variable grupal</span></span>
+<span id="cb82-6"><a href="estim.html#cb82-6" tabindex="-1"></a>  obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">each=</span>G) <span class="co"># Para identificar las obs por grupo</span></span>
+<span id="cb82-7"><a href="estim.html#cb82-7" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">5</span>) <span class="co"># La covariable</span></span>
+<span id="cb82-8"><a href="estim.html#cb82-8" tabindex="-1"></a>  <span class="fu">library</span>(MASS) <span class="co"># Libreria para simular obs de Normal bivariada</span></span>
+<span id="cb82-9"><a href="estim.html#cb82-9" tabindex="-1"></a>  Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">3</span>, <span class="co"># Matriz de var-cov</span></span>
+<span id="cb82-10"><a href="estim.html#cb82-10" tabindex="-1"></a>                    <span class="dv">3</span>, <span class="dv">50</span>), <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">nrow=</span><span class="dv">2</span>)</span>
+<span id="cb82-11"><a href="estim.html#cb82-11" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">mvrnorm</span>(<span class="at">n=</span>G, <span class="at">mu=</span><span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="at">Sigma=</span>Sigma) <span class="co"># Simulando b0 y b1</span></span>
+<span id="cb82-12"><a href="estim.html#cb82-12" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">apply</span>(b, <span class="at">MARGIN=</span><span class="dv">2</span>, <span class="cf">function</span>(c) <span class="fu">rep</span>(c, <span class="at">each=</span>ni)) <span class="co"># Replicando</span></span>
+<span id="cb82-13"><a href="estim.html#cb82-13" tabindex="-1"></a>  b0 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">1</span>]) <span class="co"># Separando los b0</span></span>
+<span id="cb82-14"><a href="estim.html#cb82-14" tabindex="-1"></a>  b1 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">2</span>]) <span class="co"># Separando los b1</span></span>
+<span id="cb82-15"><a href="estim.html#cb82-15" tabindex="-1"></a>  media <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="sc">-</span> <span class="dv">5</span> <span class="sc">*</span> x <span class="sc">+</span> b0 <span class="sc">+</span> b1 <span class="sc">*</span> x <span class="co"># La media</span></span>
+<span id="cb82-16"><a href="estim.html#cb82-16" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>nobs, <span class="at">mean=</span>media, <span class="at">sd=</span><span class="dv">2</span>) <span class="co"># La variable respuesta</span></span>
+<span id="cb82-17"><a href="estim.html#cb82-17" tabindex="-1"></a>  datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(grupo, obs, x, y) <span class="co"># El dataframe</span></span>
+<span id="cb82-18"><a href="estim.html#cb82-18" tabindex="-1"></a>}</span>
+<span id="cb82-19"><a href="estim.html#cb82-19" tabindex="-1"></a></span>
+<span id="cb82-20"><a href="estim.html#cb82-20" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)     <span class="co"># Fijando la semilla para replicar el ejemplo</span></span>
+<span id="cb82-21"><a href="estim.html#cb82-21" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">gen_data</span>()  <span class="co"># Creando los datos</span></span></code></pre></div>
 <p>Ahora vamos a ajustar dos modelos, uno con estimación REML y otro con estimación ML.</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="estim.html#cb80-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
-<span id="cb80-2"><a href="estim.html#cb80-2" tabindex="-1"></a>fit_reml <span class="ot">&lt;-</span> <span class="fu">lmer</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> x<span class="sc">|</span> grupo), <span class="at">data =</span> datos, <span class="at">REML =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb80-3"><a href="estim.html#cb80-3" tabindex="-1"></a>fit_ml   <span class="ot">&lt;-</span> <span class="fu">lmer</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> x<span class="sc">|</span> grupo), <span class="at">data =</span> datos, <span class="at">REML =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="estim.html#cb83-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb83-2"><a href="estim.html#cb83-2" tabindex="-1"></a>fit_reml <span class="ot">&lt;-</span> <span class="fu">lmer</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> x<span class="sc">|</span> grupo), <span class="at">data =</span> datos, <span class="at">REML =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb83-3"><a href="estim.html#cb83-3" tabindex="-1"></a>fit_ml   <span class="ot">&lt;-</span> <span class="fu">lmer</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> x<span class="sc">|</span> grupo), <span class="at">data =</span> datos, <span class="at">REML =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p>Para extraer sólo los efectos fijos de los dos modelos ajustados hacemos lo siguiente:</p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="estim.html#cb81-1" tabindex="-1"></a><span class="fu">fixef</span>(fit_reml)</span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="estim.html#cb84-1" tabindex="-1"></a><span class="fu">fixef</span>(fit_reml)</span></code></pre></div>
 <pre><code>## (Intercept)           x 
 ##   11.449474   -6.236896</code></pre>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="estim.html#cb83-1" tabindex="-1"></a><span class="fu">fixef</span>(fit_ml)</span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="estim.html#cb86-1" tabindex="-1"></a><span class="fu">fixef</span>(fit_ml)</span></code></pre></div>
 <pre><code>## (Intercept)           x 
 ##   11.449454   -6.235161</code></pre>
 <p>Los efectos fijos verdaderos son <span class="math inline">\(\beta_0=4\)</span> y <span class="math inline">\(\beta_1=-5\)</span>. Al comparar las estimaciones REML y ML vemos que son cercanas entre sí y próximas de los parámetros.</p>
 <p>Para extraer sólo las componentes de varianza de los dos modelos hacemos lo siguiente:</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="estim.html#cb85-1" tabindex="-1"></a>(vc_reml <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(fit_reml))</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="estim.html#cb88-1" tabindex="-1"></a>(vc_reml <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(fit_reml))</span></code></pre></div>
 <pre><code>##  Groups   Name        Std.Dev. Corr 
 ##  grupo    (Intercept) 6.5259        
 ##           x           4.0121   0.466
 ##  Residual             2.0379</code></pre>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="estim.html#cb87-1" tabindex="-1"></a>(vc_ml   <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(fit_ml))</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="estim.html#cb90-1" tabindex="-1"></a>(vc_ml   <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(fit_ml))</span></code></pre></div>
 <pre><code>##  Groups   Name        Std.Dev. Corr 
 ##  grupo    (Intercept) 5.8025        
 ##           x           3.5803   0.475
 ##  Residual             2.0377</code></pre>
 <p>Las componentes de varianza son <span class="math inline">\(\sigma_{b0}=6.32\)</span> (obtenida como <span class="math inline">\(\sqrt{40}\)</span>), <span class="math inline">\(\sigma_{b1}=7.07\)</span> (obtenida como <span class="math inline">\(\sqrt{50}\)</span>), <span class="math inline">\(\sigma_{b01}=3\)</span> y <span class="math inline">\(\sigma_y=2\)</span>.</p>
 <p>Vamos a calcular el MSE (mean squared error) para las dos estimaciones REML y ML.</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="estim.html#cb89-1" tabindex="-1"></a>a <span class="ot">&lt;-</span> vc_reml[[<span class="dv">1</span>]]</span>
-<span id="cb89-2"><a href="estim.html#cb89-2" tabindex="-1"></a>b <span class="ot">&lt;-</span> vc_ml[[<span class="dv">1</span>]]</span>
-<span id="cb89-3"><a href="estim.html#cb89-3" tabindex="-1"></a></span>
-<span id="cb89-4"><a href="estim.html#cb89-4" tabindex="-1"></a><span class="fu">mean</span>((a[<span class="fu">upper.tri</span>(a, <span class="at">diag =</span> <span class="cn">TRUE</span>)] <span class="sc">-</span> <span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">3</span>, <span class="dv">50</span>))<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="estim.html#cb92-1" tabindex="-1"></a>a <span class="ot">&lt;-</span> vc_reml[[<span class="dv">1</span>]]</span>
+<span id="cb92-2"><a href="estim.html#cb92-2" tabindex="-1"></a>b <span class="ot">&lt;-</span> vc_ml[[<span class="dv">1</span>]]</span>
+<span id="cb92-3"><a href="estim.html#cb92-3" tabindex="-1"></a></span>
+<span id="cb92-4"><a href="estim.html#cb92-4" tabindex="-1"></a><span class="fu">mean</span>((a[<span class="fu">upper.tri</span>(a, <span class="at">diag =</span> <span class="cn">TRUE</span>)] <span class="sc">-</span> <span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">3</span>, <span class="dv">50</span>))<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## [1] 413.6231</code></pre>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="estim.html#cb91-1" tabindex="-1"></a><span class="fu">mean</span>((b[<span class="fu">upper.tri</span>(b, <span class="at">diag =</span> <span class="cn">TRUE</span>)] <span class="sc">-</span> <span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">3</span>, <span class="dv">50</span>))<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="estim.html#cb94-1" tabindex="-1"></a><span class="fu">mean</span>((b[<span class="fu">upper.tri</span>(b, <span class="at">diag =</span> <span class="cn">TRUE</span>)] <span class="sc">-</span> <span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">3</span>, <span class="dv">50</span>))<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## [1] 489.9286</code></pre>
 <p>De los anteriores resultados vemos que MSE es menor cuando se usa REML.</p>
 </div>
 <div id="ejemplo-comparando-reml-y-ml-usando-nlme" class="section level2 unnumbered hasAnchor">
 <h2>Ejemplo: comparando REML y ML usando <strong>nlme</strong><a href="estim.html#ejemplo-comparando-reml-y-ml-usando-nlme" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Vamos a ajustar nuevamente los modelos pero usando el paquete <strong>nlme</strong>.</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="estim.html#cb93-1" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb93-2"><a href="estim.html#cb93-2" tabindex="-1"></a>fit_reml <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x <span class="sc">|</span> grupo, <span class="at">data =</span> datos, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>)</span>
-<span id="cb93-3"><a href="estim.html#cb93-3" tabindex="-1"></a>fit_ml   <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x <span class="sc">|</span> grupo, <span class="at">data =</span> datos, <span class="at">method =</span> <span class="st">&quot;ML&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="estim.html#cb96-1" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb96-2"><a href="estim.html#cb96-2" tabindex="-1"></a>fit_reml <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x <span class="sc">|</span> grupo, <span class="at">data =</span> datos, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>)</span>
+<span id="cb96-3"><a href="estim.html#cb96-3" tabindex="-1"></a>fit_ml   <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> x <span class="sc">|</span> grupo, <span class="at">data =</span> datos, <span class="at">method =</span> <span class="st">&quot;ML&quot;</span>)</span></code></pre></div>
 <p>Para extraer sólo los efectos fijos de los dos modelos ajustados hacemos lo siguiente:</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="estim.html#cb94-1" tabindex="-1"></a><span class="fu">fixef</span>(fit_reml)</span></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="estim.html#cb97-1" tabindex="-1"></a><span class="fu">fixef</span>(fit_reml)</span></code></pre></div>
 <pre><code>## (Intercept)           x 
 ##   11.449474   -6.236896</code></pre>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="estim.html#cb96-1" tabindex="-1"></a><span class="fu">fixef</span>(fit_ml)</span></code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="estim.html#cb99-1" tabindex="-1"></a><span class="fu">fixef</span>(fit_ml)</span></code></pre></div>
 <pre><code>## (Intercept)           x 
 ##   11.449459   -6.235162</code></pre>
 <p>Los efectos fijos verdaderos son <span class="math inline">\(\beta_0=4\)</span> y <span class="math inline">\(\beta_1=-5\)</span>. Al comparar las estimaciones REML y ML vemos que son cercanas entre sí, y próximas de los parámetros.</p>
 <p>Para extraer sólo las componentes de varianza de los dos modelos hacemos lo siguiente:</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="estim.html#cb98-1" tabindex="-1"></a>(vc_reml <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(fit_reml))</span></code></pre></div>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="estim.html#cb101-1" tabindex="-1"></a>(vc_reml <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(fit_reml))</span></code></pre></div>
 <pre><code>## grupo = pdLogChol(1 + x) 
 ##             Variance  StdDev   Corr  
 ## (Intercept) 42.588627 6.525996 (Intr)
 ## x           16.097479 4.012166 0.466 
 ## Residual     4.153191 2.037938</code></pre>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="estim.html#cb100-1" tabindex="-1"></a>(vc_ml   <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(fit_ml))</span></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="estim.html#cb103-1" tabindex="-1"></a>(vc_ml   <span class="ot">&lt;-</span> <span class="fu">VarCorr</span>(fit_ml))</span></code></pre></div>
 <pre><code>## grupo = pdLogChol(1 + x) 
 ##             Variance  StdDev   Corr  
 ## (Intercept) 33.668543 5.802460 (Intr)

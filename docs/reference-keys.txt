@@ -34,6 +34,8 @@ varexp
 varconstpower
 more-levels
 marginals-effects
+ejemplo-5
+ggeffects
 predict-new
 glmm
 videos-de-apoyo
@@ -57,5 +59,6 @@ multinomial
 residuals
 R2
 simul-glmm
+ejemplo-para-datos-de-crecimiento
 sced
 blobs

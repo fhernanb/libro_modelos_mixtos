@@ -4,3 +4,6 @@ Simular observaciones de un glmm es muy importante para comprender este tipo de 
 
 - [glmm binomial](https://aosmith.rbind.io/2020/08/20/simulate-binomial-glmm/).
 - [glmm Poisson](https://aosmith.rbind.io/2018/07/18/simulate-poisson-edition/).
+
+## Ejemplo para datos de crecimiento
+En este ejemplo queremos mostrar la forma de generar datos artificiales que sigan un comportamiento.
