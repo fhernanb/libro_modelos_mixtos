@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>23 GLMM Poisson | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
   <meta property="og:title" content="23 GLMM Poisson | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2023-12-01" />
+<meta name="date" content="2024-02-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -355,12 +355,12 @@ div.csl-indent {
 <p>En este capítulo se presenta un ejemplo de glmm con variable respuesta Poisson y está basado en <a href="https://stats.oarc.ucla.edu/r/faq/random-coefficient-poisson-models/">esta publicación</a>.</p>
 <p><img src="images/premios_estudiantes.png" width="80%" /></p>
 <p>A continuación la base de datos a utilizar.</p>
-<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="glmm_poisson.html#cb282-1" tabindex="-1"></a><span class="fu">require</span>(foreign)</span>
-<span id="cb282-2"><a href="glmm_poisson.html#cb282-2" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">read.dta</span>(<span class="st">&quot;https://stats.idre.ucla.edu/stat/data/hsbdemo.dta&quot;</span>)</span>
-<span id="cb282-3"><a href="glmm_poisson.html#cb282-3" tabindex="-1"></a></span>
-<span id="cb282-4"><a href="glmm_poisson.html#cb282-4" tabindex="-1"></a><span class="co"># Cambios menores a algunas variables</span></span>
-<span id="cb282-5"><a href="glmm_poisson.html#cb282-5" tabindex="-1"></a>datos<span class="sc">$</span>cid <span class="ot">&lt;-</span> <span class="fu">factor</span>(datos<span class="sc">$</span>cid)</span>
-<span id="cb282-6"><a href="glmm_poisson.html#cb282-6" tabindex="-1"></a>datos<span class="sc">$</span>female <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(datos<span class="sc">$</span>female <span class="sc">==</span> <span class="st">&#39;female&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="glmm_poisson.html#cb288-1" tabindex="-1"></a><span class="fu">require</span>(foreign)</span>
+<span id="cb288-2"><a href="glmm_poisson.html#cb288-2" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">read.dta</span>(<span class="st">&quot;https://stats.idre.ucla.edu/stat/data/hsbdemo.dta&quot;</span>)</span>
+<span id="cb288-3"><a href="glmm_poisson.html#cb288-3" tabindex="-1"></a></span>
+<span id="cb288-4"><a href="glmm_poisson.html#cb288-4" tabindex="-1"></a><span class="co"># Cambios menores a algunas variables</span></span>
+<span id="cb288-5"><a href="glmm_poisson.html#cb288-5" tabindex="-1"></a>datos<span class="sc">$</span>cid <span class="ot">&lt;-</span> <span class="fu">factor</span>(datos<span class="sc">$</span>cid)</span>
+<span id="cb288-6"><a href="glmm_poisson.html#cb288-6" tabindex="-1"></a>datos<span class="sc">$</span>female <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(datos<span class="sc">$</span>female <span class="sc">==</span> <span class="st">&#39;female&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code></pre></div>
 <p>Los datos corresponden a una muestra de 200 estudiantes de educación secundaria, los cuales están agrupados en 20 escuelas diferentes. El propósito es modelar el número de premios que recibe un estudiante dada la escuela a la cual pertenece, teniendo en cuenta la variable género como la variable que mejor podría ayudar en la predicción.</p>
 <p>Las variables de la base de datos son:</p>
 <ul>
@@ -378,7 +378,7 @@ div.csl-indent {
 <li><code>cid</code>: Variable que indica la escuela a la cual pertenece el estudiante.</li>
 </ul>
 <p>Vamos a explorar las primeras líneas de la base de datos.</p>
-<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="glmm_poisson.html#cb283-1" tabindex="-1"></a><span class="fu">head</span>(datos, <span class="at">n=</span><span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="glmm_poisson.html#cb289-1" tabindex="-1"></a><span class="fu">head</span>(datos, <span class="at">n=</span><span class="dv">5</span>)</span></code></pre></div>
 <pre><code>##    id female    ses schtyp     prog read write math science socst       honors
 ## 1  45      1    low public vocation   34    35   41      29    26 not enrolled
 ## 2 108      0 middle public  general   34    33   41      36    36 not enrolled
@@ -392,19 +392,19 @@ div.csl-indent {
 ## 4      0   1
 ## 5      0   1</code></pre>
 <p>El siguiente código sirve para construir un histograma que muestra el número de premios por cada escuela.</p>
-<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="glmm_poisson.html#cb285-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb285-2"><a href="glmm_poisson.html#cb285-2" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(awards)) <span class="sc">+</span> </span>
-<span id="cb285-3"><a href="glmm_poisson.html#cb285-3" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
-<span id="cb285-4"><a href="glmm_poisson.html#cb285-4" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>cid)</span></code></pre></div>
-<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-222-1.png" width="672" /></p>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="glmm_poisson.html#cb291-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb291-2"><a href="glmm_poisson.html#cb291-2" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(awards)) <span class="sc">+</span> </span>
+<span id="cb291-3"><a href="glmm_poisson.html#cb291-3" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb291-4"><a href="glmm_poisson.html#cb291-4" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>cid)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-224-1.png" width="672" /></p>
 <p>De la figura anterior vemos que el comportamiento de la variable respuesta <code>awards</code> es muy diferente dada la escuela.</p>
 <p>En la siguiente figura se relaciona el número de premios <code>awards</code> con la variable género.</p>
-<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="glmm_poisson.html#cb286-1" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(<span class="fu">factor</span>(awards))) <span class="sc">+</span> </span>
-<span id="cb286-2"><a href="glmm_poisson.html#cb286-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">fill =</span> <span class="fu">factor</span>(female)), </span>
-<span id="cb286-3"><a href="glmm_poisson.html#cb286-3" tabindex="-1"></a>           <span class="at">position =</span> <span class="st">&quot;fill&quot;</span>) <span class="sc">+</span></span>
-<span id="cb286-4"><a href="glmm_poisson.html#cb286-4" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb286-5"><a href="glmm_poisson.html#cb286-5" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Proporción&quot;</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Número de premios&quot;</span>)</span></code></pre></div>
-<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-223-1.png" width="672" /></p>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="glmm_poisson.html#cb292-1" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(<span class="fu">factor</span>(awards))) <span class="sc">+</span> </span>
+<span id="cb292-2"><a href="glmm_poisson.html#cb292-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">fill =</span> <span class="fu">factor</span>(female)), </span>
+<span id="cb292-3"><a href="glmm_poisson.html#cb292-3" tabindex="-1"></a>           <span class="at">position =</span> <span class="st">&quot;fill&quot;</span>) <span class="sc">+</span></span>
+<span id="cb292-4"><a href="glmm_poisson.html#cb292-4" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb292-5"><a href="glmm_poisson.html#cb292-5" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Proporción&quot;</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Número de premios&quot;</span>)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-225-1.png" width="672" /></p>
 <p>De la figura anterior se observa una posible relación entre el número de premios está relacionado y el género.</p>
 <p>Los modelos lineales generalizados mixtos nos permiten modelar la variable respuesta con la distribución Poisson o la binomial negativa, en este caso, vamos a usar la distribución Poisson.</p>
 <p>El primer modelo que vamos a considerar aquí es el siguiente:</p>
@@ -415,11 +415,11 @@ b_0 &amp;\sim N(0, \sigma_{b0}^2)
 \end{align*}\]</span></p>
 <p>con <span class="math inline">\(i=1, 2, \ldots, 20\)</span> y <span class="math inline">\(j=1, 2, \ldots, n_i\)</span>.</p>
 <p>El modelo anterior se va a ajustar con la función <code>glmer</code> del paquete <strong>lme4</strong> de <span class="citation">Bates et al. (<a href="#ref-R-lme4">2023</a>)</span> y utilizando 15 puntos en la aproximación de Gauss para la log-verosimilitud.</p>
-<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="glmm_poisson.html#cb287-1" tabindex="-1"></a><span class="fu">require</span>(lme4)</span>
-<span id="cb287-2"><a href="glmm_poisson.html#cb287-2" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(awards <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> cid), <span class="at">data =</span> datos, </span>
-<span id="cb287-3"><a href="glmm_poisson.html#cb287-3" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">&quot;log&quot;</span>), <span class="at">nAGQ =</span> <span class="dv">15</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="glmm_poisson.html#cb293-1" tabindex="-1"></a><span class="fu">require</span>(lme4)</span>
+<span id="cb293-2"><a href="glmm_poisson.html#cb293-2" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(awards <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> cid), <span class="at">data =</span> datos, </span>
+<span id="cb293-3"><a href="glmm_poisson.html#cb293-3" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">&quot;log&quot;</span>), <span class="at">nAGQ =</span> <span class="dv">15</span>)</span></code></pre></div>
 <p>Los resultados del modelo se muestran a continuación.</p>
-<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="glmm_poisson.html#cb288-1" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code></pre></div>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="glmm_poisson.html#cb294-1" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code></pre></div>
 <pre><code>## Generalized linear mixed model fit by maximum likelihood (Adaptive
 ##   Gauss-Hermite Quadrature, nAGQ = 15) [glmerMod]
 ##  Family: poisson  ( log )
@@ -448,11 +448,11 @@ y_{ij} | b_0 &amp;\sim  Poisson(\mu_{ij}) \\
 b_0 &amp;\sim N(0, \sigma_{b0}^2)
 \end{align*}\]</span></p>
 <p>con <span class="math inline">\(i=1, 2, \ldots, 20\)</span> y <span class="math inline">\(j=1, 2, \ldots, n_i\)</span>.</p>
-<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="glmm_poisson.html#cb290-1" tabindex="-1"></a><span class="fu">require</span>(lme4)</span>
-<span id="cb290-2"><a href="glmm_poisson.html#cb290-2" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(awards <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> female <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> cid), <span class="at">data =</span> datos, </span>
-<span id="cb290-3"><a href="glmm_poisson.html#cb290-3" tabindex="-1"></a>           <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">&quot;log&quot;</span>), <span class="at">nAGQ =</span> <span class="dv">15</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="glmm_poisson.html#cb296-1" tabindex="-1"></a><span class="fu">require</span>(lme4)</span>
+<span id="cb296-2"><a href="glmm_poisson.html#cb296-2" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(awards <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> female <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> cid), <span class="at">data =</span> datos, </span>
+<span id="cb296-3"><a href="glmm_poisson.html#cb296-3" tabindex="-1"></a>           <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">&quot;log&quot;</span>), <span class="at">nAGQ =</span> <span class="dv">15</span>)</span></code></pre></div>
 <p>Los resultados del modelo se muestran a continuación.</p>
-<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="glmm_poisson.html#cb291-1" tabindex="-1"></a><span class="fu">summary</span>(m2)</span></code></pre></div>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="glmm_poisson.html#cb297-1" tabindex="-1"></a><span class="fu">summary</span>(m2)</span></code></pre></div>
 <pre><code>## Generalized linear mixed model fit by maximum likelihood (Adaptive
 ##   Gauss-Hermite Quadrature, nAGQ = 15) [glmerMod]
 ##  Family: poisson  ( log )
@@ -482,8 +482,8 @@ b_0 &amp;\sim N(0, \sigma_{b0}^2)
 ##        (Intr)
 ## female -0.252</code></pre>
 <p>Para comparar los dos modelos ajustados propuestos colocamos los resultados en una única tabla como se muestra a continuación.</p>
-<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="glmm_poisson.html#cb293-1" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;texreg&quot;</span>)</span>
-<span id="cb293-2"><a href="glmm_poisson.html#cb293-2" tabindex="-1"></a><span class="fu">screenreg</span>(<span class="fu">list</span>(m1, m2))</span></code></pre></div>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="glmm_poisson.html#cb299-1" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;texreg&quot;</span>)</span>
+<span id="cb299-2"><a href="glmm_poisson.html#cb299-2" tabindex="-1"></a><span class="fu">screenreg</span>(<span class="fu">list</span>(m1, m2))</span></code></pre></div>
 <pre><code>## 
 ## ==========================================
 ##                       Model 1   Model 2   
@@ -501,8 +501,8 @@ b_0 &amp;\sim N(0, \sigma_{b0}^2)
 ## Var: cid (Intercept)     1.46      1.43   
 ## ==========================================
 ## *** p &lt; 0.001; ** p &lt; 0.01; * p &lt; 0.05</code></pre>
-<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="glmm_poisson.html#cb295-1" tabindex="-1"></a><span class="fu">library</span>(stargazer)</span>
-<span id="cb295-2"><a href="glmm_poisson.html#cb295-2" tabindex="-1"></a><span class="fu">stargazer</span>(m1, m2, <span class="at">type =</span> <span class="st">&quot;html&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="glmm_poisson.html#cb301-1" tabindex="-1"></a><span class="fu">library</span>(stargazer)</span>
+<span id="cb301-2"><a href="glmm_poisson.html#cb301-2" tabindex="-1"></a><span class="fu">stargazer</span>(m1, m2, <span class="at">type =</span> <span class="st">&quot;html&quot;</span>)</span></code></pre></div>
 <table style="text-align:center">
 <tr>
 <td colspan="3" style="border-bottom: 1px solid black">
@@ -664,18 +664,18 @@ Bayesian Inf. Crit.
 <li>Además podemos observar que tanto el AIC como el BIC del modelo 2 son menores que los del modelo 1.</li>
 <li>Por lo tanto, basados en esto, concluimos que el mejor modelo propuesto es el modelo 2, es decir, vale la pena agregarle como variable explicativa el género femenino, va a generar un modelo más confiable.</li>
 </ul>
-<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="glmm_poisson.html#cb296-1" tabindex="-1"></a><span class="do">## QQ plot</span></span>
-<span id="cb296-2"><a href="glmm_poisson.html#cb296-2" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">ranef</span>(m2))</span></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="glmm_poisson.html#cb302-1" tabindex="-1"></a><span class="do">## QQ plot</span></span>
+<span id="cb302-2"><a href="glmm_poisson.html#cb302-2" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">ranef</span>(m2))</span></code></pre></div>
 <pre><code>## $cid</code></pre>
-<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-230-1.png" width="672" /></p>
-<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="glmm_poisson.html#cb298-1" tabindex="-1"></a><span class="do">## Caterpillar plot</span></span>
-<span id="cb298-2"><a href="glmm_poisson.html#cb298-2" tabindex="-1"></a>lattice<span class="sc">::</span><span class="fu">dotplot</span>(<span class="fu">ranef</span>(m2, <span class="at">condVar =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-232-1.png" width="672" /></p>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="glmm_poisson.html#cb304-1" tabindex="-1"></a><span class="do">## Caterpillar plot</span></span>
+<span id="cb304-2"><a href="glmm_poisson.html#cb304-2" tabindex="-1"></a>lattice<span class="sc">::</span><span class="fu">dotplot</span>(<span class="fu">ranef</span>(m2, <span class="at">condVar =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
 <pre><code>## $cid</code></pre>
-<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-230-2.png" width="672" /></p>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-232-2.png" width="672" /></p>
 <p>Los modelos anteriores se pueden ajustar usando la función <code>glmmadmb</code> del paquete <em>glmmADMB</em>, a continuación se muestra el código. Para conocer más sobre este paquete se recomienda visitar <a href="https://glmmadmb.r-forge.r-project.org/">este enlace</a></p>
-<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="glmm_poisson.html#cb300-1" tabindex="-1"></a><span class="fu">library</span>(glmmADMB)</span>
-<span id="cb300-2"><a href="glmm_poisson.html#cb300-2" tabindex="-1"></a>m1_alt <span class="ot">&lt;-</span> <span class="fu">glmmadmb</span>(awards <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> cid), <span class="at">data =</span> datos, <span class="at">family =</span> <span class="st">&quot;poisson&quot;</span>, <span class="at">link =</span> <span class="st">&quot;log&quot;</span>)</span>
-<span id="cb300-3"><a href="glmm_poisson.html#cb300-3" tabindex="-1"></a>m2_alt <span class="ot">&lt;-</span> <span class="fu">glmmadmb</span>(awards <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> female <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> cid), <span class="at">data =</span> datos, <span class="at">family =</span> <span class="st">&quot;poisson&quot;</span>, <span class="at">link =</span> <span class="st">&quot;log&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="glmm_poisson.html#cb306-1" tabindex="-1"></a><span class="fu">library</span>(glmmADMB)</span>
+<span id="cb306-2"><a href="glmm_poisson.html#cb306-2" tabindex="-1"></a>m1_alt <span class="ot">&lt;-</span> <span class="fu">glmmadmb</span>(awards <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> cid), <span class="at">data =</span> datos, <span class="at">family =</span> <span class="st">&quot;poisson&quot;</span>, <span class="at">link =</span> <span class="st">&quot;log&quot;</span>)</span>
+<span id="cb306-3"><a href="glmm_poisson.html#cb306-3" tabindex="-1"></a>m2_alt <span class="ot">&lt;-</span> <span class="fu">glmmadmb</span>(awards <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> female <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> cid), <span class="at">data =</span> datos, <span class="at">family =</span> <span class="st">&quot;poisson&quot;</span>, <span class="at">link =</span> <span class="st">&quot;log&quot;</span>)</span></code></pre></div>
 
 </div>
 <h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>11 Pruebas de hipótesis | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
   <meta property="og:title" content="11 Pruebas de hipótesis | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2023-12-01" />
+<meta name="date" content="2024-02-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -779,7 +779,7 @@ Solución.
 <span id="cb152-3"><a href="ph.html#cb152-3" tabindex="-1"></a>p_value  <span class="co"># p-value from equal mixture chi_1^2:chi_2^2</span></span></code></pre></div>
 <pre><code>## [1] 0</code></pre>
 <p>De la salida anterior vemos que el valor-P es muy pequeño, eso significa que rechazamos <span class="math inline">\(H_0\)</span> y concluimos que el modelo con <span class="math inline">\(b_0\)</span> y <span class="math inline">\(b_1\)</span> es más apropiado que el modelo que tiene sólo intercepto aleatorio. La conclusión a la que llegamos es correcta porque así fue que generamos los datos.</p>
-<p>Es posible obtener el valor-P anterior usando boostrap por medio de la función <code>PBmodcomp</code> del paquete <strong>pbkrtest</strong> de <span class="citation">(<a href="#ref-R-pbkrtest"><strong>R-pbkrtest?</strong></a>)</span>.</p>
+<p>Es posible obtener el valor-P anterior usando boostrap por medio de la función <code>PBmodcomp</code> del paquete <strong>pbkrtest</strong> de <span class="citation">Halekoh and Højsgaard (<a href="#ref-R-pbkrtest">2023</a>)</span>.</p>
 <div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="ph.html#cb154-1" tabindex="-1"></a><span class="fu">library</span>(pbkrtest)</span>
 <span id="cb154-2"><a href="ph.html#cb154-2" tabindex="-1"></a><span class="fu">PBmodcomp</span>(<span class="at">largeModel=</span>fit1, <span class="at">smallModel=</span>fit0, <span class="at">nsim=</span><span class="dv">1000</span>, <span class="at">seed=</span><span class="dv">123</span>)</span></code></pre></div>
 <pre><code>Bootstrap test; time: 21.86 sec; samples: 1000; extremes: 0;
@@ -876,6 +876,9 @@ Reaction_{ij} &amp;\sim  N(\mu_{ij}, \sigma^2_{reaction}) \\
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Galecki2012" class="csl-entry">
 Galecki, A., and T. Burzykowski. 2012. <em>Linear Mixed-Effects Models Using r</em>. 1st ed. New York: Springer.
+</div>
+<div id="ref-R-pbkrtest" class="csl-entry">
+Halekoh, Ulrich, and Søren Højsgaard. 2023. <em>Pbkrtest: Parametric Bootstrap, Kenward-Roger and Satterthwaite Based Methods for Test in Mixed Models</em>. <a href="https://people.math.aau.dk/~sorenh/software/pbkrtest/">https://people.math.aau.dk/~sorenh/software/pbkrtest/</a>.
 </div>
 <div id="ref-PinhieroBates2000" class="csl-entry">
 Pinheiro, J., and D. Bates. 2000. <em>Mixed-Effects Models in s and s-PLUS</em>. 1st ed. New York: Springer.

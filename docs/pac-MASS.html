@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>20 Paquete MASS | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
   <meta property="og:title" content="20 Paquete MASS | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2023-12-01" />
+<meta name="date" content="2024-02-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -356,8 +356,8 @@ div.csl-indent {
 <div id="función-glmmpql" class="section level2 hasAnchor" number="20.1">
 <h2><span class="header-section-number">20.1</span> Función <code>glmmPQL</code><a href="pac-MASS.html#función-glmmpql" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>La función <code>glmmPQL</code> es la principal función del paquete <strong>glmmMAAS</strong>. Esta función sirve para ajustar un glmm y su estructura es la siguiente:</p>
-<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="pac-MASS.html#cb249-1" tabindex="-1"></a><span class="fu">glmmPQL</span>(fixed, random, family, data, correlation, weights,</span>
-<span id="cb249-2"><a href="pac-MASS.html#cb249-2" tabindex="-1"></a>        control, <span class="at">niter =</span> <span class="dv">10</span>, <span class="at">verbose =</span> <span class="cn">TRUE</span>, ...)</span></code></pre></div>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="pac-MASS.html#cb251-1" tabindex="-1"></a><span class="fu">glmmPQL</span>(fixed, random, family, data, correlation, weights,</span>
+<span id="cb251-2"><a href="pac-MASS.html#cb251-2" tabindex="-1"></a>        control, <span class="at">niter =</span> <span class="dv">10</span>, <span class="at">verbose =</span> <span class="cn">TRUE</span>, ...)</span></code></pre></div>
 <p>Los principales argumentos de la función son:</p>
 <ul>
 <li><code>formula</code>: es una fórmula similar a la usada en el modelo lineal clásico. Un ejemplo de fórmula sería <code>y ~ 1 + x1 + x2 + (1 + x2 | grupo)</code> con la cual se indican los efectos fijos y los efectos aleatorios del modelo. Más abajo hay una tabla con más detalles sobre la fórmula.</li>
@@ -383,29 +383,29 @@ Solución.
 </div>
 </div>
 <p>El código para simular las 500 observaciones se muestra a continuación. Observe que se fijó la semilla en dos ocasiones para que el lector pueda replicar el ejemplo y obtener los mismos resultados.</p>
-<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="pac-MASS.html#cb250-1" tabindex="-1"></a>logit_inv <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">exp</span>(x) <span class="sc">/</span> (<span class="fu">exp</span>(x) <span class="sc">+</span> <span class="dv">1</span>) <span class="co"># Función enlace inversa</span></span>
-<span id="cb250-2"><a href="pac-MASS.html#cb250-2" tabindex="-1"></a></span>
-<span id="cb250-3"><a href="pac-MASS.html#cb250-3" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb250-4"><a href="pac-MASS.html#cb250-4" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb250-5"><a href="pac-MASS.html#cb250-5" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
-<span id="cb250-6"><a href="pac-MASS.html#cb250-6" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
-<span id="cb250-7"><a href="pac-MASS.html#cb250-7" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
-<span id="cb250-8"><a href="pac-MASS.html#cb250-8" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
-<span id="cb250-9"><a href="pac-MASS.html#cb250-9" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
-<span id="cb250-10"><a href="pac-MASS.html#cb250-10" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
-<span id="cb250-11"><a href="pac-MASS.html#cb250-11" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">4</span>)) <span class="co"># Intercepto aleatorio</span></span>
-<span id="cb250-12"><a href="pac-MASS.html#cb250-12" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)             <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
-<span id="cb250-13"><a href="pac-MASS.html#cb250-13" tabindex="-1"></a>prob <span class="ot">&lt;-</span> <span class="fu">logit_inv</span>(<span class="dv">4</span> <span class="sc">-</span> <span class="dv">8</span> <span class="sc">*</span> x <span class="sc">+</span> b0)</span>
-<span id="cb250-14"><a href="pac-MASS.html#cb250-14" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
-<span id="cb250-15"><a href="pac-MASS.html#cb250-15" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="at">n=</span>nobs, <span class="at">size=</span><span class="dv">1</span>, <span class="at">prob=</span>prob)</span>
-<span id="cb250-16"><a href="pac-MASS.html#cb250-16" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x, prob, y)</span></code></pre></div>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="pac-MASS.html#cb252-1" tabindex="-1"></a>logit_inv <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">exp</span>(x) <span class="sc">/</span> (<span class="fu">exp</span>(x) <span class="sc">+</span> <span class="dv">1</span>) <span class="co"># Función enlace inversa</span></span>
+<span id="cb252-2"><a href="pac-MASS.html#cb252-2" tabindex="-1"></a></span>
+<span id="cb252-3"><a href="pac-MASS.html#cb252-3" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb252-4"><a href="pac-MASS.html#cb252-4" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb252-5"><a href="pac-MASS.html#cb252-5" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
+<span id="cb252-6"><a href="pac-MASS.html#cb252-6" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
+<span id="cb252-7"><a href="pac-MASS.html#cb252-7" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
+<span id="cb252-8"><a href="pac-MASS.html#cb252-8" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb252-9"><a href="pac-MASS.html#cb252-9" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
+<span id="cb252-10"><a href="pac-MASS.html#cb252-10" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb252-11"><a href="pac-MASS.html#cb252-11" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">4</span>)) <span class="co"># Intercepto aleatorio</span></span>
+<span id="cb252-12"><a href="pac-MASS.html#cb252-12" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)             <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
+<span id="cb252-13"><a href="pac-MASS.html#cb252-13" tabindex="-1"></a>prob <span class="ot">&lt;-</span> <span class="fu">logit_inv</span>(<span class="dv">4</span> <span class="sc">-</span> <span class="dv">8</span> <span class="sc">*</span> x <span class="sc">+</span> b0)</span>
+<span id="cb252-14"><a href="pac-MASS.html#cb252-14" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb252-15"><a href="pac-MASS.html#cb252-15" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="at">n=</span>nobs, <span class="at">size=</span><span class="dv">1</span>, <span class="at">prob=</span>prob)</span>
+<span id="cb252-16"><a href="pac-MASS.html#cb252-16" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x, prob, y)</span></code></pre></div>
 <p>Para estimar los parámetros del modelo se usa la función <code>glmmPQL</code> de la siguiente forma.</p>
-<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="pac-MASS.html#cb251-1" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb251-2"><a href="pac-MASS.html#cb251-2" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
-<span id="cb251-3"><a href="pac-MASS.html#cb251-3" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">glmmPQL</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> grupo, <span class="at">niter=</span><span class="dv">20</span>,</span>
-<span id="cb251-4"><a href="pac-MASS.html#cb251-4" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="at">data =</span> datos)</span></code></pre></div>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="pac-MASS.html#cb253-1" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb253-2"><a href="pac-MASS.html#cb253-2" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb253-3"><a href="pac-MASS.html#cb253-3" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">glmmPQL</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> grupo, <span class="at">niter=</span><span class="dv">20</span>,</span>
+<span id="cb253-4"><a href="pac-MASS.html#cb253-4" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>), <span class="at">data =</span> datos)</span></code></pre></div>
 <p>La función <code>summary</code> se puede usar sobre el objeto <code>fit1</code> para obtener una tabla de resumen, a continuación se ilustra el uso y la salida de <code>summary</code>.</p>
-<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="pac-MASS.html#cb252-1" tabindex="-1"></a><span class="fu">summary</span>(fit1)</span></code></pre></div>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="pac-MASS.html#cb254-1" tabindex="-1"></a><span class="fu">summary</span>(fit1)</span></code></pre></div>
 <pre><code>## Linear mixed-effects model fit by maximum likelihood
 ##   Data: datos 
 ##   AIC BIC logLik

@@ -2,6 +2,10 @@
 
 El paquete **INLA** (integrated nested Laplace approximation) se utiliza para hacer inferencia bayesiana aproximada de diversos modelos. Al visitar este [enlace](https://www.r-inla.org/home) se encontrará un gran contenido que le podría servir para conocer más sobre INLA.
 
+En el enlace de abajo se puede acceder a un libro muy interesante sobre modelos mixtos con INLA.
+
+https://becarioprecario.bitbucket.io/inla-gitbook/index.html
+
 ## Ejemplo: modelo Poisson con intercepto aleatorio {-}
 En este ejemplo vamos a simular $n_i=50$ observaciones para $G=10$ grupos (en total 500 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es ilustrar el uso de la función `inla` para estimar los parámetros del modelo.
 
@@ -51,9 +55,8 @@ Para estimar los parámetros del modelo con INLA se usa el siguiente código.
 
 ```{r eval = FALSE, echo = TRUE}
 library(INLA)
-fit1 <- inla(y ~ x+ f(grupo, model = "iid"),
-             data = datos, family = "poisson"
-             )
+fit1 <- inla(y ~ x + f(grupo, model = "iid"),
+             data = datos, family = "poisson")
 ```
 
 Aplicando la función `summary` sobre el objeto `fit1` se obtiene:
@@ -91,7 +94,7 @@ En este ejemplo vamos a simular $n_i=50$ observaciones para $G=10$ grupos (en to
 
 \begin{align*} 
 y_{ij} | b_0, b_1 &\sim Poisson(\mu_{ij}) \\ 
-\log(\mu_{ij}) &= 2 - 8 x_{ij} + b_{0i} + b_{1i} x_{ij} \\
+\log(\mu_{ij}) &= 2 - 3 x_{ij} + b_{0i} + b_{1i} x_{ij} \\
 \left (
 \begin{matrix}
 b_{0} \\ b_{1}
@@ -101,14 +104,14 @@ N\left ( \left [ \begin{matrix}
 0 \\ 0
 \end{matrix} \right ],
 \left [ \begin{matrix}
-\sigma^2_{b0}=1 & \sigma_{b01}=0.5 \\ 
-\sigma_{b01} & \sigma^2_{b1}=1
+\sigma^2_{b0}=0.7 & \sigma_{b01}=0.5 \\ 
+\sigma_{b01} & \sigma^2_{b1}=0.6
 \end{matrix} \right ]
 \right ) \\
 x_{ij} &\sim U(0, 1)
 \end{align*}
 
-El vector de parámetros de este modelo es $\boldsymbol{\Theta}=(\beta_0=2, \beta_1=-8, \sigma_{b0}^2=1, \sigma_{b1}^2=1, \sigma_{b01}=0.5)^\top$.
+El vector de parámetros de este modelo es $\boldsymbol{\Theta}=(\beta_0=2, \beta_1=-3, \sigma_{b0}^2=0.7, \sigma_{b1}^2=0.6, \sigma_{b01}=0.5)^\top$.
 
 <div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
   -webkit-box-shadow: 1px 1px 3px 2px #000000;
@@ -123,30 +126,93 @@ Solución.
 El código para simular las observaciones se muestra a continuación.
 
 ```{r}
-ni <- 50
-G <- 10
-nobs <- ni * G
-grupo <- factor(rep(x=1:G, each=ni))
-obs <- rep(x=1:ni, times=G)
-x <- runif(n=nobs, min=0, max=1)
+gen_data_2 <- function() {
+  ni <- 50
+  G <- 30
+  nobs <- ni * G
+  grupo <- factor(rep(x=1:G, each=ni))
+  obs <- rep(x=1:ni, times=G)
+  x <- runif(n=nobs, min=0, max=1)
 
-Sigma <- matrix(c(1, 0.5, # Matriz de var-cov
-                  0.5, 1), ncol=2, nrow=2)
+  Sigma <- matrix(c(0.7, 0.5, # Matriz de var-cov
+                    0.5, 0.6), ncol=2, nrow=2)
 
-b <- MASS::mvrnorm(n=G, mu=rep(0, 2), Sigma=Sigma)   # Simulando b0 y b1
-b <- apply(b, MARGIN=2, function(c) rep(c, each=ni)) # Replicando
-b0 <- as.vector(b[, 1]) # Separando los b0
-b1 <- as.vector(b[, 2]) # Separando los b1
+  b <- MASS::mvrnorm(n=G, mu=rep(0, 2), Sigma=Sigma)   # Simulando b0 y b1
+  b <- apply(b, MARGIN=2, function(c) rep(c, each=ni)) # Replicando
+  b0 <- as.vector(b[, 1]) # Separando los b0
+  b1 <- as.vector(b[, 2]) # Separando los b1
 
-media <- exp(2 - 8 * x + b0 + b1 * x)
-y <- rpois(n=nobs, lambda=media)
-datos <- data.frame(obs, grupo, b0, b1, x, y)
+  media <- exp(2 - 3 * x + b0 + b1 * x)
+  y <- rpois(n=nobs, lambda=media)
+  datos <- data.frame(obs, grupo=as.factor(grupo), b0, b1, x, y)
+  datos
+}
+
+set.seed(1234)
+datos <- gen_data_2()
+head(datos)
 ```
 
-Delia nos va a mostrar cómo estimar los parámetros del modelo ajustado.
+Debemos preparar la base de datos para que se pueda ajustar un modelo con intercepto y pendiente aleatoria. Para mayores detalles de la preparación se puede consultar @wang2018bayesian página 110. 
+
+```{r}
+n_groups      <- length(levels(datos$grupo))
+datos$numid   <- as.numeric(datos$grupo)
+datos$slopeid <- datos$numid + n_groups
+```
+
+Para estimar los parámetros del modelo con INLA se usa el siguiente código.
 
 ```{r eval = FALSE, echo = TRUE}
 library(INLA)
-fit2 <- inla( )
+
+formula <- y ~ x + f(numid, model="iid2d", n = 2*n_groups) + 
+  f(slopeid, x, copy="numid")
+
+fit2 <- inla(formula,
+             data = datos, family = "poisson",
+             control.predictor = list(compute = TRUE))
 ```
+
+Aplicando la función `summary` sobre el objeto `fit2` se obtiene:
+
+```{r eval=FALSE}
+summary(fit2)
+```
+
+```
+Time used:
+    Pre = 0.251, Running = 0.404, Post = 0.243, Total = 0.898 
+Fixed effects:
+              mean    sd 0.025quant 0.5quant 0.975quant   mode kld
+(Intercept)  1.930 0.133      1.665    1.931      2.190  1.931   0
+x           -3.069 0.186     -3.453   -3.063     -2.717 -3.063   0
+
+Random effects:
+  Name	  Model
+    numid IID2D model
+   slopeid Copy
+
+Model hyperparameters:
+                                   mean    sd 0.025quant 0.5quant
+Precision for numid (component 1) 2.170 0.601      1.200    2.099
+Precision for numid (component 2) 1.427 0.500      0.679    1.349
+Rho1:2 for numid                  0.688 0.122      0.402    0.705
+                                  0.975quant  mode
+Precision for numid (component 1)      3.549 1.970
+Precision for numid (component 2)      2.623 1.207
+Rho1:2 for numid                       0.873 0.742
+
+Marginal log-Likelihood:  -2437.24 
+ is computed 
+Posterior summaries for the linear predictor and the fitted values are computed
+(Posterior marginals needs also 'control.compute=list(return.marginals.predictor=TRUE)')
+
+```
+
+De la salida anterior se tiene que $\hat{\boldsymbol{\Theta}}=(\hat{\beta_0}=1.930, \hat{\beta_1}=-3.069, \hat{\sigma}^2_{b0}=1/2.170=0.4608, \hat{\sigma}^2_{b1}=1/1.427=0.7001, \hat{\sigma}_{b01}=0.688 * (1/2.170) * (1/1.427)=0.2222)^\top$ mientras que  $\boldsymbol{\Theta}=(\beta_0=2, \beta_1=-3, \sigma_{b0}^2=0.7, \sigma_{b1}^2=0.6, \sigma_{b01}=0.5)^\top$.
+
+
+
+
 
