@@ -30,6 +30,10 @@ knitr::write_bib(c(
 ```{r echo=FALSE, eval=FALSE}
 # lista de paquetes necesarios para compilar el libro
 list.of.packages <- c("MPV", 
+                      "mclogit",
+                      "ordinal",
+                      "MuMIn",
+                      "gamlss",
                       "scatterplot3d", 
                       "kableExtra", 
                       "RLRsim",
@@ -51,7 +55,7 @@ list.of.packages <- c("MPV",
                       "texreg",
                       "stargazer", 
                       "flair", 
-                      "tidyverse" 
+                      "tidyverse", 
                       "marginaleffects",
                       "ggeffects")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]

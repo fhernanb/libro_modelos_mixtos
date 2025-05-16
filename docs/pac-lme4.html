@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>5 Paquete lme4 | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
-  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
   <meta property="og:title" content="5 Paquete lme4 | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2024-02-28" />
+<meta name="date" content="2025-05-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -59,7 +59,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -69,7 +69,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -131,6 +131,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -177,7 +178,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="2" data-path="reg-lin.html"><a href="reg-lin.html"><i class="fa fa-check"></i><b>2</b> Regresión lineal</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="reg-lin.html"><a href="reg-lin.html#modelo-estadístico"><i class="fa fa-check"></i><b>2.1</b> Modelo estadístico</a></li>
+<li class="chapter" data-level="2.1" data-path="302-paquete-lme4.html"><a href="#modelo-estad%C3%ADstico"><i class="fa fa-check"></i><b>2.1</b> Modelo estadístico</a></li>
 <li class="chapter" data-level="2.2" data-path="reg-lin.html"><a href="reg-lin.html#verosimilitud-del-modelo"><i class="fa fa-check"></i><b>2.2</b> Verosimilitud del modelo</a>
 <ul>
 <li class="chapter" data-level="" data-path="reg-lin.html"><a href="reg-lin.html#ejemplo"><i class="fa fa-check"></i>Ejemplo</a></li>
@@ -190,10 +191,10 @@ div.csl-indent {
 <li class="chapter" data-level="4" data-path="shiny.html"><a href="shiny.html"><i class="fa fa-check"></i><b>4</b> Aplicaciones shiny</a></li>
 <li class="chapter" data-level="5" data-path="pac-lme4.html"><a href="pac-lme4.html"><i class="fa fa-check"></i><b>5</b> Paquete <strong>lme4</strong></a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="pac-lme4.html"><a href="pac-lme4.html#función-lmer"><i class="fa fa-check"></i><b>5.1</b> Función <code>lmer</code></a></li>
+<li class="chapter" data-level="5.1" data-path="302-paquete-lme4.html"><a href="#funci%C3%B3n-lmer"><i class="fa fa-check"></i><b>5.1</b> Función <code>lmer</code></a></li>
 <li class="chapter" data-level="" data-path="pac-lme4.html"><a href="pac-lme4.html#ejemplo-modelo-normal-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo normal con intercepto aleatorio</a></li>
 <li class="chapter" data-level="" data-path="pac-lme4.html"><a href="pac-lme4.html#ejemplo-recuperando-los-interceptos-aleatorios"><i class="fa fa-check"></i>Ejemplo: recuperando los interceptos aleatorios</a></li>
-<li class="chapter" data-level="5.2" data-path="pac-lme4.html"><a href="pac-lme4.html#función-glmer"><i class="fa fa-check"></i><b>5.2</b> Función <code>glmer</code></a></li>
+<li class="chapter" data-level="5.2" data-path="302-paquete-lme4.html"><a href="#funci%C3%B3n-glmer"><i class="fa fa-check"></i><b>5.2</b> Función <code>glmer</code></a></li>
 <li class="chapter" data-level="" data-path="pac-lme4.html"><a href="pac-lme4.html#ejemplo-modelo-gamma-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo gamma con intercepto aleatorio</a></li>
 <li class="chapter" data-level="" data-path="pac-lme4.html"><a href="pac-lme4.html#ejemplo-modelo-inversa-gaussiana-con-intercepto-y-pendiente-aleatoria"><i class="fa fa-check"></i>Ejemplo: modelo inversa gaussiana con intercepto y pendiente aleatoria</a></li>
 </ul></li>
@@ -203,7 +204,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="7" data-path="pac-nlme.html"><a href="pac-nlme.html"><i class="fa fa-check"></i><b>7</b> Paquete <strong>nlme</strong></a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="pac-nlme.html"><a href="pac-nlme.html#función-lme"><i class="fa fa-check"></i><b>7.1</b> Función <code>lme</code></a></li>
+<li class="chapter" data-level="7.1" data-path="302-paquete-lme4.html"><a href="#funci%C3%B3n-lme"><i class="fa fa-check"></i><b>7.1</b> Función <code>lme</code></a></li>
 <li class="chapter" data-level="" data-path="pac-nlme.html"><a href="pac-nlme.html#ejemplo-modelo-normal-con-intercepto-aleatorio-1"><i class="fa fa-check"></i>Ejemplo: modelo normal con intercepto aleatorio</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="apli-nlme.html"><a href="apli-nlme.html"><i class="fa fa-check"></i><b>8</b> Aplicación con <code>nlme</code></a>
@@ -216,120 +217,7 @@ div.csl-indent {
 <li class="chapter" data-level="10.1" data-path="estim.html"><a href="estim.html#ml-y-reml"><i class="fa fa-check"></i><b>10.1</b> ML y REML</a></li>
 <li class="chapter" data-level="" data-path="estim.html"><a href="estim.html#ejemplo-comparando-reml-y-ml-usando-lme4"><i class="fa fa-check"></i>Ejemplo: comparando REML y ML usando <strong>lme4</strong></a></li>
 <li class="chapter" data-level="" data-path="estim.html"><a href="estim.html#ejemplo-comparando-reml-y-ml-usando-nlme"><i class="fa fa-check"></i>Ejemplo: comparando REML y ML usando <strong>nlme</strong></a></li>
-<li class="chapter" data-level="" data-path="estim.html"><a href="estim.html#ejercicios-2"><i class="fa fa-check"></i>Ejercicios</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="ph.html"><a href="ph.html"><i class="fa fa-check"></i><b>11</b> Pruebas de hipótesis</a>
-<ul>
-<li class="chapter" data-level="11.1" data-path="ph.html"><a href="ph.html#prueba-razón-de-verosimilitud"><i class="fa fa-check"></i><b>11.1</b> Prueba razón de verosimilitud</a></li>
-<li class="chapter" data-level="11.2" data-path="ph.html"><a href="ph.html#prueba-de-wald"><i class="fa fa-check"></i><b>11.2</b> Prueba de Wald</a></li>
-<li class="chapter" data-level="11.3" data-path="ph.html"><a href="ph.html#prueba-de-hipótesis-sobre-los-efectos-fijos"><i class="fa fa-check"></i><b>11.3</b> Prueba de hipótesis sobre los efectos fijos</a>
-<ul>
-<li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejemplo-1"><i class="fa fa-check"></i>Ejemplo</a></li>
-<li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejemplo-2"><i class="fa fa-check"></i>Ejemplo</a></li>
-</ul></li>
-<li class="chapter" data-level="11.4" data-path="ph.html"><a href="ph.html#prueba-de-hipótesis-sobre-componentes-de-varianza"><i class="fa fa-check"></i><b>11.4</b> Prueba de hipótesis sobre componentes de varianza</a>
-<ul>
-<li class="chapter" data-level="11.4.1" data-path="ph.html"><a href="ph.html#componentes-de-varianza-lejos-del-borde"><i class="fa fa-check"></i><b>11.4.1</b> Componentes de varianza lejos del borde</a></li>
-<li class="chapter" data-level="11.4.2" data-path="ph.html"><a href="ph.html#componentes-de-varianza-en-el-borde"><i class="fa fa-check"></i><b>11.4.2</b> Componentes de varianza en el borde</a></li>
-<li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejemplo-3"><i class="fa fa-check"></i>Ejemplo</a></li>
-<li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejemplo-4"><i class="fa fa-check"></i>Ejemplo</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejercicios-3"><i class="fa fa-check"></i>Ejercicios</a></li>
-</ul></li>
-<li class="chapter" data-level="12" data-path="var-fun.html"><a href="var-fun.html"><i class="fa fa-check"></i><b>12</b> Modelando la heterocedasticidad</a>
-<ul>
-<li class="chapter" data-level="12.1" data-path="var-fun.html"><a href="var-fun.html#opciones-para-modelar-la-varianza"><i class="fa fa-check"></i><b>12.1</b> Opciones para modelar la varianza</a></li>
-<li class="chapter" data-level="12.2" data-path="var-fun.html"><a href="var-fun.html#varfixed"><i class="fa fa-check"></i><b>12.2</b> varFixed</a></li>
-<li class="chapter" data-level="" data-path="var-fun.html"><a href="var-fun.html#ejemplo-sigma2_y-dependiendo-de-una-variable-cuantitativa"><i class="fa fa-check"></i>Ejemplo: <span class="math inline">\(\sigma^2_y\)</span> dependiendo de una variable cuantitativa</a></li>
-<li class="chapter" data-level="12.3" data-path="var-fun.html"><a href="var-fun.html#varident"><i class="fa fa-check"></i><b>12.3</b> varIdent</a></li>
-<li class="chapter" data-level="" data-path="var-fun.html"><a href="var-fun.html#ejemplo-sigma2_y-dependiendo-de-una-variable-cualitativa"><i class="fa fa-check"></i>Ejemplo: <span class="math inline">\(\sigma^2_y\)</span> dependiendo de una variable cualitativa</a></li>
-<li class="chapter" data-level="12.4" data-path="var-fun.html"><a href="var-fun.html#varexp"><i class="fa fa-check"></i><b>12.4</b> varExp</a></li>
-<li class="chapter" data-level="" data-path="var-fun.html"><a href="var-fun.html#ejemplo-sigma2_y-con-estructura-exponencial"><i class="fa fa-check"></i>Ejemplo: <span class="math inline">\(\sigma^2_y\)</span> con estructura exponencial</a></li>
-<li class="chapter" data-level="12.5" data-path="var-fun.html"><a href="var-fun.html#varconstpower"><i class="fa fa-check"></i><b>12.5</b> varConstPower</a></li>
-<li class="chapter" data-level="" data-path="var-fun.html"><a href="var-fun.html#ejemplo-sigma_y2-dependiendo-de-una-variable-constante-más-la-potencia-de-una-variable-cuantitativa"><i class="fa fa-check"></i>Ejemplo: <span class="math inline">\(\sigma_y^2\)</span> dependiendo de una variable constante más la potencia de una variable cuantitativa</a></li>
-</ul></li>
-<li class="chapter" data-level="13" data-path="more-levels.html"><a href="more-levels.html"><i class="fa fa-check"></i><b>13</b> Modelos con más de dos niveles</a></li>
-<li class="chapter" data-level="14" data-path="marginals-effects.html"><a href="marginals-effects.html"><i class="fa fa-check"></i><b>14</b> Paquete <strong>marginaleffects</strong></a>
-<ul>
-<li class="chapter" data-level="" data-path="marginals-effects.html"><a href="marginals-effects.html#ejemplo-chickweight-lineal"><i class="fa fa-check"></i>Ejemplo ChickWeight lineal</a></li>
-<li class="chapter" data-level="" data-path="marginals-effects.html"><a href="marginals-effects.html#ejemplo-chickweight-cuadrático"><i class="fa fa-check"></i>Ejemplo ChickWeight cuadrático</a></li>
-<li class="chapter" data-level="14.1" data-path="marginals-effects.html"><a href="marginals-effects.html#ejemplo-5"><i class="fa fa-check"></i><b>14.1</b> Ejemplo</a></li>
-</ul></li>
-<li class="chapter" data-level="15" data-path="ggeffects.html"><a href="ggeffects.html"><i class="fa fa-check"></i><b>15</b> Paquete <strong>ggeffects</strong></a></li>
-<li class="chapter" data-level="16" data-path="predict-new.html"><a href="predict-new.html"><i class="fa fa-check"></i><b>16</b> Predicción</a></li>
-<li class="chapter" data-level="17" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>17</b> Modelos Lineales Generalizados Mixtos</a>
-<ul>
-<li class="chapter" data-level="17.1" data-path="glmm.html"><a href="glmm.html#videos-de-apoyo"><i class="fa fa-check"></i><b>17.1</b> Videos de apoyo</a></li>
-</ul></li>
-<li class="chapter" data-level="18" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html"><i class="fa fa-check"></i><b>18</b> Paquete <strong>glmmTMB</strong></a>
-<ul>
-<li class="chapter" data-level="18.1" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#función-glmmtmb"><i class="fa fa-check"></i><b>18.1</b> Función <code>glmmTMB</code></a></li>
-<li class="chapter" data-level="" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#ejemplo-modelo-normal-con-intercepto-aleatorio-2"><i class="fa fa-check"></i>Ejemplo: modelo normal con intercepto aleatorio</a></li>
-<li class="chapter" data-level="" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#ejemplo-recuperando-los-interceptos-aleatorios-1"><i class="fa fa-check"></i>Ejemplo: recuperando los interceptos aleatorios</a></li>
-<li class="chapter" data-level="" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#ejemplo-modelo-gamma-con-intercepto-aleatorio-1"><i class="fa fa-check"></i>Ejemplo: modelo gamma con intercepto aleatorio</a></li>
-</ul></li>
-<li class="chapter" data-level="19" data-path="pac-glmm.html"><a href="pac-glmm.html"><i class="fa fa-check"></i><b>19</b> Paquete <strong>glmm</strong></a>
-<ul>
-<li class="chapter" data-level="19.1" data-path="pac-glmm.html"><a href="pac-glmm.html#función-glmm"><i class="fa fa-check"></i><b>19.1</b> Función <code>glmm</code></a></li>
-<li class="chapter" data-level="" data-path="pac-glmm.html"><a href="pac-glmm.html#ejemplo-modelo-poisson-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo Poisson con intercepto aleatorio</a></li>
-</ul></li>
-<li class="chapter" data-level="20" data-path="pac-MASS.html"><a href="pac-MASS.html"><i class="fa fa-check"></i><b>20</b> Paquete <strong>MASS</strong></a>
-<ul>
-<li class="chapter" data-level="20.1" data-path="pac-MASS.html"><a href="pac-MASS.html#función-glmmpql"><i class="fa fa-check"></i><b>20.1</b> Función <code>glmmPQL</code></a></li>
-<li class="chapter" data-level="" data-path="pac-MASS.html"><a href="pac-MASS.html#ejemplo-modelo-bernoulli-binomial-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo Bernoulli (binomial) con intercepto aleatorio</a></li>
-<li class="chapter" data-level="20.2" data-path="pac-MASS.html"><a href="pac-MASS.html#what-it-means-for-aic-na-in-glmmpql-mass-summary-output"><i class="fa fa-check"></i><b>20.2</b> What it means for AIC NA in glmmPQL (MASS) summary output?</a></li>
-<li class="chapter" data-level="20.3" data-path="pac-MASS.html"><a href="pac-MASS.html#two-questions-on-the-results-from-glmmpqlmass"><i class="fa fa-check"></i><b>20.3</b> Two questions on the results from glmmPQL(MASS)</a></li>
-<li class="chapter" data-level="20.4" data-path="pac-MASS.html"><a href="pac-MASS.html#how-do-i-interpret-the-variance-of-random-effect-in-a-generalized-linear-mixed-model"><i class="fa fa-check"></i><b>20.4</b> How do I interpret the variance of random effect in a generalized linear mixed model?</a></li>
-</ul></li>
-<li class="chapter" data-level="21" data-path="paquete-inla.html"><a href="paquete-inla.html"><i class="fa fa-check"></i><b>21</b> Paquete <strong>INLA</strong></a>
-<ul>
-<li class="chapter" data-level="" data-path="paquete-inla.html"><a href="paquete-inla.html#ejemplo-modelo-poisson-con-intercepto-aleatorio-1"><i class="fa fa-check"></i>Ejemplo: modelo Poisson con intercepto aleatorio</a></li>
-<li class="chapter" data-level="" data-path="paquete-inla.html"><a href="paquete-inla.html#ejemplo-modelo-poisson-con-intercepto-y-pendiente-aleatoria"><i class="fa fa-check"></i>Ejemplo: modelo Poisson con intercepto y pendiente aleatoria</a></li>
-</ul></li>
-<li class="chapter" data-level="22" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html"><i class="fa fa-check"></i><b>22</b> Paquete <strong>gamlss</strong></a>
-<ul>
-<li class="chapter" data-level="22.1" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#modelo-lineal-mixto-con-intercepto-aleatorio"><i class="fa fa-check"></i><b>22.1</b> Modelo lineal mixto con intercepto aleatorio</a>
-<ul>
-<li class="chapter" data-level="" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#ejemplo-6"><i class="fa fa-check"></i>Ejemplo</a></li>
-</ul></li>
-<li class="chapter" data-level="22.2" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#modelo-lineal-mixto-con-pendiente-aleatoria"><i class="fa fa-check"></i><b>22.2</b> Modelo lineal mixto con pendiente aleatoria</a>
-<ul>
-<li class="chapter" data-level="" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#ejemplo-7"><i class="fa fa-check"></i>Ejemplo</a></li>
-</ul></li>
-<li class="chapter" data-level="22.3" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#modelo-lineal-mixto-con-intercepto-y-pendiente-aleatoria"><i class="fa fa-check"></i><b>22.3</b> Modelo lineal mixto con intercepto y pendiente aleatoria</a>
-<ul>
-<li class="chapter" data-level="" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#ejemplo-8"><i class="fa fa-check"></i>Ejemplo</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="23" data-path="glmm_poisson.html"><a href="glmm_poisson.html"><i class="fa fa-check"></i><b>23</b> GLMM Poisson</a></li>
-<li class="chapter" data-level="24" data-path="glmm-gamma.html"><a href="glmm-gamma.html"><i class="fa fa-check"></i><b>24</b> GLMM gamma</a></li>
-<li class="chapter" data-level="25" data-path="multinomial.html"><a href="multinomial.html"><i class="fa fa-check"></i><b>25</b> Modelo multinomial</a>
-<ul>
-<li class="chapter" data-level="" data-path="multinomial.html"><a href="multinomial.html#ejemplo-modelo-multinomial-nominal"><i class="fa fa-check"></i>Ejemplo: modelo multinomial nominal</a></li>
-<li class="chapter" data-level="" data-path="multinomial.html"><a href="multinomial.html#ejemplo-modelo-multinomial-ordinal"><i class="fa fa-check"></i>Ejemplo: modelo multinomial ordinal</a></li>
-<li class="chapter" data-level="" data-path="multinomial.html"><a href="multinomial.html#ejemplo-simulando-observaciones-de-un-modelo-multinomial-nominal"><i class="fa fa-check"></i>Ejemplo: simulando observaciones de un modelo multinomial nominal</a></li>
-</ul></li>
-<li class="chapter" data-level="26" data-path="residuals.html"><a href="residuals.html"><i class="fa fa-check"></i><b>26</b> Diagnósticos con DHARMa</a>
-<ul>
-<li class="chapter" data-level="" data-path="residuals.html"><a href="residuals.html#ejemplo-modelo-gamma-mixto"><i class="fa fa-check"></i>Ejemplo: modelo gamma mixto</a></li>
-</ul></li>
-<li class="chapter" data-level="27" data-path="R2.html"><a href="R2.html"><i class="fa fa-check"></i><b>27</b> Coeficiente <span class="math inline">\(R^2\)</span></a>
-<ul>
-<li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-normal-con-intercepto-aleatorio-3"><i class="fa fa-check"></i>Ejemplo: modelo normal con intercepto aleatorio</a></li>
-<li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-normal-sin-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo normal sin intercepto aleatorio</a></li>
-<li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-clase-lme"><i class="fa fa-check"></i>Ejemplo: modelo clase lme</a></li>
-<li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-clase-lme4"><i class="fa fa-check"></i>Ejemplo: modelo clase lme4</a></li>
-</ul></li>
-<li class="chapter" data-level="28" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>28</b> Simulación de glmm</a>
-<ul>
-<li class="chapter" data-level="28.1" data-path="simul-glmm.html"><a href="simul-glmm.html#ejemplo-para-datos-de-crecimiento"><i class="fa fa-check"></i><b>28.1</b> Ejemplo para datos de crecimiento</a></li>
-</ul></li>
-<li class="chapter" data-level="29" data-path="sced.html"><a href="sced.html"><i class="fa fa-check"></i><b>29</b> Single case experimental desing (sced)</a>
-<ul>
-<li class="chapter" data-level="" data-path="sced.html"><a href="sced.html#ejemplo-simulación-de-un-sced-abab"><i class="fa fa-check"></i>Ejemplo: simulación de un sced ABAB</a></li>
-</ul></li>
-<li class="chapter" data-level="30" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>30</b> Otro material interesante</a></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -352,12 +240,12 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="pac-lme4" class="section level1 hasAnchor" number="5">
 <h1><span class="header-section-number">5</span> Paquete <strong>lme4</strong><a href="pac-lme4.html#pac-lme4" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>El paquete <strong>lme4</strong> de <span class="citation">Bates et al. (<a href="#ref-R-lme4">2023</a>)</span> es uno de los paquetes más completos para modelos mixtos. Al visitar este <a href="https://cran.r-project.org/web/packages/lme4/">enlace</a> se encontrará la página de apoyo del paquete, allí se puede consultar el manual de referencia y las viñetas.</p>
+<p>El paquete <strong>lme4</strong> de <span class="citation">Bates et al. (<a href="#ref-R-lme4">2025</a>)</span> es uno de los paquetes más completos para modelos mixtos. Al visitar este <a href="https://cran.r-project.org/web/packages/lme4/">enlace</a> se encontrará la página de apoyo del paquete, allí se puede consultar el manual de referencia y las viñetas.</p>
 <div id="función-lmer" class="section level2 hasAnchor" number="5.1">
-<h2><span class="header-section-number">5.1</span> Función <code>lmer</code><a href="pac-lme4.html#función-lmer" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">5.1</span> Función <code>lmer</code><a href="#funci%C3%B3n-lmer" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>La función <code>lmer</code> es la principal función del paquete <strong>lme4</strong>. Esta función sirve para ajustar un modelo mixto y su estructura es la siguiente:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="pac-lme4.html#cb14-1" tabindex="-1"></a><span class="fu">lmer</span>(formula, <span class="at">data =</span> <span class="cn">NULL</span>, <span class="at">REML =</span> <span class="cn">TRUE</span>, <span class="at">control =</span> <span class="fu">lmerControl</span>(),</span>
-<span id="cb14-2"><a href="pac-lme4.html#cb14-2" tabindex="-1"></a>     <span class="at">start =</span> <span class="cn">NULL</span>, <span class="at">verbose =</span> 0L, subset, weights, na.action,</span>
+<span id="cb14-2"><a href="pac-lme4.html#cb14-2" tabindex="-1"></a>     <span class="at">start =</span> <span class="cn">NULL</span>, <span class="at">verbose =</span> <span class="dv">0</span><span class="dt">L</span>, subset, weights, na.action,</span>
 <span id="cb14-3"><a href="pac-lme4.html#cb14-3" tabindex="-1"></a>     offset, <span class="at">contrasts =</span> <span class="cn">NULL</span>, <span class="at">devFunOnly =</span> <span class="cn">FALSE</span>, ...)</span></code></pre></div>
 <p>Los principales argumentos de la función son:</p>
 <ul>
@@ -412,22 +300,17 @@ Solución.
   </script>
 </div>
 <p>El siguiente paso es dibujar los datos para explorar si sería apropiado usar un modelo con intercepto aleatorio (obvio porque así se simularon los datos). El código para dibujar los datos se muestra abajo.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="pac-lme4.html#cb17-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
-<pre><code>## 
-## Attaching package: &#39;ggplot2&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:randomForest&#39;:
-## 
-##     margin</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="pac-lme4.html#cb20-1" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(x, y, <span class="at">color=</span>grupo) ) <span class="sc">+</span> </span>
-<span id="cb20-2"><a href="pac-lme4.html#cb20-2" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb20-3"><a href="pac-lme4.html#cb20-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">colour=</span><span class="st">&quot;Grupo/Cluster&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="pac-lme4.html#cb17-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb17-2"><a href="pac-lme4.html#cb17-2" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(x, y, <span class="at">color=</span>grupo) ) <span class="sc">+</span> </span>
+<span id="cb17-3"><a href="pac-lme4.html#cb17-3" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb17-4"><a href="pac-lme4.html#cb17-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">colour=</span><span class="st">&quot;Grupo/Cluster&quot;</span>)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/plot_simul_b0_lme4-1.png" width="672" /></p>
 <p>En la figura anterior se observa un patrón claro, todas las 10 nubes de puntos tienen la misma pendiente pero diferente intercepto con el eje vertical, eso se debe a que en la simulación se incluyó un <span class="math inline">\(b_0\)</span>.</p>
 <p>Para estimar los parámetros del modelos se usa la función <code>mler</code> de la siguiente forma.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="pac-lme4.html#cb21-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
-<span id="cb21-2"><a href="pac-lme4.html#cb21-2" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(y <span class="sc">~</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> grupo), <span class="at">data =</span> datos)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="pac-lme4.html#cb18-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb18-2"><a href="pac-lme4.html#cb18-2" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(y <span class="sc">~</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> grupo), <span class="at">data =</span> datos)</span></code></pre></div>
 <p>La función <code>summary</code> se puede usar sobre el objeto <code>fit1</code> para obtener una tabla de resumen, a continuación se ilustra el uso y la salida de <code>summary</code>.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="pac-lme4.html#cb22-1" tabindex="-1"></a><span class="fu">summary</span>(fit1)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="pac-lme4.html#cb19-1" tabindex="-1"></a><span class="fu">summary</span>(fit1)</span></code></pre></div>
 <p><img src="images/summary_fit_lmer.png" width="110%" style="display: block; margin: auto;" /></p>
 <p>Según el resultado anterior <span class="math inline">\(\hat{\boldsymbol{\Theta}}=(\hat{\beta}_0=2.2378, \hat{\beta}_1=-6.0264, \hat{\sigma}_y=3.9352, \hat{\sigma}_{b0}=25.369)^\top\)</span> mientras que el vector real de parámetros es <span class="math inline">\(\boldsymbol{\Theta}=(\beta_0=4, \beta_1=-6, \sigma_y=4, \sigma_{b0}=25)^\top\)</span>.</p>
 <div style="-moz-box-shadow: 1px 1px 3px 2px #00ffff;
@@ -451,9 +334,9 @@ Solución.
 Solución.
 </div>
 </div>
-<p>Para obtener los interceptos aleatorios se usa la función <code>ranef</code> del paquete <strong>lme4</strong> de <span class="citation">Bates et al. (<a href="#ref-R-lme4">2023</a>)</span>. A continuación vamos a obtener los interceptos aleatorios y los vamos a comparar con los <span class="math inline">\(b_0\)</span> simulados.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="pac-lme4.html#cb23-1" tabindex="-1"></a>interceptos_aleatorios <span class="ot">&lt;-</span> <span class="fu">ranef</span>(fit1)</span>
-<span id="cb23-2"><a href="pac-lme4.html#cb23-2" tabindex="-1"></a><span class="fu">cbind</span>(interceptos_aleatorios<span class="sc">$</span>grupo, <span class="at">b0=</span><span class="fu">unique</span>(b0))</span></code></pre></div>
+<p>Para obtener los interceptos aleatorios se usa la función <code>ranef</code> del paquete <strong>lme4</strong> de <span class="citation">Bates et al. (<a href="#ref-R-lme4">2025</a>)</span>. A continuación vamos a obtener los interceptos aleatorios y los vamos a comparar con los <span class="math inline">\(b_0\)</span> simulados.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="pac-lme4.html#cb20-1" tabindex="-1"></a>interceptos_aleatorios <span class="ot">&lt;-</span> <span class="fu">ranef</span>(fit1)</span>
+<span id="cb20-2"><a href="pac-lme4.html#cb20-2" tabindex="-1"></a><span class="fu">cbind</span>(interceptos_aleatorios<span class="sc">$</span>grupo, <span class="at">b0=</span><span class="fu">unique</span>(b0))</span></code></pre></div>
 <pre><code>##    (Intercept)         b0
 ## 1     5.388795   3.917594
 ## 2    35.790443  34.345280
@@ -476,11 +359,11 @@ La comparación anterior solo es posible cuando usamos datos simulados. Cuando s
 </div>
 </div>
 <div id="función-glmer" class="section level2 hasAnchor" number="5.2">
-<h2><span class="header-section-number">5.2</span> Función <code>glmer</code><a href="pac-lme4.html#función-glmer" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">5.2</span> Función <code>glmer</code><a href="#funci%C3%B3n-glmer" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>La función <code>glmer</code> es la función del paquete <strong>lme4</strong> para ajustar modelo lineales generalizados mixtos y su estructura es la siguiente:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="pac-lme4.html#cb25-1" tabindex="-1"></a><span class="fu">glmer</span>(formula, <span class="at">data =</span> <span class="cn">NULL</span>, <span class="at">family =</span> gaussian, <span class="at">control =</span> <span class="fu">glmerControl</span>(), </span>
-<span id="cb25-2"><a href="pac-lme4.html#cb25-2" tabindex="-1"></a>      <span class="at">start =</span> <span class="cn">NULL</span>, <span class="at">verbose =</span> 0L, <span class="at">nAGQ =</span> 1L, subset, weights, na.action, </span>
-<span id="cb25-3"><a href="pac-lme4.html#cb25-3" tabindex="-1"></a>      offset, <span class="at">contrasts =</span> <span class="cn">NULL</span>, mustart, etastart, <span class="at">devFunOnly =</span> <span class="cn">FALSE</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="pac-lme4.html#cb22-1" tabindex="-1"></a><span class="fu">glmer</span>(formula, <span class="at">data =</span> <span class="cn">NULL</span>, <span class="at">family =</span> gaussian, <span class="at">control =</span> <span class="fu">glmerControl</span>(), </span>
+<span id="cb22-2"><a href="pac-lme4.html#cb22-2" tabindex="-1"></a>      <span class="at">start =</span> <span class="cn">NULL</span>, <span class="at">verbose =</span> <span class="dv">0</span><span class="dt">L</span>, <span class="at">nAGQ =</span> <span class="dv">1</span><span class="dt">L</span>, subset, weights, na.action, </span>
+<span id="cb22-3"><a href="pac-lme4.html#cb22-3" tabindex="-1"></a>      offset, <span class="at">contrasts =</span> <span class="cn">NULL</span>, mustart, etastart, <span class="at">devFunOnly =</span> <span class="cn">FALSE</span>) </span></code></pre></div>
 <p>Los principales argumentos de la función son:</p>
 <ul>
 <li><code>formula</code>: es una fórmula similar a la usada en el modelo lineal clásico. Un ejemplo de fórmula sería <code>y ~ 1 + x1 + x2 + (1 + x2)</code> con la cual se indican los efectos fijos y los efectos aleatorios del modelo. Más abajo hay una tabla con más detalles sobre la fórmula.</li>
@@ -509,52 +392,52 @@ Solución.
 </div>
 </div>
 <p>La función <code>rgamma_glm</code> que se muestra a continuación es una modificación de la función <code>rgamma</code> para tener la parametrización usada en los glm.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="pac-lme4.html#cb26-1" tabindex="-1"></a>rgamma_glm <span class="ot">&lt;-</span> <span class="cf">function</span>(n, mu, phi) {</span>
-<span id="cb26-2"><a href="pac-lme4.html#cb26-2" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rgamma</span>(<span class="at">n=</span>n, <span class="at">shape=</span><span class="dv">1</span><span class="sc">/</span>phi, <span class="at">scale=</span>mu<span class="sc">*</span>phi)</span>
-<span id="cb26-3"><a href="pac-lme4.html#cb26-3" tabindex="-1"></a>  <span class="fu">return</span>(x)</span>
-<span id="cb26-4"><a href="pac-lme4.html#cb26-4" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="pac-lme4.html#cb23-1" tabindex="-1"></a>rgamma_glm <span class="ot">&lt;-</span> <span class="cf">function</span>(n, mu, phi) {</span>
+<span id="cb23-2"><a href="pac-lme4.html#cb23-2" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rgamma</span>(<span class="at">n=</span>n, <span class="at">shape=</span><span class="dv">1</span><span class="sc">/</span>phi, <span class="at">scale=</span>mu<span class="sc">*</span>phi)</span>
+<span id="cb23-3"><a href="pac-lme4.html#cb23-3" tabindex="-1"></a>  <span class="fu">return</span>(x)</span>
+<span id="cb23-4"><a href="pac-lme4.html#cb23-4" tabindex="-1"></a>}</span></code></pre></div>
 <p>A continuación el código para simular datos del modelo de interés.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="pac-lme4.html#cb27-1" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb27-2"><a href="pac-lme4.html#cb27-2" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb27-3"><a href="pac-lme4.html#cb27-3" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
-<span id="cb27-4"><a href="pac-lme4.html#cb27-4" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
-<span id="cb27-5"><a href="pac-lme4.html#cb27-5" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
-<span id="cb27-6"><a href="pac-lme4.html#cb27-6" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)</span>
-<span id="cb27-7"><a href="pac-lme4.html#cb27-7" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
-<span id="cb27-8"><a href="pac-lme4.html#cb27-8" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)</span>
-<span id="cb27-9"><a href="pac-lme4.html#cb27-9" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">9</span>)) <span class="co"># Intercepto aleatorio</span></span>
-<span id="cb27-10"><a href="pac-lme4.html#cb27-10" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)             <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
-<span id="cb27-11"><a href="pac-lme4.html#cb27-11" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="dv">2</span> <span class="sc">-</span> <span class="dv">8</span> <span class="sc">*</span> x <span class="sc">+</span> b0)</span>
-<span id="cb27-12"><a href="pac-lme4.html#cb27-12" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)</span>
-<span id="cb27-13"><a href="pac-lme4.html#cb27-13" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rgamma_glm</span>(<span class="at">n=</span>nobs, <span class="at">mu=</span>media, <span class="at">phi=</span><span class="fl">0.5</span>)</span>
-<span id="cb27-14"><a href="pac-lme4.html#cb27-14" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x, media, y)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="pac-lme4.html#cb24-1" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb24-2"><a href="pac-lme4.html#cb24-2" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb24-3"><a href="pac-lme4.html#cb24-3" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
+<span id="cb24-4"><a href="pac-lme4.html#cb24-4" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
+<span id="cb24-5"><a href="pac-lme4.html#cb24-5" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
+<span id="cb24-6"><a href="pac-lme4.html#cb24-6" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)</span>
+<span id="cb24-7"><a href="pac-lme4.html#cb24-7" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
+<span id="cb24-8"><a href="pac-lme4.html#cb24-8" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)</span>
+<span id="cb24-9"><a href="pac-lme4.html#cb24-9" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">9</span>)) <span class="co"># Intercepto aleatorio</span></span>
+<span id="cb24-10"><a href="pac-lme4.html#cb24-10" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)             <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
+<span id="cb24-11"><a href="pac-lme4.html#cb24-11" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="dv">2</span> <span class="sc">-</span> <span class="dv">8</span> <span class="sc">*</span> x <span class="sc">+</span> b0)</span>
+<span id="cb24-12"><a href="pac-lme4.html#cb24-12" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)</span>
+<span id="cb24-13"><a href="pac-lme4.html#cb24-13" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rgamma_glm</span>(<span class="at">n=</span>nobs, <span class="at">mu=</span>media, <span class="at">phi=</span><span class="fl">0.5</span>)</span>
+<span id="cb24-14"><a href="pac-lme4.html#cb24-14" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x, media, y)</span></code></pre></div>
 <p>Vamos a explorar los datos simulados.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="pac-lme4.html#cb28-1" tabindex="-1"></a><span class="fu">library</span>(rmarkdown)</span>
-<span id="cb28-2"><a href="pac-lme4.html#cb28-2" tabindex="-1"></a><span class="fu">paged_table</span>(datos, <span class="at">options =</span> <span class="fu">list</span>(<span class="at">rows.print =</span> <span class="dv">6</span>, <span class="at">cols.print=</span><span class="dv">6</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="pac-lme4.html#cb25-1" tabindex="-1"></a><span class="fu">library</span>(rmarkdown)</span>
+<span id="cb25-2"><a href="pac-lme4.html#cb25-2" tabindex="-1"></a><span class="fu">paged_table</span>(datos, <span class="at">options =</span> <span class="fu">list</span>(<span class="at">rows.print =</span> <span class="dv">6</span>, <span class="at">cols.print=</span><span class="dv">6</span>))</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["obs"],"name":[1],"type":["int"],"align":["right"]},{"label":["grupo"],"name":[2],"type":["fct"],"align":["left"]},{"label":["b0"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["x"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["media"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["y"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"1","3":"2.5011995","4":"0.797784321","5":"1.524262e-01","6":"2.053857e-01"},{"1":"2","2":"1","3":"2.5011995","4":"0.753565095","5":"2.171165e-01","6":"1.282032e-01"},{"1":"3","2":"1","3":"2.5011995","4":"0.391255684","5":"3.939895e+00","6":"1.263828e+00"},{"1":"4","2":"1","3":"2.5011995","4":"0.341556698","5":"5.863495e+00","6":"1.620260e+01"},{"1":"5","2":"1","3":"2.5011995","4":"0.361294113","5":"5.007048e+00","6":"6.749706e+00"},{"1":"6","2":"1","3":"2.5011995","4":"0.198344734","5":"1.843851e+01","6":"3.261757e+01"},{"1":"7","2":"1","3":"2.5011995","4":"0.534857962","5":"1.248991e+00","6":"3.828725e+00"},{"1":"8","2":"1","3":"2.5011995","4":"0.096526241","5":"4.163702e+01","6":"6.811768e+01"},{"1":"9","2":"1","3":"2.5011995","4":"0.987846943","5":"3.332071e-02","6":"1.705121e-02"},{"1":"10","2":"1","3":"2.5011995","4":"0.167569476","5":"2.358577e+01","6":"7.411486e+01"},{"1":"11","2":"1","3":"2.5011995","4":"0.797989130","5":"1.521766e-01","6":"5.468411e-02"},{"1":"12","2":"1","3":"2.5011995","4":"0.593794023","5":"7.794610e-01","6":"3.551081e-01"},{"1":"13","2":"1","3":"2.5011995","4":"0.905310010","5":"6.448771e-02","6":"5.614040e-02"},{"1":"14","2":"1","3":"2.5011995","4":"0.880848648","5":"7.842679e-02","6":"8.313473e-02"},{"1":"15","2":"1","3":"2.5011995","4":"0.993836551","5":"3.176174e-02","6":"1.623420e-02"},{"1":"16","2":"1","3":"2.5011995","4":"0.895956335","5":"6.949843e-02","6":"1.088668e-01"},{"1":"17","2":"1","3":"2.5011995","4":"0.878643351","5":"7.982270e-02","6":"1.805196e-01"},{"1":"18","2":"1","3":"2.5011995","4":"0.197605749","5":"1.854784e+01","6":"2.730600e+01"},{"1":"19","2":"1","3":"2.5011995","4":"0.334993600","5":"6.179582e+00","6":"1.386397e+01"},{"1":"20","2":"1","3":"2.5011995","4":"0.777206317","5":"1.797028e-01","6":"5.419281e-02"},{"1":"1","2":"2","3":"-0.8281433","4":"0.159593555","5":"9.004220e-01","6":"2.395883e-01"},{"1":"2","2":"2","3":"-0.8281433","4":"0.080645251","5":"1.693326e+00","6":"4.658703e-01"},{"1":"3","2":"2","3":"-0.8281433","4":"0.132650338","5":"1.117008e+00","6":"6.695379e-02"},{"1":"4","2":"2","3":"-0.8281433","4":"0.171905398","5":"8.159628e-01","6":"1.040914e+00"},{"1":"5","2":"2","3":"-0.8281433","4":"0.477777836","5":"7.062536e-02","6":"2.236095e-02"},{"1":"6","2":"2","3":"-0.8281433","4":"0.700504773","5":"1.188853e-02","6":"4.817563e-03"},{"1":"7","2":"2","3":"-0.8281433","4":"0.879889062","5":"2.830630e-03","6":"6.641047e-03"},{"1":"8","2":"2","3":"-0.8281433","4":"0.877793681","5":"2.878480e-03","6":"2.015156e-03"},{"1":"9","2":"2","3":"-0.8281433","4":"0.853879594","5":"3.485373e-03","6":"4.052601e-03"},{"1":"10","2":"2","3":"-0.8281433","4":"0.165987516","5":"8.555220e-01","6":"5.192650e-01"},{"1":"11","2":"2","3":"-0.8281433","4":"0.522968753","5":"4.919844e-02","6":"4.597891e-02"},{"1":"12","2":"2","3":"-0.8281433","4":"0.869128201","5":"3.085107e-03","6":"1.982837e-03"},{"1":"13","2":"2","3":"-0.8281433","4":"0.231156688","5":"5.079375e-01","6":"1.860015e-01"},{"1":"14","2":"2","3":"-0.8281433","4":"0.119080907","5":"1.245092e+00","6":"1.278972e+00"},{"1":"15","2":"2","3":"-0.8281433","4":"0.823951226","5":"4.428240e-03","6":"6.056715e-03"},{"1":"16","2":"2","3":"-0.8281433","4":"0.080276980","5":"1.698322e+00","6":"1.200165e+00"},{"1":"17","2":"2","3":"-0.8281433","4":"0.952363068","5":"1.585195e-03","6":"2.014926e-04"},{"1":"18","2":"2","3":"-0.8281433","4":"0.871617361","5":"3.024280e-03","6":"2.961951e-03"},{"1":"19","2":"2","3":"-0.8281433","4":"0.712153823","5":"1.083066e-02","6":"1.341880e-02"},{"1":"20","2":"2","3":"-0.8281433","4":"0.605404511","5":"2.544135e-02","6":"9.735014e-03"},{"1":"1","2":"3","3":"-1.0650055","4":"0.225432184","5":"4.195960e-01","6":"9.932062e-01"},{"1":"2","2":"3","3":"-1.0650055","4":"0.739595136","5":"6.861930e-03","6":"3.062791e-03"},{"1":"3","2":"3","3":"-1.0650055","4":"0.895542447","5":"1.970742e-03","6":"3.389939e-03"},{"1":"4","2":"3","3":"-1.0650055","4":"0.294463241","5":"2.415421e-01","6":"2.743625e-01"},{"1":"5","2":"3","3":"-1.0650055","4":"0.515352517","5":"4.126149e-02","6":"2.285062e-02"},{"1":"6","2":"3","3":"-1.0650055","4":"0.434649550","5":"7.869293e-02","6":"4.264296e-02"},{"1":"7","2":"3","3":"-1.0650055","4":"0.575165124","5":"2.557023e-02","6":"2.539531e-02"},{"1":"8","2":"3","3":"-1.0650055","4":"0.740956019","5":"6.787628e-03","6":"1.380076e-02"},{"1":"9","2":"3","3":"-1.0650055","4":"0.678172634","5":"1.121631e-02","6":"8.831998e-03"},{"1":"10","2":"3","3":"-1.0650055","4":"0.362016186","5":"1.406986e-01","6":"1.169051e-01"},{"1":"11","2":"3","3":"-1.0650055","4":"0.334557457","5":"1.752634e-01","6":"5.599323e-02"},{"1":"12","2":"3","3":"-1.0650055","4":"0.748855999","5":"6.371926e-03","6":"2.342938e-03"},{"1":"13","2":"3","3":"-1.0650055","4":"0.506616552","5":"4.424832e-02","6":"5.082525e-02"},{"1":"14","2":"3","3":"-1.0650055","4":"0.862259152","5":"2.571981e-03","6":"3.529131e-03"},{"1":"15","2":"3","3":"-1.0650055","4":"0.759557256","5":"5.849123e-03","6":"8.614546e-03"},{"1":"16","2":"3","3":"-1.0650055","4":"0.964383255","5":"1.136194e-03","6":"1.971615e-04"},{"1":"17","2":"3","3":"-1.0650055","4":"0.834437237","5":"3.213150e-03","6":"2.981841e-03"},{"1":"18","2":"3","3":"-1.0650055","4":"0.837036932","5":"3.147015e-03","6":"1.459904e-03"},{"1":"19","2":"3","3":"-1.0650055","4":"0.267467090","5":"2.997693e-01","6":"9.388466e-02"},{"1":"20","2":"3","3":"-1.0650055","4":"0.175932494","5":"6.234632e-01","6":"4.584881e-01"},{"1":"1","2":"4","3":"0.2624623","4":"0.196035676","5":"2.002060e+00","6":"9.580622e-01"},{"1":"2","2":"4","3":"0.2624623","4":"0.019580189","5":"8.213842e+00","6":"9.846444e+00"},{"1":"3","2":"4","3":"0.2624623","4":"0.527727398","5":"1.409490e-01","6":"9.065933e-02"},{"1":"4","2":"4","3":"0.2624623","4":"0.181629571","5":"2.246617e+00","6":"9.247366e-01"},{"1":"5","2":"4","3":"0.2624623","4":"0.147734747","5":"2.946401e+00","6":"5.180932e+00"},{"1":"6","2":"4","3":"0.2624623","4":"0.590974018","5":"8.498081e-02","6":"3.262987e-02"},{"1":"7","2":"4","3":"0.2624623","4":"0.002990070","5":"9.379643e+00","6":"2.540086e+00"},{"1":"8","2":"4","3":"0.2624623","4":"0.361016099","5":"5.349048e-01","6":"4.580180e-01"},{"1":"9","2":"4","3":"0.2624623","4":"0.129267699","5":"3.415489e+00","6":"3.862539e+00"},{"1":"10","2":"4","3":"0.2624623","4":"0.014579048","5":"8.549133e+00","6":"1.155800e+01"},{"1":"11","2":"4","3":"0.2624623","4":"0.194430504","5":"2.027935e+00","6":"3.337767e+00"},{"1":"12","2":"4","3":"0.2624623","4":"0.648670685","5":"5.356265e-02","6":"4.184079e-02"},{"1":"13","2":"4","3":"0.2624623","4":"0.940628788","5":"5.181980e-03","6":"1.409878e-03"},{"1":"14","2":"4","3":"0.2624623","4":"0.346356111","5":"6.014652e-01","6":"3.778192e-01"},{"1":"15","2":"4","3":"0.2624623","4":"0.844968148","5":"1.113922e-02","6":"1.702633e-02"},{"1":"16","2":"4","3":"0.2624623","4":"0.129383537","5":"3.412325e+00","6":"2.036657e+00"},{"1":"17","2":"4","3":"0.2624623","4":"0.851756020","5":"1.055046e-02","6":"2.550220e-02"},{"1":"18","2":"4","3":"0.2624623","4":"0.218427168","5":"1.673714e+00","6":"1.382578e+00"},{"1":"19","2":"4","3":"0.2624623","4":"0.132231356","5":"3.335463e+00","6":"1.829126e+00"},{"1":"20","2":"4","3":"0.2624623","4":"0.621454719","5":"6.659169e-02","6":"8.107802e-03"},{"1":"1","2":"5","3":"6.7567672","4":"0.142016269","5":"2.039861e+03","6":"6.947431e+02"},{"1":"2","2":"5","3":"6.7567672","4":"0.001311457","5":"6.287228e+03","6":"8.913434e+03"},{"1":"3","2":"5","3":"6.7567672","4":"0.833433097","5":"8.079277e+00","6":"6.702226e+00"},{"1":"4","2":"5","3":"6.7567672","4":"0.945494323","5":"3.296339e+00","6":"2.194756e+00"},{"1":"5","2":"5","3":"6.7567672","4":"0.567900916","5":"6.759675e+01","6":"6.194953e+01"},{"1":"6","2":"5","3":"6.7567672","4":"0.401693776","5":"2.554986e+02","6":"3.722422e+02"},{"1":"7","2":"5","3":"6.7567672","4":"0.185059548","5":"1.445616e+03","6":"6.929186e+02"},{"1":"8","2":"5","3":"6.7567672","4":"0.547540751","5":"7.955441e+01","6":"7.142502e+01"},{"1":"9","2":"5","3":"6.7567672","4":"0.562885564","5":"7.036406e+01","6":"1.279147e+02"},{"1":"10","2":"5","3":"6.7567672","4":"0.160966964","5":"1.752908e+03","6":"2.413444e+02"},{"1":"11","2":"5","3":"6.7567672","4":"0.307851881","5":"5.412884e+02","6":"1.077463e+03"},{"1":"12","2":"5","3":"6.7567672","4":"0.359530449","5":"3.579966e+02","6":"4.882541e+02"},{"1":"13","2":"5","3":"6.7567672","4":"0.167041455","5":"1.669761e+03","6":"2.207170e+03"},{"1":"14","2":"5","3":"6.7567672","4":"0.193425931","5":"1.352026e+03","6":"7.501872e+02"},{"1":"15","2":"5","3":"6.7567672","4":"0.454724279","5":"1.671636e+02","6":"2.850987e+02"},{"1":"16","2":"5","3":"6.7567672","4":"0.039457683","5":"4.633676e+03","6":"9.592586e+03"},{"1":"17","2":"5","3":"6.7567672","4":"0.861249396","5":"6.467386e+00","6":"5.054696e+00"},{"1":"18","2":"5","3":"6.7567672","4":"0.768159446","5":"1.361935e+01","6":"1.172300e+01"},{"1":"19","2":"5","3":"6.7567672","4":"0.112823530","5":"2.576479e+03","6":"6.785208e+03"},{"1":"20","2":"5","3":"6.7567672","4":"0.395910402","5":"2.675975e+02","6":"3.768951e+02"},{"1":"1","2":"6","3":"2.5033804","4":"0.038553689","5":"6.635047e+01","6":"5.191330e+00"},{"1":"2","2":"6","3":"2.5033804","4":"0.659447520","5":"4.619957e-01","6":"2.429551e-01"},{"1":"3","2":"6","3":"2.5033804","4":"0.311468526","5":"7.475509e+00","6":"1.454371e+01"},{"1":"4","2":"6","3":"2.5033804","4":"0.189569148","5":"1.982269e+01","6":"1.771431e+01"},{"1":"5","2":"6","3":"2.5033804","4":"0.626071314","5":"6.033908e-01","6":"3.837080e-01"},{"1":"6","2":"6","3":"2.5033804","4":"0.516718460","5":"1.447203e+00","6":"2.400666e+00"},{"1":"7","2":"6","3":"2.5033804","4":"0.927945729","5":"5.392369e-02","6":"3.017928e-02"},{"1":"8","2":"6","3":"2.5033804","4":"0.058377382","5":"5.661995e+01","6":"3.364584e+01"},{"1":"9","2":"6","3":"2.5033804","4":"0.937883046","5":"4.980280e-02","6":"1.213706e-01"},{"1":"10","2":"6","3":"2.5033804","4":"0.619334799","5":"6.368010e-01","6":"7.206382e-01"},{"1":"11","2":"6","3":"2.5033804","4":"0.367090744","5":"4.790594e+00","6":"1.957441e+00"},{"1":"12","2":"6","3":"2.5033804","4":"0.058114369","5":"5.673921e+01","6":"1.114632e+02"},{"1":"13","2":"6","3":"2.5033804","4":"0.140639918","5":"2.931974e+01","6":"4.832906e+01"},{"1":"14","2":"6","3":"2.5033804","4":"0.401357744","5":"3.641947e+00","6":"3.705224e+00"},{"1":"15","2":"6","3":"2.5033804","4":"0.068011582","5":"5.241998e+01","6":"4.322961e+01"},{"1":"16","2":"6","3":"2.5033804","4":"0.321577321","5":"6.894761e+00","6":"7.815920e+00"},{"1":"17","2":"6","3":"2.5033804","4":"0.400231984","5":"3.674895e+00","6":"3.340051e+00"},{"1":"18","2":"6","3":"2.5033804","4":"0.195452195","5":"1.891136e+01","6":"1.863996e+01"},{"1":"19","2":"6","3":"2.5033804","4":"0.451480188","5":"2.438880e+00","6":"1.854537e+00"},{"1":"20","2":"6","3":"2.5033804","4":"0.964729452","5":"4.017722e-02","6":"2.462229e-02"},{"1":"1","2":"7","3":"3.9372465","4":"0.258174567","5":"4.803116e+01","6":"5.826340e+01"},{"1":"2","2":"7","3":"3.9372465","4":"0.209855853","5":"7.069676e+01","6":"9.177084e+01"},{"1":"3","2":"7","3":"3.9372465","4":"0.622888441","5":"2.596434e+00","6":"6.378537e+00"},{"1":"4","2":"7","3":"3.9372465","4":"0.970139089","5":"1.614005e-01","6":"2.238217e-01"},{"1":"5","2":"7","3":"3.9372465","4":"0.548871447","5":"4.693952e+00","6":"9.869144e-01"},{"1":"6","2":"7","3":"3.9372465","4":"0.466953993","5":"9.039597e+00","6":"6.389105e+00"},{"1":"7","2":"7","3":"3.9372465","4":"0.201341139","5":"7.568026e+01","6":"1.307303e+02"},{"1":"8","2":"7","3":"3.9372465","4":"0.025514266","5":"3.089355e+02","6":"8.981062e+02"},{"1":"9","2":"7","3":"3.9372465","4":"0.725887402","5":"1.138996e+00","6":"7.828167e-01"},{"1":"10","2":"7","3":"3.9372465","4":"0.282450906","5":"3.955291e+01","6":"2.476667e+01"},{"1":"11","2":"7","3":"3.9372465","4":"0.402866402","5":"1.509427e+01","6":"5.674040e+01"},{"1":"12","2":"7","3":"3.9372465","4":"0.596137450","5":"3.216028e+00","6":"3.205588e+00"},{"1":"13","2":"7","3":"3.9372465","4":"0.426746040","5":"1.246941e+01","6":"8.444413e+00"},{"1":"14","2":"7","3":"3.9372465","4":"0.612111216","5":"2.830227e+00","6":"5.453746e+00"},{"1":"15","2":"7","3":"3.9372465","4":"0.509237387","5":"6.445276e+00","6":"4.355487e+00"},{"1":"16","2":"7","3":"3.9372465","4":"0.427807820","5":"1.236394e+01","6":"6.035722e+00"},{"1":"17","2":"7","3":"3.9372465","4":"0.313961759","5":"3.073962e+01","6":"2.466814e+01"},{"1":"18","2":"7","3":"3.9372465","4":"0.889894750","5":"3.066919e-01","6":"2.346954e-01"},{"1":"19","2":"7","3":"3.9372465","4":"0.230285685","5":"6.003700e+01","6":"2.433930e+01"},{"1":"20","2":"7","3":"3.9372465","4":"0.060422489","5":"2.336599e+02","6":"1.630710e+02"},{"1":"1","2":"8","3":"7.5079362","4":"0.903628521","5":"9.766011e+00","6":"1.506369e+01"},{"1":"2","2":"8","3":"7.5079362","4":"0.661719573","5":"6.763866e+01","6":"1.246416e+02"},{"1":"3","2":"8","3":"7.5079362","4":"0.713792858","5":"4.459373e+01","6":"1.520326e+01"},{"1":"4","2":"8","3":"7.5079362","4":"0.804657821","5":"2.155642e+01","6":"4.137767e+01"},{"1":"5","2":"8","3":"7.5079362","4":"0.035533873","5":"1.013414e+04","6":"7.790224e+03"},{"1":"6","2":"8","3":"7.5079362","4":"0.471381018","5":"3.100979e+02","6":"2.245479e+02"},{"1":"7","2":"8","3":"7.5079362","4":"0.669429686","5":"6.359270e+01","6":"2.190856e+01"},{"1":"8","2":"8","3":"7.5079362","4":"0.766057726","5":"2.935534e+01","6":"3.795826e+01"},{"1":"9","2":"8","3":"7.5079362","4":"0.074779771","5":"7.403425e+03","6":"1.791654e+02"},{"1":"10","2":"8","3":"7.5079362","4":"0.518188222","5":"2.132426e+02","6":"1.989655e+02"},{"1":"11","2":"8","3":"7.5079362","4":"0.829661675","5":"1.764836e+01","6":"1.142516e+01"},{"1":"12","2":"8","3":"7.5079362","4":"0.636695309","5":"8.263008e+01","6":"2.557097e+01"},{"1":"13","2":"8","3":"7.5079362","4":"0.234845352","5":"2.057349e+03","6":"1.504656e+03"},{"1":"14","2":"8","3":"7.5079362","4":"0.757660399","5":"3.139514e+01","6":"1.251088e+01"},{"1":"15","2":"8","3":"7.5079362","4":"0.519444841","5":"2.111096e+02","6":"1.075557e+02"},{"1":"16","2":"8","3":"7.5079362","4":"0.242003662","5":"1.942842e+03","6":"7.950220e+02"},{"1":"17","2":"8","3":"7.5079362","4":"0.058963733","5":"8.402011e+03","6":"7.854203e+03"},{"1":"18","2":"8","3":"7.5079362","4":"0.739833746","5":"3.620750e+01","6":"1.604064e+01"},{"1":"19","2":"8","3":"7.5079362","4":"0.010657263","5":"1.236565e+04","6":"2.414866e+02"},{"1":"20","2":"8","3":"7.5079362","4":"0.209103289","5":"2.527813e+03","6":"1.462415e+03"},{"1":"1","2":"9","3":"3.5046952","4":"0.876560551","5":"2.213989e-01","6":"5.974171e-02"},{"1":"2","2":"9","3":"3.5046952","4":"0.270820822","5":"2.816637e+01","6":"4.306805e+01"},{"1":"3","2":"9","3":"3.5046952","4":"0.240487445","5":"3.590210e+01","6":"5.386466e+01"},{"1":"4","2":"9","3":"3.5046952","4":"0.758846366","5":"5.677491e-01","6":"4.651666e-02"},{"1":"5","2":"9","3":"3.5046952","4":"0.057764289","5":"1.548692e+02","6":"1.357630e+01"},{"1":"6","2":"9","3":"3.5046952","4":"0.450906384","5":"6.668828e+00","6":"4.602653e+00"},{"1":"7","2":"9","3":"3.5046952","4":"0.697893490","5":"9.245458e-01","6":"5.233054e-01"},{"1":"8","2":"9","3":"3.5046952","4":"0.893318857","5":"1.936204e-01","6":"1.481719e-01"},{"1":"9","2":"9","3":"3.5046952","4":"0.143453675","5":"7.802785e+01","6":"7.302604e+01"},{"1":"10","2":"9","3":"3.5046952","4":"0.105280198","5":"1.058956e+02","6":"2.231036e+01"},{"1":"11","2":"9","3":"3.5046952","4":"0.518765057","5":"3.875113e+00","6":"6.576133e+00"},{"1":"12","2":"9","3":"3.5046952","4":"0.135579805","5":"8.310100e+01","6":"1.232832e+02"},{"1":"13","2":"9","3":"3.5046952","4":"0.801794218","5":"4.026617e-01","6":"2.619976e-01"},{"1":"14","2":"9","3":"3.5046952","4":"0.801857366","5":"4.024583e-01","6":"2.865926e-01"},{"1":"15","2":"9","3":"3.5046952","4":"0.667375555","5":"1.180208e+00","6":"1.618134e+00"},{"1":"16","2":"9","3":"3.5046952","4":"0.959161536","5":"1.143379e-01","6":"1.107210e-01"},{"1":"17","2":"9","3":"3.5046952","4":"0.699445138","5":"9.131402e-01","6":"6.942581e-02"},{"1":"18","2":"9","3":"3.5046952","4":"0.061485361","5":"1.503269e+02","6":"1.263904e+02"},{"1":"19","2":"9","3":"3.5046952","4":"0.399791784","5":"1.003783e+01","6":"1.519241e+01"},{"1":"20","2":"9","3":"3.5046952","4":"0.287793164","5":"2.459025e+01","6":"3.090844e+01"},{"1":"1","2":"10","3":"-1.2784967","4":"0.309646739","5":"1.727913e-01","6":"9.441791e-02"},{"1":"2","2":"10","3":"-1.2784967","4":"0.606127150","5":"1.612291e-02","6":"1.956449e-02"},{"1":"3","2":"10","3":"-1.2784967","4":"0.896183561","5":"1.583741e-03","6":"1.495776e-03"},{"1":"4","2":"10","3":"-1.2784967","4":"0.675651089","5":"9.244695e-03","6":"5.638533e-03"},{"1":"5","2":"10","3":"-1.2784967","4":"0.713956382","5":"6.804659e-03","6":"3.028423e-03"},{"1":"6","2":"10","3":"-1.2784967","4":"0.757299039","5":"4.810814e-03","6":"5.461346e-03"},{"1":"7","2":"10","3":"-1.2784967","4":"0.365183382","5":"1.108072e-01","6":"6.375806e-02"},{"1":"8","2":"10","3":"-1.2784967","4":"0.316438691","5":"1.636531e-01","6":"3.796169e-01"},{"1":"9","2":"10","3":"-1.2784967","4":"0.765715639","5":"4.497553e-03","6":"1.303504e-03"},{"1":"10","2":"10","3":"-1.2784967","4":"0.356662716","5":"1.186238e-01","6":"5.485145e-02"},{"1":"11","2":"10","3":"-1.2784967","4":"0.806231361","5":"3.252447e-03","6":"4.396185e-03"},{"1":"12","2":"10","3":"-1.2784967","4":"0.580240505","5":"1.983275e-02","6":"1.297773e-02"},{"1":"13","2":"10","3":"-1.2784967","4":"0.644028046","5":"1.190590e-02","6":"5.262784e-03"},{"1":"14","2":"10","3":"-1.2784967","4":"0.638116490","5":"1.248249e-02","6":"2.895101e-02"},{"1":"15","2":"10","3":"-1.2784967","4":"0.943357178","5":"1.085891e-03","6":"1.346795e-04"},{"1":"16","2":"10","3":"-1.2784967","4":"0.896202200","5":"1.583505e-03","6":"1.060888e-03"},{"1":"17","2":"10","3":"-1.2784967","4":"0.524069688","5":"3.108424e-02","6":"6.251660e-02"},{"1":"18","2":"10","3":"-1.2784967","4":"0.964403580","5":"9.176217e-04","6":"4.058467e-04"},{"1":"19","2":"10","3":"-1.2784967","4":"0.551206809","5":"2.501821e-02","6":"4.047913e-02"},{"1":"20","2":"10","3":"-1.2784967","4":"0.343483454","5":"1.318139e-01","6":"1.759281e-01"}],"options":{"columns":{"min":{},"max":[6]},"rows":{"min":[6],"max":[6]},"pages":{}}}
   </script>
 </div>
 <p>El siguiente paso es explorar los datos simulados. El código para dibujar los datos se muestra abajo.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="pac-lme4.html#cb29-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb29-2"><a href="pac-lme4.html#cb29-2" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(x, y, <span class="at">color=</span>grupo) ) <span class="sc">+</span> </span>
-<span id="cb29-3"><a href="pac-lme4.html#cb29-3" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb29-4"><a href="pac-lme4.html#cb29-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">colour=</span><span class="st">&quot;Grupo/Cluster&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="pac-lme4.html#cb26-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb26-2"><a href="pac-lme4.html#cb26-2" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(x, y, <span class="at">color=</span>grupo) ) <span class="sc">+</span> </span>
+<span id="cb26-3"><a href="pac-lme4.html#cb26-3" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb26-4"><a href="pac-lme4.html#cb26-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">colour=</span><span class="st">&quot;Grupo/Cluster&quot;</span>)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/plot_simul_b0_gamma-1.png" width="672" /></p>
 <p>Para estimar los parámetros del modelos se usa la función <code>glmer</code> de la siguiente forma.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="pac-lme4.html#cb30-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
-<span id="cb30-2"><a href="pac-lme4.html#cb30-2" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(y <span class="sc">~</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> grupo), <span class="at">family=</span><span class="fu">Gamma</span>(<span class="at">link=</span><span class="st">&quot;log&quot;</span>), <span class="at">data =</span> datos)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="pac-lme4.html#cb27-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb27-2"><a href="pac-lme4.html#cb27-2" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(y <span class="sc">~</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> grupo), <span class="at">family=</span><span class="fu">Gamma</span>(<span class="at">link=</span><span class="st">&quot;log&quot;</span>), <span class="at">data =</span> datos)</span></code></pre></div>
 <p>La función <code>summary</code> se puede usar sobre el objeto <code>fit2</code> para obtener una tabla de resumen, a continuación se muestra la salida de <code>summary</code>.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="pac-lme4.html#cb31-1" tabindex="-1"></a><span class="fu">summary</span>(fit2)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="pac-lme4.html#cb28-1" tabindex="-1"></a><span class="fu">summary</span>(fit2)</span></code></pre></div>
 <pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
 ##   Approximation) [glmerMod]
 ##  Family: Gamma  ( log )
 ## Formula: y ~ x + (1 | grupo)
 ##    Data: datos
 ## 
-##      AIC      BIC   logLik deviance df.resid 
-##    591.6    604.8   -291.8    583.6      196 
+##       AIC       BIC    logLik -2*log(L)  df.resid 
+##     591.6     604.8    -291.8     583.6       196 
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
@@ -617,59 +500,59 @@ x_{ij} &amp;\sim U(0, 1)
 Solución.
 </div>
 </div>
-<p>Para simular valores de una distribución inversa gaussiana vamos a usar la función <code>rinvgauss</code> del paquete <strong>statmod</strong> de <span class="citation">(<a href="#ref-R-statmod"><strong>R-statmod?</strong></a>)</span>.</p>
+<p>Para simular valores de una distribución inversa gaussiana vamos a usar la función <code>rinvgauss</code> del paquete <strong>statmod</strong> de <span class="citation">Smyth et al. (<a href="#ref-R-statmod">2023</a>)</span>.</p>
 <p>A continuación el código para simular datos del modelo de interés.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="pac-lme4.html#cb33-1" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb33-2"><a href="pac-lme4.html#cb33-2" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb33-3"><a href="pac-lme4.html#cb33-3" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
-<span id="cb33-4"><a href="pac-lme4.html#cb33-4" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
-<span id="cb33-5"><a href="pac-lme4.html#cb33-5" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
-<span id="cb33-6"><a href="pac-lme4.html#cb33-6" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
-<span id="cb33-7"><a href="pac-lme4.html#cb33-7" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
-<span id="cb33-8"><a href="pac-lme4.html#cb33-8" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
-<span id="cb33-9"><a href="pac-lme4.html#cb33-9" tabindex="-1"></a></span>
-<span id="cb33-10"><a href="pac-lme4.html#cb33-10" tabindex="-1"></a>Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="co"># Matriz de var-cov</span></span>
-<span id="cb33-11"><a href="pac-lme4.html#cb33-11" tabindex="-1"></a>                  <span class="fl">0.5</span>, <span class="dv">1</span>), <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">nrow=</span><span class="dv">2</span>)</span>
-<span id="cb33-12"><a href="pac-lme4.html#cb33-12" tabindex="-1"></a></span>
-<span id="cb33-13"><a href="pac-lme4.html#cb33-13" tabindex="-1"></a>b <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(<span class="at">n=</span>G, <span class="at">mu=</span><span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="at">Sigma=</span>Sigma)   <span class="co"># Simulando b0 y b1</span></span>
-<span id="cb33-14"><a href="pac-lme4.html#cb33-14" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">apply</span>(b, <span class="at">MARGIN=</span><span class="dv">2</span>, <span class="cf">function</span>(c) <span class="fu">rep</span>(c, <span class="at">each=</span>ni)) <span class="co"># Replicando</span></span>
-<span id="cb33-15"><a href="pac-lme4.html#cb33-15" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">1</span>]) <span class="co"># Separando los b0</span></span>
-<span id="cb33-16"><a href="pac-lme4.html#cb33-16" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">2</span>]) <span class="co"># Separando los b1</span></span>
-<span id="cb33-17"><a href="pac-lme4.html#cb33-17" tabindex="-1"></a></span>
-<span id="cb33-18"><a href="pac-lme4.html#cb33-18" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="dv">2</span> <span class="sc">-</span> <span class="dv">8</span> <span class="sc">*</span> x <span class="sc">+</span> b0 <span class="sc">+</span> b1 <span class="sc">*</span> x)</span>
-<span id="cb33-19"><a href="pac-lme4.html#cb33-19" tabindex="-1"></a>phi <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
-<span id="cb33-20"><a href="pac-lme4.html#cb33-20" tabindex="-1"></a></span>
-<span id="cb33-21"><a href="pac-lme4.html#cb33-21" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
-<span id="cb33-22"><a href="pac-lme4.html#cb33-22" tabindex="-1"></a>y <span class="ot">&lt;-</span> statmod<span class="sc">::</span><span class="fu">rinvgauss</span>(<span class="at">n=</span>nobs, <span class="at">mean=</span>media, <span class="at">dispersion=</span>phi)</span>
-<span id="cb33-23"><a href="pac-lme4.html#cb33-23" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x, media, y)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="pac-lme4.html#cb30-1" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb30-2"><a href="pac-lme4.html#cb30-2" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb30-3"><a href="pac-lme4.html#cb30-3" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
+<span id="cb30-4"><a href="pac-lme4.html#cb30-4" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
+<span id="cb30-5"><a href="pac-lme4.html#cb30-5" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
+<span id="cb30-6"><a href="pac-lme4.html#cb30-6" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb30-7"><a href="pac-lme4.html#cb30-7" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
+<span id="cb30-8"><a href="pac-lme4.html#cb30-8" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb30-9"><a href="pac-lme4.html#cb30-9" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="pac-lme4.html#cb30-10" tabindex="-1"></a>Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="co"># Matriz de var-cov</span></span>
+<span id="cb30-11"><a href="pac-lme4.html#cb30-11" tabindex="-1"></a>                  <span class="fl">0.5</span>, <span class="dv">1</span>), <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">nrow=</span><span class="dv">2</span>)</span>
+<span id="cb30-12"><a href="pac-lme4.html#cb30-12" tabindex="-1"></a></span>
+<span id="cb30-13"><a href="pac-lme4.html#cb30-13" tabindex="-1"></a>b <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(<span class="at">n=</span>G, <span class="at">mu=</span><span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="at">Sigma=</span>Sigma)   <span class="co"># Simulando b0 y b1</span></span>
+<span id="cb30-14"><a href="pac-lme4.html#cb30-14" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">apply</span>(b, <span class="at">MARGIN=</span><span class="dv">2</span>, <span class="cf">function</span>(c) <span class="fu">rep</span>(c, <span class="at">each=</span>ni)) <span class="co"># Replicando</span></span>
+<span id="cb30-15"><a href="pac-lme4.html#cb30-15" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">1</span>]) <span class="co"># Separando los b0</span></span>
+<span id="cb30-16"><a href="pac-lme4.html#cb30-16" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(b[, <span class="dv">2</span>]) <span class="co"># Separando los b1</span></span>
+<span id="cb30-17"><a href="pac-lme4.html#cb30-17" tabindex="-1"></a></span>
+<span id="cb30-18"><a href="pac-lme4.html#cb30-18" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="dv">2</span> <span class="sc">-</span> <span class="dv">8</span> <span class="sc">*</span> x <span class="sc">+</span> b0 <span class="sc">+</span> b1 <span class="sc">*</span> x)</span>
+<span id="cb30-19"><a href="pac-lme4.html#cb30-19" tabindex="-1"></a>phi <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb30-20"><a href="pac-lme4.html#cb30-20" tabindex="-1"></a></span>
+<span id="cb30-21"><a href="pac-lme4.html#cb30-21" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb30-22"><a href="pac-lme4.html#cb30-22" tabindex="-1"></a>y <span class="ot">&lt;-</span> statmod<span class="sc">::</span><span class="fu">rinvgauss</span>(<span class="at">n=</span>nobs, <span class="at">mean=</span>media, <span class="at">dispersion=</span>phi)</span>
+<span id="cb30-23"><a href="pac-lme4.html#cb30-23" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x, media, y)</span></code></pre></div>
 <p>Vamos a explorar los datos simulados.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="pac-lme4.html#cb34-1" tabindex="-1"></a><span class="fu">library</span>(rmarkdown)</span>
-<span id="cb34-2"><a href="pac-lme4.html#cb34-2" tabindex="-1"></a><span class="fu">paged_table</span>(datos, <span class="at">options =</span> <span class="fu">list</span>(<span class="at">rows.print =</span> <span class="dv">6</span>, <span class="at">cols.print=</span><span class="dv">6</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="pac-lme4.html#cb31-1" tabindex="-1"></a><span class="fu">library</span>(rmarkdown)</span>
+<span id="cb31-2"><a href="pac-lme4.html#cb31-2" tabindex="-1"></a><span class="fu">paged_table</span>(datos, <span class="at">options =</span> <span class="fu">list</span>(<span class="at">rows.print =</span> <span class="dv">6</span>, <span class="at">cols.print=</span><span class="dv">6</span>))</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["obs"],"name":[1],"type":["int"],"align":["right"]},{"label":["grupo"],"name":[2],"type":["fct"],"align":["left"]},{"label":["b0"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["x"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["media"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["y"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"1","3":"0.56520673","4":"0.720903896","5":"5.622644e-02","6":"5.097070e-02"},{"1":"2","2":"1","3":"0.56520673","4":"0.875773193","5":"1.746087e-02","6":"1.634112e-02"},{"1":"3","2":"1","3":"0.56520673","4":"0.760982328","5":"4.154400e-02","6":"4.089468e-02"},{"1":"4","2":"1","3":"0.56520673","4":"0.886124566","5":"1.614805e-02","6":"1.550330e-02"},{"1":"5","2":"1","3":"0.56520673","4":"0.456480960","5":"4.140785e-01","6":"5.450503e-01"},{"1":"6","2":"1","3":"0.56520673","4":"0.166371785","5":"3.702197e+00","6":"4.631973e-01"},{"1":"7","2":"1","3":"0.56520673","4":"0.325095387","5":"1.116723e+00","6":"1.780664e+00"},{"1":"8","2":"1","3":"0.56520673","4":"0.509224336","5":"2.780464e-01","6":"2.508502e-01"},{"1":"9","2":"1","3":"0.56520673","4":"0.727705254","5":"5.341170e-02","6":"5.595024e-02"},{"1":"10","2":"1","3":"0.56520673","4":"0.989736938","5":"7.384755e-03","6":"6.983585e-03"},{"1":"11","2":"1","3":"0.56520673","4":"0.034535435","5":"1.001845e+01","6":"7.728995e+00"},{"1":"12","2":"1","3":"0.56520673","4":"0.152373490","5":"4.114956e+00","6":"4.740806e-01"},{"1":"13","2":"1","3":"0.56520673","4":"0.735684952","5":"5.028841e-02","6":"4.741853e-02"},{"1":"14","2":"1","3":"0.56520673","4":"0.001136587","5":"1.289222e+01","6":"3.731416e+00"},{"1":"15","2":"1","3":"0.56520673","4":"0.391203335","5":"6.778795e-01","6":"1.045776e+00"},{"1":"16","2":"1","3":"0.56520673","4":"0.462494654","5":"3.956959e-01","6":"5.679503e-01"},{"1":"17","2":"1","3":"0.56520673","4":"0.388143982","5":"6.937217e-01","6":"4.139744e-01"},{"1":"18","2":"1","3":"0.56520673","4":"0.402485142","5":"6.225228e-01","6":"5.175226e-01"},{"1":"19","2":"1","3":"0.56520673","4":"0.178963585","5":"3.366405e+00","6":"8.733312e-01"},{"1":"20","2":"1","3":"0.56520673","4":"0.951658754","5":"9.844842e-03","6":"9.640660e-03"},{"1":"1","2":"2","3":"-0.29424043","4":"0.453728073","5":"2.914157e-01","6":"3.919986e-01"},{"1":"2","2":"2","3":"-0.29424043","4":"0.326752409","5":"6.632572e-01","6":"2.934208e-01"},{"1":"3","2":"2","3":"-0.29424043","4":"0.965415323","5":"1.059719e-02","6":"1.011168e-02"},{"1":"4","2":"2","3":"-0.29424043","4":"0.707481877","5":"5.632877e-02","6":"4.343590e-02"},{"1":"5","2":"2","3":"-0.29424043","4":"0.644542637","5":"8.467821e-02","6":"6.104241e-02"},{"1":"6","2":"2","3":"-0.29424043","4":"0.389828485","5":"4.408143e-01","6":"1.004824e+00"},{"1":"7","2":"2","3":"-0.29424043","4":"0.698543639","5":"5.968601e-02","6":"6.486310e-02"},{"1":"8","2":"2","3":"-0.29424043","4":"0.544057864","5":"1.623397e-01","6":"1.360704e-01"},{"1":"9","2":"2","3":"-0.29424043","4":"0.226467179","5":"1.269912e+00","6":"7.834037e-01"},{"1":"10","2":"2","3":"-0.29424043","4":"0.484557755","5":"2.386669e-01","6":"2.524294e-01"},{"1":"11","2":"2","3":"-0.29424043","4":"0.793007170","5":"3.237104e-02","6":"3.589172e-02"},{"1":"12","2":"2","3":"-0.29424043","4":"0.005987630","5":"5.296139e+00","6":"3.599922e-01"},{"1":"13","2":"2","3":"-0.29424043","4":"0.187712446","5":"1.632250e+00","6":"3.117317e-01"},{"1":"14","2":"2","3":"-0.29424043","4":"0.681833623","5":"6.650834e-02","6":"4.943840e-02"},{"1":"15","2":"2","3":"-0.29424043","4":"0.370104124","5":"5.008852e-01","6":"4.410748e-01"},{"1":"16","2":"2","3":"-0.29424043","4":"0.361625570","5":"5.291606e-01","6":"6.808071e-01"},{"1":"17","2":"2","3":"-0.29424043","4":"0.868794899","5":"1.981407e-02","6":"1.918514e-02"},{"1":"18","2":"2","3":"-0.29424043","4":"0.904154666","5":"1.575834e-02","6":"1.826100e-02"},{"1":"19","2":"2","3":"-0.29424043","4":"0.617424566","5":"1.009374e-01","6":"6.802933e-02"},{"1":"20","2":"2","3":"-0.29424043","4":"0.134031635","5":"2.310921e+00","6":"2.247712e+00"},{"1":"1","2":"3","3":"-0.27997338","4":"0.782193281","5":"1.148618e-02","6":"1.251141e-02"},{"1":"2","2":"3","3":"-0.27997338","4":"0.429198820","5":"1.873728e-01","6":"3.823985e-01"},{"1":"3","2":"3","3":"-0.27997338","4":"0.927273975","5":"3.646076e-03","6":"3.484712e-03"},{"1":"4","2":"3","3":"-0.27997338","4":"0.773243225","5":"1.232875e-02","6":"1.326987e-02"},{"1":"5","2":"3","3":"-0.27997338","4":"0.259681247","5":"7.161382e-01","6":"4.318121e-01"},{"1":"6","2":"3","3":"-0.27997338","4":"0.321224673","5":"4.401453e-01","6":"8.623109e-01"},{"1":"7","2":"3","3":"-0.27997338","4":"0.060195157","5":"3.469194e+00","6":"6.577766e-01"},{"1":"8","2":"3","3":"-0.27997338","4":"0.043456454","5":"3.960279e+00","6":"1.817927e+00"},{"1":"9","2":"3","3":"-0.27997338","4":"0.055053818","5":"3.613175e+00","6":"7.765183e+00"},{"1":"10","2":"3","3":"-0.27997338","4":"0.625542797","5":"3.965225e-02","6":"4.765051e-02"},{"1":"11","2":"3","3":"-0.27997338","4":"0.964470289","5":"2.716796e-03","6":"2.771447e-03"},{"1":"12","2":"3","3":"-0.27997338","4":"0.827302869","5":"8.039426e-03","6":"7.106074e-03"},{"1":"13","2":"3","3":"-0.27997338","4":"0.315028236","5":"4.622541e-01","6":"4.504971e-01"},{"1":"14","2":"3","3":"-0.27997338","4":"0.213025451","5":"1.035759e+00","6":"1.333136e+00"},{"1":"15","2":"3","3":"-0.27997338","4":"0.732496119","5":"1.701707e-02","6":"1.599594e-02"},{"1":"16","2":"3","3":"-0.27997338","4":"0.499241021","5":"1.076744e-01","6":"1.148462e-01"},{"1":"17","2":"3","3":"-0.27997338","4":"0.729771972","5":"1.738770e-02","6":"1.854495e-02"},{"1":"18","2":"3","3":"-0.27997338","4":"0.080336044","5":"2.958319e+00","6":"1.128053e+00"},{"1":"19","2":"3","3":"-0.27997338","4":"0.435530485","5":"1.782204e-01","6":"9.493137e-02"},{"1":"20","2":"3","3":"-0.27997338","4":"0.236580453","5":"8.597016e-01","6":"2.083987e-01"},{"1":"1","2":"4","3":"-0.65284830","4":"0.791567798","5":"6.155694e-03","6":"6.206993e-03"},{"1":"2","2":"4","3":"-0.65284830","4":"0.258684317","5":"4.692439e-01","6":"8.893316e-01"},{"1":"3","2":"4","3":"-0.65284830","4":"0.985983832","5":"1.266508e-03","6":"1.248996e-03"},{"1":"4","2":"4","3":"-0.65284830","4":"0.756873744","5":"8.162345e-03","6":"9.034595e-03"},{"1":"5","2":"4","3":"-0.65284830","4":"0.979778247","5":"1.332066e-03","6":"1.352395e-03"},{"1":"6","2":"4","3":"-0.65284830","4":"0.218947839","5":"6.482554e-01","6":"2.382637e-01"},{"1":"7","2":"4","3":"-0.65284830","4":"0.948707183","5":"1.715013e-03","6":"1.760200e-03"},{"1":"8","2":"4","3":"-0.65284830","4":"0.149457946","5":"1.140726e+00","6":"3.646075e-01"},{"1":"9","2":"4","3":"-0.65284830","4":"0.600356971","5":"2.914912e-02","6":"3.102558e-02"},{"1":"10","2":"4","3":"-0.65284830","4":"0.946430752","5":"1.747060e-03","6":"1.681426e-03"},{"1":"11","2":"4","3":"-0.65284830","4":"0.688353357","5":"1.425037e-02","6":"1.418482e-02"},{"1":"12","2":"4","3":"-0.65284830","4":"0.505533723","5":"6.302852e-02","6":"5.483928e-02"},{"1":"13","2":"4","3":"-0.65284830","4":"0.372936245","5":"1.852959e-01","6":"2.546818e-01"},{"1":"14","2":"4","3":"-0.65284830","4":"0.335805038","5":"2.506176e-01","6":"1.122487e-01"},{"1":"15","2":"4","3":"-0.65284830","4":"0.048251353","5":"2.597998e+00","6":"6.007411e-01"},{"1":"16","2":"4","3":"-0.65284830","4":"0.618947539","5":"2.505904e-02","6":"2.255086e-02"},{"1":"17","2":"4","3":"-0.65284830","4":"0.961447292","5":"1.546215e-03","6":"1.582148e-03"},{"1":"18","2":"4","3":"-0.65284830","4":"0.654960510","5":"1.869684e-02","6":"2.022258e-02"},{"1":"19","2":"4","3":"-0.65284830","4":"0.510291992","5":"6.063608e-02","6":"6.587711e-02"},{"1":"20","2":"4","3":"-0.65284830","4":"0.150098211","5":"1.134802e+00","6":"5.352569e-01"},{"1":"1","2":"5","3":"0.89997993","4":"0.870447880","5":"1.957472e-02","6":"1.836416e-02"},{"1":"2","2":"5","3":"0.89997993","4":"0.514441678","5":"3.202443e-01","6":"2.115878e-01"},{"1":"3","2":"5","3":"0.89997993","4":"0.008647914","5":"1.698090e+01","6":"7.184794e+00"},{"1":"4","2":"5","3":"0.89997993","4":"0.019194765","5":"1.563154e+01","6":"3.130180e-01"},{"1":"5","2":"5","3":"0.89997993","4":"0.144511902","5":"5.844387e+00","6":"1.288458e+00"},{"1":"6","2":"5","3":"0.89997993","4":"0.305031755","5":"1.657503e+00","6":"3.545323e-01"},{"1":"7","2":"5","3":"0.89997993","4":"0.825656863","5":"2.782328e-02","6":"2.570352e-02"},{"1":"8","2":"5","3":"0.89997993","4":"0.502344642","5":"3.521483e-01","6":"4.006882e-01"},{"1":"9","2":"5","3":"0.89997993","4":"0.803572626","5":"3.309051e-02","6":"3.088430e-02"},{"1":"10","2":"5","3":"0.89997993","4":"0.060639982","5":"1.129006e+01","6":"6.395137e+01"},{"1":"11","2":"5","3":"0.89997993","4":"0.927955136","5":"1.246314e-02","6":"1.344823e-02"},{"1":"12","2":"5","3":"0.89997993","4":"0.808178551","5":"3.191536e-02","6":"3.555398e-02"},{"1":"13","2":"5","3":"0.89997993","4":"0.078813340","5":"9.788926e+00","6":"1.896649e+02"},{"1":"14","2":"5","3":"0.89997993","4":"0.600928282","5":"1.624088e-01","6":"1.815830e-01"},{"1":"15","2":"5","3":"0.89997993","4":"0.714779881","5":"6.644128e-02","6":"5.557982e-02"},{"1":"16","2":"5","3":"0.89997993","4":"0.513845653","5":"3.217462e-01","6":"2.444344e-01"},{"1":"17","2":"5","3":"0.89997993","4":"0.720116505","5":"6.371520e-02","6":"6.972342e-02"},{"1":"18","2":"5","3":"0.89997993","4":"0.749946270","5":"5.041269e-02","6":"7.089218e-02"},{"1":"19","2":"5","3":"0.89997993","4":"0.095640524","5":"8.577556e+00","6":"2.773701e+01"},{"1":"20","2":"5","3":"0.89997993","4":"0.397825865","5":"7.999766e-01","6":"1.236932e+00"},{"1":"1","2":"6","3":"-1.98284597","4":"0.294465403","5":"6.843301e-02","6":"6.565654e-02"},{"1":"2","2":"6","3":"-1.98284597","4":"0.617253666","5":"3.550880e-03","6":"3.728139e-03"},{"1":"3","2":"6","3":"-1.98284597","4":"0.974274127","5":"1.346287e-04","6":"1.350961e-04"},{"1":"4","2":"6","3":"-1.98284597","4":"0.618212038","5":"3.519824e-03","6":"3.720950e-03"},{"1":"5","2":"6","3":"-1.98284597","4":"0.521369193","5":"8.551164e-03","6":"8.630415e-03"},{"1":"6","2":"6","3":"-1.98284597","4":"0.902503796","5":"2.599173e-04","6":"2.615105e-04"},{"1":"7","2":"6","3":"-1.98284597","4":"0.637454433","5":"2.950682e-03","6":"2.915576e-03"},{"1":"8","2":"6","3":"-1.98284597","4":"0.864301133","5":"3.689005e-04","6":"3.767796e-04"},{"1":"9","2":"6","3":"-1.98284597","4":"0.251117741","5":"1.018171e-01","6":"9.203153e-02"},{"1":"10","2":"6","3":"-1.98284597","4":"0.215069081","5":"1.416838e-01","6":"1.543222e-01"},{"1":"11","2":"6","3":"-1.98284597","4":"0.609476045","5":"3.813261e-03","6":"4.023667e-03"},{"1":"12","2":"6","3":"-1.98284597","4":"0.383444635","5":"3.027361e-02","6":"2.572735e-02"},{"1":"13","2":"6","3":"-1.98284597","4":"0.755271045","5":"1.002138e-03","6":"9.742417e-04"},{"1":"14","2":"6","3":"-1.98284597","4":"0.379736243","5":"3.132033e-02","6":"3.693538e-02"},{"1":"15","2":"6","3":"-1.98284597","4":"0.794972064","5":"6.964482e-04","6":"6.953995e-04"},{"1":"16","2":"6","3":"-1.98284597","4":"0.905691136","5":"2.524336e-04","6":"2.538701e-04"},{"1":"17","2":"6","3":"-1.98284597","4":"0.984026173","5":"1.231168e-04","6":"1.230665e-04"},{"1":"18","2":"6","3":"-1.98284597","4":"0.587947974","5":"4.645086e-03","6":"4.506426e-03"},{"1":"19","2":"6","3":"-1.98284597","4":"0.009464052","5":"9.327734e-01","6":"2.352991e-01"},{"1":"20","2":"6","3":"-1.98284597","4":"0.320792069","5":"5.376090e-02","6":"5.437269e-02"},{"1":"1","2":"7","3":"0.98886011","4":"0.559456733","5":"2.394411e-01","6":"4.061298e-01"},{"1":"2","2":"7","3":"0.98886011","4":"0.514917560","5":"3.403775e-01","6":"1.986290e-01"},{"1":"3","2":"7","3":"0.98886011","4":"0.089711862","5":"9.780210e+00","6":"1.965810e+01"},{"1":"4","2":"7","3":"0.98886011","4":"0.683250574","5":"9.007528e-02","6":"1.244786e-01"},{"1":"5","2":"7","3":"0.98886011","4":"0.709972050","5":"7.293823e-02","6":"6.730207e-02"},{"1":"6","2":"7","3":"0.98886011","4":"0.800231554","5":"3.575853e-02","6":"3.063042e-02"},{"1":"7","2":"7","3":"0.98886011","4":"0.944078415","5":"1.148175e-02","6":"9.984674e-03"},{"1":"8","2":"7","3":"0.98886011","4":"0.186646138","5":"4.548615e+00","6":"9.398776e-01"},{"1":"9","2":"7","3":"0.98886011","4":"0.278642282","5":"2.199617e+00","6":"1.498547e+01"},{"1":"10","2":"7","3":"0.98886011","4":"0.774263289","5":"4.389819e-02","6":"5.239635e-02"},{"1":"11","2":"7","3":"0.98886011","4":"0.033447615","5":"1.525195e+01","6":"6.772238e-01"},{"1":"12","2":"7","3":"0.98886011","4":"0.671918141","5":"9.850858e-02","6":"8.099151e-02"},{"1":"13","2":"7","3":"0.98886011","4":"0.812767122","5":"3.238804e-02","6":"3.029577e-02"},{"1":"14","2":"7","3":"0.98886011","4":"0.663161239","5":"1.055623e-01","6":"1.384672e-01"},{"1":"15","2":"7","3":"0.98886011","4":"0.944474673","5":"1.144587e-02","6":"1.398805e-02"},{"1":"16","2":"7","3":"0.98886011","4":"0.874844068","5":"1.983676e-02","6":"2.201782e-02"},{"1":"17","2":"7","3":"0.98886011","4":"0.697371198","5":"8.057014e-02","6":"6.579415e-02"},{"1":"18","2":"7","3":"0.98886011","4":"0.185040891","5":"4.606647e+00","6":"1.222522e+01"},{"1":"19","2":"7","3":"0.98886011","4":"0.097544310","5":"9.193569e+00","6":"6.975641e+00"},{"1":"20","2":"7","3":"0.98886011","4":"0.807759991","5":"3.369444e-02","6":"3.189632e-02"},{"1":"1","2":"8","3":"-0.07339366","4":"0.521777635","5":"8.552730e-02","6":"6.759804e-02"},{"1":"2","2":"8","3":"-0.07339366","4":"0.693540677","5":"2.018969e-02","6":"1.773039e-02"},{"1":"3","2":"8","3":"-0.07339366","4":"0.216329589","5":"1.114452e+00","6":"7.174880e-01"},{"1":"4","2":"8","3":"-0.07339366","4":"0.629942872","5":"3.445692e-02","6":"2.830488e-02"},{"1":"5","2":"8","3":"-0.07339366","4":"0.147007877","5":"1.995729e+00","6":"2.027590e+00"},{"1":"6","2":"8","3":"-0.07339366","4":"0.959070459","5":"2.167126e-03","6":"2.206004e-03"},{"1":"7","2":"8","3":"-0.07339366","4":"0.990110447","5":"1.669479e-03","6":"1.596496e-03"},{"1":"8","2":"8","3":"-0.07339366","4":"0.496439308","5":"1.058268e-01","6":"1.286298e-01"},{"1":"9","2":"8","3":"-0.07339366","4":"0.919647644","5":"3.018469e-03","6":"3.125383e-03"},{"1":"10","2":"8","3":"-0.07339366","4":"0.372130141","5":"3.008520e-01","6":"3.174763e-01"},{"1":"11","2":"8","3":"-0.07339366","4":"0.827057446","5":"6.572982e-03","6":"7.212149e-03"},{"1":"12","2":"8","3":"-0.07339366","4":"0.559042948","5":"6.252845e-02","6":"5.675216e-02"},{"1":"13","2":"8","3":"-0.07339366","4":"0.795671205","5":"8.557157e-03","6":"8.667163e-03"},{"1":"14","2":"8","3":"-0.07339366","4":"0.352021745","5":"3.562487e-01","6":"4.998897e-01"},{"1":"15","2":"8","3":"-0.07339366","4":"0.208527673","5":"1.189981e+00","6":"1.094364e+00"},{"1":"16","2":"8","3":"-0.07339366","4":"0.784780624","5":"9.377405e-03","6":"9.217648e-03"},{"1":"17","2":"8","3":"-0.07339366","4":"0.683051251","5":"2.205050e-02","6":"1.845136e-02"},{"1":"18","2":"8","3":"-0.07339366","4":"0.432011014","5":"1.818753e-01","6":"1.639468e-01"},{"1":"19","2":"8","3":"-0.07339366","4":"0.846433987","5":"5.585133e-03","6":"5.605172e-03"},{"1":"20","2":"8","3":"-0.07339366","4":"0.601943839","5":"4.359929e-02","6":"3.960768e-02"},{"1":"1","2":"9","3":"-0.80644588","4":"0.740660515","5":"1.112050e-02","6":"1.072342e-02"},{"1":"2","2":"9","3":"-0.80644588","4":"0.594902001","5":"3.409161e-02","6":"3.276873e-02"},{"1":"3","2":"9","3":"-0.80644588","4":"0.851559090","5":"4.741974e-03","6":"4.798175e-03"},{"1":"4","2":"9","3":"-0.80644588","4":"0.813901009","5":"6.333692e-03","6":"6.507738e-03"},{"1":"5","2":"9","3":"-0.80644588","4":"0.380423351","5":"1.772351e-01","6":"1.320647e-01"},{"1":"6","2":"9","3":"-0.80644588","4":"0.492308202","5":"7.500538e-02","6":"7.103816e-02"},{"1":"7","2":"9","3":"-0.80644588","4":"0.993377465","5":"1.594364e-03","6":"1.623116e-03"},{"1":"8","2":"9","3":"-0.80644588","4":"0.174089450","5":"8.654974e-01","6":"3.910249e-01"},{"1":"9","2":"9","3":"-0.80644588","4":"0.834280800","5":"5.415416e-03","6":"5.935936e-03"},{"1":"10","2":"9","3":"-0.80644588","4":"0.395815374","5":"1.574610e-01","6":"1.564183e-01"},{"1":"11","2":"9","3":"-0.80644588","4":"0.969056134","5":"1.922069e-03","6":"1.934019e-03"},{"1":"12","2":"9","3":"-0.80644588","4":"0.188206467","5":"7.765063e-01","6":"3.431765e-01"},{"1":"13","2":"9","3":"-0.80644588","4":"0.749221670","5":"1.041234e-02","6":"1.043948e-02"},{"1":"14","2":"9","3":"-0.80644588","4":"0.308469610","5":"3.081215e-01","6":"2.232378e-01"},{"1":"15","2":"9","3":"-0.80644588","4":"0.379058901","5":"1.791035e-01","6":"1.081796e-01"},{"1":"16","2":"9","3":"-0.80644588","4":"0.750765843","5":"1.028949e-02","6":"9.940607e-03"},{"1":"17","2":"9","3":"-0.80644588","4":"0.704201675","5":"1.471700e-02","6":"1.820407e-02"},{"1":"18","2":"9","3":"-0.80644588","4":"0.920593034","5":"2.789541e-03","6":"2.748039e-03"},{"1":"19","2":"9","3":"-0.80644588","4":"0.795277313","5":"7.308369e-03","6":"7.404052e-03"},{"1":"20","2":"9","3":"-0.80644588","4":"0.829076963","5":"5.636397e-03","6":"5.118657e-03"},{"1":"1","2":"10","3":"-0.94551806","4":"0.167547663","5":"6.741732e-01","6":"3.994674e-01"},{"1":"2","2":"10","3":"-0.94551806","4":"0.409959779","5":"8.288046e-02","6":"8.371208e-02"},{"1":"3","2":"10","3":"-0.94551806","4":"0.196252741","5":"5.259889e-01","6":"4.274161e-01"},{"1":"4","2":"10","3":"-0.94551806","4":"0.259400624","5":"3.046774e-01","6":"1.966766e-01"},{"1":"5","2":"10","3":"-0.94551806","4":"0.970416267","5":"6.513210e-04","6":"6.418065e-04"},{"1":"6","2":"10","3":"-0.94551806","4":"0.811643202","5":"2.570564e-03","6":"2.577616e-03"},{"1":"7","2":"10","3":"-0.94551806","4":"0.347595840","5":"1.421165e-01","6":"2.088852e-01"},{"1":"8","2":"10","3":"-0.94551806","4":"0.938345528","5":"8.594664e-04","6":"8.661579e-04"},{"1":"9","2":"10","3":"-0.94551806","4":"0.163386894","5":"6.988697e-01","6":"6.317418e-01"},{"1":"10","2":"10","3":"-0.94551806","4":"0.156809160","5":"7.397710e-01","6":"5.457051e-01"},{"1":"11","2":"10","3":"-0.94551806","4":"0.754063257","5":"4.229177e-03","6":"4.336208e-03"},{"1":"12","2":"10","3":"-0.94551806","4":"0.886050403","5":"1.350860e-03","6":"1.333240e-03"},{"1":"13","2":"10","3":"-0.94551806","4":"0.306764136","5":"2.022917e-01","6":"1.576112e-01"},{"1":"14","2":"10","3":"-0.94551806","4":"0.311081748","5":"1.948787e-01","6":"2.140661e-01"},{"1":"15","2":"10","3":"-0.94551806","4":"0.984525189","5":"5.765175e-04","6":"5.638346e-04"},{"1":"16","2":"10","3":"-0.94551806","4":"0.006929230","5":"2.703552e+00","6":"1.101555e+00"},{"1":"17","2":"10","3":"-0.94551806","4":"0.274320578","5":"2.678008e-01","6":"1.963968e-01"},{"1":"18","2":"10","3":"-0.94551806","4":"0.798044215","5":"2.891320e-03","6":"2.940495e-03"},{"1":"19","2":"10","3":"-0.94551806","4":"0.243669718","5":"3.490710e-01","6":"4.205892e-01"},{"1":"20","2":"10","3":"-0.94551806","4":"0.458273462","5":"5.457854e-02","6":"5.469864e-02"}],"options":{"columns":{"min":{},"max":[6]},"rows":{"min":[6],"max":[6]},"pages":{}}}
   </script>
 </div>
 <p>El siguiente paso es explorar los datos simulados. El código para dibujar los datos se muestra abajo.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="pac-lme4.html#cb35-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb35-2"><a href="pac-lme4.html#cb35-2" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(x, y, <span class="at">color=</span>grupo) ) <span class="sc">+</span> </span>
-<span id="cb35-3"><a href="pac-lme4.html#cb35-3" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb35-4"><a href="pac-lme4.html#cb35-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">colour=</span><span class="st">&quot;Grupo/Cluster&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="pac-lme4.html#cb32-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb32-2"><a href="pac-lme4.html#cb32-2" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(x, y, <span class="at">color=</span>grupo) ) <span class="sc">+</span> </span>
+<span id="cb32-3"><a href="pac-lme4.html#cb32-3" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb32-4"><a href="pac-lme4.html#cb32-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">colour=</span><span class="st">&quot;Grupo/Cluster&quot;</span>)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/plot_simul_b0b1_invgauss-1.png" width="672" /></p>
 <p>Para estimar los parámetros del modelos se usa la función <code>glmer</code> de la siguiente forma.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="pac-lme4.html#cb36-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
-<span id="cb36-2"><a href="pac-lme4.html#cb36-2" tabindex="-1"></a>fit3 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(y <span class="sc">~</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> x <span class="sc">|</span> grupo), </span>
-<span id="cb36-3"><a href="pac-lme4.html#cb36-3" tabindex="-1"></a>              <span class="at">family=</span><span class="fu">inverse.gaussian</span>(<span class="at">link=</span><span class="st">&quot;log&quot;</span>), <span class="at">data =</span> datos)</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="pac-lme4.html#cb33-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb33-2"><a href="pac-lme4.html#cb33-2" tabindex="-1"></a>fit3 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(y <span class="sc">~</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> x <span class="sc">|</span> grupo), </span>
+<span id="cb33-3"><a href="pac-lme4.html#cb33-3" tabindex="-1"></a>              <span class="at">family=</span><span class="fu">inverse.gaussian</span>(<span class="at">link=</span><span class="st">&quot;log&quot;</span>), <span class="at">data =</span> datos)</span></code></pre></div>
 <p>La función <code>summary</code> se puede usar sobre el objeto <code>fit3</code> para obtener una tabla de resumen, a continuación se muestra la salida de <code>summary</code>.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="pac-lme4.html#cb37-1" tabindex="-1"></a><span class="fu">summary</span>(fit3)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="pac-lme4.html#cb34-1" tabindex="-1"></a><span class="fu">summary</span>(fit3)</span></code></pre></div>
 <pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
 ##   Approximation) [glmerMod]
 ##  Family: inverse.gaussian  ( log )
 ## Formula: y ~ x + (1 + x | grupo)
 ##    Data: datos
 ## 
-##      AIC      BIC   logLik deviance df.resid 
-##  -1060.0  -1040.2    536.0  -1072.0      194 
+##       AIC       BIC    logLik -2*log(L)  df.resid 
+##   -1060.0   -1040.2     536.0   -1072.0       194 
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
@@ -712,10 +595,13 @@ El valor de <span class="math inline">\(\hat{\phi}\)</span> se encuentra en la l
 
 </div>
 </div>
-<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-R-lme4" class="csl-entry">
-Bates, Douglas, Martin Maechler, Ben Bolker, and Steven Walker. 2023. <em>Lme4: Linear Mixed-Effects Models Using Eigen and S4</em>. <a href="https://github.com/lme4/lme4/">https://github.com/lme4/lme4/</a>.
+Bates, Douglas, Martin Maechler, Ben Bolker, and Steven Walker. 2025. <em>Lme4: Linear Mixed-Effects Models Using Eigen and S4</em>. <a href="https://github.com/lme4/lme4/">https://github.com/lme4/lme4/</a>.
+</div>
+<div id="ref-R-statmod" class="csl-entry">
+Smyth, Gordon, Lizhong Chen, Yifang Hu, Peter Dunn, Belinda Phipson, and Yunshun Chen. 2023. <em>Statmod: Statistical Modeling</em>. <a href="https://doi.org/10.32614/CRAN.package.statmod">https://doi.org/10.32614/CRAN.package.statmod</a>.
 </div>
 </div>
             </section>
@@ -738,42 +624,42 @@ Bates, Douglas, Martin Maechler, Ben Bolker, and Steven Walker. 2023. <em>Lme4: 
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/302-paquete-lme4.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "subsection"
-}
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/fhernanb/libro_modelos_mixtos/edit/master/302-paquete-lme4.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
 });
 });
 </script>
