@@ -106,8 +106,8 @@ fixef(fit)
 Con base en la información anterior de efectos aleatorios y fijos, es posible escribir la ecuación del modelo para cada individuo. Para esto, se debe considerar los efectos fijos estimados ($\hat{\beta}_0 \approx 251.40$ y  $\hat{\beta}_1\approx  10.47$) y los efectos aleatorios de cada uno de los individuos (por ejemplo para el individuo `308`, $\tilde{b}_{0, i=308} \approx 2.26$ y $\tilde{b}_{1, i=308} \approx 9.20$). Así, el valor medio del individuo `308` se calcula como:
 
 \begin{align*} 
-\hat{\mu}_{i=308, j} &= \hat{\beta}_0 + \hat{\beta}_0 \, Days_{i=308, j} + \tilde{b}_{0, i=308} + \tilde{b}_{1, i=308} \, Days_{i=308, j} \\
-\hat{\mu}_{i=308, j} &= 251.40 + 10.47 \, Days_{i=308, j} 2.26 + 9.20 \, Days_{i=308, j} \\
+\hat{\mu}_{i=308, j} &= \hat{\beta}_0 + \hat{\beta}_1 \, Days_{i=308, j} + \tilde{b}_{0, i=308} + \tilde{b}_{1, i=308} \, Days_{i=308, j} \\
+\hat{\mu}_{i=308, j} &= 251.40 + 10.47 \, Days_{i=308, j} + 2.26 + 9.20 \, Days_{i=308, j} \\
 \hat{\mu}_{i=308, j} &= 253.66 + 19.67 \, Days_{i=308, j}
 \end{align*}
 
