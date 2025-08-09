@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2025-05-16" />
+<meta name="date" content="2025-08-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -243,12 +243,11 @@ div.csl-indent {
 <p>En este capítulo se presenta un ejemplo de glmm con variable respuesta Poisson y está basado en <a href="https://stats.oarc.ucla.edu/r/faq/random-coefficient-poisson-models/">esta publicación</a>.</p>
 <p><img src="images/premios_estudiantes.png" width="80%" /></p>
 <p>A continuación la base de datos a utilizar.</p>
-<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="glmm_poisson.html#cb283-1" tabindex="-1"></a><span class="fu">require</span>(foreign)</span>
-<span id="cb283-2"><a href="glmm_poisson.html#cb283-2" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">read.dta</span>(<span class="st">&quot;https://stats.idre.ucla.edu/stat/data/hsbdemo.dta&quot;</span>)</span>
-<span id="cb283-3"><a href="glmm_poisson.html#cb283-3" tabindex="-1"></a></span>
-<span id="cb283-4"><a href="glmm_poisson.html#cb283-4" tabindex="-1"></a><span class="co"># Cambios menores a algunas variables</span></span>
-<span id="cb283-5"><a href="glmm_poisson.html#cb283-5" tabindex="-1"></a>datos<span class="sc">$</span>cid <span class="ot">&lt;-</span> <span class="fu">factor</span>(datos<span class="sc">$</span>cid)</span>
-<span id="cb283-6"><a href="glmm_poisson.html#cb283-6" tabindex="-1"></a>datos<span class="sc">$</span>female <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(datos<span class="sc">$</span>female <span class="sc">==</span> <span class="st">&#39;female&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="glmm_poisson.html#cb283-1" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="st">&quot;datos/hsbdemo.csv&quot;</span>)</span>
+<span id="cb283-2"><a href="glmm_poisson.html#cb283-2" tabindex="-1"></a></span>
+<span id="cb283-3"><a href="glmm_poisson.html#cb283-3" tabindex="-1"></a><span class="co"># Cambios menores a algunas variables</span></span>
+<span id="cb283-4"><a href="glmm_poisson.html#cb283-4" tabindex="-1"></a>datos<span class="sc">$</span>cid <span class="ot">&lt;-</span> <span class="fu">factor</span>(datos<span class="sc">$</span>cid)</span>
+<span id="cb283-5"><a href="glmm_poisson.html#cb283-5" tabindex="-1"></a>datos<span class="sc">$</span>female <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(datos<span class="sc">$</span>female <span class="sc">==</span> <span class="st">&#39;female&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code></pre></div>
 <p>Los datos corresponden a una muestra de 200 estudiantes de educación secundaria, los cuales están agrupados en 20 escuelas diferentes. El propósito es modelar el número de premios que recibe un estudiante dada la escuela a la cual pertenece, teniendo en cuenta la variable género como la variable que mejor podría ayudar en la predicción.</p>
 <p>Las variables de la base de datos son:</p>
 <ul>

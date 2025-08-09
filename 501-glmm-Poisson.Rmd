@@ -9,8 +9,7 @@ knitr::include_graphics("images/premios_estudiantes.png")
 A continuación la base de datos a utilizar.
 
 ```{r, message = FALSE}
-require(foreign)
-datos <- read.dta("https://stats.idre.ucla.edu/stat/data/hsbdemo.dta")
+datos <- read.delim("datos/hsbdemo.csv")
 
 # Cambios menores a algunas variables
 datos$cid <- factor(datos$cid)

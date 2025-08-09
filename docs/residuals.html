@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2025-05-16" />
+<meta name="date" content="2025-08-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,8 +53,6 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
-<link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
-<script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
 
 
 <style type="text/css">
@@ -217,7 +215,120 @@ div.csl-indent {
 <li class="chapter" data-level="10.1" data-path="estim.html"><a href="estim.html#ml-y-reml"><i class="fa fa-check"></i><b>10.1</b> ML y REML</a></li>
 <li class="chapter" data-level="" data-path="estim.html"><a href="estim.html#ejemplo-comparando-reml-y-ml-usando-lme4"><i class="fa fa-check"></i>Ejemplo: comparando REML y ML usando <strong>lme4</strong></a></li>
 <li class="chapter" data-level="" data-path="estim.html"><a href="estim.html#ejemplo-comparando-reml-y-ml-usando-nlme"><i class="fa fa-check"></i>Ejemplo: comparando REML y ML usando <strong>nlme</strong></a></li>
+<li class="chapter" data-level="" data-path="estim.html"><a href="estim.html#ejercicios-2"><i class="fa fa-check"></i>Ejercicios</a></li>
 </ul></li>
+<li class="chapter" data-level="11" data-path="ph.html"><a href="ph.html"><i class="fa fa-check"></i><b>11</b> Pruebas de hipótesis</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="700-residuals.html"><a href="#prueba-raz%C3%B3n-de-verosimilitud"><i class="fa fa-check"></i><b>11.1</b> Prueba razón de verosimilitud</a></li>
+<li class="chapter" data-level="11.2" data-path="ph.html"><a href="ph.html#prueba-de-wald"><i class="fa fa-check"></i><b>11.2</b> Prueba de Wald</a></li>
+<li class="chapter" data-level="11.3" data-path="700-residuals.html"><a href="#prueba-de-hip%C3%B3tesis-sobre-los-efectos-fijos"><i class="fa fa-check"></i><b>11.3</b> Prueba de hipótesis sobre los efectos fijos</a>
+<ul>
+<li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejemplo-1"><i class="fa fa-check"></i>Ejemplo</a></li>
+<li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejemplo-2"><i class="fa fa-check"></i>Ejemplo</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="700-residuals.html"><a href="#prueba-de-hip%C3%B3tesis-sobre-componentes-de-varianza"><i class="fa fa-check"></i><b>11.4</b> Prueba de hipótesis sobre componentes de varianza</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="ph.html"><a href="ph.html#componentes-de-varianza-lejos-del-borde"><i class="fa fa-check"></i><b>11.4.1</b> Componentes de varianza lejos del borde</a></li>
+<li class="chapter" data-level="11.4.2" data-path="ph.html"><a href="ph.html#componentes-de-varianza-en-el-borde"><i class="fa fa-check"></i><b>11.4.2</b> Componentes de varianza en el borde</a></li>
+<li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejemplo-3"><i class="fa fa-check"></i>Ejemplo</a></li>
+<li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejemplo-4"><i class="fa fa-check"></i>Ejemplo</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ph.html"><a href="ph.html#ejercicios-3"><i class="fa fa-check"></i>Ejercicios</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="var-fun.html"><a href="var-fun.html"><i class="fa fa-check"></i><b>12</b> Modelando la heterocedasticidad</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="var-fun.html"><a href="var-fun.html#opciones-para-modelar-la-varianza"><i class="fa fa-check"></i><b>12.1</b> Opciones para modelar la varianza</a></li>
+<li class="chapter" data-level="12.2" data-path="var-fun.html"><a href="var-fun.html#varfixed"><i class="fa fa-check"></i><b>12.2</b> varFixed</a></li>
+<li class="chapter" data-level="" data-path="var-fun.html"><a href="var-fun.html#ejemplo-sigma2_y-dependiendo-de-una-variable-cuantitativa"><i class="fa fa-check"></i>Ejemplo: <span class="math inline">\(\sigma^2_y\)</span> dependiendo de una variable cuantitativa</a></li>
+<li class="chapter" data-level="12.3" data-path="var-fun.html"><a href="var-fun.html#varident"><i class="fa fa-check"></i><b>12.3</b> varIdent</a></li>
+<li class="chapter" data-level="" data-path="var-fun.html"><a href="var-fun.html#ejemplo-sigma2_y-dependiendo-de-una-variable-cualitativa"><i class="fa fa-check"></i>Ejemplo: <span class="math inline">\(\sigma^2_y\)</span> dependiendo de una variable cualitativa</a></li>
+<li class="chapter" data-level="12.4" data-path="var-fun.html"><a href="var-fun.html#varexp"><i class="fa fa-check"></i><b>12.4</b> varExp</a></li>
+<li class="chapter" data-level="" data-path="var-fun.html"><a href="var-fun.html#ejemplo-sigma2_y-con-estructura-exponencial"><i class="fa fa-check"></i>Ejemplo: <span class="math inline">\(\sigma^2_y\)</span> con estructura exponencial</a></li>
+<li class="chapter" data-level="12.5" data-path="var-fun.html"><a href="var-fun.html#varconstpower"><i class="fa fa-check"></i><b>12.5</b> varConstPower</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#ejemplo-sigma_y2-dependiendo-de-una-variable-constante-m%C3%A1s-la-potencia-de-una-variable-cuantitativa"><i class="fa fa-check"></i>Ejemplo: <span class="math inline">\(\sigma_y^2\)</span> dependiendo de una variable constante más la potencia de una variable cuantitativa</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="more-levels.html"><a href="more-levels.html"><i class="fa fa-check"></i><b>13</b> Modelos con más de dos niveles</a></li>
+<li class="chapter" data-level="14" data-path="marginals-effects.html"><a href="marginals-effects.html"><i class="fa fa-check"></i><b>14</b> Paquete <strong>marginaleffects</strong></a>
+<ul>
+<li class="chapter" data-level="" data-path="marginals-effects.html"><a href="marginals-effects.html#ejemplo-chickweight-lineal"><i class="fa fa-check"></i>Ejemplo ChickWeight lineal</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#ejemplo-chickweight-cuadr%C3%A1tico"><i class="fa fa-check"></i>Ejemplo ChickWeight cuadrático</a></li>
+<li class="chapter" data-level="14.1" data-path="marginals-effects.html"><a href="marginals-effects.html#ejemplo-5"><i class="fa fa-check"></i><b>14.1</b> Ejemplo</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="ggeffects.html"><a href="ggeffects.html"><i class="fa fa-check"></i><b>15</b> Paquete <strong>ggeffects</strong></a></li>
+<li class="chapter" data-level="16" data-path="predict-new.html"><a href="predict-new.html"><i class="fa fa-check"></i><b>16</b> Predicción</a></li>
+<li class="chapter" data-level="17" data-path="glmm.html"><a href="glmm.html"><i class="fa fa-check"></i><b>17</b> Modelos Lineales Generalizados Mixtos</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="glmm.html"><a href="glmm.html#videos-de-apoyo"><i class="fa fa-check"></i><b>17.1</b> Videos de apoyo</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html"><i class="fa fa-check"></i><b>18</b> Paquete <strong>glmmTMB</strong></a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="700-residuals.html"><a href="#funci%C3%B3n-glmmtmb"><i class="fa fa-check"></i><b>18.1</b> Función <code>glmmTMB</code></a></li>
+<li class="chapter" data-level="" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#ejemplo-modelo-normal-con-intercepto-aleatorio-2"><i class="fa fa-check"></i>Ejemplo: modelo normal con intercepto aleatorio</a></li>
+<li class="chapter" data-level="" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#ejemplo-recuperando-los-interceptos-aleatorios-1"><i class="fa fa-check"></i>Ejemplo: recuperando los interceptos aleatorios</a></li>
+<li class="chapter" data-level="" data-path="pac-glmmTMB.html"><a href="pac-glmmTMB.html#ejemplo-modelo-gamma-con-intercepto-aleatorio-1"><i class="fa fa-check"></i>Ejemplo: modelo gamma con intercepto aleatorio</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="pac-glmm.html"><a href="pac-glmm.html"><i class="fa fa-check"></i><b>19</b> Paquete <strong>glmm</strong></a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="700-residuals.html"><a href="#funci%C3%B3n-glmm"><i class="fa fa-check"></i><b>19.1</b> Función <code>glmm</code></a></li>
+<li class="chapter" data-level="" data-path="pac-glmm.html"><a href="pac-glmm.html#ejemplo-modelo-poisson-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo Poisson con intercepto aleatorio</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="pac-MASS.html"><a href="pac-MASS.html"><i class="fa fa-check"></i><b>20</b> Paquete <strong>MASS</strong></a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="700-residuals.html"><a href="#funci%C3%B3n-glmmpql"><i class="fa fa-check"></i><b>20.1</b> Función <code>glmmPQL</code></a></li>
+<li class="chapter" data-level="" data-path="pac-MASS.html"><a href="pac-MASS.html#ejemplo-modelo-bernoulli-binomial-con-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo Bernoulli (binomial) con intercepto aleatorio</a></li>
+<li class="chapter" data-level="20.2" data-path="pac-MASS.html"><a href="pac-MASS.html#what-it-means-for-aic-na-in-glmmpql-mass-summary-output"><i class="fa fa-check"></i><b>20.2</b> What it means for AIC NA in glmmPQL (MASS) summary output?</a></li>
+<li class="chapter" data-level="20.3" data-path="pac-MASS.html"><a href="pac-MASS.html#two-questions-on-the-results-from-glmmpqlmass"><i class="fa fa-check"></i><b>20.3</b> Two questions on the results from glmmPQL(MASS)</a></li>
+<li class="chapter" data-level="20.4" data-path="pac-MASS.html"><a href="pac-MASS.html#how-do-i-interpret-the-variance-of-random-effect-in-a-generalized-linear-mixed-model"><i class="fa fa-check"></i><b>20.4</b> How do I interpret the variance of random effect in a generalized linear mixed model?</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="paquete-inla.html"><a href="paquete-inla.html"><i class="fa fa-check"></i><b>21</b> Paquete <strong>INLA</strong></a>
+<ul>
+<li class="chapter" data-level="" data-path="paquete-inla.html"><a href="paquete-inla.html#ejemplo-modelo-poisson-con-intercepto-aleatorio-1"><i class="fa fa-check"></i>Ejemplo: modelo Poisson con intercepto aleatorio</a></li>
+<li class="chapter" data-level="" data-path="paquete-inla.html"><a href="paquete-inla.html#ejemplo-modelo-poisson-con-intercepto-y-pendiente-aleatoria"><i class="fa fa-check"></i>Ejemplo: modelo Poisson con intercepto y pendiente aleatoria</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html"><i class="fa fa-check"></i><b>22</b> Paquete <strong>gamlss</strong></a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#modelo-lineal-mixto-con-intercepto-aleatorio"><i class="fa fa-check"></i><b>22.1</b> Modelo lineal mixto con intercepto aleatorio</a>
+<ul>
+<li class="chapter" data-level="" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#ejemplo-6"><i class="fa fa-check"></i>Ejemplo</a></li>
+</ul></li>
+<li class="chapter" data-level="22.2" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#modelo-lineal-mixto-con-pendiente-aleatoria"><i class="fa fa-check"></i><b>22.2</b> Modelo lineal mixto con pendiente aleatoria</a>
+<ul>
+<li class="chapter" data-level="" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#ejemplo-7"><i class="fa fa-check"></i>Ejemplo</a></li>
+</ul></li>
+<li class="chapter" data-level="22.3" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#modelo-lineal-mixto-con-intercepto-y-pendiente-aleatoria"><i class="fa fa-check"></i><b>22.3</b> Modelo lineal mixto con intercepto y pendiente aleatoria</a>
+<ul>
+<li class="chapter" data-level="" data-path="paquete-gamlss.html"><a href="paquete-gamlss.html#ejemplo-8"><i class="fa fa-check"></i>Ejemplo</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="glmm_poisson.html"><a href="glmm_poisson.html"><i class="fa fa-check"></i><b>23</b> GLMM Poisson</a></li>
+<li class="chapter" data-level="24" data-path="glmm-gamma.html"><a href="glmm-gamma.html"><i class="fa fa-check"></i><b>24</b> GLMM gamma</a></li>
+<li class="chapter" data-level="25" data-path="multinomial.html"><a href="multinomial.html"><i class="fa fa-check"></i><b>25</b> Modelo multinomial</a>
+<ul>
+<li class="chapter" data-level="" data-path="multinomial.html"><a href="multinomial.html#ejemplo-modelo-multinomial-nominal"><i class="fa fa-check"></i>Ejemplo: modelo multinomial nominal</a></li>
+<li class="chapter" data-level="" data-path="multinomial.html"><a href="multinomial.html#ejemplo-modelo-multinomial-ordinal"><i class="fa fa-check"></i>Ejemplo: modelo multinomial ordinal</a></li>
+<li class="chapter" data-level="" data-path="multinomial.html"><a href="multinomial.html#ejemplo-simulando-observaciones-de-un-modelo-multinomial-nominal"><i class="fa fa-check"></i>Ejemplo: simulando observaciones de un modelo multinomial nominal</a></li>
+</ul></li>
+<li class="chapter" data-level="26" data-path="residuals.html"><a href="residuals.html"><i class="fa fa-check"></i><b>26</b> Diagnósticos con DHARMa</a>
+<ul>
+<li class="chapter" data-level="" data-path="residuals.html"><a href="residuals.html#ejemplo-modelo-gamma-mixto"><i class="fa fa-check"></i>Ejemplo: modelo gamma mixto</a></li>
+</ul></li>
+<li class="chapter" data-level="27" data-path="R2.html"><a href="R2.html"><i class="fa fa-check"></i><b>27</b> Coeficiente <span class="math inline">\(R^2\)</span></a>
+<ul>
+<li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-normal-con-intercepto-aleatorio-3"><i class="fa fa-check"></i>Ejemplo: modelo normal con intercepto aleatorio</a></li>
+<li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-normal-sin-intercepto-aleatorio"><i class="fa fa-check"></i>Ejemplo: modelo normal sin intercepto aleatorio</a></li>
+<li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-clase-lme"><i class="fa fa-check"></i>Ejemplo: modelo clase lme</a></li>
+<li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-clase-lme4"><i class="fa fa-check"></i>Ejemplo: modelo clase lme4</a></li>
+</ul></li>
+<li class="chapter" data-level="28" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>28</b> Simulación de glmm</a>
+<ul>
+<li class="chapter" data-level="28.1" data-path="simul-glmm.html"><a href="simul-glmm.html#ejemplo-para-datos-de-crecimiento"><i class="fa fa-check"></i><b>28.1</b> Ejemplo para datos de crecimiento</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="sced.html"><a href="sced.html"><i class="fa fa-check"></i><b>29</b> Single case experimental desing (sced)</a>
+<ul>
+<li class="chapter" data-level="" data-path=""><a href="#ejemplo-simulaci%C3%B3n-de-un-sced-abab"><i class="fa fa-check"></i>Ejemplo: simulación de un sced ABAB</a></li>
+</ul></li>
+<li class="chapter" data-level="30" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>30</b> Otro material interesante</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -269,46 +380,41 @@ Solución.
 </div>
 </div>
 <p>Lo primero es simular los datos. La función <code>rgamma_glm</code> sirve para simular observaciones <span class="math inline">\(Y\)</span> con la parametrización gamma de los glm.</p>
-<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="residuals.html#cb361-1" tabindex="-1"></a>rgamma_glm <span class="ot">&lt;-</span> <span class="cf">function</span>(n, mu, phi) {</span>
-<span id="cb361-2"><a href="residuals.html#cb361-2" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rgamma</span>(<span class="at">n=</span>n, <span class="at">shape=</span><span class="dv">1</span><span class="sc">/</span>phi, <span class="at">scale=</span>mu<span class="sc">*</span>phi)</span>
-<span id="cb361-3"><a href="residuals.html#cb361-3" tabindex="-1"></a>  <span class="fu">return</span>(x)</span>
-<span id="cb361-4"><a href="residuals.html#cb361-4" tabindex="-1"></a>}</span>
-<span id="cb361-5"><a href="residuals.html#cb361-5" tabindex="-1"></a></span>
-<span id="cb361-6"><a href="residuals.html#cb361-6" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">15</span></span>
-<span id="cb361-7"><a href="residuals.html#cb361-7" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">15</span></span>
-<span id="cb361-8"><a href="residuals.html#cb361-8" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
-<span id="cb361-9"><a href="residuals.html#cb361-9" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
-<span id="cb361-10"><a href="residuals.html#cb361-10" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
-<span id="cb361-11"><a href="residuals.html#cb361-11" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb361-12"><a href="residuals.html#cb361-12" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
-<span id="cb361-13"><a href="residuals.html#cb361-13" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
-<span id="cb361-14"><a href="residuals.html#cb361-14" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb361-15"><a href="residuals.html#cb361-15" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">9</span>)) <span class="co"># Intercepto aleatorio</span></span>
-<span id="cb361-16"><a href="residuals.html#cb361-16" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)             <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
-<span id="cb361-17"><a href="residuals.html#cb361-17" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="dv">2</span> <span class="sc">-</span> <span class="dv">8</span> <span class="sc">*</span> x1 <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> x2 <span class="sc">+</span> b0)</span>
-<span id="cb361-18"><a href="residuals.html#cb361-18" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb361-19"><a href="residuals.html#cb361-19" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rgamma_glm</span>(<span class="at">n=</span>nobs, <span class="at">mu=</span>media, <span class="at">phi=</span><span class="fl">0.5</span>)</span>
-<span id="cb361-20"><a href="residuals.html#cb361-20" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x1, x2, media, y)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="residuals.html#cb1-1" tabindex="-1"></a>rgamma_glm <span class="ot">&lt;-</span> <span class="cf">function</span>(n, mu, phi) {</span>
+<span id="cb1-2"><a href="residuals.html#cb1-2" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rgamma</span>(<span class="at">n=</span>n, <span class="at">shape=</span><span class="dv">1</span><span class="sc">/</span>phi, <span class="at">scale=</span>mu<span class="sc">*</span>phi)</span>
+<span id="cb1-3"><a href="residuals.html#cb1-3" tabindex="-1"></a>  <span class="fu">return</span>(x)</span>
+<span id="cb1-4"><a href="residuals.html#cb1-4" tabindex="-1"></a>}</span>
+<span id="cb1-5"><a href="residuals.html#cb1-5" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="residuals.html#cb1-6" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb1-7"><a href="residuals.html#cb1-7" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb1-8"><a href="residuals.html#cb1-8" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
+<span id="cb1-9"><a href="residuals.html#cb1-9" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
+<span id="cb1-10"><a href="residuals.html#cb1-10" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
+<span id="cb1-11"><a href="residuals.html#cb1-11" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb1-12"><a href="residuals.html#cb1-12" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
+<span id="cb1-13"><a href="residuals.html#cb1-13" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
+<span id="cb1-14"><a href="residuals.html#cb1-14" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb1-15"><a href="residuals.html#cb1-15" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">9</span>)) <span class="co"># Intercepto aleatorio</span></span>
+<span id="cb1-16"><a href="residuals.html#cb1-16" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)             <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
+<span id="cb1-17"><a href="residuals.html#cb1-17" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="dv">2</span> <span class="sc">-</span> <span class="dv">8</span> <span class="sc">*</span> x1 <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> x2 <span class="sc">+</span> b0)</span>
+<span id="cb1-18"><a href="residuals.html#cb1-18" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb1-19"><a href="residuals.html#cb1-19" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rgamma_glm</span>(<span class="at">n=</span>nobs, <span class="at">mu=</span>media, <span class="at">phi=</span><span class="fl">0.5</span>)</span>
+<span id="cb1-20"><a href="residuals.html#cb1-20" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x1, x2, media, y)</span></code></pre></div>
 <p>A continuación se ajustan los dos modelos de interés.</p>
-<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="residuals.html#cb362-1" tabindex="-1"></a><span class="fu">library</span>(glmmTMB)</span>
-<span id="cb362-2"><a href="residuals.html#cb362-2" tabindex="-1"></a>fit0 <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">family=</span><span class="fu">Gamma</span>(<span class="at">link=</span><span class="st">&quot;log&quot;</span>), <span class="at">data =</span> datos)</span>
-<span id="cb362-3"><a href="residuals.html#cb362-3" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> grupo), <span class="at">family=</span><span class="fu">Gamma</span>(<span class="at">link=</span><span class="st">&quot;log&quot;</span>), <span class="at">data =</span> datos)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="residuals.html#cb2-1" tabindex="-1"></a><span class="fu">library</span>(glmmTMB)</span>
+<span id="cb2-2"><a href="residuals.html#cb2-2" tabindex="-1"></a>fit0 <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">family=</span><span class="fu">Gamma</span>(<span class="at">link=</span><span class="st">&quot;log&quot;</span>), <span class="at">data =</span> datos)</span>
+<span id="cb2-3"><a href="residuals.html#cb2-3" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> grupo), <span class="at">family=</span><span class="fu">Gamma</span>(<span class="at">link=</span><span class="st">&quot;log&quot;</span>), <span class="at">data =</span> datos)</span></code></pre></div>
 <p>Con el siguiente código se constuyen los gráficos de residuales para el modelo <code>fit0</code>.</p>
-<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="residuals.html#cb363-1" tabindex="-1"></a><span class="fu">library</span>(DHARMa)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="residuals.html#cb3-1" tabindex="-1"></a><span class="fu">library</span>(DHARMa)</span></code></pre></div>
 <pre><code>## This is DHARMa 0.4.7. For overview type &#39;?DHARMa&#39;. For recent changes, type news(package = &#39;DHARMa&#39;)</code></pre>
-<pre><code>## 
-## Adjuntando el paquete: &#39;DHARMa&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:gamlss&#39;:
-## 
-##     getQuantile</code></pre>
-<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="residuals.html#cb367-1" tabindex="-1"></a>simulationOutput0 <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> fit0, <span class="at">plot =</span> F)</span>
-<span id="cb367-2"><a href="residuals.html#cb367-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput0)</span></code></pre></div>
-<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-268-1.png" width="672" /></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="residuals.html#cb5-1" tabindex="-1"></a>simulationOutput0 <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> fit0, <span class="at">plot =</span> F)</span>
+<span id="cb5-2"><a href="residuals.html#cb5-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput0)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>De la figura anterior vemos que el valor-P de la prueba KS de normalidad (<span class="math inline">\(H_0:\)</span> la muestra de residuos tiene distribución normal) es 0, lo que indica que hay evidencias para rechazar la normalidad de los errores. Eso implica que el modelo <code>fit0</code> no es el modelo apropiado para los datos. Este resultado es correcto porque sabemos que <code>fit0</code> no incluyó el intercepto aleatorio <span class="math inline">\(b_0\)</span>.</p>
 <p>Con el siguiente código se constuyen los gráficos de residuales para el modelo <code>fit1</code>.</p>
-<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="residuals.html#cb368-1" tabindex="-1"></a>simulationOutput1 <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> fit1, <span class="at">plot =</span> F)</span>
-<span id="cb368-2"><a href="residuals.html#cb368-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput1)</span></code></pre></div>
-<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-269-1.png" width="672" /></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="residuals.html#cb6-1" tabindex="-1"></a>simulationOutput1 <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> fit1, <span class="at">plot =</span> F)</span>
+<span id="cb6-2"><a href="residuals.html#cb6-2" tabindex="-1"></a><span class="fu">plot</span>(simulationOutput1)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>De la figura anterior vemos que el valor-P de la prueba KS de normalidad (<span class="math inline">\(H_0:\)</span> la muestra de residuos tiene distribución normal) es 0.10871, lo que indica que hay <strong>NO hay</strong> evidencias para rechazar la normalidad de los errores. Eso implica que el modelo <code>fit1</code> podría ser un modelo apropiado para los datos. Este resultado es correcto porque sabemos que <code>fit1</code> tiene los elementos con los que se simularon los datos.</p>
 <div style="-moz-box-shadow: 1px 1px 3px 2px #00ffff;
   -webkit-box-shadow: 1px 1px 3px 2px #00ffff;
@@ -321,7 +427,7 @@ Consulte las <a href="https://cran.r-project.org/web/packages/DHARMa/">viñetas 
 
 </div>
 </div>
-<h3>References</h3>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-R-DHARMa" class="csl-entry">
 Hartig, Florian. 2024. <em>DHARMa: Residual Diagnostics for Hierarchical (Multi-Level / Mixed) Regression Models</em>. <a href="http://florianhartig.github.io/DHARMa/">http://florianhartig.github.io/DHARMa/</a>.
