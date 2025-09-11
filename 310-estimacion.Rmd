@@ -12,9 +12,15 @@ En el caso de la estimación del componente de varianza, el conjunto de datos or
 
 En este ejemplo vamos a simular datos de un modelo lineal mixto con intercepto y pendiente aleatoria, luego vamos a comparar las estimaciones de los parámetros del modelo usando REML y ML.
 
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
 ```{block2, type='rmdexercise'}
-Solución.
+Solución a ejemplos.
 ```
+
+</div>
 
 Los datos los vamos a simular del siguiente modelo.
 
@@ -131,9 +137,16 @@ Para extraer sólo las componentes de varianza de los dos modelos hacemos lo sig
 
 Las componentes de varianza son $\sigma_{b0}=6.32$ (obtenida como $\sqrt{40}$), $\sigma_{b1}=7.07$ (obtenida como $\sqrt{50}$), $\sigma_{b01}=3$ y $\sigma_y=2$.
 
+<div style="-moz-box-shadow: 1px 1px 3px 2px #ffff00;
+  -webkit-box-shadow: 1px 1px 3px 2px #ffff00;
+  box-shadow:         1px 1px 3px 2px #ffff00;">
+
 ```{block2, type='rmdnote'}
-- Cuando se tienen muchos grupos y muchas repeticiones por grupo las estimaciones con REML y ML son muy cercanas.
+Cuando se tienen muchos grupos y muchas repeticiones por grupo las estimaciones con REML y ML son muy cercanas.
 ```
+
+</div>
+
 
 ## Ejercicios {.unnumbered}
 
@@ -143,7 +156,7 @@ Las componentes de varianza son $\sigma_{b0}=6.32$ (obtenida como $\sqrt{40}$), 
 
 | $G$ | $n_i$   |$\overline{MSE}_{REML}$|$\overline{MSE}_{ML}$|
 |-----|---------|-----------------------|---------------------|
-| 5   | 10      |                       |                     |
-| 10  | 15      |                       |                     |
-| 20  | 20      |                       |                     |
-| 30  | 25      |                       |                     |
+| 5   | 10      |           ?           |         ?           |
+| 10  | 15      |           ?           |         ?           |
+| 20  | 20      |           ?           |         ?           |
+| 30  | 25      |           ?           |         ?           |
