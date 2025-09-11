@@ -2,8 +2,8 @@
 
 En este capítulo se presentan aplicaciones shiny para ilustrar modelos con efectos aleatorios.
 
-- [Aplicación lmm con intercepto aleatorio](http://gauss.medellin.unal.edu.co:3838/fhernanb/lmm_b0/).
-- [Aplicación lmm con intercepto y pendiente aleatorias](http://gauss.medellin.unal.edu.co:3838/fhernanb/lmm_b0b1/).
+- [Aplicación lmm con intercepto aleatorio](https://huggingface.co/spaces/FreddyHernandez/lmm_b0).
+- [Aplicación lmm con intercepto y pendiente aleatorias](https://huggingface.co/spaces/FreddyHernandez/lmm_b0b1).
 
 
 ```{r echo=FALSE, out.width="30%", fig.align='center'}
