@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>14 Paquete marginaleffects | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
-  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
 
   <meta property="og:title" content="14 Paquete marginaleffects | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2025-08-09" />
+<meta name="date" content="2025-09-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -319,38 +319,47 @@ div.csl-indent {
 <span id="cb194-2"><a href="marginals-effects.html#cb194-2" tabindex="-1"></a>            <span class="at">newdata =</span> <span class="fu">datagrid</span>(<span class="at">Chick=</span><span class="dv">13</span>,</span>
 <span id="cb194-3"><a href="marginals-effects.html#cb194-3" tabindex="-1"></a>                               <span class="at">Diet=</span><span class="dv">1</span>,</span>
 <span id="cb194-4"><a href="marginals-effects.html#cb194-4" tabindex="-1"></a>                               <span class="at">Time=</span><span class="fu">c</span>(<span class="dv">19</span>, <span class="dv">22</span>)))</span></code></pre></div>
+<pre><code>## Warning: For this model type, `marginaleffects` only takes into account the
+## uncertainty in fixed-effect parameters. This is often appropriate when
+## `re.form=NA`, but may be surprising to users who set `re.form=NULL` (default)
+## or to some other value. Call `options(marginaleffects_safe = FALSE)` to silence
+## this warning.</code></pre>
 <pre><code>## 
 ##  Chick Diet Time Estimate Std. Error     z Pr(&gt;|z|)    S 2.5 % 97.5 %
 ##     13    1   19     86.5       8.55 10.11   &lt;0.001 77.4  69.7    103
 ##     13    1   22     92.8      10.16  9.14   &lt;0.001 63.8  72.9    113
 ## 
-## Type:  response</code></pre>
+## Type: response</code></pre>
 <p>En la columna Estimate de la salida anterior vemos que los valores coinciden con los obtenidos manualmente.</p>
 <p>Ahora vamos a calcular los pesos estimados para todos los pollitos y luego vamos a dibujar las curvas crecimiento.</p>
-<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="marginals-effects.html#cb196-1" tabindex="-1"></a>pred1 <span class="ot">&lt;-</span> <span class="fu">predictions</span>(<span class="at">model=</span>fit1)</span>
-<span id="cb196-2"><a href="marginals-effects.html#cb196-2" tabindex="-1"></a></span>
-<span id="cb196-3"><a href="marginals-effects.html#cb196-3" tabindex="-1"></a><span class="fu">ggplot</span>(pred1, <span class="fu">aes</span>(<span class="at">x=</span>Time, <span class="at">y=</span>estimate)) <span class="sc">+</span></span>
-<span id="cb196-4"><a href="marginals-effects.html#cb196-4" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb196-5"><a href="marginals-effects.html#cb196-5" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb196-6"><a href="marginals-effects.html#cb196-6" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Chick) <span class="sc">+</span></span>
-<span id="cb196-7"><a href="marginals-effects.html#cb196-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Predicted weight&quot;</span>, </span>
-<span id="cb196-8"><a href="marginals-effects.html#cb196-8" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Time&quot;</span>, </span>
-<span id="cb196-9"><a href="marginals-effects.html#cb196-9" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Linear growth model&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="marginals-effects.html#cb197-1" tabindex="-1"></a>pred1 <span class="ot">&lt;-</span> <span class="fu">predictions</span>(<span class="at">model=</span>fit1)</span></code></pre></div>
+<pre><code>## Warning: For this model type, `marginaleffects` only takes into account the
+## uncertainty in fixed-effect parameters. This is often appropriate when
+## `re.form=NA`, but may be surprising to users who set `re.form=NULL` (default)
+## or to some other value. Call `options(marginaleffects_safe = FALSE)` to silence
+## this warning.</code></pre>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="marginals-effects.html#cb199-1" tabindex="-1"></a><span class="fu">ggplot</span>(pred1, <span class="fu">aes</span>(<span class="at">x=</span>Time, <span class="at">y=</span>estimate)) <span class="sc">+</span></span>
+<span id="cb199-2"><a href="marginals-effects.html#cb199-2" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb199-3"><a href="marginals-effects.html#cb199-3" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb199-4"><a href="marginals-effects.html#cb199-4" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Chick) <span class="sc">+</span></span>
+<span id="cb199-5"><a href="marginals-effects.html#cb199-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Predicted weight&quot;</span>, </span>
+<span id="cb199-6"><a href="marginals-effects.html#cb199-6" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Time&quot;</span>, </span>
+<span id="cb199-7"><a href="marginals-effects.html#cb199-7" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Linear growth model&quot;</span>)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/plot_predict_pollitos_lineal-1.png" width="672" /></p>
 <p>Para ver qué tan bien el modelo <code>fit1</code> logra predecir vamos a calcular la correlación entre <span class="math inline">\(Weight\)</span> y <span class="math inline">\(\widehat{Weight}\)</span> así:</p>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="marginals-effects.html#cb197-1" tabindex="-1"></a><span class="fu">with</span>(pred1, <span class="fu">cor</span>(weight, estimate))</span></code></pre></div>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="marginals-effects.html#cb200-1" tabindex="-1"></a><span class="fu">with</span>(pred1, <span class="fu">cor</span>(weight, estimate))</span></code></pre></div>
 <pre><code>## [1] 0.9853747</code></pre>
 <p>De la salida anterior vemos que el valor de correlación es muy cercano a uno.</p>
 </div>
 <div id="ejemplo-chickweight-cuadrático" class="section level2 unnumbered hasAnchor">
 <h2>Ejemplo ChickWeight cuadrático<a href="#ejemplo-chickweight-cuadr%C3%A1tico" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>En este ejemplo vamos a repetir el modelo anterior pero incluyendo el tiempo como un polinomio de grado dos y la dieta. Los efectos aleatorios serán intercepto y pendiente aleatorias para tiempo solamente.</p>
-<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="marginals-effects.html#cb199-1" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(</span>
-<span id="cb199-2"><a href="marginals-effects.html#cb199-2" tabindex="-1"></a>  weight <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> Time <span class="sc">+</span> <span class="fu">I</span>(Time<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> Diet <span class="sc">+</span> </span>
-<span id="cb199-3"><a href="marginals-effects.html#cb199-3" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">+</span> Time <span class="sc">|</span> Chick),</span>
-<span id="cb199-4"><a href="marginals-effects.html#cb199-4" tabindex="-1"></a>  <span class="at">data =</span> ChickWeight)</span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="marginals-effects.html#cb202-1" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(</span>
+<span id="cb202-2"><a href="marginals-effects.html#cb202-2" tabindex="-1"></a>  weight <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> Time <span class="sc">+</span> <span class="fu">I</span>(Time<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> Diet <span class="sc">+</span> </span>
+<span id="cb202-3"><a href="marginals-effects.html#cb202-3" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">+</span> Time <span class="sc">|</span> Chick),</span>
+<span id="cb202-4"><a href="marginals-effects.html#cb202-4" tabindex="-1"></a>  <span class="at">data =</span> ChickWeight)</span></code></pre></div>
 <p>Vamos a explorar el modelo <code>fit2</code>, de él queremos conocer los valores de los efectos fijos del modelo, para eso vamos a usar el siguiente código:</p>
-<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="marginals-effects.html#cb200-1" tabindex="-1"></a><span class="fu">summary</span>(fit2)</span></code></pre></div>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="marginals-effects.html#cb203-1" tabindex="-1"></a><span class="fu">summary</span>(fit2)</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
 ## Formula: weight ~ 1 + Time + I(Time^2) + Diet + (1 + Time | Chick)
 ##    Data: ChickWeight
@@ -385,7 +394,7 @@ div.csl-indent {
 ## Diet3     -0.334 -0.010  0.013  0.343       
 ## Diet4     -0.335 -0.008  0.008  0.343  0.343</code></pre>
 <p>Ahora vamos a obtener los efectos aleatorios predichos. Para hacer esto podemos usar la instrucción <code>ranef(fit2)</code>, sin embargo eso nos generará una tabla con 50 filas y dos columnas (una para <span class="math inline">\(\tilde{b}_0\)</span> y otra para <span class="math inline">\(\tilde{b}_1\)</span>). Por esa razón vamos a pedir solo los efectos aleatorios para los primeros 5 pollitos así:</p>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="marginals-effects.html#cb202-1" tabindex="-1"></a><span class="fu">ranef</span>(fit2)<span class="sc">$</span>Chick[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ]</span></code></pre></div>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="marginals-effects.html#cb205-1" tabindex="-1"></a><span class="fu">ranef</span>(fit2)<span class="sc">$</span>Chick[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ]</span></code></pre></div>
 <pre><code>##    (Intercept)        Time
 ## 18  -0.3622672 -0.07953652
 ## 16  17.9443815 -6.53019008
@@ -402,56 +411,73 @@ div.csl-indent {
                &amp;= 103.4645
 \end{align}\]</span></p>
 <p>Los resultados anteriores se pueden obtener automáticamente con la función <code>predictions()</code> de la siguiente manera.</p>
-<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="marginals-effects.html#cb204-1" tabindex="-1"></a><span class="fu">predictions</span>(<span class="at">model=</span>fit2,</span>
-<span id="cb204-2"><a href="marginals-effects.html#cb204-2" tabindex="-1"></a>            <span class="at">newdata =</span> <span class="fu">datagrid</span>(<span class="at">Chick=</span><span class="dv">13</span>,</span>
-<span id="cb204-3"><a href="marginals-effects.html#cb204-3" tabindex="-1"></a>                               <span class="at">Diet=</span><span class="dv">1</span>,</span>
-<span id="cb204-4"><a href="marginals-effects.html#cb204-4" tabindex="-1"></a>                               <span class="at">Time=</span><span class="fu">c</span>(<span class="dv">19</span>, <span class="dv">22</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="marginals-effects.html#cb207-1" tabindex="-1"></a><span class="fu">predictions</span>(<span class="at">model=</span>fit2,</span>
+<span id="cb207-2"><a href="marginals-effects.html#cb207-2" tabindex="-1"></a>            <span class="at">newdata =</span> <span class="fu">datagrid</span>(<span class="at">Chick=</span><span class="dv">13</span>,</span>
+<span id="cb207-3"><a href="marginals-effects.html#cb207-3" tabindex="-1"></a>                               <span class="at">Diet=</span><span class="dv">1</span>,</span>
+<span id="cb207-4"><a href="marginals-effects.html#cb207-4" tabindex="-1"></a>                               <span class="at">Time=</span><span class="fu">c</span>(<span class="dv">19</span>, <span class="dv">22</span>)))</span></code></pre></div>
+<pre><code>## Warning: For this model type, `marginaleffects` only takes into account the
+## uncertainty in fixed-effect parameters. This is often appropriate when
+## `re.form=NA`, but may be surprising to users who set `re.form=NULL` (default)
+## or to some other value. Call `options(marginaleffects_safe = FALSE)` to silence
+## this warning.</code></pre>
 <pre><code>## 
 ##  Chick Diet Time Estimate Std. Error    z Pr(&gt;|z|)    S 2.5 % 97.5 %
 ##     13    1   19     89.4       8.39 10.6   &lt;0.001 85.5  72.9    106
 ##     13    1   22    103.5      10.01 10.3   &lt;0.001 80.7  83.8    123
 ## 
-## Type:  response</code></pre>
+## Type: response</code></pre>
 <p>En la columna Estimate de la salida anterior vemos que los valores coinciden con los obtenidos manualmente.</p>
 <p>Ahora vamos a calcular los pesos estimados para todos los pollitos y luego vamos a dibujar las curvas crecimiento.</p>
-<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="marginals-effects.html#cb206-1" tabindex="-1"></a>pred2 <span class="ot">&lt;-</span> <span class="fu">predictions</span>(<span class="at">model=</span>fit2)</span>
-<span id="cb206-2"><a href="marginals-effects.html#cb206-2" tabindex="-1"></a></span>
-<span id="cb206-3"><a href="marginals-effects.html#cb206-3" tabindex="-1"></a><span class="fu">ggplot</span>(pred2, <span class="fu">aes</span>(<span class="at">x=</span>Time, <span class="at">y=</span>estimate)) <span class="sc">+</span></span>
-<span id="cb206-4"><a href="marginals-effects.html#cb206-4" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb206-5"><a href="marginals-effects.html#cb206-5" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb206-6"><a href="marginals-effects.html#cb206-6" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Chick) <span class="sc">+</span></span>
-<span id="cb206-7"><a href="marginals-effects.html#cb206-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Predicted weight&quot;</span>, </span>
-<span id="cb206-8"><a href="marginals-effects.html#cb206-8" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Time&quot;</span>, </span>
-<span id="cb206-9"><a href="marginals-effects.html#cb206-9" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Cuadratic growth model&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="marginals-effects.html#cb210-1" tabindex="-1"></a>pred2 <span class="ot">&lt;-</span> <span class="fu">predictions</span>(<span class="at">model=</span>fit2)</span></code></pre></div>
+<pre><code>## Warning: For this model type, `marginaleffects` only takes into account the
+## uncertainty in fixed-effect parameters. This is often appropriate when
+## `re.form=NA`, but may be surprising to users who set `re.form=NULL` (default)
+## or to some other value. Call `options(marginaleffects_safe = FALSE)` to silence
+## this warning.</code></pre>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="marginals-effects.html#cb212-1" tabindex="-1"></a><span class="fu">ggplot</span>(pred2, <span class="fu">aes</span>(<span class="at">x=</span>Time, <span class="at">y=</span>estimate)) <span class="sc">+</span></span>
+<span id="cb212-2"><a href="marginals-effects.html#cb212-2" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb212-3"><a href="marginals-effects.html#cb212-3" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb212-4"><a href="marginals-effects.html#cb212-4" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Chick) <span class="sc">+</span></span>
+<span id="cb212-5"><a href="marginals-effects.html#cb212-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Predicted weight&quot;</span>, </span>
+<span id="cb212-6"><a href="marginals-effects.html#cb212-6" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Time&quot;</span>, </span>
+<span id="cb212-7"><a href="marginals-effects.html#cb212-7" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Cuadratic growth model&quot;</span>)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/plot_predict_pollitos_cuadratico-1.png" width="672" /></p>
 <p>Para ver qué tan bien el modelo <code>fit2</code> logra predecir vamos a calcular la correlación entre <span class="math inline">\(Weight\)</span> y <span class="math inline">\(\widehat{Weight}\)</span> así:</p>
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="marginals-effects.html#cb207-1" tabindex="-1"></a><span class="fu">with</span>(pred2, <span class="fu">cor</span>(weight, estimate))</span></code></pre></div>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="marginals-effects.html#cb213-1" tabindex="-1"></a><span class="fu">with</span>(pred2, <span class="fu">cor</span>(weight, estimate))</span></code></pre></div>
 <pre><code>## [1] 0.988254</code></pre>
 <p>De la salida anterior vemos que el valor de correlación es muy cercano a uno.</p>
 </div>
 <div id="ejemplo-5" class="section level2 hasAnchor" number="14.1">
 <h2><span class="header-section-number">14.1</span> Ejemplo<a href="marginals-effects.html#ejemplo-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Predicciones para cada pollito pero diferenciando por la variable dieta:</p>
-<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="marginals-effects.html#cb209-1" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predictions</span>(fit2)</span>
-<span id="cb209-2"><a href="marginals-effects.html#cb209-2" tabindex="-1"></a></span>
-<span id="cb209-3"><a href="marginals-effects.html#cb209-3" tabindex="-1"></a><span class="fu">ggplot</span>(pred, <span class="fu">aes</span>(Time, estimate, <span class="at">level =</span> Chick)) <span class="sc">+</span></span>
-<span id="cb209-4"><a href="marginals-effects.html#cb209-4" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb209-5"><a href="marginals-effects.html#cb209-5" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Predicted Weight&quot;</span>) <span class="sc">+</span></span>
-<span id="cb209-6"><a href="marginals-effects.html#cb209-6" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> Diet, <span class="at">labeller =</span> label_both)</span></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="marginals-effects.html#cb215-1" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predictions</span>(fit2)</span></code></pre></div>
+<pre><code>## Warning: For this model type, `marginaleffects` only takes into account the
+## uncertainty in fixed-effect parameters. This is often appropriate when
+## `re.form=NA`, but may be surprising to users who set `re.form=NULL` (default)
+## or to some other value. Call `options(marginaleffects_safe = FALSE)` to silence
+## this warning.</code></pre>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="marginals-effects.html#cb217-1" tabindex="-1"></a><span class="fu">ggplot</span>(pred, <span class="fu">aes</span>(Time, estimate, <span class="at">level =</span> Chick)) <span class="sc">+</span></span>
+<span id="cb217-2"><a href="marginals-effects.html#cb217-2" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb217-3"><a href="marginals-effects.html#cb217-3" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Predicted Weight&quot;</span>) <span class="sc">+</span></span>
+<span id="cb217-4"><a href="marginals-effects.html#cb217-4" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> Diet, <span class="at">labeller =</span> label_both)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-162-1.png" width="672" /></p>
 <p>Para hacer predicciones a nivel de población podemos usar nuevamente la función ´predictions()´ pero sin indicar un pollito en particular. A continuación el código.</p>
-<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="marginals-effects.html#cb210-1" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predictions</span>(<span class="at">model=</span>fit2,</span>
-<span id="cb210-2"><a href="marginals-effects.html#cb210-2" tabindex="-1"></a>                    <span class="at">newdata =</span> <span class="fu">datagrid</span>(<span class="at">Diet=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,</span>
-<span id="cb210-3"><a href="marginals-effects.html#cb210-3" tabindex="-1"></a>                                       <span class="at">Time=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">21</span>))</span>
-<span id="cb210-4"><a href="marginals-effects.html#cb210-4" tabindex="-1"></a></span>
-<span id="cb210-5"><a href="marginals-effects.html#cb210-5" tabindex="-1"></a><span class="fu">ggplot</span>(pred, <span class="fu">aes</span>(<span class="at">x =</span> Time, <span class="at">y =</span> estimate, <span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high)) <span class="sc">+</span></span>
-<span id="cb210-6"><a href="marginals-effects.html#cb210-6" tabindex="-1"></a>    <span class="fu">geom_ribbon</span>(<span class="at">alpha =</span> .<span class="dv">1</span>, <span class="at">fill =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
-<span id="cb210-7"><a href="marginals-effects.html#cb210-7" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb210-8"><a href="marginals-effects.html#cb210-8" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> Diet, <span class="at">labeller =</span> label_both) <span class="sc">+</span></span>
-<span id="cb210-9"><a href="marginals-effects.html#cb210-9" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Population-level trajectories&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="marginals-effects.html#cb218-1" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predictions</span>(<span class="at">model=</span>fit2,</span>
+<span id="cb218-2"><a href="marginals-effects.html#cb218-2" tabindex="-1"></a>                    <span class="at">newdata =</span> <span class="fu">datagrid</span>(<span class="at">Diet=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,</span>
+<span id="cb218-3"><a href="marginals-effects.html#cb218-3" tabindex="-1"></a>                                       <span class="at">Time=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">21</span>))</span></code></pre></div>
+<pre><code>## Warning: For this model type, `marginaleffects` only takes into account the
+## uncertainty in fixed-effect parameters. This is often appropriate when
+## `re.form=NA`, but may be surprising to users who set `re.form=NULL` (default)
+## or to some other value. Call `options(marginaleffects_safe = FALSE)` to silence
+## this warning.</code></pre>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="marginals-effects.html#cb220-1" tabindex="-1"></a><span class="fu">ggplot</span>(pred, <span class="fu">aes</span>(<span class="at">x =</span> Time, <span class="at">y =</span> estimate, <span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high)) <span class="sc">+</span></span>
+<span id="cb220-2"><a href="marginals-effects.html#cb220-2" tabindex="-1"></a>    <span class="fu">geom_ribbon</span>(<span class="at">alpha =</span> .<span class="dv">1</span>, <span class="at">fill =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb220-3"><a href="marginals-effects.html#cb220-3" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb220-4"><a href="marginals-effects.html#cb220-4" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> Diet, <span class="at">labeller =</span> label_both) <span class="sc">+</span></span>
+<span id="cb220-5"><a href="marginals-effects.html#cb220-5" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Population-level trajectories&quot;</span>)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-163-1.png" width="672" /></p>
 <p>Vamos a explorar los valores del objeto ´pred´ con el cual se hizo la figura anterior.</p>
-<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="marginals-effects.html#cb211-1" tabindex="-1"></a>pred</span></code></pre></div>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="marginals-effects.html#cb221-1" tabindex="-1"></a>pred</span></code></pre></div>
 <pre><code>## 
 ##  Diet Time Estimate Std. Error    z Pr(&gt;|z|)     S 2.5 % 97.5 %
 ##     1    0     36.0       2.40 15.0   &lt;0.001 166.1  31.3   40.7
@@ -459,13 +485,13 @@ div.csl-indent {
 ##     1    2     46.6       1.61 28.9   &lt;0.001 609.7  43.4   49.8
 ##     1    3     52.3       1.42 36.8   &lt;0.001 984.3  49.5   55.1
 ##     1    4     58.3       1.44 40.4   &lt;0.001   Inf  55.5   61.1
-## --- 78 rows omitted. See ?print.marginaleffects --- 
+## --- 78 rows omitted. See ?print.marginaleffects ---
 ##     4   17    168.9       7.45 22.7   &lt;0.001 375.0 154.2  183.5
 ##     4   18    178.5       7.97 22.4   &lt;0.001 366.7 162.8  194.1
 ##     4   19    188.3       8.49 22.2   &lt;0.001 359.9 171.7  204.9
 ##     4   20    198.4       9.01 22.0   &lt;0.001 354.2 180.8  216.1
 ##     4   21    208.8       9.55 21.9   &lt;0.001 349.6 190.1  227.5
-## Type:  response</code></pre>
+## Type: response</code></pre>
 
 </div>
 </div>

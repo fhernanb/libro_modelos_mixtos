@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>27 Coeficiente \(R^2\) | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
-  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
 
   <meta property="og:title" content="27 Coeficiente \(R^2\) | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2025-08-09" />
+<meta name="date" content="2025-09-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -280,23 +280,23 @@ Solución.
 </div>
 </div>
 <p>El código para simular las 500 observaciones se muestra a continuación.</p>
-<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="R2.html#cb369-1" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb369-2"><a href="R2.html#cb369-2" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb369-3"><a href="R2.html#cb369-3" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
-<span id="cb369-4"><a href="R2.html#cb369-4" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
-<span id="cb369-5"><a href="R2.html#cb369-5" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
-<span id="cb369-6"><a href="R2.html#cb369-6" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="sc">-</span><span class="dv">5</span>, <span class="at">max=</span><span class="dv">6</span>)</span>
-<span id="cb369-7"><a href="R2.html#cb369-7" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">625</span>)) <span class="co"># Intercepto aleatorio</span></span>
-<span id="cb369-8"><a href="R2.html#cb369-8" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)               <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
-<span id="cb369-9"><a href="R2.html#cb369-9" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="sc">-</span> <span class="dv">6</span> <span class="sc">*</span> x <span class="sc">+</span> b0</span>
-<span id="cb369-10"><a href="R2.html#cb369-10" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>nobs, <span class="at">mean=</span>media, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">16</span>))</span>
-<span id="cb369-11"><a href="R2.html#cb369-11" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x, media, y)</span></code></pre></div>
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="R2.html#cb379-1" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb379-2"><a href="R2.html#cb379-2" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb379-3"><a href="R2.html#cb379-3" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
+<span id="cb379-4"><a href="R2.html#cb379-4" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
+<span id="cb379-5"><a href="R2.html#cb379-5" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
+<span id="cb379-6"><a href="R2.html#cb379-6" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="sc">-</span><span class="dv">5</span>, <span class="at">max=</span><span class="dv">6</span>)</span>
+<span id="cb379-7"><a href="R2.html#cb379-7" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">625</span>)) <span class="co"># Intercepto aleatorio</span></span>
+<span id="cb379-8"><a href="R2.html#cb379-8" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)               <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
+<span id="cb379-9"><a href="R2.html#cb379-9" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="sc">-</span> <span class="dv">6</span> <span class="sc">*</span> x <span class="sc">+</span> b0</span>
+<span id="cb379-10"><a href="R2.html#cb379-10" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>nobs, <span class="at">mean=</span>media, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">16</span>))</span>
+<span id="cb379-11"><a href="R2.html#cb379-11" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x, media, y)</span></code></pre></div>
 <p>Ahora vamos a ajustar el modelo correcto así:</p>
-<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="R2.html#cb370-1" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb370-2"><a href="R2.html#cb370-2" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> grupo, <span class="at">data=</span>datos)</span></code></pre></div>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="R2.html#cb380-1" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb380-2"><a href="R2.html#cb380-2" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> grupo, <span class="at">data=</span>datos)</span></code></pre></div>
 <p>A continuación vamos a calcular los <span class="math inline">\(R^2\)</span>.</p>
-<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="R2.html#cb371-1" tabindex="-1"></a><span class="fu">library</span>(MuMIn)</span>
-<span id="cb371-2"><a href="R2.html#cb371-2" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fit1)</span></code></pre></div>
+<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="R2.html#cb381-1" tabindex="-1"></a><span class="fu">library</span>(MuMIn)</span>
+<span id="cb381-2"><a href="R2.html#cb381-2" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fit1)</span></code></pre></div>
 <pre><code>##            R2m       R2c
 ## [1,] 0.4287911 0.9826349</code></pre>
 <p>En la salida anterior se reporta la medida marginal y la medida condicional del <span class="math inline">\(R^2\)</span>. De los resultados se observa que el <span class="math inline">\(R^2_{m}\)</span> es mayor que el <span class="math inline">\(R^2_{c}\)</span>, eso significa que el modelo completo (con efectos fijos y aleatorio) logra explicar un 98% de la varianza. En otras palabras, significa que si valió la pena ajustar el modelo con esos efectos aleatorios. Era de esperarse que esto sucediera porque los datos se simularon con <span class="math inline">\(\sigma^2_{b0}=625\)</span>.</p>
@@ -313,23 +313,23 @@ Solución.
 </div>
 </div>
 <p>El código para simular las 500 observaciones se muestra a continuación.</p>
-<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="R2.html#cb373-1" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb373-2"><a href="R2.html#cb373-2" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb373-3"><a href="R2.html#cb373-3" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
-<span id="cb373-4"><a href="R2.html#cb373-4" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
-<span id="cb373-5"><a href="R2.html#cb373-5" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
-<span id="cb373-6"><a href="R2.html#cb373-6" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="sc">-</span><span class="dv">5</span>, <span class="at">max=</span><span class="dv">6</span>)</span>
-<span id="cb373-7"><a href="R2.html#cb373-7" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="dv">0</span>) <span class="co"># Intercepto aleatorio</span></span>
-<span id="cb373-8"><a href="R2.html#cb373-8" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)               <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
-<span id="cb373-9"><a href="R2.html#cb373-9" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="sc">-</span> <span class="dv">6</span> <span class="sc">*</span> x <span class="sc">+</span> b0</span>
-<span id="cb373-10"><a href="R2.html#cb373-10" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>nobs, <span class="at">mean=</span>media, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">16</span>))</span>
-<span id="cb373-11"><a href="R2.html#cb373-11" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x, media, y)</span></code></pre></div>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="R2.html#cb383-1" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb383-2"><a href="R2.html#cb383-2" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb383-3"><a href="R2.html#cb383-3" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
+<span id="cb383-4"><a href="R2.html#cb383-4" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
+<span id="cb383-5"><a href="R2.html#cb383-5" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
+<span id="cb383-6"><a href="R2.html#cb383-6" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="sc">-</span><span class="dv">5</span>, <span class="at">max=</span><span class="dv">6</span>)</span>
+<span id="cb383-7"><a href="R2.html#cb383-7" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="dv">0</span>) <span class="co"># Intercepto aleatorio</span></span>
+<span id="cb383-8"><a href="R2.html#cb383-8" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)               <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
+<span id="cb383-9"><a href="R2.html#cb383-9" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="sc">-</span> <span class="dv">6</span> <span class="sc">*</span> x <span class="sc">+</span> b0</span>
+<span id="cb383-10"><a href="R2.html#cb383-10" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>nobs, <span class="at">mean=</span>media, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">16</span>))</span>
+<span id="cb383-11"><a href="R2.html#cb383-11" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x, media, y)</span></code></pre></div>
 <p>Ahora vamos a ajustar el modelo así:</p>
-<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="R2.html#cb374-1" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb374-2"><a href="R2.html#cb374-2" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> grupo, <span class="at">data=</span>datos)</span></code></pre></div>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="R2.html#cb384-1" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb384-2"><a href="R2.html#cb384-2" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">lme</span>(y <span class="sc">~</span> x, <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> grupo, <span class="at">data=</span>datos)</span></code></pre></div>
 <p>A continuación vamos a calcular los <span class="math inline">\(R^2\)</span>.</p>
-<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="R2.html#cb375-1" tabindex="-1"></a><span class="fu">library</span>(MuMIn)</span>
-<span id="cb375-2"><a href="R2.html#cb375-2" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fit2)</span></code></pre></div>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="R2.html#cb385-1" tabindex="-1"></a><span class="fu">library</span>(MuMIn)</span>
+<span id="cb385-2"><a href="R2.html#cb385-2" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fit2)</span></code></pre></div>
 <pre><code>##            R2m       R2c
 ## [1,] 0.9571738 0.9578291</code></pre>
 <p>De la salida anterior vemos que ambos <span class="math inline">\(R^2\)</span> son muy parecidos. Esto significa que el porcentaje de la varianza explicada por un modelo con ambos tipos de efectos (fijos y aleatorios) es igual a la varianza explicada por un modelo sólo con efectos fijos, en otras palabras, esto indica que NO vale la pena incluir efectos aleatorios en el modelo. Este resultado era el esperado porque los datos fueron simulados con <span class="math inline">\(\sigma^2_{b0}=0\)</span>.</p>
@@ -346,12 +346,12 @@ Solución.
 </div>
 </div>
 <p>El código que vamos a usar es el siguiente.</p>
-<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="R2.html#cb377-1" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
-<span id="cb377-2"><a href="R2.html#cb377-2" tabindex="-1"></a><span class="fu">library</span>(MuMIn)</span>
-<span id="cb377-3"><a href="R2.html#cb377-3" tabindex="-1"></a></span>
-<span id="cb377-4"><a href="R2.html#cb377-4" tabindex="-1"></a><span class="fu">data</span>(Orthodont, <span class="at">package =</span> <span class="st">&quot;nlme&quot;</span>)</span>
-<span id="cb377-5"><a href="R2.html#cb377-5" tabindex="-1"></a>fm1 <span class="ot">&lt;-</span> <span class="fu">lme</span>(distance <span class="sc">~</span> Sex <span class="sc">*</span> age, <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> Subject, <span class="at">data =</span> Orthodont)</span>
-<span id="cb377-6"><a href="R2.html#cb377-6" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fm1)</span></code></pre></div>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="R2.html#cb387-1" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb387-2"><a href="R2.html#cb387-2" tabindex="-1"></a><span class="fu">library</span>(MuMIn)</span>
+<span id="cb387-3"><a href="R2.html#cb387-3" tabindex="-1"></a></span>
+<span id="cb387-4"><a href="R2.html#cb387-4" tabindex="-1"></a><span class="fu">data</span>(Orthodont, <span class="at">package =</span> <span class="st">&quot;nlme&quot;</span>)</span>
+<span id="cb387-5"><a href="R2.html#cb387-5" tabindex="-1"></a>fm1 <span class="ot">&lt;-</span> <span class="fu">lme</span>(distance <span class="sc">~</span> Sex <span class="sc">*</span> age, <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> Subject, <span class="at">data =</span> Orthodont)</span>
+<span id="cb387-6"><a href="R2.html#cb387-6" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(fm1)</span></code></pre></div>
 <pre><code>##            R2m       R2c
 ## [1,] 0.4098416 0.7827266</code></pre>
 <p>De la salida anterior se observa que 78.27% de la variabilidad observada se logra explicar con el modelo ajustado con efectos fijos y un intercepto aleatorio.</p>
@@ -368,16 +368,16 @@ Solución.
 </div>
 </div>
 <p>A continuación se presenta el mismo código usado en el ejemplo 1 del capítulo <a href="glmm-gamma.html#glmm-gamma">24</a>. En la última línea de este código se calcula el <span class="math inline">\(R^2\)</span>.</p>
-<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="R2.html#cb379-1" tabindex="-1"></a><span class="fu">library</span>(hglm)</span>
-<span id="cb379-2"><a href="R2.html#cb379-2" tabindex="-1"></a><span class="fu">data</span>(semiconductor)</span>
-<span id="cb379-3"><a href="R2.html#cb379-3" tabindex="-1"></a></span>
-<span id="cb379-4"><a href="R2.html#cb379-4" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
-<span id="cb379-5"><a href="R2.html#cb379-5" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x3 <span class="sc">+</span> x4 <span class="sc">+</span> x5 <span class="sc">+</span> x6 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Device), </span>
-<span id="cb379-6"><a href="R2.html#cb379-6" tabindex="-1"></a>              <span class="at">data =</span> semiconductor,</span>
-<span id="cb379-7"><a href="R2.html#cb379-7" tabindex="-1"></a>              <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> log))</span>
-<span id="cb379-8"><a href="R2.html#cb379-8" tabindex="-1"></a></span>
-<span id="cb379-9"><a href="R2.html#cb379-9" tabindex="-1"></a><span class="fu">library</span>(MuMIn)</span>
-<span id="cb379-10"><a href="R2.html#cb379-10" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(mod1)</span></code></pre></div>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="R2.html#cb389-1" tabindex="-1"></a><span class="fu">library</span>(hglm)</span>
+<span id="cb389-2"><a href="R2.html#cb389-2" tabindex="-1"></a><span class="fu">data</span>(semiconductor)</span>
+<span id="cb389-3"><a href="R2.html#cb389-3" tabindex="-1"></a></span>
+<span id="cb389-4"><a href="R2.html#cb389-4" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb389-5"><a href="R2.html#cb389-5" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x3 <span class="sc">+</span> x4 <span class="sc">+</span> x5 <span class="sc">+</span> x6 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Device), </span>
+<span id="cb389-6"><a href="R2.html#cb389-6" tabindex="-1"></a>              <span class="at">data =</span> semiconductor,</span>
+<span id="cb389-7"><a href="R2.html#cb389-7" tabindex="-1"></a>              <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> log))</span>
+<span id="cb389-8"><a href="R2.html#cb389-8" tabindex="-1"></a></span>
+<span id="cb389-9"><a href="R2.html#cb389-9" tabindex="-1"></a><span class="fu">library</span>(MuMIn)</span>
+<span id="cb389-10"><a href="R2.html#cb389-10" tabindex="-1"></a><span class="fu">r.squaredGLMM</span>(mod1)</span></code></pre></div>
 <pre><code>##                 R2m       R2c
 ## delta     0.7112290 0.7749512
 ## lognormal 0.7185672 0.7829469
