@@ -62,3 +62,6 @@ simul-glmm
 ejemplo-para-datos-de-crecimiento
 sced
 blobs
+IC
+intervalos-de-confianza-para-los-parámetros
+intervalos-de-confianza-para-predicción

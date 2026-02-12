@@ -1,0 +1,179 @@
+# Intervalos de confianza {#IC}
+
+En este capítulo vamos mostrar como se pueden obtener intervalos de confianza para los parámetros del modelo e intervalos de confianza para predicción.
+
+## Intervalos de confianza para los parámetros
+
+En esta sección se mostrará cómo utilizar la función `confint()` para obtener intervalos de confianza para los elementos del vector de parámetros $\boldsymbol{\Theta}$ de un modelo lineal generalizado mixto.
+
+## Ejemplo: modelo normal {-}
+
+En este ejemplo su usará la base de datos `sleepstudy` del paquete `lme4` sobre el tiempo de reacción promedio por día para un conjunto de individuos en un estudio de privación del sueño. La base de datos contiene la información sobre el tiempo de reacción promedio (`Reaction`), el número de días de privación del sueño (`Days`), donde el día 0 corresponde al día en el que los indiviuos tenían su cantidad normal de sueño, y el número del individuo (en total 18) sobre el que se realizó la observación (`Subject`). A partir del día 0, hubo una restricción en cada individuo a 3 horas de sueño por noche.
+
+```{r echo=FALSE, out.width="40%", fig.align='center'}
+knitr::include_graphics("images/sleep_study.png")
+```
+
+El objetivo es ajustar el siguiente modelo a los datos.
+
+\begin{align*} 
+Reaction_{ij} | b_0, b_1 &\sim  N(\mu_{ij}, \sigma^2_{Reaction}) \\ 
+\mu_{ij} &= \beta_0 + \beta_1 Days_{ij} + b_{0i} + b_{1i} Days_{ij} \\
+\left (
+\begin{matrix}
+b_{0} \\ b_{1}
+\end{matrix} 
+\right ) &\sim 
+N\left ( \left [ \begin{matrix}
+0 \\ 0
+\end{matrix} \right ],
+\left [ \begin{matrix}
+\sigma^2_{b0} & \sigma_{b01} \\ 
+\sigma_{b01} & \sigma^2_{b1}
+\end{matrix} \right ]
+\right )
+\end{align*}
+
+Lo primero que debemos hacer es ajustar el modelo usando el siguiente código.
+
+```{r}
+library(lme4)
+head(sleepstudy)
+fit <- lmer(Reaction ~ Days + (Days | Subject), REML = TRUE, data = sleepstudy)
+```
+
+La tabla de resultados del modelo ajustado se muestra a continuación.
+
+```{r}
+summary(fit)
+```
+
+De la tabla anterior podemos ver que las estimaciones del vector de parámetros es
+
+$$
+\hat{\boldsymbol{\Theta}} = (\hat{\beta_0}=251.40, \hat{\beta_1}=10.47, \hat{\sigma}_{reaction}=25.59, \hat{\sigma}_{b0}=24.74, \hat{\sigma}_{b1}=5.92, \hat{\rho}_{b0b1}=0.07)^\top
+$$
+
+Para obtener los intervalos de confianza podemos usar la función `confint()` al objeto `fit`.
+
+```{r}
+#### Calculate Wald CIs (Fastest Version) ####
+ci.wald <- confint(fit, level=0.95)
+ci.wald
+```
+
+También es posible obtener los intervalos de confianza por el método boostrap así.
+
+```{r}
+#### Calculate Bootstrapped CIs ####
+ci.boot <- confint(fit, method = "boot", nsim = 1000)
+ci.boot
+```
+
+## Ejemplo: modelo gamma {-}
+
+En este ejemplo analizamos los datos de semiconductores tomados de Myers et al. (2002) sobre un experimento diseñado en una planta de semiconductores. Se emplean seis factores, temperatura de laminación, tiempo de laminación, presión de laminación, temperatura de cocción, tiempo de ciclo de cocción y punto de rocío de cocción, y estamos interesados en la curvatura de los dispositivos de sustrato producidos en la planta. La medición de la curvatura se realiza cuatro veces en cada dispositivo fabricado. Cada variable de diseño se toma en dos niveles. Se sabe que la medida no tiene una distribución normal y las medidas tomadas en el mismo dispositivo están correlacionadas.
+
+Las variables de la base de datos se muestran a continuación.
+
+- Device: Subtrate device
+- x1: Lamination Temperature; two levels +1 and -1.
+- x2: Lamination Time; two levels: +1 and -1.
+- x3: Lamination Presure; two levels: +1 and -1.
+- x4: Firing Temperature; two levels: +1 and -1.
+- x5: Firing Cycle Time; two levels: +1 and -1.
+- x6: Firing Dew Point: two levels: +1 and -1.
+- y: Camber measure; in 1e-4 in./in.
+
+```{r echo=FALSE, out.width="50%", fig.align='center', fig.align='center', fig.alt='Tomada de https://www.iqsdirectory.com/'}
+knitr::include_graphics("images/semiconductors.jpg")
+```
+
+El objetivo es ajustar el siguiente modelo a los datos.
+
+\begin{align*} 
+y_{ij} | b_0 &\sim  Gamma(\mu_{ij}, \phi) \\ 
+\log(\mu_{ij}) &= \beta_0 + \beta_1 x1_{ij} + \beta_3 x3_{ij} + \beta_5 x5_{ij} + \beta_6 x6_{ij} + b_{0i} \\
+b_{0} &\sim N(0, \sigma^2_{b0})
+\end{align*}
+
+Para ajustar el modelo anterior usamos el siguiente código.
+
+```{r message=FALSE}
+library(hglm)
+data(semiconductor)
+
+library(lme4)
+fit <- glmer(y ~ x1 + x3 + x5 + x6 + (1 | Device), 
+              data = semiconductor,
+              family = Gamma(link = log))
+
+summary(fit)
+```
+
+De la tabla anterior podemos ver que las estimaciones del vector de parámetros es
+
+$$
+\hat{\boldsymbol{\Theta}} = (\hat{\beta_0}=-4.71, \hat{\beta_1}=0.18, \hat{\beta_3}=0.31, \hat{\beta_5}=-0.19, \hat{\beta_6}=-0.37, \hat{\phi}=0.31, \hat{\sigma}_{b0}=0.17)^\top
+$$
+
+Para obtener los intervalos de confianza podemos usar la función `confint()` al objeto `fit`.
+
+
+
+# Intervalos de confianza para predicción
+
+```{r}
+library(lme4)
+
+#first case simple lmer, simulate 100 data points from 10 groups with one continuous fixed effect variable
+x <- runif(100, 0, 10)
+f <- gl(n=10, k=10)
+data <- data.frame(x=x, f=f)
+modmat <- model.matrix(~x,data)
+#the fixed effect coefficient
+fixed <- c(1, 0.5)
+#the random effect
+rnd <- rnorm(10, 0, 0.7)
+#the simulated response values
+data$y <- rnorm(100, modmat%*%fixed+rnd[f], 0.3)
+
+#model
+m <- lmer(y ~ x + (1|f), data)
+
+#first CI and PI using predict-like method, using code posted here: http://glmm.wikidot.com/faq
+newdat <- data.frame(x=seq(0, 10, length=20))
+mm <- model.matrix(~x, newdat)
+newdat$y <- mm%*%fixef(m) 
+#predict(m,newdat,re.form=NA) would give the same results
+pvar1 <- diag(mm %*% tcrossprod(vcov(m),mm))
+tvar1 <- pvar1+VarCorr(m)$f[1] # must be adapted for more complex models
+newdat <- data.frame(
+  newdat
+  , plo = newdat$y-1.96*sqrt(pvar1)
+  , phi = newdat$y+1.96*sqrt(pvar1)
+  , tlo = newdat$y-1.96*sqrt(tvar1)
+  , thi = newdat$y+1.96*sqrt(tvar1)
+)
+
+#second version with bootMer
+#we have to define a function that will be applied to the nsim simulations
+#here we basically get a merMod object and return the fitted values
+predFun <- function(.) mm%*%fixef(.) 
+bb <- bootMer(m,FUN=predFun,nsim=200) #do this 200 times
+#as we did this 200 times the 95% CI will be bordered by the 5th and 195th value
+bb_se <- apply(bb$t,2,function(x) x[order(x)]) #[c language="(5,195)"][/c])
+newdat$blo <- bb_se[1,]
+newdat$bhi <- bb_se[2,]
+
+plot(y~x, data)
+lines(newdat$x,newdat$y,col="red",lty=2,lwd=3)
+lines(newdat$x,newdat$plo,col="blue",lty=2,lwd=2)
+lines(newdat$x,newdat$phi,col="blue",lty=2,lwd=2)
+lines(newdat$x,newdat$tlo,col="orange",lty=2,lwd=2)
+lines(newdat$x,newdat$thi,col="orange",lty=2,lwd=2)
+lines(newdat$x,newdat$bhi,col="darkgreen",lty=2,lwd=2)
+lines(newdat$x,newdat$blo,col="darkgreen",lty=2,lwd=2)
+legend("topleft",legend=c("Fitted line","Confidence interval","Prediction interval","Bootstrapped CI"),col=c("red","blue","orange","darkgreen"),lty=2,lwd=2,bty="n")
+```
+
