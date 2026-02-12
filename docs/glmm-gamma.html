@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2025-09-11" />
+<meta name="date" content="2026-02-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -58,8 +58,9 @@
 
 
 <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -69,7 +70,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -321,15 +322,22 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-clase-lme"><i class="fa fa-check"></i>Ejemplo: modelo clase lme</a></li>
 <li class="chapter" data-level="" data-path="R2.html"><a href="R2.html#ejemplo-modelo-clase-lme4"><i class="fa fa-check"></i>Ejemplo: modelo clase lme4</a></li>
 </ul></li>
-<li class="chapter" data-level="28" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>28</b> Simulación de glmm</a>
+<li class="chapter" data-level="28" data-path="IC.html"><a href="IC.html"><i class="fa fa-check"></i><b>28</b> Intervalos de confianza</a>
 <ul>
-<li class="chapter" data-level="28.1" data-path="simul-glmm.html"><a href="simul-glmm.html#ejemplo-para-datos-de-crecimiento"><i class="fa fa-check"></i><b>28.1</b> Ejemplo para datos de crecimiento</a></li>
+<li class="chapter" data-level="28.1" data-path="502-glmm-gamma.html"><a href="#intervalos-de-confianza-para-los-par%C3%A1metros"><i class="fa fa-check"></i><b>28.1</b> Intervalos de confianza para los parámetros</a></li>
+<li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#ejemplo-modelo-normal"><i class="fa fa-check"></i>Ejemplo: modelo normal</a></li>
+<li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#ejemplo-modelo-gamma"><i class="fa fa-check"></i>Ejemplo: modelo gamma</a></li>
 </ul></li>
-<li class="chapter" data-level="29" data-path="sced.html"><a href="sced.html"><i class="fa fa-check"></i><b>29</b> Single case experimental desing (sced)</a>
+<li class="chapter" data-level="29" data-path="502-glmm-gamma.html"><a href="#intervalos-de-confianza-para-predicci%C3%B3n"><i class="fa fa-check"></i><b>29</b> Intervalos de confianza para predicción</a></li>
+<li class="chapter" data-level="30" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>30</b> Simulación de glmm</a>
+<ul>
+<li class="chapter" data-level="30.1" data-path="simul-glmm.html"><a href="simul-glmm.html#ejemplo-para-datos-de-crecimiento"><i class="fa fa-check"></i><b>30.1</b> Ejemplo para datos de crecimiento</a></li>
+</ul></li>
+<li class="chapter" data-level="31" data-path="sced.html"><a href="sced.html"><i class="fa fa-check"></i><b>31</b> Single case experimental desing (sced)</a>
 <ul>
 <li class="chapter" data-level="" data-path=""><a href="#ejemplo-simulaci%C3%B3n-de-un-sced-abab"><i class="fa fa-check"></i>Ejemplo: simulación de un sced ABAB</a></li>
 </ul></li>
-<li class="chapter" data-level="30" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>30</b> Otro material interesante</a></li>
+<li class="chapter" data-level="32" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>32</b> Otro material interesante</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -358,7 +366,7 @@ div.csl-indent {
 <p>A continuación la base de datos a utilizar.</p>
 <div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="glmm-gamma.html#cb312-1" tabindex="-1"></a><span class="fu">library</span>(hglm)</span>
 <span id="cb312-2"><a href="glmm-gamma.html#cb312-2" tabindex="-1"></a><span class="fu">data</span>(semiconductor)</span></code></pre></div>
-<p>En este ejemplo, analizamos los datos de semiconductores tomados de Myers et al. (2002), que implica un experimento diseñado en una planta de semiconductores. Se emplean seis factores, temperatura de laminación, tiempo de laminación, presión de laminación, temperatura de cocción, tiempo de ciclo de cocción y punto de rocío de cocción, y estamos interesados en la curvatura de los dispositivos de sustrato producidos en la planta. La medición de la curvatura se realiza cuatro veces en cada dispositivo fabricado. Cada variable de diseño se toma en dos niveles. Se sabe que la medida no tiene una distribución normal y las medidas tomadas en el mismo dispositivo están correlacionadas. Myers et al. (2002) consideraron un modelo de respuesta gamma con un enlace logarítmico y utilizaron un método GEE asumiendo una correlación de trabajo AR(1).</p>
+<p>En este ejemplo, analizamos los datos de semiconductores tomados de Myers et al. (2002) sobre un experimento diseñado en una planta de semiconductores. Se emplean seis factores, temperatura de laminación, tiempo de laminación, presión de laminación, temperatura de cocción, tiempo de ciclo de cocción y punto de rocío de cocción, y estamos interesados en la curvatura de los dispositivos de sustrato producidos en la planta. La medición de la curvatura se realiza cuatro veces en cada dispositivo fabricado. Cada variable de diseño se toma en dos niveles. Se sabe que la medida no tiene una distribución normal y las medidas tomadas en el mismo dispositivo están correlacionadas. Myers et al. (2002) consideraron un modelo de respuesta gamma con un enlace logarítmico y utilizaron un método GEE asumiendo una correlación de trabajo AR(1).</p>
 <p>Las variables de la base de datos se muestran a continuación.</p>
 <ul>
 <li>Device: Subtrate device</li>

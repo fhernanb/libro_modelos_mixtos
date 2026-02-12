@@ -58,10 +58,10 @@ glmm-gamma
 multinomial
 residuals
 R2
+IC
+intervalos-de-confianza-para-los-parámetros
+intervalos-de-confianza-para-predicción
 simul-glmm
 ejemplo-para-datos-de-crecimiento
 sced
 blobs
-IC
-intervalos-de-confianza-para-los-parámetros
-intervalos-de-confianza-para-predicción

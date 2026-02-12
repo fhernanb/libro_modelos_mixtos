@@ -53,6 +53,8 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
 
 
 <style type="text/css">
@@ -387,19 +389,25 @@ N\left ( \left [ \begin{matrix}
 \right )
 \end{align*}\]</span></p>
 <p>Lo primero que debemos hacer es ajustar el modelo usando el siguiente código.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="IC.html#cb1-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span></code></pre></div>
-<pre><code>## Loading required package: Matrix</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="IC.html#cb3-1" tabindex="-1"></a><span class="fu">head</span>(sleepstudy)</span></code></pre></div>
-<pre><code>##   Reaction Days Subject
-## 1 249.5600    0     308
-## 2 258.7047    1     308
-## 3 250.8006    2     308
-## 4 321.4398    3     308
-## 5 356.8519    4     308
-## 6 414.6901    5     308</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="IC.html#cb5-1" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (Days <span class="sc">|</span> Subject), <span class="at">REML =</span> <span class="cn">TRUE</span>, <span class="at">data =</span> sleepstudy)</span></code></pre></div>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="IC.html#cb391-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb391-2"><a href="IC.html#cb391-2" tabindex="-1"></a><span class="fu">head</span>(sleepstudy)</span></code></pre></div>
+<pre><code>##   Reaction Days Subject pred_inter_pend_aleatorio modelo_simple
+## 1 249.5600    0     308                  253.6637      251.4051
+## 2 258.7047    1     308                  273.3299      261.8724
+## 3 250.8006    2     308                  292.9962      272.3397
+## 4 321.4398    3     308                  312.6624      282.8070
+## 5 356.8519    4     308                  332.3287      293.2742
+## 6 414.6901    5     308                  351.9950      303.7415
+##   pred_inter_aleatorio pred_pend_aleatorio
+## 1             292.1888            251.4051
+## 2             302.6561            271.4918
+## 3             313.1234            291.5785
+## 4             323.5907            311.6652
+## 5             334.0580            331.7519
+## 6             344.5252            351.8386</code></pre>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="IC.html#cb393-1" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (Days <span class="sc">|</span> Subject), <span class="at">REML =</span> <span class="cn">TRUE</span>, <span class="at">data =</span> sleepstudy)</span></code></pre></div>
 <p>La tabla de resultados del modelo ajustado se muestra a continuación.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="IC.html#cb6-1" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="IC.html#cb394-1" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
 ## Formula: Reaction ~ Days + (Days | Subject)
 ##    Data: sleepstudy
@@ -430,10 +438,10 @@ N\left ( \left [ \begin{matrix}
 \hat{\boldsymbol{\Theta}} = (\hat{\beta_0}=251.40, \hat{\beta_1}=10.47, \hat{\sigma}_{reaction}=25.59, \hat{\sigma}_{b0}=24.74, \hat{\sigma}_{b1}=5.92, \hat{\rho}_{b0b1}=0.07)^\top
 \]</span></p>
 <p>Para obtener los intervalos de confianza podemos usar la función <code>confint()</code> al objeto <code>fit</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="IC.html#cb8-1" tabindex="-1"></a><span class="do">#### Calculate Wald CIs (Fastest Version) ####</span></span>
-<span id="cb8-2"><a href="IC.html#cb8-2" tabindex="-1"></a>ci.wald <span class="ot">&lt;-</span> <span class="fu">confint</span>(fit, <span class="at">level=</span><span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="IC.html#cb396-1" tabindex="-1"></a><span class="do">#### Calculate Wald CIs (Fastest Version) ####</span></span>
+<span id="cb396-2"><a href="IC.html#cb396-2" tabindex="-1"></a>ci.wald <span class="ot">&lt;-</span> <span class="fu">confint</span>(fit, <span class="at">level=</span><span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>## Computing profile confidence intervals ...</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="IC.html#cb10-1" tabindex="-1"></a>ci.wald</span></code></pre></div>
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="IC.html#cb398-1" tabindex="-1"></a>ci.wald</span></code></pre></div>
 <pre><code>##                   2.5 %      97.5 %
 ## .sig01       14.3814379  37.7159918
 ## .sig02       -0.4815008   0.6849863
@@ -442,20 +450,20 @@ N\left ( \left [ \begin{matrix}
 ## (Intercept) 237.6806955 265.1295145
 ## Days          7.3586533  13.5759188</code></pre>
 <p>También es posible obtener los intervalos de confianza por el método boostrap así.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="IC.html#cb12-1" tabindex="-1"></a><span class="do">#### Calculate Bootstrapped CIs ####</span></span>
-<span id="cb12-2"><a href="IC.html#cb12-2" tabindex="-1"></a>ci.boot <span class="ot">&lt;-</span> <span class="fu">confint</span>(fit, <span class="at">method =</span> <span class="st">&quot;boot&quot;</span>, <span class="at">nsim =</span> <span class="dv">1000</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb400-1"><a href="IC.html#cb400-1" tabindex="-1"></a><span class="do">#### Calculate Bootstrapped CIs ####</span></span>
+<span id="cb400-2"><a href="IC.html#cb400-2" tabindex="-1"></a>ci.boot <span class="ot">&lt;-</span> <span class="fu">confint</span>(fit, <span class="at">method =</span> <span class="st">&quot;boot&quot;</span>, <span class="at">nsim =</span> <span class="dv">1000</span>)</span></code></pre></div>
 <pre><code>## Computing bootstrap confidence intervals ...</code></pre>
 <pre><code>## 
-## 13 message(s): boundary (singular) fit: see help(&#39;isSingular&#39;)
-## 12 warning(s): Model failed to converge with max|grad| = 0.00209107 (tol = 0.002, component 1) (and others)</code></pre>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="IC.html#cb15-1" tabindex="-1"></a>ci.boot</span></code></pre></div>
-<pre><code>##                   2.5 %     97.5 %
-## .sig01       12.9467389  34.841487
-## .sig02       -0.4776721   0.919507
-## .sig03        3.2999675   8.264178
-## .sigma       22.3719980  28.275528
-## (Intercept) 237.1623187 265.317540
-## Days          7.4006700  13.759130</code></pre>
+## 11 message(s): boundary (singular) fit: see help(&#39;isSingular&#39;)
+## 7 warning(s): Model failed to converge with max|grad| = 0.00237033 (tol = 0.002, component 1) (and others)</code></pre>
+<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="IC.html#cb403-1" tabindex="-1"></a>ci.boot</span></code></pre></div>
+<pre><code>##                   2.5 %      97.5 %
+## .sig01       12.9637679  35.9428046
+## .sig02       -0.5360978   0.8664981
+## .sig03        3.1342841   8.4724073
+## .sigma       22.6178539  28.5395275
+## (Intercept) 237.7970463 265.0299430
+## Days          7.3768799  13.7273663</code></pre>
 </div>
 <div id="ejemplo-modelo-gamma" class="section level2 unnumbered hasAnchor">
 <h2>Ejemplo: modelo gamma<a href="IC.html#ejemplo-modelo-gamma" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -479,55 +487,59 @@ y_{ij} | b_0 &amp;\sim  Gamma(\mu_{ij}, \phi) \\
 b_{0} &amp;\sim N(0, \sigma^2_{b0})
 \end{align*}\]</span></p>
 <p>Para ajustar el modelo anterior usamos el siguiente código.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="IC.html#cb17-1" tabindex="-1"></a><span class="fu">library</span>(hglm)</span>
-<span id="cb17-2"><a href="IC.html#cb17-2" tabindex="-1"></a><span class="fu">data</span>(semiconductor)</span>
-<span id="cb17-3"><a href="IC.html#cb17-3" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="IC.html#cb17-4" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
-<span id="cb17-5"><a href="IC.html#cb17-5" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">glmer</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x3 <span class="sc">+</span> x5 <span class="sc">+</span> x6 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Device), </span>
-<span id="cb17-6"><a href="IC.html#cb17-6" tabindex="-1"></a>              <span class="at">data =</span> semiconductor,</span>
-<span id="cb17-7"><a href="IC.html#cb17-7" tabindex="-1"></a>              <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> log))</span>
-<span id="cb17-8"><a href="IC.html#cb17-8" tabindex="-1"></a></span>
-<span id="cb17-9"><a href="IC.html#cb17-9" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div>
-<pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
-##   Approximation) [glmerMod]
-##  Family: Gamma  ( log )
-## Formula: y ~ x1 + x3 + x5 + x6 + (1 | Device)
-##    Data: semiconductor
+<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="IC.html#cb405-1" tabindex="-1"></a><span class="fu">library</span>(hglm)</span>
+<span id="cb405-2"><a href="IC.html#cb405-2" tabindex="-1"></a><span class="fu">data</span>(semiconductor)</span>
+<span id="cb405-3"><a href="IC.html#cb405-3" tabindex="-1"></a></span>
+<span id="cb405-4"><a href="IC.html#cb405-4" tabindex="-1"></a><span class="fu">library</span>(glmmTMB)</span>
+<span id="cb405-5"><a href="IC.html#cb405-5" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x3 <span class="sc">+</span> x5 <span class="sc">+</span> x6 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Device), </span>
+<span id="cb405-6"><a href="IC.html#cb405-6" tabindex="-1"></a>               <span class="at">data =</span> semiconductor,</span>
+<span id="cb405-7"><a href="IC.html#cb405-7" tabindex="-1"></a>               <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> log))</span>
+<span id="cb405-8"><a href="IC.html#cb405-8" tabindex="-1"></a></span>
+<span id="cb405-9"><a href="IC.html#cb405-9" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div>
+<pre><code>##  Family: Gamma  ( log )
+## Formula:          y ~ x1 + x3 + x5 + x6 + (1 | Device)
+## Data: semiconductor
 ## 
 ##       AIC       BIC    logLik -2*log(L)  df.resid 
-##    -551.0    -535.9     282.5    -565.0        57 
-## 
-## Scaled residuals: 
-##     Min      1Q  Median      3Q     Max 
-## -1.8424 -0.5565 -0.1762  0.7429  2.4663 
+##    -545.2    -530.1     279.6    -559.2        57 
 ## 
 ## Random effects:
-##  Groups   Name        Variance Std.Dev.
-##  Device   (Intercept) 0.02744  0.1657  
-##  Residual             0.09652  0.3107  
+## 
+## Conditional model:
+##  Groups Name        Variance Std.Dev.
+##  Device (Intercept) 0.02505  0.1583  
 ## Number of obs: 64, groups:  Device, 16
 ## 
-## Fixed effects:
-##             Estimate Std. Error t value Pr(&gt;|z|)    
-## (Intercept) -4.71177    0.07542 -62.475  &lt; 2e-16 ***
-## x1           0.18429    0.07541   2.444   0.0145 *  
-## x3           0.30732    0.07540   4.076 4.59e-05 ***
-## x5          -0.19423    0.07543  -2.575   0.0100 *  
-## x6          -0.36594    0.07540  -4.853 1.21e-06 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## Dispersion estimate for Gamma family (sigma^2): 0.101 
 ## 
-## Correlation of Fixed Effects:
-##    (Intr) x1     x3     x5    
-## x1  0.000                     
-## x3  0.000  0.008              
-## x5  0.000  0.023  0.021       
-## x6  0.000 -0.007  0.005  0.014</code></pre>
+## Conditional model:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -4.69447    0.05635  -83.31  &lt; 2e-16 ***
+## x1           0.18290    0.05629    3.25 0.001158 ** 
+## x3           0.30496    0.05629    5.42 6.04e-08 ***
+## x5          -0.19565    0.05632   -3.47 0.000513 ***
+## x6          -0.36961    0.05630   -6.57 5.19e-11 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>De la tabla anterior podemos ver que las estimaciones del vector de parámetros es</p>
 <p><span class="math display">\[
 \hat{\boldsymbol{\Theta}} = (\hat{\beta_0}=-4.71, \hat{\beta_1}=0.18, \hat{\beta_3}=0.31, \hat{\beta_5}=-0.19, \hat{\beta_6}=-0.37, \hat{\phi}=0.31, \hat{\sigma}_{b0}=0.17)^\top
 \]</span></p>
 <p>Para obtener los intervalos de confianza podemos usar la función <code>confint()</code> al objeto <code>fit</code>.</p>
+<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="IC.html#cb407-1" tabindex="-1"></a>FUN <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">model=</span>fit) {</span>
+<span id="cb407-2"><a href="IC.html#cb407-2" tabindex="-1"></a>  fm1R <span class="ot">&lt;-</span> <span class="fu">refit</span>(fit, <span class="fu">simulate</span>(fit)[[<span class="dv">1</span>]])</span>
+<span id="cb407-3"><a href="IC.html#cb407-3" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">as.numeric</span>(fm1R<span class="sc">$</span>fit<span class="sc">$</span>par[<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>]),</span>
+<span id="cb407-4"><a href="IC.html#cb407-4" tabindex="-1"></a>              fm1R<span class="sc">$</span>obj<span class="sc">$</span><span class="fu">report</span>()<span class="sc">$</span>sd[[<span class="dv">1</span>]])</span>
+<span id="cb407-5"><a href="IC.html#cb407-5" tabindex="-1"></a>  <span class="fu">return</span>(result)</span>
+<span id="cb407-6"><a href="IC.html#cb407-6" tabindex="-1"></a>}</span>
+<span id="cb407-7"><a href="IC.html#cb407-7" tabindex="-1"></a></span>
+<span id="cb407-8"><a href="IC.html#cb407-8" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">bootMer</span>(fit, FUN, <span class="at">nsim=</span><span class="dv">30</span>, <span class="at">.progress=</span><span class="st">&quot;txt&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="IC.html#cb408-1" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">requireNamespace</span>(<span class="st">&quot;boot&quot;</span>)) {</span>
+<span id="cb408-2"><a href="IC.html#cb408-2" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;95% Bootstrap confidence intervals for glmmTMB</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb408-3"><a href="IC.html#cb408-3" tabindex="-1"></a>   <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>) {</span>
+<span id="cb408-4"><a href="IC.html#cb408-4" tabindex="-1"></a>     <span class="fu">print</span>(<span class="fu">boot.ci</span>(b1, <span class="at">type=</span><span class="st">&quot;perc&quot;</span>, <span class="at">index=</span>i)[<span class="dv">4</span>]<span class="sc">$</span>percent[<span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>])</span>
+<span id="cb408-5"><a href="IC.html#cb408-5" tabindex="-1"></a>   }</span>
+<span id="cb408-6"><a href="IC.html#cb408-6" tabindex="-1"></a>  }</span></code></pre></div>
 </div>
 </div>
             </section>

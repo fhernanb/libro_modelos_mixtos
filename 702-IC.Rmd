@@ -103,13 +103,14 @@ Para ajustar el modelo anterior usamos el siguiente código.
 library(hglm)
 data(semiconductor)
 
-library(lme4)
-fit <- glmer(y ~ x1 + x3 + x5 + x6 + (1 | Device), 
-              data = semiconductor,
-              family = Gamma(link = log))
+library(glmmTMB)
+fit <- glmmTMB(y ~ x1 + x3 + x5 + x6 + (1 | Device), 
+               data = semiconductor,
+               family = Gamma(link = log))
 
 summary(fit)
 ```
+
 
 De la tabla anterior podemos ver que las estimaciones del vector de parámetros es
 
@@ -119,61 +120,28 @@ $$
 
 Para obtener los intervalos de confianza podemos usar la función `confint()` al objeto `fit`.
 
+```{r eval=FALSE}
+FUN <- function(model=fit) {
+  fm1R <- refit(fit, simulate(fit)[[1]])
+  result <- c(as.numeric(fm1R$fit$par[1:7]),
+              fm1R$obj$report()$sd[[1]])
+  return(result)
+}
+
+b1 <- lme4::bootMer(fit, FUN, nsim=30, .progress="txt")
+```
+
+```{r eval=FALSE}
+if (requireNamespace("boot")) {
+  cat("95% Bootstrap confidence intervals for glmmTMB\n")
+   for (i in 1:8) {
+     print(boot.ci(b1, type="perc", index=i)[4]$percent[4:5])
+   }
+  }
+```
+
+
 
 
 # Intervalos de confianza para predicción
-
-```{r}
-library(lme4)
-
-#first case simple lmer, simulate 100 data points from 10 groups with one continuous fixed effect variable
-x <- runif(100, 0, 10)
-f <- gl(n=10, k=10)
-data <- data.frame(x=x, f=f)
-modmat <- model.matrix(~x,data)
-#the fixed effect coefficient
-fixed <- c(1, 0.5)
-#the random effect
-rnd <- rnorm(10, 0, 0.7)
-#the simulated response values
-data$y <- rnorm(100, modmat%*%fixed+rnd[f], 0.3)
-
-#model
-m <- lmer(y ~ x + (1|f), data)
-
-#first CI and PI using predict-like method, using code posted here: http://glmm.wikidot.com/faq
-newdat <- data.frame(x=seq(0, 10, length=20))
-mm <- model.matrix(~x, newdat)
-newdat$y <- mm%*%fixef(m) 
-#predict(m,newdat,re.form=NA) would give the same results
-pvar1 <- diag(mm %*% tcrossprod(vcov(m),mm))
-tvar1 <- pvar1+VarCorr(m)$f[1] # must be adapted for more complex models
-newdat <- data.frame(
-  newdat
-  , plo = newdat$y-1.96*sqrt(pvar1)
-  , phi = newdat$y+1.96*sqrt(pvar1)
-  , tlo = newdat$y-1.96*sqrt(tvar1)
-  , thi = newdat$y+1.96*sqrt(tvar1)
-)
-
-#second version with bootMer
-#we have to define a function that will be applied to the nsim simulations
-#here we basically get a merMod object and return the fitted values
-predFun <- function(.) mm%*%fixef(.) 
-bb <- bootMer(m,FUN=predFun,nsim=200) #do this 200 times
-#as we did this 200 times the 95% CI will be bordered by the 5th and 195th value
-bb_se <- apply(bb$t,2,function(x) x[order(x)]) #[c language="(5,195)"][/c])
-newdat$blo <- bb_se[1,]
-newdat$bhi <- bb_se[2,]
-
-plot(y~x, data)
-lines(newdat$x,newdat$y,col="red",lty=2,lwd=3)
-lines(newdat$x,newdat$plo,col="blue",lty=2,lwd=2)
-lines(newdat$x,newdat$phi,col="blue",lty=2,lwd=2)
-lines(newdat$x,newdat$tlo,col="orange",lty=2,lwd=2)
-lines(newdat$x,newdat$thi,col="orange",lty=2,lwd=2)
-lines(newdat$x,newdat$bhi,col="darkgreen",lty=2,lwd=2)
-lines(newdat$x,newdat$blo,col="darkgreen",lty=2,lwd=2)
-legend("topleft",legend=c("Fitted line","Confidence interval","Prediction interval","Bootstrapped CI"),col=c("red","blue","orange","darkgreen"),lty=2,lwd=2,bty="n")
-```
 
