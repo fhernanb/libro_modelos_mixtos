@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>30 Simulación de glmm | Modelos Mixtos con R</title>
+  <title>29 Simulación de glmm | Modelos Mixtos con R</title>
   <meta name="description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="30 Simulación de glmm | Modelos Mixtos con R" />
+  <meta property="og:title" content="29 Simulación de glmm | Modelos Mixtos con R" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/images/cover.png" />
   <meta property="og:description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="github-repo" content="fhernanb/libro_mod_pred" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="30 Simulación de glmm | Modelos Mixtos con R" />
+  <meta name="twitter:title" content="29 Simulación de glmm | Modelos Mixtos con R" />
   
   <meta name="twitter:description" content="Este libro es para los estudiantes interesados en usar Modelos Mixtos." />
   <meta name="twitter:image" content="/images/cover.png" />
@@ -31,7 +31,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="intervalos-de-confianza-para-predicción.html"/>
+<link rel="prev" href="IC.html"/>
 <link rel="next" href="sced.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -327,17 +327,18 @@ div.csl-indent {
 <li class="chapter" data-level="28.1" data-path="801-simulation_glmm.html"><a href="#intervalos-de-confianza-para-los-par%C3%A1metros"><i class="fa fa-check"></i><b>28.1</b> Intervalos de confianza para los parámetros</a></li>
 <li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#ejemplo-modelo-normal"><i class="fa fa-check"></i>Ejemplo: modelo normal</a></li>
 <li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#ejemplo-modelo-gamma"><i class="fa fa-check"></i>Ejemplo: modelo gamma</a></li>
+<li class="chapter" data-level="28.2" data-path="801-simulation_glmm.html"><a href="#intervalos-de-confianza-para-predicci%C3%B3n"><i class="fa fa-check"></i><b>28.2</b> Intervalos de confianza para predicción</a></li>
+<li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#ejemplo-modelo-normal-1"><i class="fa fa-check"></i>Ejemplo: modelo normal</a></li>
 </ul></li>
-<li class="chapter" data-level="29" data-path="801-simulation_glmm.html"><a href="#intervalos-de-confianza-para-predicci%C3%B3n"><i class="fa fa-check"></i><b>29</b> Intervalos de confianza para predicción</a></li>
-<li class="chapter" data-level="30" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>30</b> Simulación de glmm</a>
+<li class="chapter" data-level="29" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>29</b> Simulación de glmm</a>
 <ul>
-<li class="chapter" data-level="30.1" data-path="simul-glmm.html"><a href="simul-glmm.html#ejemplo-para-datos-de-crecimiento"><i class="fa fa-check"></i><b>30.1</b> Ejemplo para datos de crecimiento</a></li>
+<li class="chapter" data-level="29.1" data-path="simul-glmm.html"><a href="simul-glmm.html#ejemplo-para-datos-de-crecimiento"><i class="fa fa-check"></i><b>29.1</b> Ejemplo para datos de crecimiento</a></li>
 </ul></li>
-<li class="chapter" data-level="31" data-path="sced.html"><a href="sced.html"><i class="fa fa-check"></i><b>31</b> Single case experimental desing (sced)</a>
+<li class="chapter" data-level="30" data-path="sced.html"><a href="sced.html"><i class="fa fa-check"></i><b>30</b> Single case experimental desing (sced)</a>
 <ul>
 <li class="chapter" data-level="" data-path=""><a href="#ejemplo-simulaci%C3%B3n-de-un-sced-abab"><i class="fa fa-check"></i>Ejemplo: simulación de un sced ABAB</a></li>
 </ul></li>
-<li class="chapter" data-level="32" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>32</b> Otro material interesante</a></li>
+<li class="chapter" data-level="31" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>31</b> Otro material interesante</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -359,15 +360,15 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="simul-glmm" class="section level1 hasAnchor" number="30">
-<h1><span class="header-section-number">30</span> Simulación de glmm<a href="simul-glmm.html#simul-glmm" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="simul-glmm" class="section level1 hasAnchor" number="29">
+<h1><span class="header-section-number">29</span> Simulación de glmm<a href="simul-glmm.html#simul-glmm" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Simular observaciones de un glmm es muy importante para comprender este tipo de modelos y para estudiar las propiedades de estos modelos. A continuación se muestran los enlaces a varias publicaciones.</p>
 <ul>
 <li><a href="https://aosmith.rbind.io/2020/08/20/simulate-binomial-glmm/">glmm binomial</a>.</li>
 <li><a href="https://aosmith.rbind.io/2018/07/18/simulate-poisson-edition/">glmm Poisson</a>.</li>
 </ul>
-<div id="ejemplo-para-datos-de-crecimiento" class="section level2 hasAnchor" number="30.1">
-<h2><span class="header-section-number">30.1</span> Ejemplo para datos de crecimiento<a href="simul-glmm.html#ejemplo-para-datos-de-crecimiento" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="ejemplo-para-datos-de-crecimiento" class="section level2 hasAnchor" number="29.1">
+<h2><span class="header-section-number">29.1</span> Ejemplo para datos de crecimiento<a href="simul-glmm.html#ejemplo-para-datos-de-crecimiento" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>En este ejemplo queremos mostrar la forma de generar datos artificiales que sigan un comportamiento.</p>
 
 </div>
@@ -377,7 +378,7 @@ div.csl-indent {
           </div>
         </div>
       </div>
-<a href="intervalos-de-confianza-para-predicción.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="IC.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="sced.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

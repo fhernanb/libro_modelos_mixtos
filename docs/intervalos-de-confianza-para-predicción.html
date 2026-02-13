@@ -53,8 +53,6 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
-<link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
-<script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
 
 
 <style type="text/css">
@@ -328,7 +326,10 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#ejemplo-modelo-normal"><i class="fa fa-check"></i>Ejemplo: modelo normal</a></li>
 <li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#ejemplo-modelo-gamma"><i class="fa fa-check"></i>Ejemplo: modelo gamma</a></li>
 </ul></li>
-<li class="chapter" data-level="29" data-path="702-IC.html"><a href="#intervalos-de-confianza-para-predicci%C3%B3n"><i class="fa fa-check"></i><b>29</b> Intervalos de confianza para predicción</a></li>
+<li class="chapter" data-level="29" data-path="702-IC.html"><a href="#intervalos-de-confianza-para-predicci%C3%B3n"><i class="fa fa-check"></i><b>29</b> Intervalos de confianza para predicción</a>
+<ul>
+<li class="chapter" data-level="" data-path="intervalos-de-confianza-para-predicción.html"><a href="intervalos-de-confianza-para-predicción.html"><i class="fa fa-check"></i>Ejemplo: modelo normal</a></li>
+</ul></li>
 <li class="chapter" data-level="30" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>30</b> Simulación de glmm</a>
 <ul>
 <li class="chapter" data-level="30.1" data-path="simul-glmm.html"><a href="simul-glmm.html#ejemplo-para-datos-de-crecimiento"><i class="fa fa-check"></i><b>30.1</b> Ejemplo para datos de crecimiento</a></li>
@@ -361,7 +362,32 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="intervalos-de-confianza-para-predicción" class="section level1 hasAnchor" number="29">
 <h1><span class="header-section-number">29</span> Intervalos de confianza para predicción<a href="#intervalos-de-confianza-para-predicci%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>En esta sección se mostrará cómo utilizar el paquete <code>ggeffects</code> para obtener intervalos de confianza para predicciones de un modelo lineal generalizado mixto.</p>
+<div id="ejemplo-modelo-normal-1" class="section level2 unnumbered hasAnchor">
+<h2>Ejemplo: modelo normal<a href="intervalos-de-confianza-para-predicción.html#ejemplo-modelo-normal-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>En este ejemplo vamos a retomar los datos <code>sleepstudy</code> del paquete <code>lme4</code> sobre el tiempo de reacción promedio por día para un conjunto de individuos en un estudio de privación del sueño. La base de datos contiene la información sobre el tiempo de reacción promedio (<code>Reaction</code>), el número de días de privación del sueño (<code>Days</code>), donde el día 0 corresponde al día en el que los indiviuos tenían su cantidad normal de sueño, y el número del individuo (en total 18) sobre el que se realizó la observación (<code>Subject</code>). A partir del día 0, hubo una restricción en cada individuo a 3 horas de sueño por noche.</p>
+<p><img src="images/sleep_study.png" width="40%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="intervalos-de-confianza-para-predicción.html#cb21-1" tabindex="-1"></a><span class="fu">library</span>(ggeffects)</span>
+<span id="cb21-2"><a href="intervalos-de-confianza-para-predicción.html#cb21-2" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb21-3"><a href="intervalos-de-confianza-para-predicción.html#cb21-3" tabindex="-1"></a><span class="fu">data</span>(sleepstudy)</span>
+<span id="cb21-4"><a href="intervalos-de-confianza-para-predicción.html#cb21-4" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="intervalos-de-confianza-para-predicción.html#cb21-5" tabindex="-1"></a><span class="co"># balanced data set</span></span>
+<span id="cb21-6"><a href="intervalos-de-confianza-para-predicción.html#cb21-6" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> Days <span class="sc">|</span> Subject), <span class="at">data =</span> sleepstudy)</span>
+<span id="cb21-7"><a href="intervalos-de-confianza-para-predicción.html#cb21-7" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="intervalos-de-confianza-para-predicción.html#cb21-8" tabindex="-1"></a><span class="co"># conditional predictions</span></span>
+<span id="cb21-9"><a href="intervalos-de-confianza-para-predicción.html#cb21-9" tabindex="-1"></a><span class="fu">predict_response</span>(m, <span class="st">&quot;Days [1,5,9]&quot;</span>)</span></code></pre></div>
+<pre><code>## # Predicted values of Reaction
+## 
+## Days | Predicted |         95% CI
+## ---------------------------------
+##    1 |    261.87 | 248.48, 275.27
+##    5 |    303.74 | 284.83, 322.65
+##    9 |    345.61 | 316.74, 374.48
+## 
+## Adjusted for:
+## * Subject = 0 (population-level)</code></pre>
 
+</div>
 </div>
             </section>
 

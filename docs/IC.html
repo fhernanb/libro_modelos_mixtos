@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="R2.html"/>
-<link rel="next" href="intervalos-de-confianza-para-predicción.html"/>
+<link rel="next" href="simul-glmm.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -327,17 +327,18 @@ div.csl-indent {
 <li class="chapter" data-level="28.1" data-path="702-IC.html"><a href="#intervalos-de-confianza-para-los-par%C3%A1metros"><i class="fa fa-check"></i><b>28.1</b> Intervalos de confianza para los parámetros</a></li>
 <li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#ejemplo-modelo-normal"><i class="fa fa-check"></i>Ejemplo: modelo normal</a></li>
 <li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#ejemplo-modelo-gamma"><i class="fa fa-check"></i>Ejemplo: modelo gamma</a></li>
+<li class="chapter" data-level="28.2" data-path="702-IC.html"><a href="#intervalos-de-confianza-para-predicci%C3%B3n"><i class="fa fa-check"></i><b>28.2</b> Intervalos de confianza para predicción</a></li>
+<li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#ejemplo-modelo-normal-1"><i class="fa fa-check"></i>Ejemplo: modelo normal</a></li>
 </ul></li>
-<li class="chapter" data-level="29" data-path="702-IC.html"><a href="#intervalos-de-confianza-para-predicci%C3%B3n"><i class="fa fa-check"></i><b>29</b> Intervalos de confianza para predicción</a></li>
-<li class="chapter" data-level="30" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>30</b> Simulación de glmm</a>
+<li class="chapter" data-level="29" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>29</b> Simulación de glmm</a>
 <ul>
-<li class="chapter" data-level="30.1" data-path="simul-glmm.html"><a href="simul-glmm.html#ejemplo-para-datos-de-crecimiento"><i class="fa fa-check"></i><b>30.1</b> Ejemplo para datos de crecimiento</a></li>
+<li class="chapter" data-level="29.1" data-path="simul-glmm.html"><a href="simul-glmm.html#ejemplo-para-datos-de-crecimiento"><i class="fa fa-check"></i><b>29.1</b> Ejemplo para datos de crecimiento</a></li>
 </ul></li>
-<li class="chapter" data-level="31" data-path="sced.html"><a href="sced.html"><i class="fa fa-check"></i><b>31</b> Single case experimental desing (sced)</a>
+<li class="chapter" data-level="30" data-path="sced.html"><a href="sced.html"><i class="fa fa-check"></i><b>30</b> Single case experimental desing (sced)</a>
 <ul>
 <li class="chapter" data-level="" data-path=""><a href="#ejemplo-simulaci%C3%B3n-de-un-sced-abab"><i class="fa fa-check"></i>Ejemplo: simulación de un sced ABAB</a></li>
 </ul></li>
-<li class="chapter" data-level="32" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>32</b> Otro material interesante</a></li>
+<li class="chapter" data-level="31" data-path="blobs.html"><a href="blobs.html"><i class="fa fa-check"></i><b>31</b> Otro material interesante</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -541,6 +542,36 @@ b_{0} &amp;\sim N(0, \sigma^2_{b0})
 <span id="cb408-5"><a href="IC.html#cb408-5" tabindex="-1"></a>   }</span>
 <span id="cb408-6"><a href="IC.html#cb408-6" tabindex="-1"></a>  }</span></code></pre></div>
 </div>
+<div id="intervalos-de-confianza-para-predicción" class="section level2 hasAnchor" number="28.2">
+<h2><span class="header-section-number">28.2</span> Intervalos de confianza para predicción<a href="#intervalos-de-confianza-para-predicci%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>En esta sección se mostrará cómo utilizar el paquete <code>ggeffects</code> para obtener intervalos de confianza para predicciones de un modelo lineal generalizado mixto.</p>
+</div>
+<div id="ejemplo-modelo-normal-1" class="section level2 unnumbered hasAnchor">
+<h2>Ejemplo: modelo normal<a href="IC.html#ejemplo-modelo-normal-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>En este ejemplo vamos a retomar los datos <code>sleepstudy</code> del paquete <code>lme4</code> sobre el tiempo de reacción promedio por día para un conjunto de individuos en un estudio de privación del sueño. La base de datos contiene la información sobre el tiempo de reacción promedio (<code>Reaction</code>), el número de días de privación del sueño (<code>Days</code>), donde el día 0 corresponde al día en el que los indiviuos tenían su cantidad normal de sueño, y el número del individuo (en total 18) sobre el que se realizó la observación (<code>Subject</code>). A partir del día 0, hubo una restricción en cada individuo a 3 horas de sueño por noche.</p>
+<p><img src="images/sleep_study.png" width="40%" style="display: block; margin: auto;" /></p>
+<p>Primero vamos a ajustar el modelo de interés.</p>
+<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="IC.html#cb409-1" tabindex="-1"></a><span class="fu">library</span>(ggeffects)</span>
+<span id="cb409-2"><a href="IC.html#cb409-2" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb409-3"><a href="IC.html#cb409-3" tabindex="-1"></a><span class="fu">data</span>(sleepstudy)</span>
+<span id="cb409-4"><a href="IC.html#cb409-4" tabindex="-1"></a></span>
+<span id="cb409-5"><a href="IC.html#cb409-5" tabindex="-1"></a><span class="co"># balanced data set</span></span>
+<span id="cb409-6"><a href="IC.html#cb409-6" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> Days <span class="sc">|</span> Subject), <span class="at">data =</span> sleepstudy)</span></code></pre></div>
+<p>Ahora supongamos que nos interesa predecir el tiempo de reacción de un paciente cualquiera en los días 1, 5 y 9, y los intervalos de confianza del 95% para la predicción en esos mismos días. Para eso vamos a usar la función <code>predict_response()</code> de la siguiente manera:</p>
+<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="IC.html#cb410-1" tabindex="-1"></a><span class="co"># conditional predictions</span></span>
+<span id="cb410-2"><a href="IC.html#cb410-2" tabindex="-1"></a><span class="fu">predict_response</span>(fit, <span class="st">&quot;Days [1,5,9]&quot;</span>)</span></code></pre></div>
+<pre><code>## # Predicted values of Reaction
+## 
+## Days | Predicted |         95% CI
+## ---------------------------------
+##    1 |    261.87 | 248.48, 275.27
+##    5 |    303.74 | 284.83, 322.65
+##    9 |    345.61 | 316.74, 374.48
+## 
+## Adjusted for:
+## * Subject = 0 (population-level)</code></pre>
+
+</div>
 </div>
             </section>
 
@@ -548,7 +579,7 @@ b_{0} &amp;\sim N(0, \sigma^2_{b0})
         </div>
       </div>
 <a href="R2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="intervalos-de-confianza-para-predicción.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="simul-glmm.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

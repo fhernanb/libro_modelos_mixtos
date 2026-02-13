@@ -140,8 +140,38 @@ if (requireNamespace("boot")) {
   }
 ```
 
+## Intervalos de confianza para predicción
+
+En esta sección se mostrará cómo utilizar el paquete `ggeffects` para obtener intervalos de confianza para predicciones de un modelo lineal generalizado mixto.
+
+## Ejemplo: modelo normal {-}
+
+En este ejemplo vamos a retomar los datos `sleepstudy` del paquete `lme4` sobre el tiempo de reacción promedio por día para un conjunto de individuos en un estudio de privación del sueño. La base de datos contiene la información sobre el tiempo de reacción promedio (`Reaction`), el número de días de privación del sueño (`Days`), donde el día 0 corresponde al día en el que los indiviuos tenían su cantidad normal de sueño, y el número del individuo (en total 18) sobre el que se realizó la observación (`Subject`). A partir del día 0, hubo una restricción en cada individuo a 3 horas de sueño por noche.
+
+```{r echo=FALSE, out.width="40%", fig.align='center'}
+knitr::include_graphics("images/sleep_study.png")
+```
+
+Primero vamos a ajustar el modelo de interés.
+
+```{r}
+library(ggeffects)
+library(lme4)
+data(sleepstudy)
+
+# balanced data set
+fit <- lmer(Reaction ~ Days + (1 + Days | Subject), data = sleepstudy)
+```
+
+Ahora supongamos que nos interesa predecir el tiempo de reacción de un paciente cualquiera en los días 1, 5 y 9, y los intervalos de confianza del 95% para la predicción en esos mismos días. Para eso vamos a usar la función `predict_response()` de la siguiente manera:
+
+```{r}
+# conditional predictions
+predict_response(fit, "Days [1,5,9]")
+```
 
 
 
-# Intervalos de confianza para predicción
+
+
 
