@@ -557,9 +557,11 @@ b_{0} &amp;\sim N(0, \sigma^2_{b0})
 <span id="cb409-4"><a href="IC.html#cb409-4" tabindex="-1"></a></span>
 <span id="cb409-5"><a href="IC.html#cb409-5" tabindex="-1"></a><span class="co"># balanced data set</span></span>
 <span id="cb409-6"><a href="IC.html#cb409-6" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> Days <span class="sc">|</span> Subject), <span class="at">data =</span> sleepstudy)</span></code></pre></div>
-<p>Ahora supongamos que nos interesa predecir el tiempo de reacción de un paciente cualquiera en los días 1, 5 y 9, y los intervalos de confianza del 95% para la predicción en esos mismos días. Para eso vamos a usar la función <code>predict_response()</code> de la siguiente manera:</p>
+<p>Efectos condicionales</p>
+<p>Ahora supongamos que nos interesa predecir el tiempo de reacción de un paciente típico en los días 1, 5 y 9, y los intervalos de confianza del 95% para la predicción en esos mismos días. Para eso vamos a usar la función <code>predict_response()</code> de la siguiente manera:</p>
 <div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="IC.html#cb410-1" tabindex="-1"></a><span class="co"># conditional predictions</span></span>
-<span id="cb410-2"><a href="IC.html#cb410-2" tabindex="-1"></a><span class="fu">predict_response</span>(fit, <span class="st">&quot;Days [1,5,9]&quot;</span>)</span></code></pre></div>
+<span id="cb410-2"><a href="IC.html#cb410-2" tabindex="-1"></a>pred1 <span class="ot">&lt;-</span> <span class="fu">predict_response</span>(fit, <span class="st">&quot;Days [1,5,9]&quot;</span>, <span class="at">margin=</span><span class="st">&quot;mean_mode&quot;</span>)</span>
+<span id="cb410-3"><a href="IC.html#cb410-3" tabindex="-1"></a>pred1</span></code></pre></div>
 <pre><code>## # Predicted values of Reaction
 ## 
 ## Days | Predicted |         95% CI
@@ -570,6 +572,15 @@ b_{0} &amp;\sim N(0, \sigma^2_{b0})
 ## 
 ## Adjusted for:
 ## * Subject = 0 (population-level)</code></pre>
+<p>Es posible representar gráficamente la predicción y los intervalos usando la función genérica <code>plot()</code> sobre el objeto <code>pred1</code> así:</p>
+<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="IC.html#cb412-1" tabindex="-1"></a><span class="fu">plot</span>(pred1)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-295-1.png" width="672" /></p>
+<p>Efectos marginales</p>
+<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="IC.html#cb413-1" tabindex="-1"></a><span class="co"># average marginal predictions</span></span>
+<span id="cb413-2"><a href="IC.html#cb413-2" tabindex="-1"></a>pred2 <span class="ot">&lt;-</span> <span class="fu">predict_response</span>(fit, <span class="st">&quot;Days [1,5,9]&quot;</span>, <span class="at">margin =</span> <span class="st">&quot;empirical&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb414-1"><a href="IC.html#cb414-1" tabindex="-1"></a><span class="fu">plot</span>(pred2)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-297-1.png" width="672" /></p>
+<p>Ver <a href="https://www.andrewheiss.com/blog/2022/11/29/conditional-marginal-marginaleffects/" class="uri">https://www.andrewheiss.com/blog/2022/11/29/conditional-marginal-marginaleffects/</a></p>
 
 </div>
 </div>

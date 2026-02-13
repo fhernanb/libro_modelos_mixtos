@@ -163,15 +163,31 @@ data(sleepstudy)
 fit <- lmer(Reaction ~ Days + (1 + Days | Subject), data = sleepstudy)
 ```
 
-Ahora supongamos que nos interesa predecir el tiempo de reacción de un paciente cualquiera en los días 1, 5 y 9, y los intervalos de confianza del 95% para la predicción en esos mismos días. Para eso vamos a usar la función `predict_response()` de la siguiente manera:
+Efectos condicionales
+
+Ahora supongamos que nos interesa predecir el tiempo de reacción de un paciente típico en los días 1, 5 y 9, y los intervalos de confianza del 95% para la predicción en esos mismos días. Para eso vamos a usar la función `predict_response()` de la siguiente manera:
 
 ```{r}
 # conditional predictions
-predict_response(fit, "Days [1,5,9]")
+pred1 <- predict_response(fit, "Days [1,5,9]", margin="mean_mode")
+pred1
 ```
 
+Es posible representar gráficamente la predicción y los intervalos usando la función genérica `plot()` sobre el objeto `pred1` así:
 
+```{r}
+plot(pred1)
+```
 
+Efectos marginales
 
+```{r}
+# average marginal predictions
+pred2 <- predict_response(fit, "Days [1,5,9]", margin = "empirical")
+```
 
+```{r}
+plot(pred2)
+```
 
+Ver https://www.andrewheiss.com/blog/2022/11/29/conditional-marginal-marginaleffects/
