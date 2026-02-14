@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2026-02-12" />
+<meta name="date" content="2026-02-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -328,7 +328,12 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#ejemplo-modelo-normal"><i class="fa fa-check"></i>Ejemplo: modelo normal</a></li>
 <li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#ejemplo-modelo-gamma"><i class="fa fa-check"></i>Ejemplo: modelo gamma</a></li>
 <li class="chapter" data-level="28.2" data-path="702-IC.html"><a href="#intervalos-de-confianza-para-predicci%C3%B3n"><i class="fa fa-check"></i><b>28.2</b> Intervalos de confianza para predicción</a></li>
-<li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#ejemplo-modelo-normal-1"><i class="fa fa-check"></i>Ejemplo: modelo normal</a></li>
+<li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#ejemplo-modelo-normal-1"><i class="fa fa-check"></i>Ejemplo: modelo normal</a>
+<ul>
+<li class="chapter" data-level="" data-path=""><a href="#predicci%C3%B3n-para-cada-individuo"><i class="fa fa-check"></i>Predicción para cada individuo</a></li>
+<li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#predicciones-condicionales"><i class="fa fa-check"></i>Predicciones condicionales</a></li>
+<li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#predicciones-marginales"><i class="fa fa-check"></i>Predicciones marginales</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="29" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>29</b> Simulación de glmm</a>
 <ul>
@@ -369,7 +374,7 @@ div.csl-indent {
 </div>
 <div id="ejemplo-modelo-normal" class="section level2 unnumbered hasAnchor">
 <h2>Ejemplo: modelo normal<a href="IC.html#ejemplo-modelo-normal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>En este ejemplo su usará la base de datos <code>sleepstudy</code> del paquete <code>lme4</code> sobre el tiempo de reacción promedio por día para un conjunto de individuos en un estudio de privación del sueño. La base de datos contiene la información sobre el tiempo de reacción promedio (<code>Reaction</code>), el número de días de privación del sueño (<code>Days</code>), donde el día 0 corresponde al día en el que los indiviuos tenían su cantidad normal de sueño, y el número del individuo (en total 18) sobre el que se realizó la observación (<code>Subject</code>). A partir del día 0, hubo una restricción en cada individuo a 3 horas de sueño por noche.</p>
+<p>En este ejemplo su usará la base de datos <code>sleepstudy</code> del paquete <strong>lme4</strong> de <span class="citation">Bates et al. (<a href="#ref-R-lme4">2025</a>)</span> sobre el tiempo de reacción promedio por día para un conjunto de individuos en un estudio de privación del sueño. La base de datos contiene la información sobre el tiempo de reacción promedio (<code>Reaction</code>), el número de días de privación del sueño (<code>Days</code>), donde el día 0 corresponde al día en el que los individuos tenían su cantidad normal de sueño, y el número del individuo (en total 18) sobre el que se realizó la observación (<code>Subject</code>). A partir del día 0, hubo una restricción en cada individuo a 3 horas de sueño por noche.</p>
 <p><img src="images/sleep_study.png" width="40%" style="display: block; margin: auto;" /></p>
 <p>El objetivo es ajustar el siguiente modelo a los datos.</p>
 <p><span class="math display">\[\begin{align*}
@@ -438,7 +443,7 @@ N\left ( \left [ \begin{matrix}
 <p><span class="math display">\[
 \hat{\boldsymbol{\Theta}} = (\hat{\beta_0}=251.40, \hat{\beta_1}=10.47, \hat{\sigma}_{reaction}=25.59, \hat{\sigma}_{b0}=24.74, \hat{\sigma}_{b1}=5.92, \hat{\rho}_{b0b1}=0.07)^\top
 \]</span></p>
-<p>Para obtener los intervalos de confianza podemos usar la función <code>confint()</code> al objeto <code>fit</code>.</p>
+<p>Para obtener los intervalos de confianza podemos usar la función <code>confint()</code>.</p>
 <div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="IC.html#cb396-1" tabindex="-1"></a><span class="do">#### Calculate Wald CIs (Fastest Version) ####</span></span>
 <span id="cb396-2"><a href="IC.html#cb396-2" tabindex="-1"></a>ci.wald <span class="ot">&lt;-</span> <span class="fu">confint</span>(fit, <span class="at">level=</span><span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>## Computing profile confidence intervals ...</code></pre>
@@ -526,42 +531,95 @@ b_{0} &amp;\sim N(0, \sigma^2_{b0})
 <p><span class="math display">\[
 \hat{\boldsymbol{\Theta}} = (\hat{\beta_0}=-4.71, \hat{\beta_1}=0.18, \hat{\beta_3}=0.31, \hat{\beta_5}=-0.19, \hat{\beta_6}=-0.37, \hat{\phi}=0.31, \hat{\sigma}_{b0}=0.17)^\top
 \]</span></p>
-<p>Para obtener los intervalos de confianza podemos usar la función <code>confint()</code> al objeto <code>fit</code>.</p>
+<p>Para obtener los intervalos de confianza usamos las siguientes instrucciones.</p>
 <div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="IC.html#cb407-1" tabindex="-1"></a>FUN <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">model=</span>fit) {</span>
-<span id="cb407-2"><a href="IC.html#cb407-2" tabindex="-1"></a>  fm1R <span class="ot">&lt;-</span> <span class="fu">refit</span>(fit, <span class="fu">simulate</span>(fit)[[<span class="dv">1</span>]])</span>
-<span id="cb407-3"><a href="IC.html#cb407-3" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">as.numeric</span>(fm1R<span class="sc">$</span>fit<span class="sc">$</span>par[<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>]),</span>
-<span id="cb407-4"><a href="IC.html#cb407-4" tabindex="-1"></a>              fm1R<span class="sc">$</span>obj<span class="sc">$</span><span class="fu">report</span>()<span class="sc">$</span>sd[[<span class="dv">1</span>]])</span>
+<span id="cb407-2"><a href="IC.html#cb407-2" tabindex="-1"></a>  temp_mod <span class="ot">&lt;-</span> <span class="fu">refit</span>(fit, <span class="fu">simulate</span>(fit)[[<span class="dv">1</span>]])</span>
+<span id="cb407-3"><a href="IC.html#cb407-3" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">as.numeric</span>(temp_mod<span class="sc">$</span>fit<span class="sc">$</span>par[<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>]),</span>
+<span id="cb407-4"><a href="IC.html#cb407-4" tabindex="-1"></a>              temp_mod<span class="sc">$</span>obj<span class="sc">$</span><span class="fu">report</span>()<span class="sc">$</span>sd[[<span class="dv">1</span>]])</span>
 <span id="cb407-5"><a href="IC.html#cb407-5" tabindex="-1"></a>  <span class="fu">return</span>(result)</span>
 <span id="cb407-6"><a href="IC.html#cb407-6" tabindex="-1"></a>}</span>
 <span id="cb407-7"><a href="IC.html#cb407-7" tabindex="-1"></a></span>
-<span id="cb407-8"><a href="IC.html#cb407-8" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">bootMer</span>(fit, FUN, <span class="at">nsim=</span><span class="dv">30</span>, <span class="at">.progress=</span><span class="st">&quot;txt&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="IC.html#cb408-1" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">requireNamespace</span>(<span class="st">&quot;boot&quot;</span>)) {</span>
-<span id="cb408-2"><a href="IC.html#cb408-2" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;95% Bootstrap confidence intervals for glmmTMB</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb408-3"><a href="IC.html#cb408-3" tabindex="-1"></a>   <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>) {</span>
-<span id="cb408-4"><a href="IC.html#cb408-4" tabindex="-1"></a>     <span class="fu">print</span>(<span class="fu">boot.ci</span>(b1, <span class="at">type=</span><span class="st">&quot;perc&quot;</span>, <span class="at">index=</span>i)[<span class="dv">4</span>]<span class="sc">$</span>percent[<span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>])</span>
-<span id="cb408-5"><a href="IC.html#cb408-5" tabindex="-1"></a>   }</span>
-<span id="cb408-6"><a href="IC.html#cb408-6" tabindex="-1"></a>  }</span></code></pre></div>
+<span id="cb407-8"><a href="IC.html#cb407-8" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">bootMer</span>(fit, FUN, <span class="at">nsim=</span><span class="dv">100</span>, <span class="at">.progress=</span><span class="st">&quot;txt&quot;</span>)</span></code></pre></div>
+<p>Para imprimir los intervalos de confianza de los 8 parámetros hacemos lo siguiente:</p>
+<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="IC.html#cb408-1" tabindex="-1"></a><span class="fu">library</span>(boot)</span>
+<span id="cb408-2"><a href="IC.html#cb408-2" tabindex="-1"></a></span>
+<span id="cb408-3"><a href="IC.html#cb408-3" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;95% Bootstrap confidence intervals for glmmTMB</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb408-4"><a href="IC.html#cb408-4" tabindex="-1"></a></span>
+<span id="cb408-5"><a href="IC.html#cb408-5" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>) {</span>
+<span id="cb408-6"><a href="IC.html#cb408-6" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">boot.ci</span>(b1, <span class="at">type=</span><span class="st">&quot;perc&quot;</span>, <span class="at">index=</span>i)[<span class="dv">4</span>]<span class="sc">$</span>percent[<span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>])</span>
+<span id="cb408-7"><a href="IC.html#cb408-7" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="intervalos-de-confianza-para-predicción" class="section level2 hasAnchor" number="28.2">
 <h2><span class="header-section-number">28.2</span> Intervalos de confianza para predicción<a href="#intervalos-de-confianza-para-predicci%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>En esta sección se mostrará cómo utilizar el paquete <code>ggeffects</code> para obtener intervalos de confianza para predicciones de un modelo lineal generalizado mixto.</p>
+<p>En esta sección se mostrará cómo utilizar el paquete <strong>ggeffects</strong> de <span class="citation">Lüdecke (<a href="#ref-R-ggeffects">2025</a>)</span> para obtener intervalos de confianza para predicciones de un modelo lineal generalizado mixto.</p>
 </div>
 <div id="ejemplo-modelo-normal-1" class="section level2 unnumbered hasAnchor">
 <h2>Ejemplo: modelo normal<a href="IC.html#ejemplo-modelo-normal-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>En este ejemplo vamos a retomar los datos <code>sleepstudy</code> del paquete <code>lme4</code> sobre el tiempo de reacción promedio por día para un conjunto de individuos en un estudio de privación del sueño. La base de datos contiene la información sobre el tiempo de reacción promedio (<code>Reaction</code>), el número de días de privación del sueño (<code>Days</code>), donde el día 0 corresponde al día en el que los indiviuos tenían su cantidad normal de sueño, y el número del individuo (en total 18) sobre el que se realizó la observación (<code>Subject</code>). A partir del día 0, hubo una restricción en cada individuo a 3 horas de sueño por noche.</p>
+<p>En este ejemplo vamos a retomar los datos <code>sleepstudy</code> del paquete <strong>lme4</strong> de <span class="citation">Bates et al. (<a href="#ref-R-lme4">2025</a>)</span> sobre el tiempo de reacción promedio por día para un conjunto de individuos en un estudio de privación del sueño. La base de datos contiene la información sobre el tiempo de reacción promedio (<code>Reaction</code>), el número de días de privación del sueño (<code>Days</code>), donde el día 0 corresponde al día en el que los individuos tenían su cantidad normal de sueño, y el número del individuo (en total 18) sobre el que se realizó la observación (<code>Subject</code>). A partir del día 0, hubo una restricción en cada individuo a 3 horas de sueño por noche.</p>
 <p><img src="images/sleep_study.png" width="40%" style="display: block; margin: auto;" /></p>
-<p>Primero vamos a ajustar el modelo de interés.</p>
-<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="IC.html#cb409-1" tabindex="-1"></a><span class="fu">library</span>(ggeffects)</span>
-<span id="cb409-2"><a href="IC.html#cb409-2" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
-<span id="cb409-3"><a href="IC.html#cb409-3" tabindex="-1"></a><span class="fu">data</span>(sleepstudy)</span>
-<span id="cb409-4"><a href="IC.html#cb409-4" tabindex="-1"></a></span>
-<span id="cb409-5"><a href="IC.html#cb409-5" tabindex="-1"></a><span class="co"># balanced data set</span></span>
-<span id="cb409-6"><a href="IC.html#cb409-6" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> Days <span class="sc">|</span> Subject), <span class="at">data =</span> sleepstudy)</span></code></pre></div>
-<p>Efectos condicionales</p>
-<p>Ahora supongamos que nos interesa predecir el tiempo de reacción de un paciente típico en los días 1, 5 y 9, y los intervalos de confianza del 95% para la predicción en esos mismos días. Para eso vamos a usar la función <code>predict_response()</code> de la siguiente manera:</p>
-<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="IC.html#cb410-1" tabindex="-1"></a><span class="co"># conditional predictions</span></span>
-<span id="cb410-2"><a href="IC.html#cb410-2" tabindex="-1"></a>pred1 <span class="ot">&lt;-</span> <span class="fu">predict_response</span>(fit, <span class="st">&quot;Days [1,5,9]&quot;</span>, <span class="at">margin=</span><span class="st">&quot;mean_mode&quot;</span>)</span>
-<span id="cb410-3"><a href="IC.html#cb410-3" tabindex="-1"></a>pred1</span></code></pre></div>
+<p>Vamos a mostrar gráficamente los datos.</p>
+<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="IC.html#cb409-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb409-2"><a href="IC.html#cb409-2" tabindex="-1"></a></span>
+<span id="cb409-3"><a href="IC.html#cb409-3" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> sleepstudy, <span class="fu">aes</span>(<span class="at">x =</span> Days, <span class="at">y =</span> Reaction, <span class="at">color =</span> Subject)) <span class="sc">+</span></span>
+<span id="cb409-4"><a href="IC.html#cb409-4" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb409-5"><a href="IC.html#cb409-5" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb409-6"><a href="IC.html#cb409-6" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Subject) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Reaction time&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb409-7"><a href="IC.html#cb409-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/plot_curves_sleep-1.png" width="672" /></p>
+<p>Ahora vamos a ajustar el modelo de interés.</p>
+<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="IC.html#cb410-1" tabindex="-1"></a><span class="fu">library</span>(ggeffects)</span>
+<span id="cb410-2"><a href="IC.html#cb410-2" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb410-3"><a href="IC.html#cb410-3" tabindex="-1"></a><span class="fu">data</span>(sleepstudy)</span>
+<span id="cb410-4"><a href="IC.html#cb410-4" tabindex="-1"></a></span>
+<span id="cb410-5"><a href="IC.html#cb410-5" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> Days <span class="sc">|</span> Subject), <span class="at">data =</span> sleepstudy)</span></code></pre></div>
+<div id="predicción-para-cada-individuo" class="section level3 unnumbered hasAnchor">
+<h3>Predicción para cada individuo<a href="#predicci%C3%B3n-para-cada-individuo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Ahora supongamos que nos interesa predecir el tiempo de reacción de los pacientes 335 y 337 en los días de observación 1, 5 y 9, y en los días 12, 15 que no fueron aún observados. Adicionalmente queremos los intervalos de confianza del 95% para la predicción en esos mismos días. Para eso vamos a usar la función <code>predict_response()</code> de la siguiente manera:</p>
+<div class="sourceCode" id="cb411"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb411-1"><a href="IC.html#cb411-1" tabindex="-1"></a>pre1 <span class="ot">&lt;-</span> <span class="fu">predict_response</span>(<span class="at">model=</span>fit,</span>
+<span id="cb411-2"><a href="IC.html#cb411-2" tabindex="-1"></a>                         <span class="at">ci_level=</span><span class="fl">0.95</span>, </span>
+<span id="cb411-3"><a href="IC.html#cb411-3" tabindex="-1"></a>                         <span class="at">terms=</span><span class="fu">c</span>(<span class="st">&quot;Days [1, 5, 9, 12, 15]&quot;</span>, </span>
+<span id="cb411-4"><a href="IC.html#cb411-4" tabindex="-1"></a>                                 <span class="st">&quot;Subject [335, 337]&quot;</span>), </span>
+<span id="cb411-5"><a href="IC.html#cb411-5" tabindex="-1"></a>                         <span class="at">type=</span><span class="st">&quot;random&quot;</span>)</span>
+<span id="cb411-6"><a href="IC.html#cb411-6" tabindex="-1"></a>pre1</span></code></pre></div>
+<pre><code>## # Predicted values of Reaction
+## 
+## Subject: 335
+## 
+## Days | Predicted |         95% CI
+## ---------------------------------
+##    1 |    250.79 | 237.39, 264.18
+##    5 |    249.65 | 230.74, 268.56
+##    9 |    248.51 | 219.63, 277.38
+##   12 |    247.65 | 210.42, 284.88
+##   15 |    246.80 | 200.91, 292.69
+## 
+## Subject: 337
+## 
+## Days | Predicted |         95% CI
+## ---------------------------------
+##    1 |    305.39 | 292.00, 318.79
+##    5 |    381.77 | 362.86, 400.68
+##    9 |    458.16 | 429.28, 487.03
+##   12 |    515.44 | 478.21, 552.67
+##   15 |    572.73 | 526.84, 618.62</code></pre>
+<p>Como resultado se obtienen dos tablas, una para el paciente 335 y otra para el paciente 337. Cada tabla muestra los días, la predicción del tiempo de reacción promedio <span class="math inline">\(\mu\)</span> y los intervalos de confianza del 95%.</p>
+<p>Es posible representar gráficamente la predicción y los intervalos usando la función genérica <code>plot()</code> sobre el objeto <code>pre1</code> así:</p>
+<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="IC.html#cb413-1" tabindex="-1"></a><span class="fu">plot</span>(pre1, <span class="at">show_data =</span> <span class="cn">TRUE</span>, <span class="at">show_ci =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## Data points may overlap. Use the `jitter` argument to add some amount of
+##   random variation to the location of data points and avoid overplotting.</code></pre>
+<p><img src="libro_mod_mixtos_files/figure-html/plot_ic_pred_sleep_01-1.png" width="672" /></p>
+<p>En la figura anterior se observan los modelos ajustados representados por las líneas continuas y los intervalos como sombras. Adicionalmente se observan unos puntos que corresponden a los datos originales para los pacientes considerados.</p>
+<p>La figura anterior puede ser usada para monitorear la variable respuesta en los días 10, 11, 12 y siguientes. Los intervalos de confianza se hacen más anchos a medida que el número de días aumenta, esto es esperado ya que si queremos hacer una estimación lejos del día 9, muy seguramente tendremos más incertidumbre que para días cercanos al 9.</p>
+</div>
+<div id="predicciones-condicionales" class="section level3 unnumbered hasAnchor">
+<h3>Predicciones condicionales<a href="IC.html#predicciones-condicionales" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Las predicciones condicionales son predicciones para el parámetro <span class="math inline">\(\mu\)</span> de la variable respuesta pensando en un paciente (o grupo) “típico”, es decir, predicciones para <span class="math inline">\(\mu\)</span> sin incluir los efectos aleatorios predichos en la ecuación. Para obtener esta predicción se usa la función <code>predict_response</code> con <code>margin="mean_reference"</code>.</p>
+<p>Supongamos que nos interesa obtener predicciones condicionales con respecto a la variable días fijada en los valores de 1, 5, 9 y 12. El código para realizar esto es el siguiente:</p>
+<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="IC.html#cb415-1" tabindex="-1"></a><span class="co"># conditional predictions</span></span>
+<span id="cb415-2"><a href="IC.html#cb415-2" tabindex="-1"></a>pre2 <span class="ot">&lt;-</span> <span class="fu">predict_response</span>(<span class="at">model=</span>fit, </span>
+<span id="cb415-3"><a href="IC.html#cb415-3" tabindex="-1"></a>                         <span class="at">terms=</span><span class="st">&quot;Days [1, 5, 9, 12]&quot;</span>,</span>
+<span id="cb415-4"><a href="IC.html#cb415-4" tabindex="-1"></a>                         <span class="at">margin=</span><span class="st">&quot;mean_reference&quot;</span>)</span>
+<span id="cb415-5"><a href="IC.html#cb415-5" tabindex="-1"></a>pre2</span></code></pre></div>
 <pre><code>## # Predicted values of Reaction
 ## 
 ## Days | Predicted |         95% CI
@@ -569,19 +627,58 @@ b_{0} &amp;\sim N(0, \sigma^2_{b0})
 ##    1 |    261.87 | 248.48, 275.27
 ##    5 |    303.74 | 284.83, 322.65
 ##    9 |    345.61 | 316.74, 374.48
+##   12 |    377.01 | 339.78, 414.24
 ## 
 ## Adjusted for:
 ## * Subject = 0 (population-level)</code></pre>
-<p>Es posible representar gráficamente la predicción y los intervalos usando la función genérica <code>plot()</code> sobre el objeto <code>pred1</code> así:</p>
-<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="IC.html#cb412-1" tabindex="-1"></a><span class="fu">plot</span>(pred1)</span></code></pre></div>
-<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-295-1.png" width="672" /></p>
-<p>Efectos marginales</p>
-<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="IC.html#cb413-1" tabindex="-1"></a><span class="co"># average marginal predictions</span></span>
-<span id="cb413-2"><a href="IC.html#cb413-2" tabindex="-1"></a>pred2 <span class="ot">&lt;-</span> <span class="fu">predict_response</span>(fit, <span class="st">&quot;Days [1,5,9]&quot;</span>, <span class="at">margin =</span> <span class="st">&quot;empirical&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb414-1"><a href="IC.html#cb414-1" tabindex="-1"></a><span class="fu">plot</span>(pred2)</span></code></pre></div>
-<p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-297-1.png" width="672" /></p>
+<p>Como resultado obtenemos una tabla con el valor predicho para <span class="math inline">\(\mu\)</span> en los días solicitados y los intervalos de confianza.</p>
+<p>Es posible representar estos resultados gráficamente de la siguiente manera.</p>
+<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="IC.html#cb417-1" tabindex="-1"></a><span class="fu">plot</span>(pre2, <span class="at">show_data =</span> <span class="cn">TRUE</span>, <span class="at">show_ci =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## Data points may overlap. Use the `jitter` argument to add some amount of
+##   random variation to the location of data points and avoid overplotting.</code></pre>
+<p><img src="libro_mod_mixtos_files/figure-html/plot_ic_pred_sleep_02-1.png" width="672" /></p>
+</div>
+<div id="predicciones-marginales" class="section level3 unnumbered hasAnchor">
+<h3>Predicciones marginales<a href="IC.html#predicciones-marginales" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Las predicciones marginales son predicciones para el parámetro <span class="math inline">\(\mu\)</span> de la variable respuesta pensando en el efecto de una covariable <span class="math inline">\(X\)</span> sobre todos los pacientes (o grupos) de forma general.</p>
+<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="IC.html#cb419-1" tabindex="-1"></a><span class="co"># average marginal predictions</span></span>
+<span id="cb419-2"><a href="IC.html#cb419-2" tabindex="-1"></a>pre3 <span class="ot">&lt;-</span> <span class="fu">predict_response</span>(<span class="at">model=</span>fit, </span>
+<span id="cb419-3"><a href="IC.html#cb419-3" tabindex="-1"></a>                         <span class="at">terms=</span><span class="st">&quot;Days [1, 5, 9]&quot;</span>, </span>
+<span id="cb419-4"><a href="IC.html#cb419-4" tabindex="-1"></a>                         <span class="at">margin=</span><span class="st">&quot;empirical&quot;</span>)</span>
+<span id="cb419-5"><a href="IC.html#cb419-5" tabindex="-1"></a>pre3</span></code></pre></div>
+<pre><code>## # Average predicted values of Reaction
+## 
+## Days | Predicted |         95% CI
+## ---------------------------------
+##    1 |    261.87 | 248.48, 275.27
+##    5 |    303.74 | 284.83, 322.65
+##    9 |    345.61 | 316.74, 374.48</code></pre>
+<p>Como resultado obtenemos una tabla con el valor predicho para <span class="math inline">\(\mu\)</span> en los días solicitados y los intervalos de confianza.</p>
+<p>Es posible representar estos resultados gráficamente de la siguiente manera.</p>
+<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="IC.html#cb421-1" tabindex="-1"></a><span class="fu">plot</span>(pre3, <span class="at">show_data =</span> <span class="cn">TRUE</span>, <span class="at">show_ci =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## Data points may overlap. Use the `jitter` argument to add some amount of
+##   random variation to the location of data points and avoid overplotting.</code></pre>
+<p><img src="libro_mod_mixtos_files/figure-html/plot_ic_pred_sleep_03-1.png" width="672" /></p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #ffff00;
+  -webkit-box-shadow: 1px 1px 3px 2px #ffff00;
+  box-shadow:         1px 1px 3px 2px #ffff00;">
+
+<div class="rmdnote">
+Cuando el conjunto de datos usados para ajustar el modelo tiene la misma cantidad de observaciones para cada grupo, las predicciones condicionales y marginales son muy similares. Pero cuando los grupos son desbalanceados, estas estimaciones difieren. Una explicación detallada de esta situación y un ejemplo puede consultarse en <a href="https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html" class="uri">https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html</a>
+</div>
+</div>
 <p>Ver <a href="https://www.andrewheiss.com/blog/2022/11/29/conditional-marginal-marginaleffects/" class="uri">https://www.andrewheiss.com/blog/2022/11/29/conditional-marginal-marginaleffects/</a></p>
 
+</div>
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-R-lme4" class="csl-entry">
+Bates, Douglas, Martin Maechler, Ben Bolker, and Steven Walker. 2025. <em>Lme4: Linear Mixed-Effects Models Using Eigen and S4</em>. <a href="https://github.com/lme4/lme4/">https://github.com/lme4/lme4/</a>.
+</div>
+<div id="ref-R-ggeffects" class="csl-entry">
+Lüdecke, Daniel. 2025. <em>Ggeffects: Create Tidy Data Frames of Marginal Effects for Ggplot from Model Outputs</em>. <a href="https://strengejacke.github.io/ggeffects/">https://strengejacke.github.io/ggeffects/</a>.
 </div>
 </div>
             </section>

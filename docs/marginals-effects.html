@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2026-02-12" />
+<meta name="date" content="2026-02-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -328,7 +328,12 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#ejemplo-modelo-normal"><i class="fa fa-check"></i>Ejemplo: modelo normal</a></li>
 <li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#ejemplo-modelo-gamma"><i class="fa fa-check"></i>Ejemplo: modelo gamma</a></li>
 <li class="chapter" data-level="28.2" data-path="355-marginal-effects.html"><a href="#intervalos-de-confianza-para-predicci%C3%B3n"><i class="fa fa-check"></i><b>28.2</b> Intervalos de confianza para predicción</a></li>
-<li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#ejemplo-modelo-normal-1"><i class="fa fa-check"></i>Ejemplo: modelo normal</a></li>
+<li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#ejemplo-modelo-normal-1"><i class="fa fa-check"></i>Ejemplo: modelo normal</a>
+<ul>
+<li class="chapter" data-level="" data-path=""><a href="#predicci%C3%B3n-para-cada-individuo"><i class="fa fa-check"></i>Predicción para cada individuo</a></li>
+<li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#predicciones-condicionales"><i class="fa fa-check"></i>Predicciones condicionales</a></li>
+<li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#predicciones-marginales"><i class="fa fa-check"></i>Predicciones marginales</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="29" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>29</b> Simulación de glmm</a>
 <ul>
@@ -583,7 +588,7 @@ div.csl-indent {
 <span id="cb217-3"><a href="marginals-effects.html#cb217-3" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Predicted Weight&quot;</span>) <span class="sc">+</span></span>
 <span id="cb217-4"><a href="marginals-effects.html#cb217-4" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> Diet, <span class="at">labeller =</span> label_both)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-162-1.png" width="672" /></p>
-<p>Para hacer predicciones a nivel de población podemos usar nuevamente la función ´predictions()´ pero sin indicar un pollito en particular. A continuación el código.</p>
+<p>Para hacer predicciones a nivel de población podemos usar nuevamente la función <code>predictions()</code> pero sin indicar un pollito en particular. A continuación el código.</p>
 <div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="marginals-effects.html#cb218-1" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predictions</span>(<span class="at">model=</span>fit2,</span>
 <span id="cb218-2"><a href="marginals-effects.html#cb218-2" tabindex="-1"></a>                    <span class="at">newdata =</span> <span class="fu">datagrid</span>(<span class="at">Diet=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,</span>
 <span id="cb218-3"><a href="marginals-effects.html#cb218-3" tabindex="-1"></a>                                       <span class="at">Time=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">21</span>))</span></code></pre></div>
@@ -598,7 +603,7 @@ div.csl-indent {
 <span id="cb220-4"><a href="marginals-effects.html#cb220-4" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> Diet, <span class="at">labeller =</span> label_both) <span class="sc">+</span></span>
 <span id="cb220-5"><a href="marginals-effects.html#cb220-5" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Population-level trajectories&quot;</span>)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-163-1.png" width="672" /></p>
-<p>Vamos a explorar los valores del objeto ´pred´ con el cual se hizo la figura anterior.</p>
+<p>Vamos a explorar los valores del objeto <code>pred</code> con el cual se hizo la figura anterior.</p>
 <div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="marginals-effects.html#cb221-1" tabindex="-1"></a>pred</span></code></pre></div>
 <pre><code>## 
 ##  Diet Time Estimate Std. Error    z Pr(&gt;|z|)     S 2.5 % 97.5 %

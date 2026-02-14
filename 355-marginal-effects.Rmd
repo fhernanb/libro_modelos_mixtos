@@ -176,7 +176,7 @@ ggplot(pred, aes(Time, estimate, level = Chick)) +
     facet_wrap(~ Diet, labeller = label_both)
 ```
 
-Para hacer predicciones a nivel de población podemos usar nuevamente la función ´predictions()´ pero sin indicar un pollito en particular. A continuación el código.
+Para hacer predicciones a nivel de población podemos usar nuevamente la función `predictions()` pero sin indicar un pollito en particular. A continuación el código.
 
 ```{r}
 pred <- predictions(model=fit2,
@@ -190,7 +190,7 @@ ggplot(pred, aes(x = Time, y = estimate, ymin = conf.low, ymax = conf.high)) +
     labs(title = "Population-level trajectories")
 ```
 
-Vamos a explorar los valores del objeto ´pred´ con el cual se hizo la figura anterior.
+Vamos a explorar los valores del objeto `pred` con el cual se hizo la figura anterior.
 
 ```{r}
 pred

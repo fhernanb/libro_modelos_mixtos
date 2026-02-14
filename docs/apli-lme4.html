@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2026-02-12" />
+<meta name="date" content="2026-02-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -328,7 +328,12 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#ejemplo-modelo-normal"><i class="fa fa-check"></i>Ejemplo: modelo normal</a></li>
 <li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#ejemplo-modelo-gamma"><i class="fa fa-check"></i>Ejemplo: modelo gamma</a></li>
 <li class="chapter" data-level="28.2" data-path="303-apli-lme4.html"><a href="#intervalos-de-confianza-para-predicci%C3%B3n"><i class="fa fa-check"></i><b>28.2</b> Intervalos de confianza para predicción</a></li>
-<li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#ejemplo-modelo-normal-1"><i class="fa fa-check"></i>Ejemplo: modelo normal</a></li>
+<li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#ejemplo-modelo-normal-1"><i class="fa fa-check"></i>Ejemplo: modelo normal</a>
+<ul>
+<li class="chapter" data-level="" data-path=""><a href="#predicci%C3%B3n-para-cada-individuo"><i class="fa fa-check"></i>Predicción para cada individuo</a></li>
+<li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#predicciones-condicionales"><i class="fa fa-check"></i>Predicciones condicionales</a></li>
+<li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#predicciones-marginales"><i class="fa fa-check"></i>Predicciones marginales</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="29" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>29</b> Simulación de glmm</a>
 <ul>
@@ -534,10 +539,16 @@ Reaction_{i=308, j} &amp;\sim  N(\hat{\mu}_{i=308, j}, \hat{\sigma}^2_{Reaction}
 <p><img src="libro_mod_mixtos_files/figure-html/Gra%CC%81fico%20con%20recta%20de%20regresio%CC%81n-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>La figura anterior corresponde a un modelo de intercepto y pendiente aleatoria, en el que se permite que tanto los interceptos como las pendientes varíen según los individuos. Las líneas continuas corresponde a la recta de regresión ajustada a los datos. Los puntos representan las observaciones (tiempo de reacción promedio por día) medidas en cada uno de los individuos. La línea negra discontinua representa el valor medio global de la distribución de los efectos aleatorios.</p>
 <p>A continuación usted encontrará una figura con cuatro páneles donde se muestran los resultados de cuatro modelos distintos, entre ellos el modelo mixto con intercepto y pendiente aleatoria del ejemplo anterior. Con base en estas figuras, responda las preguntas siguientes.</p>
-<pre><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-## ℹ Please use `linewidth` instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+<pre><code>## Warning: Using `size` aesthetic for
+## lines was deprecated in
+## ggplot2 3.4.0.
+## ℹ Please use `linewidth`
+##   instead.
+## This warning is displayed
+## once every 8 hours.
+## Call
+## `lifecycle::last_lifecycle_warnings()`
+## to see where this warning was
 ## generated.</code></pre>
 <p><img src="libro_mod_mixtos_files/figure-html/Graficos%20de%20los%20distintos%20modelo-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div id="ejercicios" class="section level2 unnumbered hasAnchor">

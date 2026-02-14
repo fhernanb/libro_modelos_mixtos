@@ -8,7 +8,7 @@ En esta sección se mostrará cómo utilizar la función `confint()` para obtene
 
 ## Ejemplo: modelo normal {-}
 
-En este ejemplo su usará la base de datos `sleepstudy` del paquete `lme4` sobre el tiempo de reacción promedio por día para un conjunto de individuos en un estudio de privación del sueño. La base de datos contiene la información sobre el tiempo de reacción promedio (`Reaction`), el número de días de privación del sueño (`Days`), donde el día 0 corresponde al día en el que los indiviuos tenían su cantidad normal de sueño, y el número del individuo (en total 18) sobre el que se realizó la observación (`Subject`). A partir del día 0, hubo una restricción en cada individuo a 3 horas de sueño por noche.
+En este ejemplo su usará la base de datos `sleepstudy` del paquete **lme4** de @R-lme4 sobre el tiempo de reacción promedio por día para un conjunto de individuos en un estudio de privación del sueño. La base de datos contiene la información sobre el tiempo de reacción promedio (`Reaction`), el número de días de privación del sueño (`Days`), donde el día 0 corresponde al día en el que los individuos tenían su cantidad normal de sueño, y el número del individuo (en total 18) sobre el que se realizó la observación (`Subject`). A partir del día 0, hubo una restricción en cada individuo a 3 horas de sueño por noche.
 
 ```{r echo=FALSE, out.width="40%", fig.align='center'}
 knitr::include_graphics("images/sleep_study.png")
@@ -54,7 +54,7 @@ $$
 \hat{\boldsymbol{\Theta}} = (\hat{\beta_0}=251.40, \hat{\beta_1}=10.47, \hat{\sigma}_{reaction}=25.59, \hat{\sigma}_{b0}=24.74, \hat{\sigma}_{b1}=5.92, \hat{\rho}_{b0b1}=0.07)^\top
 $$
 
-Para obtener los intervalos de confianza podemos usar la función `confint()` al objeto `fit`.
+Para obtener los intervalos de confianza podemos usar la función `confint()`.
 
 ```{r}
 #### Calculate Wald CIs (Fastest Version) ####
@@ -118,76 +118,139 @@ $$
 \hat{\boldsymbol{\Theta}} = (\hat{\beta_0}=-4.71, \hat{\beta_1}=0.18, \hat{\beta_3}=0.31, \hat{\beta_5}=-0.19, \hat{\beta_6}=-0.37, \hat{\phi}=0.31, \hat{\sigma}_{b0}=0.17)^\top
 $$
 
-Para obtener los intervalos de confianza podemos usar la función `confint()` al objeto `fit`.
+Para obtener los intervalos de confianza usamos las siguientes instrucciones.
 
 ```{r eval=FALSE}
 FUN <- function(model=fit) {
-  fm1R <- refit(fit, simulate(fit)[[1]])
-  result <- c(as.numeric(fm1R$fit$par[1:7]),
-              fm1R$obj$report()$sd[[1]])
+  temp_mod <- refit(fit, simulate(fit)[[1]])
+  result <- c(as.numeric(temp_mod$fit$par[1:7]),
+              temp_mod$obj$report()$sd[[1]])
   return(result)
 }
 
-b1 <- lme4::bootMer(fit, FUN, nsim=30, .progress="txt")
+b1 <- lme4::bootMer(fit, FUN, nsim=100, .progress="txt")
 ```
 
+Para imprimir los intervalos de confianza de los 8 parámetros hacemos lo siguiente:
+
 ```{r eval=FALSE}
-if (requireNamespace("boot")) {
-  cat("95% Bootstrap confidence intervals for glmmTMB\n")
-   for (i in 1:8) {
-     print(boot.ci(b1, type="perc", index=i)[4]$percent[4:5])
-   }
-  }
+library(boot)
+
+cat("95% Bootstrap confidence intervals for glmmTMB\n")
+
+for (i in 1:8) {
+  print(boot.ci(b1, type="perc", index=i)[4]$percent[4:5])
+}
 ```
 
 ## Intervalos de confianza para predicción
 
-En esta sección se mostrará cómo utilizar el paquete `ggeffects` para obtener intervalos de confianza para predicciones de un modelo lineal generalizado mixto.
+En esta sección se mostrará cómo utilizar el paquete **ggeffects** de @R-ggeffects para obtener intervalos de confianza para predicciones de un modelo lineal generalizado mixto.
 
 ## Ejemplo: modelo normal {-}
 
-En este ejemplo vamos a retomar los datos `sleepstudy` del paquete `lme4` sobre el tiempo de reacción promedio por día para un conjunto de individuos en un estudio de privación del sueño. La base de datos contiene la información sobre el tiempo de reacción promedio (`Reaction`), el número de días de privación del sueño (`Days`), donde el día 0 corresponde al día en el que los indiviuos tenían su cantidad normal de sueño, y el número del individuo (en total 18) sobre el que se realizó la observación (`Subject`). A partir del día 0, hubo una restricción en cada individuo a 3 horas de sueño por noche.
+En este ejemplo vamos a retomar los datos `sleepstudy` del paquete **lme4** de @R-lme4 sobre el tiempo de reacción promedio por día para un conjunto de individuos en un estudio de privación del sueño. La base de datos contiene la información sobre el tiempo de reacción promedio (`Reaction`), el número de días de privación del sueño (`Days`), donde el día 0 corresponde al día en el que los individuos tenían su cantidad normal de sueño, y el número del individuo (en total 18) sobre el que se realizó la observación (`Subject`). A partir del día 0, hubo una restricción en cada individuo a 3 horas de sueño por noche.
 
 ```{r echo=FALSE, out.width="40%", fig.align='center'}
 knitr::include_graphics("images/sleep_study.png")
 ```
 
-Primero vamos a ajustar el modelo de interés.
+Vamos a mostrar gráficamente los datos.
+
+```{r plot_curves_sleep}
+library(ggplot2)
+
+ggplot(data = sleepstudy, aes(x = Days, y = Reaction, color = Subject)) +
+  geom_point() +
+  theme_bw() +
+  facet_wrap(~ Subject) + labs(y = "Reaction time") + 
+  theme(legend.position = "none")
+```
+
+Ahora vamos a ajustar el modelo de interés.
 
 ```{r}
 library(ggeffects)
 library(lme4)
 data(sleepstudy)
 
-# balanced data set
 fit <- lmer(Reaction ~ Days + (1 + Days | Subject), data = sleepstudy)
 ```
 
-Efectos condicionales
+### Predicción para cada individuo {-}
 
-Ahora supongamos que nos interesa predecir el tiempo de reacción de un paciente típico en los días 1, 5 y 9, y los intervalos de confianza del 95% para la predicción en esos mismos días. Para eso vamos a usar la función `predict_response()` de la siguiente manera:
+Ahora supongamos que nos interesa predecir el tiempo de reacción de los pacientes 335 y 337 en los días de observación 1, 5 y 9, y en los días 12, 15 que no fueron aún observados. Adicionalmente queremos los intervalos de confianza del 95% para la predicción en esos mismos días. Para eso vamos a usar la función `predict_response()` de la siguiente manera:
+
+```{r}
+pre1 <- predict_response(model=fit,
+                         ci_level=0.95, 
+                         terms=c("Days [1, 5, 9, 12, 15]", 
+                                 "Subject [335, 337]"), 
+                         type="random")
+pre1
+```
+
+Como resultado se obtienen dos tablas, una para el paciente 335 y otra para el paciente 337. Cada tabla muestra los días, la predicción del tiempo de reacción promedio $\mu$ y los intervalos de confianza del 95%.
+
+Es posible representar gráficamente la predicción y los intervalos usando la función genérica `plot()` sobre el objeto `pre1` así:
+
+```{r plot_ic_pred_sleep_01}
+plot(pre1, show_data = TRUE, show_ci = TRUE)
+```
+
+En la figura anterior se observan los modelos ajustados representados por las líneas continuas y los intervalos como sombras. Adicionalmente se observan unos puntos que corresponden a los datos originales para los pacientes considerados. 
+
+La figura anterior puede ser usada para monitorear la variable respuesta en los días 10, 11, 12 y siguientes. Los intervalos de confianza se hacen más anchos a medida que el número de días aumenta, esto es esperado ya que si queremos hacer una estimación lejos del día 9, muy seguramente tendremos más incertidumbre que para días cercanos al 9.
+
+### Predicciones condicionales {-}
+
+Las predicciones condicionales son predicciones para el parámetro $\mu$ de la variable respuesta pensando en un paciente (o grupo) "típico", es decir, predicciones para $\mu$ sin incluir los efectos aleatorios predichos en la ecuación. Para obtener esta predicción se usa la función `predict_response` con `margin="mean_reference"`.
+
+Supongamos que nos interesa obtener predicciones condicionales con respecto a la variable días fijada en los valores de 1, 5, 9 y 12. El código para realizar esto es el siguiente:
 
 ```{r}
 # conditional predictions
-pred1 <- predict_response(fit, "Days [1,5,9]", margin="mean_mode")
-pred1
+pre2 <- predict_response(model=fit, 
+                         terms="Days [1, 5, 9, 12]",
+                         margin="mean_reference")
+pre2
 ```
 
-Es posible representar gráficamente la predicción y los intervalos usando la función genérica `plot()` sobre el objeto `pred1` así:
+Como resultado obtenemos una tabla con el valor predicho para $\mu$ en los días solicitados y los intervalos de confianza.
 
-```{r}
-plot(pred1)
+Es posible representar estos resultados gráficamente de la siguiente manera.
+
+```{r plot_ic_pred_sleep_02}
+plot(pre2, show_data = TRUE, show_ci = TRUE)
 ```
 
-Efectos marginales
+### Predicciones marginales {-}
+
+Las predicciones marginales son predicciones para el parámetro $\mu$ de la variable respuesta pensando en el efecto de una covariable $X$ sobre todos los pacientes (o grupos) de forma general. 
 
 ```{r}
 # average marginal predictions
-pred2 <- predict_response(fit, "Days [1,5,9]", margin = "empirical")
+pre3 <- predict_response(model=fit, 
+                         terms="Days [1, 5, 9]", 
+                         margin="empirical")
+pre3
 ```
 
-```{r}
-plot(pred2)
+Como resultado obtenemos una tabla con el valor predicho para $\mu$ en los días solicitados y los intervalos de confianza.
+
+Es posible representar estos resultados gráficamente de la siguiente manera.
+
+```{r plot_ic_pred_sleep_03}
+plot(pre3, show_data = TRUE, show_ci = TRUE)
 ```
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #ffff00;
+  -webkit-box-shadow: 1px 1px 3px 2px #ffff00;
+  box-shadow:         1px 1px 3px 2px #ffff00;">
+```{block2, type='rmdnote'}
+Cuando el conjunto de datos usados para ajustar el modelo tiene la misma cantidad de observaciones para cada grupo, las predicciones condicionales y marginales son muy similares. Pero cuando los grupos son desbalanceados, estas estimaciones difieren. Una explicación detallada de esta situación y un ejemplo puede consultarse en https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html
+```
+</div>
+
 
 Ver https://www.andrewheiss.com/blog/2022/11/29/conditional-marginal-marginaleffects/
