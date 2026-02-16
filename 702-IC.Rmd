@@ -34,6 +34,16 @@ N\left ( \left [ \begin{matrix}
 \right )
 \end{align*}
 
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+```{block2, type='rmdexercise'}
+Solución.
+```
+
+</div>
+
 Lo primero que debemos hacer es ajustar el modelo usando el siguiente código.
 
 ```{r}
@@ -97,6 +107,16 @@ y_{ij} | b_0 &\sim  Gamma(\mu_{ij}, \phi) \\
 b_{0} &\sim N(0, \sigma^2_{b0})
 \end{align*}
 
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+```{block2, type='rmdexercise'}
+Solución.
+```
+
+</div>
+
 Para ajustar el modelo anterior usamos el siguiente código.
 
 ```{r message=FALSE}
@@ -112,10 +132,10 @@ summary(fit)
 ```
 
 
-De la tabla anterior podemos ver que las estimaciones del vector de parámetros es
+De la tabla anterior podemos ver que el vector de parámetros con las siete estimaciones es:
 
 $$
-\hat{\boldsymbol{\Theta}} = (\hat{\beta_0}=-4.71, \hat{\beta_1}=0.18, \hat{\beta_3}=0.31, \hat{\beta_5}=-0.19, \hat{\beta_6}=-0.37, \hat{\phi}=0.31, \hat{\sigma}_{b0}=0.17)^\top
+\hat{\boldsymbol{\Theta}} = (\hat{\beta_0}=-4.71, \hat{\beta_1}=0.18, \hat{\beta_3}=0.31, \hat{\beta_5}=-0.19, \hat{\beta_6}=-0.37, \hat{\phi}=0.101, \hat{\sigma}_{b0}=0.1583)^\top
 $$
 
 Para obtener los intervalos de confianza usamos las siguientes instrucciones.
@@ -123,7 +143,7 @@ Para obtener los intervalos de confianza usamos las siguientes instrucciones.
 ```{r eval=FALSE}
 FUN <- function(model=fit) {
   temp_mod <- refit(fit, simulate(fit)[[1]])
-  result <- c(as.numeric(temp_mod$fit$par[1:7]),
+  result <- c(as.numeric(temp_mod$fit$par[1:6]), # 1 a 6 para obtener
               temp_mod$obj$report()$sd[[1]])
   return(result)
 }
@@ -138,14 +158,31 @@ library(boot)
 
 cat("95% Bootstrap confidence intervals for glmmTMB\n")
 
-for (i in 1:8) {
+for (i in 1:7) {
   print(boot.ci(b1, type="perc", index=i)[4]$percent[4:5])
 }
 ```
 
+Luego del proceso de boostrap los intervalos de confianza obtenidos para cada estimación son:
+
+```{}
+## beta0 -4.805866 -4.563488
+## beta1 0.07535473 0.27146044
+## beta3 0.2029962 0.4109347
+## beta5 -0.33692314 -0.07483849
+## beta6 -0.4869687 -0.2227636
+## phi 2.009481 2.775686
+## sigma_b0 1.275266e-05 2.270661e-01
+```
+
+
 ## Intervalos de confianza para predicción
 
 En esta sección se mostrará cómo utilizar el paquete **ggeffects** de @R-ggeffects para obtener intervalos de confianza para predicciones de un modelo lineal generalizado mixto.
+
+Con el paquete **ggeffects** Sse pueden calcular predicciones ajustadas para muchos modelos diferentes. Los objetos de modelo compatibles actualmente son: averaging, bamlss, bayesglm, bayesx, betabin, betareg, bglmer, bigglm, biglm, blmer, bracl, brglm, brmsfit, brmultinom, cgam, cgamm, clm, clm2, clmm, coxph, feglm, fixest, flac, flic, gam, Gam, gamlss, gamm, gamm4, gee, geeglm, glimML, glm, glm.nb, glm_weightit, glmer.nb, glmerMod, glmgee, glmmPQL, glmmTMB, glmrob, glmRob, glmx, gls, hurdle, ivreg, lm, lm_robust, lme, lmerMod, lmrob, lmRob, logistf, logitr, lrm, mblogit, mclogit, MCMCglmm, merMod, merModLmerTest, MixMod, mixor, mlogit, multinom, multinom_weightit, negbin, nestedLogit, nlmerMod, ols, ordinal_weightit, orm, phyloglm, phylolm, plm, polr, rlm, rlmerMod, rq, rqs, rqss, sdmTMB, speedglm, speedlm, stanreg, survreg, svyglm, svyglm.nb, tidymodels, tobit, truncreg, vgam, vglm, wblm, wbm, Zelig-relogit, zeroinfl, zerotrunc.
+
+A continuación se muestran dos ejemplos, un glmm normal de la clase lme4 y un glmm gamma de la clase glmmTMB.
 
 ## Ejemplo: modelo normal {-}
 
@@ -177,6 +214,18 @@ data(sleepstudy)
 fit <- lmer(Reaction ~ Days + (1 + Days | Subject), data = sleepstudy)
 ```
 
+Para ver la tabla resumen con los resultados del modelo ajustado hacemos lo siguiente:
+
+```{r}
+summary(fit)
+```
+
+Las predicciones de los interceptos y pendientes aleatorias ($b_0$ y $b_1$) se pueden obtener con el código siguiente y son útiles para calcular $\hat{\mu}$.
+
+```{r}
+ranef(fit)
+```
+
 ### Predicción para cada individuo {-}
 
 Ahora supongamos que nos interesa predecir el tiempo de reacción de los pacientes 335 y 337 en los días de observación 1, 5 y 9, y en los días 12, 15 que no fueron aún observados. Adicionalmente queremos los intervalos de confianza del 95% para la predicción en esos mismos días. Para eso vamos a usar la función `predict_response()` de la siguiente manera:
@@ -190,7 +239,7 @@ pre1 <- predict_response(model=fit,
 pre1
 ```
 
-Como resultado se obtienen dos tablas, una para el paciente 335 y otra para el paciente 337. Cada tabla muestra los días, la predicción del tiempo de reacción promedio $\mu$ y los intervalos de confianza del 95%.
+Como resultado se obtienen dos tablas, una para el paciente 335 y otra para el paciente 337. Cada tabla muestra los días, la predicción del tiempo de reacción promedio $\mu$ y los intervalos de confianza del 95%. La predicción de $\mu$ en este caso incluye los respectivos $\tilde{b}_0$ y $\tilde{b}_1$ obtenidos con `ranef`.
 
 Es posible representar gráficamente la predicción y los intervalos usando la función genérica `plot()` sobre el objeto `pre1` así:
 
@@ -252,5 +301,164 @@ Cuando el conjunto de datos usados para ajustar el modelo tiene la misma cantida
 ```
 </div>
 
+## Ejemplo: modelo gamma {-}
 
-Ver https://www.andrewheiss.com/blog/2022/11/29/conditional-marginal-marginaleffects/
+En este ejemplo vamos a mostrar cómo obtener intervalos de confianza para un modelo con respuesta gamma. Para esto vamos a simular observaciones $n_i=20$ observaciones para $G=9$ grupos (en total 180 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es mostrar cómo se obtienen los intervalos de confianza en varias situaciones.
+
+\begin{align*} 
+y_{ij} | b_0 &\sim  Gamma(\mu_{ij}, \phi) \\ 
+\log(\mu_{ij}) &= -2 + 3 x_{ij} + b_{0i} \\
+\phi &= 0.5 \\
+b_{0} &\sim N(0, \sigma^2_{b0}=2) \\
+x &\sim U(0, 1)
+\end{align*}
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+```{block2, type='rmdexercise'}
+Solución.
+```
+
+</div>
+
+La función `rgamma_glm` que se muestra a continuación es una modificación de la función `rgamma` para tener la parametrización usada en los glm y que el parámetro $\mu$ coincida con la media de la distribución.
+
+```{r}
+rgamma_glm <- function(n, mu, phi) {
+  x <- rgamma(n=n, shape=1/phi, scale=mu*phi)
+  return(x)
+}
+```
+
+A continuación el código para simular datos del modelo de interés.
+
+```{r}
+ni <- 20
+G <- 9
+nobs <- ni * G
+grupo <- factor(rep(x=1:G, each=ni))
+obs <- rep(x=1:ni, times=G)
+set.seed(123456)
+x <- runif(n=nobs, min=0, max=1)
+set.seed(123456)
+b0 <- rnorm(n=G, mean=0, sd=sqrt(2)) # Intercepto aleatorio
+b0 <- rep(x=b0, each=ni)             # El mismo intercepto aleatorio pero repetido
+media <- exp(-2 + 3 * x + b0)
+set.seed(123456)
+y <- rgamma_glm(n=nobs, mu=media, phi=0.5)
+datos <- data.frame(obs, grupo, b0, x, media, y)
+```
+
+En la siguiente figura se muestran los datos simulados para los nueve grupos considerados.
+
+```{r plot_ic_pred_gamma_01}
+library(ggplot2)
+
+ggplot(data = datos, aes(x = x, y = y, color = grupo)) +
+  geom_point() +
+  theme_bw() +
+  facet_wrap(~ grupo) + labs(y = "Reaction time") + 
+  theme(legend.position = "none")
+```
+
+Ajustemos el modelo de interés usando la función `glmmTMB` del paquete *glmmTMB* de @R-glmmTMB.
+
+```{r}
+library(glmmTMB)
+library(ggeffects)
+
+fit <- glmmTMB(y ~ x + (1 | grupo), family=Gamma(link="log"), data=datos)
+```
+
+Para ver la tabla resumen con los resultados del modelo ajustado hacemos lo siguiente:
+
+```{r}
+summary(fit)
+```
+
+Las predicciones de los interceptos aleatorios $b_0$ se pueden obtener con el código siguiente y son útiles para calcular $\hat{\mu}$.
+
+```{r}
+ranef(fit)
+```
+
+### Predicción para cada individuo {-}
+
+Supongamos que nos interesa predecir la media de la variable respuesta $Y$ del grupo 2 y 4 en los valores $X$ de 0.2, 0.6 y 0.8, y en los valores 1.2, 1.5 que no fueron aún observados. Adicionalmente queremos los intervalos de confianza del 95% para la predicción en esos mismos valores de $X$. Para eso vamos a usar la función `predict_response()` de la siguiente manera:
+
+```{r}
+pre1 <- predict_response(fit, 
+                         ci_level=0.95, 
+                         terms=c("x [0.2, 0.6, 0.8, 1.2, 1.5]",
+                                 "grupo [2, 4]"),
+                         type="random"
+                         )
+pre1
+```
+
+Como resultado se obtienen dos tablas, una para el grupo 2 y otra para el grupo 4. Cada tabla muestra los valores de $X$, la predicción de $\mu$ y los intervalos de confianza del 95%. La predicción de $\mu$ en este caso incluye los respectivos $\tilde{b}_0$ obtenidos con `ranef`.
+
+Es posible representar gráficamente la predicción y los intervalos usando la función genérica `plot()` sobre el objeto `pre1` así:
+
+```{r plot_ic_pred_gamma_02}
+plot(pre1, show_data = TRUE, show_ci = TRUE)
+```
+
+En la figura anterior se observan los modelos ajustados representados por las líneas continuas y los intervalos como sombras. Adicionalmente se observan unos puntos que corresponden a los datos originales para los grupos considerados. 
+
+La figura anterior puede ser usada para monitorear la variable respuesta en los valores $X$ de 0.2, 0.4, 0.6 y siguientes. Los intervalos de confianza se hacen más anchos a medida que $X$ aumenta, esto es esperado ya que si queremos hacer una estimación lejos de $X=1$, muy seguramente tendremos más incertidumbre que para valores cercanos a 1.
+
+### Predicciones condicionales {-}
+
+Las predicciones condicionales son predicciones para el parámetro $\mu$ de la variable respuesta pensando en un grupo "típico", es decir, predicciones para $\mu$ sin incluir los efectos aleatorios predichos en la ecuación. Para obtener esta predicción se usa la función `predict_response` con `margin="mean_reference"`.
+
+Supongamos que nos interesa obtener predicciones condicionales con respecto a la variable $X$ fijada en los valores de 0.2, 0.4 y 0.6. El código para realizar esto es el siguiente:
+
+```{r}
+# conditional predictions
+pre2 <- predict_response(model=fit, 
+                         terms="x [0.2, 0.4, 0.6]",
+                         margin="mean_reference")
+pre2
+```
+
+Como resultado obtenemos una tabla con el valor predicho para $\mu$ en los días solicitados y los intervalos de confianza.
+
+Es posible representar estos resultados gráficamente de la siguiente manera.
+
+```{r plot_ic_pred_gamma_03}
+plot(pre2, show_data = TRUE, show_ci = TRUE)
+```
+
+### Predicciones marginales {-}
+
+Las predicciones marginales son predicciones para el parámetro $\mu$ de la variable respuesta pensando en el efecto de una covariable $X$ sobre todos los grupos de forma general. 
+
+```{r}
+# average marginal predictions
+pre3 <- predict_response(model=fit, 
+                         terms="x [0.2, 0.4, 0.6]", 
+                         margin="empirical")
+pre3
+```
+
+Como resultado obtenemos una tabla con el valor predicho para $\mu$ en los días solicitados y los intervalos de confianza.
+
+Es posible representar estos resultados gráficamente de la siguiente manera.
+
+```{r plot_ic_pred_gamma_04}
+plot(pre3, show_data = TRUE, show_ci = TRUE)
+```
+
+<div style="-moz-box-shadow: 1px 1px 3px 2px #00ffff;
+  -webkit-box-shadow: 1px 1px 3px 2px #00ffff;
+  box-shadow:         1px 1px 3px 2px #00ffff;">
+
+```{block2, type='rmdtip'}
+Para comprender las diferencias entre estimación marginal y estimación condicional se recomienda consultar [esta publicación](https://www.andrewheiss.com/blog/2022/11/29/conditional-marginal-marginaleffects/) donde se explican en detalle las diferencias.
+```
+
+</div>
+

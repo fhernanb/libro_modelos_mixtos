@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2026-02-13" />
+<meta name="date" content="2026-02-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -334,6 +334,12 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#predicciones-condicionales"><i class="fa fa-check"></i>Predicciones condicionales</a></li>
 <li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#predicciones-marginales"><i class="fa fa-check"></i>Predicciones marginales</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#ejemplo-modelo-gamma-1"><i class="fa fa-check"></i>Ejemplo: modelo gamma</a>
+<ul>
+<li class="chapter" data-level="" data-path=""><a href="#predicci%C3%B3n-para-cada-individuo-1"><i class="fa fa-check"></i>Predicción para cada individuo</a></li>
+<li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#predicciones-condicionales-1"><i class="fa fa-check"></i>Predicciones condicionales</a></li>
+<li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#predicciones-marginales-1"><i class="fa fa-check"></i>Predicciones marginales</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="29" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>29</b> Simulación de glmm</a>
 <ul>
@@ -539,7 +545,7 @@ x &amp;\sim U(0, 1)
 Solución.
 </div>
 </div>
-<p>La función <code>rgamma_glm</code> que se muestra a continuación es una modificación de la función <code>rgamma</code> para tener la parametrización usada en los glm.</p>
+<p>La función <code>rgamma_glm</code> que se muestra a continuación es una modificación de la función <code>rgamma</code> para tener la parametrización usada en los glm y que el parámetro <span class="math inline">\(\mu\)</span> coincida con la media de la distribución.</p>
 <div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="pac-glmmTMB.html#cb232-1" tabindex="-1"></a>rgamma_glm <span class="ot">&lt;-</span> <span class="cf">function</span>(n, mu, phi) {</span>
 <span id="cb232-2"><a href="pac-glmmTMB.html#cb232-2" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rgamma</span>(<span class="at">n=</span>n, <span class="at">shape=</span><span class="dv">1</span><span class="sc">/</span>phi, <span class="at">scale=</span>mu<span class="sc">*</span>phi)</span>
 <span id="cb232-3"><a href="pac-glmmTMB.html#cb232-3" tabindex="-1"></a>  <span class="fu">return</span>(x)</span>
@@ -573,7 +579,7 @@ Solución.
 <span id="cb235-3"><a href="pac-glmmTMB.html#cb235-3" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
 <span id="cb235-4"><a href="pac-glmmTMB.html#cb235-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">colour=</span><span class="st">&quot;Grupo/Cluster&quot;</span>)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/unnamed-chunk-180-1.png" width="672" /></p>
-<p>Para estimar los parámetros del modelos se usa la función <code>glmer</code> de la siguiente forma.</p>
+<p>Para estimar los parámetros del modelo se usa la función <code>glmmTMB</code> de la siguiente forma.</p>
 <div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="pac-glmmTMB.html#cb236-1" tabindex="-1"></a><span class="fu">library</span>(glmmTMB)</span>
 <span id="cb236-2"><a href="pac-glmmTMB.html#cb236-2" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(y <span class="sc">~</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> grupo), <span class="at">family=</span><span class="fu">Gamma</span>(<span class="at">link=</span><span class="st">&quot;log&quot;</span>), <span class="at">data =</span> datos)</span></code></pre></div>
 <p>La función <code>summary</code> se puede usar sobre el objeto <code>fit2</code> para obtener una tabla de resumen, a continuación se la salida de <code>summary</code>.</p>

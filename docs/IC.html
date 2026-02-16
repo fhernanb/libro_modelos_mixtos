@@ -24,7 +24,7 @@
 <meta name="author" content="Jorge Leonardo López Martínez" />
 
 
-<meta name="date" content="2026-02-13" />
+<meta name="date" content="2026-02-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,8 +53,6 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
-<link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
-<script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
 
 
 <style type="text/css">
@@ -334,6 +332,12 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#predicciones-condicionales"><i class="fa fa-check"></i>Predicciones condicionales</a></li>
 <li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#predicciones-marginales"><i class="fa fa-check"></i>Predicciones marginales</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#ejemplo-modelo-gamma-1"><i class="fa fa-check"></i>Ejemplo: modelo gamma</a>
+<ul>
+<li class="chapter" data-level="" data-path=""><a href="#predicci%C3%B3n-para-cada-individuo-1"><i class="fa fa-check"></i>Predicción para cada individuo</a></li>
+<li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#predicciones-condicionales-1"><i class="fa fa-check"></i>Predicciones condicionales</a></li>
+<li class="chapter" data-level="" data-path="IC.html"><a href="IC.html#predicciones-marginales-1"><i class="fa fa-check"></i>Predicciones marginales</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="29" data-path="simul-glmm.html"><a href="simul-glmm.html"><i class="fa fa-check"></i><b>29</b> Simulación de glmm</a>
 <ul>
@@ -394,26 +398,28 @@ N\left ( \left [ \begin{matrix}
 \end{matrix} \right ]
 \right )
 \end{align*}\]</span></p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+<div class="rmdexercise">
+Solución.
+</div>
+</div>
 <p>Lo primero que debemos hacer es ajustar el modelo usando el siguiente código.</p>
-<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="IC.html#cb391-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
-<span id="cb391-2"><a href="IC.html#cb391-2" tabindex="-1"></a><span class="fu">head</span>(sleepstudy)</span></code></pre></div>
-<pre><code>##   Reaction Days Subject pred_inter_pend_aleatorio modelo_simple
-## 1 249.5600    0     308                  253.6637      251.4051
-## 2 258.7047    1     308                  273.3299      261.8724
-## 3 250.8006    2     308                  292.9962      272.3397
-## 4 321.4398    3     308                  312.6624      282.8070
-## 5 356.8519    4     308                  332.3287      293.2742
-## 6 414.6901    5     308                  351.9950      303.7415
-##   pred_inter_aleatorio pred_pend_aleatorio
-## 1             292.1888            251.4051
-## 2             302.6561            271.4918
-## 3             313.1234            291.5785
-## 4             323.5907            311.6652
-## 5             334.0580            331.7519
-## 6             344.5252            351.8386</code></pre>
-<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="IC.html#cb393-1" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (Days <span class="sc">|</span> Subject), <span class="at">REML =</span> <span class="cn">TRUE</span>, <span class="at">data =</span> sleepstudy)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="IC.html#cb1-1" tabindex="-1"></a><span class="fu">library</span>(lme4)</span></code></pre></div>
+<pre><code>## Loading required package: Matrix</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="IC.html#cb3-1" tabindex="-1"></a><span class="fu">head</span>(sleepstudy)</span></code></pre></div>
+<pre><code>##   Reaction Days Subject
+## 1 249.5600    0     308
+## 2 258.7047    1     308
+## 3 250.8006    2     308
+## 4 321.4398    3     308
+## 5 356.8519    4     308
+## 6 414.6901    5     308</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="IC.html#cb5-1" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (Days <span class="sc">|</span> Subject), <span class="at">REML =</span> <span class="cn">TRUE</span>, <span class="at">data =</span> sleepstudy)</span></code></pre></div>
 <p>La tabla de resultados del modelo ajustado se muestra a continuación.</p>
-<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="IC.html#cb394-1" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="IC.html#cb6-1" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div>
 <pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
 ## Formula: Reaction ~ Days + (Days | Subject)
 ##    Data: sleepstudy
@@ -444,10 +450,10 @@ N\left ( \left [ \begin{matrix}
 \hat{\boldsymbol{\Theta}} = (\hat{\beta_0}=251.40, \hat{\beta_1}=10.47, \hat{\sigma}_{reaction}=25.59, \hat{\sigma}_{b0}=24.74, \hat{\sigma}_{b1}=5.92, \hat{\rho}_{b0b1}=0.07)^\top
 \]</span></p>
 <p>Para obtener los intervalos de confianza podemos usar la función <code>confint()</code>.</p>
-<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="IC.html#cb396-1" tabindex="-1"></a><span class="do">#### Calculate Wald CIs (Fastest Version) ####</span></span>
-<span id="cb396-2"><a href="IC.html#cb396-2" tabindex="-1"></a>ci.wald <span class="ot">&lt;-</span> <span class="fu">confint</span>(fit, <span class="at">level=</span><span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="IC.html#cb8-1" tabindex="-1"></a><span class="do">#### Calculate Wald CIs (Fastest Version) ####</span></span>
+<span id="cb8-2"><a href="IC.html#cb8-2" tabindex="-1"></a>ci.wald <span class="ot">&lt;-</span> <span class="fu">confint</span>(fit, <span class="at">level=</span><span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>## Computing profile confidence intervals ...</code></pre>
-<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="IC.html#cb398-1" tabindex="-1"></a>ci.wald</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="IC.html#cb10-1" tabindex="-1"></a>ci.wald</span></code></pre></div>
 <pre><code>##                   2.5 %      97.5 %
 ## .sig01       14.3814379  37.7159918
 ## .sig02       -0.4815008   0.6849863
@@ -456,20 +462,20 @@ N\left ( \left [ \begin{matrix}
 ## (Intercept) 237.6806955 265.1295145
 ## Days          7.3586533  13.5759188</code></pre>
 <p>También es posible obtener los intervalos de confianza por el método boostrap así.</p>
-<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb400-1"><a href="IC.html#cb400-1" tabindex="-1"></a><span class="do">#### Calculate Bootstrapped CIs ####</span></span>
-<span id="cb400-2"><a href="IC.html#cb400-2" tabindex="-1"></a>ci.boot <span class="ot">&lt;-</span> <span class="fu">confint</span>(fit, <span class="at">method =</span> <span class="st">&quot;boot&quot;</span>, <span class="at">nsim =</span> <span class="dv">1000</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="IC.html#cb12-1" tabindex="-1"></a><span class="do">#### Calculate Bootstrapped CIs ####</span></span>
+<span id="cb12-2"><a href="IC.html#cb12-2" tabindex="-1"></a>ci.boot <span class="ot">&lt;-</span> <span class="fu">confint</span>(fit, <span class="at">method =</span> <span class="st">&quot;boot&quot;</span>, <span class="at">nsim =</span> <span class="dv">1000</span>)</span></code></pre></div>
 <pre><code>## Computing bootstrap confidence intervals ...</code></pre>
 <pre><code>## 
-## 11 message(s): boundary (singular) fit: see help(&#39;isSingular&#39;)
-## 7 warning(s): Model failed to converge with max|grad| = 0.00237033 (tol = 0.002, component 1) (and others)</code></pre>
-<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="IC.html#cb403-1" tabindex="-1"></a>ci.boot</span></code></pre></div>
+## 15 message(s): boundary (singular) fit: see help(&#39;isSingular&#39;)
+## 6 warning(s): Model failed to converge with max|grad| = 0.00211214 (tol = 0.002, component 1) (and others)</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="IC.html#cb15-1" tabindex="-1"></a>ci.boot</span></code></pre></div>
 <pre><code>##                   2.5 %      97.5 %
-## .sig01       12.9637679  35.9428046
-## .sig02       -0.5360978   0.8664981
-## .sig03        3.1342841   8.4724073
-## .sigma       22.6178539  28.5395275
-## (Intercept) 237.7970463 265.0299430
-## Days          7.3768799  13.7273663</code></pre>
+## .sig01       11.3506266  35.0783448
+## .sig02       -0.5221701   0.9272534
+## .sig03        3.4053626   8.2279565
+## .sigma       22.6198991  28.6595816
+## (Intercept) 237.8778663 265.4105287
+## Days          7.1659594  13.2610425</code></pre>
 </div>
 <div id="ejemplo-modelo-gamma" class="section level2 unnumbered hasAnchor">
 <h2>Ejemplo: modelo gamma<a href="IC.html#ejemplo-modelo-gamma" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -492,16 +498,24 @@ y_{ij} | b_0 &amp;\sim  Gamma(\mu_{ij}, \phi) \\
 \log(\mu_{ij}) &amp;= \beta_0 + \beta_1 x1_{ij} + \beta_3 x3_{ij} + \beta_5 x5_{ij} + \beta_6 x6_{ij} + b_{0i} \\
 b_{0} &amp;\sim N(0, \sigma^2_{b0})
 \end{align*}\]</span></p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+<div class="rmdexercise">
+Solución.
+</div>
+</div>
 <p>Para ajustar el modelo anterior usamos el siguiente código.</p>
-<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="IC.html#cb405-1" tabindex="-1"></a><span class="fu">library</span>(hglm)</span>
-<span id="cb405-2"><a href="IC.html#cb405-2" tabindex="-1"></a><span class="fu">data</span>(semiconductor)</span>
-<span id="cb405-3"><a href="IC.html#cb405-3" tabindex="-1"></a></span>
-<span id="cb405-4"><a href="IC.html#cb405-4" tabindex="-1"></a><span class="fu">library</span>(glmmTMB)</span>
-<span id="cb405-5"><a href="IC.html#cb405-5" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x3 <span class="sc">+</span> x5 <span class="sc">+</span> x6 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Device), </span>
-<span id="cb405-6"><a href="IC.html#cb405-6" tabindex="-1"></a>               <span class="at">data =</span> semiconductor,</span>
-<span id="cb405-7"><a href="IC.html#cb405-7" tabindex="-1"></a>               <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> log))</span>
-<span id="cb405-8"><a href="IC.html#cb405-8" tabindex="-1"></a></span>
-<span id="cb405-9"><a href="IC.html#cb405-9" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="IC.html#cb17-1" tabindex="-1"></a><span class="fu">library</span>(hglm)</span>
+<span id="cb17-2"><a href="IC.html#cb17-2" tabindex="-1"></a><span class="fu">data</span>(semiconductor)</span>
+<span id="cb17-3"><a href="IC.html#cb17-3" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="IC.html#cb17-4" tabindex="-1"></a><span class="fu">library</span>(glmmTMB)</span>
+<span id="cb17-5"><a href="IC.html#cb17-5" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x3 <span class="sc">+</span> x5 <span class="sc">+</span> x6 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Device), </span>
+<span id="cb17-6"><a href="IC.html#cb17-6" tabindex="-1"></a>               <span class="at">data =</span> semiconductor,</span>
+<span id="cb17-7"><a href="IC.html#cb17-7" tabindex="-1"></a>               <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> log))</span>
+<span id="cb17-8"><a href="IC.html#cb17-8" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="IC.html#cb17-9" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div>
 <pre><code>##  Family: Gamma  ( log )
 ## Formula:          y ~ x1 + x3 + x5 + x6 + (1 | Device)
 ## Data: semiconductor
@@ -527,60 +541,121 @@ b_{0} &amp;\sim N(0, \sigma^2_{b0})
 ## x6          -0.36961    0.05630   -6.57 5.19e-11 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<p>De la tabla anterior podemos ver que las estimaciones del vector de parámetros es</p>
+<p>De la tabla anterior podemos ver que el vector de parámetros con las siete estimaciones es:</p>
 <p><span class="math display">\[
-\hat{\boldsymbol{\Theta}} = (\hat{\beta_0}=-4.71, \hat{\beta_1}=0.18, \hat{\beta_3}=0.31, \hat{\beta_5}=-0.19, \hat{\beta_6}=-0.37, \hat{\phi}=0.31, \hat{\sigma}_{b0}=0.17)^\top
+\hat{\boldsymbol{\Theta}} = (\hat{\beta_0}=-4.71, \hat{\beta_1}=0.18, \hat{\beta_3}=0.31, \hat{\beta_5}=-0.19, \hat{\beta_6}=-0.37, \hat{\phi}=0.101, \hat{\sigma}_{b0}=0.1583)^\top
 \]</span></p>
 <p>Para obtener los intervalos de confianza usamos las siguientes instrucciones.</p>
-<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="IC.html#cb407-1" tabindex="-1"></a>FUN <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">model=</span>fit) {</span>
-<span id="cb407-2"><a href="IC.html#cb407-2" tabindex="-1"></a>  temp_mod <span class="ot">&lt;-</span> <span class="fu">refit</span>(fit, <span class="fu">simulate</span>(fit)[[<span class="dv">1</span>]])</span>
-<span id="cb407-3"><a href="IC.html#cb407-3" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">as.numeric</span>(temp_mod<span class="sc">$</span>fit<span class="sc">$</span>par[<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>]),</span>
-<span id="cb407-4"><a href="IC.html#cb407-4" tabindex="-1"></a>              temp_mod<span class="sc">$</span>obj<span class="sc">$</span><span class="fu">report</span>()<span class="sc">$</span>sd[[<span class="dv">1</span>]])</span>
-<span id="cb407-5"><a href="IC.html#cb407-5" tabindex="-1"></a>  <span class="fu">return</span>(result)</span>
-<span id="cb407-6"><a href="IC.html#cb407-6" tabindex="-1"></a>}</span>
-<span id="cb407-7"><a href="IC.html#cb407-7" tabindex="-1"></a></span>
-<span id="cb407-8"><a href="IC.html#cb407-8" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">bootMer</span>(fit, FUN, <span class="at">nsim=</span><span class="dv">100</span>, <span class="at">.progress=</span><span class="st">&quot;txt&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="IC.html#cb19-1" tabindex="-1"></a>FUN <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">model=</span>fit) {</span>
+<span id="cb19-2"><a href="IC.html#cb19-2" tabindex="-1"></a>  temp_mod <span class="ot">&lt;-</span> <span class="fu">refit</span>(fit, <span class="fu">simulate</span>(fit)[[<span class="dv">1</span>]])</span>
+<span id="cb19-3"><a href="IC.html#cb19-3" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">as.numeric</span>(temp_mod<span class="sc">$</span>fit<span class="sc">$</span>par[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]), <span class="co"># 1 a 6 para obtener</span></span>
+<span id="cb19-4"><a href="IC.html#cb19-4" tabindex="-1"></a>              temp_mod<span class="sc">$</span>obj<span class="sc">$</span><span class="fu">report</span>()<span class="sc">$</span>sd[[<span class="dv">1</span>]])</span>
+<span id="cb19-5"><a href="IC.html#cb19-5" tabindex="-1"></a>  <span class="fu">return</span>(result)</span>
+<span id="cb19-6"><a href="IC.html#cb19-6" tabindex="-1"></a>}</span>
+<span id="cb19-7"><a href="IC.html#cb19-7" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="IC.html#cb19-8" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">bootMer</span>(fit, FUN, <span class="at">nsim=</span><span class="dv">100</span>, <span class="at">.progress=</span><span class="st">&quot;txt&quot;</span>)</span></code></pre></div>
 <p>Para imprimir los intervalos de confianza de los 8 parámetros hacemos lo siguiente:</p>
-<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="IC.html#cb408-1" tabindex="-1"></a><span class="fu">library</span>(boot)</span>
-<span id="cb408-2"><a href="IC.html#cb408-2" tabindex="-1"></a></span>
-<span id="cb408-3"><a href="IC.html#cb408-3" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;95% Bootstrap confidence intervals for glmmTMB</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb408-4"><a href="IC.html#cb408-4" tabindex="-1"></a></span>
-<span id="cb408-5"><a href="IC.html#cb408-5" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>) {</span>
-<span id="cb408-6"><a href="IC.html#cb408-6" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">boot.ci</span>(b1, <span class="at">type=</span><span class="st">&quot;perc&quot;</span>, <span class="at">index=</span>i)[<span class="dv">4</span>]<span class="sc">$</span>percent[<span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>])</span>
-<span id="cb408-7"><a href="IC.html#cb408-7" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="IC.html#cb20-1" tabindex="-1"></a><span class="fu">library</span>(boot)</span>
+<span id="cb20-2"><a href="IC.html#cb20-2" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="IC.html#cb20-3" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;95% Bootstrap confidence intervals for glmmTMB</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb20-4"><a href="IC.html#cb20-4" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="IC.html#cb20-5" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>) {</span>
+<span id="cb20-6"><a href="IC.html#cb20-6" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">boot.ci</span>(b1, <span class="at">type=</span><span class="st">&quot;perc&quot;</span>, <span class="at">index=</span>i)[<span class="dv">4</span>]<span class="sc">$</span>percent[<span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>])</span>
+<span id="cb20-7"><a href="IC.html#cb20-7" tabindex="-1"></a>}</span></code></pre></div>
+<p>Luego del proceso de boostrap los intervalos de confianza obtenidos para cada estimación son:</p>
+<pre><code>## beta0 -4.805866 -4.563488
+## beta1 0.07535473 0.27146044
+## beta3 0.2029962 0.4109347
+## beta5 -0.33692314 -0.07483849
+## beta6 -0.4869687 -0.2227636
+## phi 2.009481 2.775686
+## sigma_b0 1.275266e-05 2.270661e-01</code></pre>
 </div>
 <div id="intervalos-de-confianza-para-predicción" class="section level2 hasAnchor" number="28.2">
 <h2><span class="header-section-number">28.2</span> Intervalos de confianza para predicción<a href="#intervalos-de-confianza-para-predicci%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>En esta sección se mostrará cómo utilizar el paquete <strong>ggeffects</strong> de <span class="citation">Lüdecke (<a href="#ref-R-ggeffects">2025</a>)</span> para obtener intervalos de confianza para predicciones de un modelo lineal generalizado mixto.</p>
+<p>Con el paquete <strong>ggeffects</strong> Sse pueden calcular predicciones ajustadas para muchos modelos diferentes. Los objetos de modelo compatibles actualmente son: averaging, bamlss, bayesglm, bayesx, betabin, betareg, bglmer, bigglm, biglm, blmer, bracl, brglm, brmsfit, brmultinom, cgam, cgamm, clm, clm2, clmm, coxph, feglm, fixest, flac, flic, gam, Gam, gamlss, gamm, gamm4, gee, geeglm, glimML, glm, glm.nb, glm_weightit, glmer.nb, glmerMod, glmgee, glmmPQL, glmmTMB, glmrob, glmRob, glmx, gls, hurdle, ivreg, lm, lm_robust, lme, lmerMod, lmrob, lmRob, logistf, logitr, lrm, mblogit, mclogit, MCMCglmm, merMod, merModLmerTest, MixMod, mixor, mlogit, multinom, multinom_weightit, negbin, nestedLogit, nlmerMod, ols, ordinal_weightit, orm, phyloglm, phylolm, plm, polr, rlm, rlmerMod, rq, rqs, rqss, sdmTMB, speedglm, speedlm, stanreg, survreg, svyglm, svyglm.nb, tidymodels, tobit, truncreg, vgam, vglm, wblm, wbm, Zelig-relogit, zeroinfl, zerotrunc.</p>
+<p>A continuación se muestran dos ejemplos, un glmm normal de la clase lme4 y un glmm gamma de la clase glmmTMB.</p>
 </div>
 <div id="ejemplo-modelo-normal-1" class="section level2 unnumbered hasAnchor">
 <h2>Ejemplo: modelo normal<a href="IC.html#ejemplo-modelo-normal-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>En este ejemplo vamos a retomar los datos <code>sleepstudy</code> del paquete <strong>lme4</strong> de <span class="citation">Bates et al. (<a href="#ref-R-lme4">2025</a>)</span> sobre el tiempo de reacción promedio por día para un conjunto de individuos en un estudio de privación del sueño. La base de datos contiene la información sobre el tiempo de reacción promedio (<code>Reaction</code>), el número de días de privación del sueño (<code>Days</code>), donde el día 0 corresponde al día en el que los individuos tenían su cantidad normal de sueño, y el número del individuo (en total 18) sobre el que se realizó la observación (<code>Subject</code>). A partir del día 0, hubo una restricción en cada individuo a 3 horas de sueño por noche.</p>
 <p><img src="images/sleep_study.png" width="40%" style="display: block; margin: auto;" /></p>
 <p>Vamos a mostrar gráficamente los datos.</p>
-<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="IC.html#cb409-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb409-2"><a href="IC.html#cb409-2" tabindex="-1"></a></span>
-<span id="cb409-3"><a href="IC.html#cb409-3" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> sleepstudy, <span class="fu">aes</span>(<span class="at">x =</span> Days, <span class="at">y =</span> Reaction, <span class="at">color =</span> Subject)) <span class="sc">+</span></span>
-<span id="cb409-4"><a href="IC.html#cb409-4" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb409-5"><a href="IC.html#cb409-5" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb409-6"><a href="IC.html#cb409-6" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Subject) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Reaction time&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb409-7"><a href="IC.html#cb409-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="IC.html#cb22-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb22-2"><a href="IC.html#cb22-2" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="IC.html#cb22-3" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> sleepstudy, <span class="fu">aes</span>(<span class="at">x =</span> Days, <span class="at">y =</span> Reaction, <span class="at">color =</span> Subject)) <span class="sc">+</span></span>
+<span id="cb22-4"><a href="IC.html#cb22-4" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb22-5"><a href="IC.html#cb22-5" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb22-6"><a href="IC.html#cb22-6" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Subject) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Reaction time&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb22-7"><a href="IC.html#cb22-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <p><img src="libro_mod_mixtos_files/figure-html/plot_curves_sleep-1.png" width="672" /></p>
 <p>Ahora vamos a ajustar el modelo de interés.</p>
-<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="IC.html#cb410-1" tabindex="-1"></a><span class="fu">library</span>(ggeffects)</span>
-<span id="cb410-2"><a href="IC.html#cb410-2" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
-<span id="cb410-3"><a href="IC.html#cb410-3" tabindex="-1"></a><span class="fu">data</span>(sleepstudy)</span>
-<span id="cb410-4"><a href="IC.html#cb410-4" tabindex="-1"></a></span>
-<span id="cb410-5"><a href="IC.html#cb410-5" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> Days <span class="sc">|</span> Subject), <span class="at">data =</span> sleepstudy)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="IC.html#cb23-1" tabindex="-1"></a><span class="fu">library</span>(ggeffects)</span>
+<span id="cb23-2"><a href="IC.html#cb23-2" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb23-3"><a href="IC.html#cb23-3" tabindex="-1"></a><span class="fu">data</span>(sleepstudy)</span>
+<span id="cb23-4"><a href="IC.html#cb23-4" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="IC.html#cb23-5" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> Days <span class="sc">|</span> Subject), <span class="at">data =</span> sleepstudy)</span></code></pre></div>
+<p>Para ver la tabla resumen con los resultados del modelo ajustado hacemos lo siguiente:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="IC.html#cb24-1" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: Reaction ~ Days + (1 + Days | Subject)
+##    Data: sleepstudy
+## 
+## REML criterion at convergence: 1743.6
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.9536 -0.4634  0.0231  0.4634  5.1793 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev. Corr
+##  Subject  (Intercept) 612.10   24.741       
+##           Days         35.07    5.922   0.07
+##  Residual             654.94   25.592       
+## Number of obs: 180, groups:  Subject, 18
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  251.405      6.825  36.838
+## Days          10.467      1.546   6.771
+## 
+## Correlation of Fixed Effects:
+##      (Intr)
+## Days -0.138</code></pre>
+<p>Las predicciones de los interceptos y pendientes aleatorias (<span class="math inline">\(b_0\)</span> y <span class="math inline">\(b_1\)</span>) se pueden obtener con el código siguiente y son útiles para calcular <span class="math inline">\(\hat{\mu}\)</span>.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="IC.html#cb26-1" tabindex="-1"></a><span class="fu">ranef</span>(fit)</span></code></pre></div>
+<pre><code>## $Subject
+##     (Intercept)        Days
+## 308   2.2585509   9.1989758
+## 309 -40.3987381  -8.6196806
+## 310 -38.9604090  -5.4488565
+## 330  23.6906196  -4.8143503
+## 331  22.2603126  -3.0699116
+## 332   9.0395679  -0.2721770
+## 333  16.8405086  -0.2236361
+## 334  -7.2326151   1.0745816
+## 335  -0.3336684 -10.7521652
+## 337  34.8904868   8.6282652
+## 349 -25.2102286   1.1734322
+## 350 -13.0700342   6.6142178
+## 351   4.5778642  -3.0152621
+## 352  20.8636782   3.5360011
+## 369   3.2754656   0.8722149
+## 370 -25.6129993   4.8224850
+## 371   0.8070461  -0.9881562
+## 372  12.3145921   1.2840221
+## 
+## with conditional variances for &quot;Subject&quot;</code></pre>
 <div id="predicción-para-cada-individuo" class="section level3 unnumbered hasAnchor">
 <h3>Predicción para cada individuo<a href="#predicci%C3%B3n-para-cada-individuo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Ahora supongamos que nos interesa predecir el tiempo de reacción de los pacientes 335 y 337 en los días de observación 1, 5 y 9, y en los días 12, 15 que no fueron aún observados. Adicionalmente queremos los intervalos de confianza del 95% para la predicción en esos mismos días. Para eso vamos a usar la función <code>predict_response()</code> de la siguiente manera:</p>
-<div class="sourceCode" id="cb411"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb411-1"><a href="IC.html#cb411-1" tabindex="-1"></a>pre1 <span class="ot">&lt;-</span> <span class="fu">predict_response</span>(<span class="at">model=</span>fit,</span>
-<span id="cb411-2"><a href="IC.html#cb411-2" tabindex="-1"></a>                         <span class="at">ci_level=</span><span class="fl">0.95</span>, </span>
-<span id="cb411-3"><a href="IC.html#cb411-3" tabindex="-1"></a>                         <span class="at">terms=</span><span class="fu">c</span>(<span class="st">&quot;Days [1, 5, 9, 12, 15]&quot;</span>, </span>
-<span id="cb411-4"><a href="IC.html#cb411-4" tabindex="-1"></a>                                 <span class="st">&quot;Subject [335, 337]&quot;</span>), </span>
-<span id="cb411-5"><a href="IC.html#cb411-5" tabindex="-1"></a>                         <span class="at">type=</span><span class="st">&quot;random&quot;</span>)</span>
-<span id="cb411-6"><a href="IC.html#cb411-6" tabindex="-1"></a>pre1</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="IC.html#cb28-1" tabindex="-1"></a>pre1 <span class="ot">&lt;-</span> <span class="fu">predict_response</span>(<span class="at">model=</span>fit,</span>
+<span id="cb28-2"><a href="IC.html#cb28-2" tabindex="-1"></a>                         <span class="at">ci_level=</span><span class="fl">0.95</span>, </span>
+<span id="cb28-3"><a href="IC.html#cb28-3" tabindex="-1"></a>                         <span class="at">terms=</span><span class="fu">c</span>(<span class="st">&quot;Days [1, 5, 9, 12, 15]&quot;</span>, </span>
+<span id="cb28-4"><a href="IC.html#cb28-4" tabindex="-1"></a>                                 <span class="st">&quot;Subject [335, 337]&quot;</span>), </span>
+<span id="cb28-5"><a href="IC.html#cb28-5" tabindex="-1"></a>                         <span class="at">type=</span><span class="st">&quot;random&quot;</span>)</span>
+<span id="cb28-6"><a href="IC.html#cb28-6" tabindex="-1"></a>pre1</span></code></pre></div>
 <pre><code>## # Predicted values of Reaction
 ## 
 ## Subject: 335
@@ -602,9 +677,9 @@ b_{0} &amp;\sim N(0, \sigma^2_{b0})
 ##    9 |    458.16 | 429.28, 487.03
 ##   12 |    515.44 | 478.21, 552.67
 ##   15 |    572.73 | 526.84, 618.62</code></pre>
-<p>Como resultado se obtienen dos tablas, una para el paciente 335 y otra para el paciente 337. Cada tabla muestra los días, la predicción del tiempo de reacción promedio <span class="math inline">\(\mu\)</span> y los intervalos de confianza del 95%.</p>
+<p>Como resultado se obtienen dos tablas, una para el paciente 335 y otra para el paciente 337. Cada tabla muestra los días, la predicción del tiempo de reacción promedio <span class="math inline">\(\mu\)</span> y los intervalos de confianza del 95%. La predicción de <span class="math inline">\(\mu\)</span> en este caso incluye los respectivos <span class="math inline">\(\tilde{b}_0\)</span> y <span class="math inline">\(\tilde{b}_1\)</span> obtenidos con <code>ranef</code>.</p>
 <p>Es posible representar gráficamente la predicción y los intervalos usando la función genérica <code>plot()</code> sobre el objeto <code>pre1</code> así:</p>
-<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="IC.html#cb413-1" tabindex="-1"></a><span class="fu">plot</span>(pre1, <span class="at">show_data =</span> <span class="cn">TRUE</span>, <span class="at">show_ci =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="IC.html#cb30-1" tabindex="-1"></a><span class="fu">plot</span>(pre1, <span class="at">show_data =</span> <span class="cn">TRUE</span>, <span class="at">show_ci =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## Data points may overlap. Use the `jitter` argument to add some amount of
 ##   random variation to the location of data points and avoid overplotting.</code></pre>
 <p><img src="libro_mod_mixtos_files/figure-html/plot_ic_pred_sleep_01-1.png" width="672" /></p>
@@ -615,11 +690,11 @@ b_{0} &amp;\sim N(0, \sigma^2_{b0})
 <h3>Predicciones condicionales<a href="IC.html#predicciones-condicionales" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Las predicciones condicionales son predicciones para el parámetro <span class="math inline">\(\mu\)</span> de la variable respuesta pensando en un paciente (o grupo) “típico”, es decir, predicciones para <span class="math inline">\(\mu\)</span> sin incluir los efectos aleatorios predichos en la ecuación. Para obtener esta predicción se usa la función <code>predict_response</code> con <code>margin="mean_reference"</code>.</p>
 <p>Supongamos que nos interesa obtener predicciones condicionales con respecto a la variable días fijada en los valores de 1, 5, 9 y 12. El código para realizar esto es el siguiente:</p>
-<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="IC.html#cb415-1" tabindex="-1"></a><span class="co"># conditional predictions</span></span>
-<span id="cb415-2"><a href="IC.html#cb415-2" tabindex="-1"></a>pre2 <span class="ot">&lt;-</span> <span class="fu">predict_response</span>(<span class="at">model=</span>fit, </span>
-<span id="cb415-3"><a href="IC.html#cb415-3" tabindex="-1"></a>                         <span class="at">terms=</span><span class="st">&quot;Days [1, 5, 9, 12]&quot;</span>,</span>
-<span id="cb415-4"><a href="IC.html#cb415-4" tabindex="-1"></a>                         <span class="at">margin=</span><span class="st">&quot;mean_reference&quot;</span>)</span>
-<span id="cb415-5"><a href="IC.html#cb415-5" tabindex="-1"></a>pre2</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="IC.html#cb32-1" tabindex="-1"></a><span class="co"># conditional predictions</span></span>
+<span id="cb32-2"><a href="IC.html#cb32-2" tabindex="-1"></a>pre2 <span class="ot">&lt;-</span> <span class="fu">predict_response</span>(<span class="at">model=</span>fit, </span>
+<span id="cb32-3"><a href="IC.html#cb32-3" tabindex="-1"></a>                         <span class="at">terms=</span><span class="st">&quot;Days [1, 5, 9, 12]&quot;</span>,</span>
+<span id="cb32-4"><a href="IC.html#cb32-4" tabindex="-1"></a>                         <span class="at">margin=</span><span class="st">&quot;mean_reference&quot;</span>)</span>
+<span id="cb32-5"><a href="IC.html#cb32-5" tabindex="-1"></a>pre2</span></code></pre></div>
 <pre><code>## # Predicted values of Reaction
 ## 
 ## Days | Predicted |         95% CI
@@ -633,7 +708,7 @@ b_{0} &amp;\sim N(0, \sigma^2_{b0})
 ## * Subject = 0 (population-level)</code></pre>
 <p>Como resultado obtenemos una tabla con el valor predicho para <span class="math inline">\(\mu\)</span> en los días solicitados y los intervalos de confianza.</p>
 <p>Es posible representar estos resultados gráficamente de la siguiente manera.</p>
-<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="IC.html#cb417-1" tabindex="-1"></a><span class="fu">plot</span>(pre2, <span class="at">show_data =</span> <span class="cn">TRUE</span>, <span class="at">show_ci =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="IC.html#cb34-1" tabindex="-1"></a><span class="fu">plot</span>(pre2, <span class="at">show_data =</span> <span class="cn">TRUE</span>, <span class="at">show_ci =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## Data points may overlap. Use the `jitter` argument to add some amount of
 ##   random variation to the location of data points and avoid overplotting.</code></pre>
 <p><img src="libro_mod_mixtos_files/figure-html/plot_ic_pred_sleep_02-1.png" width="672" /></p>
@@ -641,11 +716,11 @@ b_{0} &amp;\sim N(0, \sigma^2_{b0})
 <div id="predicciones-marginales" class="section level3 unnumbered hasAnchor">
 <h3>Predicciones marginales<a href="IC.html#predicciones-marginales" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Las predicciones marginales son predicciones para el parámetro <span class="math inline">\(\mu\)</span> de la variable respuesta pensando en el efecto de una covariable <span class="math inline">\(X\)</span> sobre todos los pacientes (o grupos) de forma general.</p>
-<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="IC.html#cb419-1" tabindex="-1"></a><span class="co"># average marginal predictions</span></span>
-<span id="cb419-2"><a href="IC.html#cb419-2" tabindex="-1"></a>pre3 <span class="ot">&lt;-</span> <span class="fu">predict_response</span>(<span class="at">model=</span>fit, </span>
-<span id="cb419-3"><a href="IC.html#cb419-3" tabindex="-1"></a>                         <span class="at">terms=</span><span class="st">&quot;Days [1, 5, 9]&quot;</span>, </span>
-<span id="cb419-4"><a href="IC.html#cb419-4" tabindex="-1"></a>                         <span class="at">margin=</span><span class="st">&quot;empirical&quot;</span>)</span>
-<span id="cb419-5"><a href="IC.html#cb419-5" tabindex="-1"></a>pre3</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="IC.html#cb36-1" tabindex="-1"></a><span class="co"># average marginal predictions</span></span>
+<span id="cb36-2"><a href="IC.html#cb36-2" tabindex="-1"></a>pre3 <span class="ot">&lt;-</span> <span class="fu">predict_response</span>(<span class="at">model=</span>fit, </span>
+<span id="cb36-3"><a href="IC.html#cb36-3" tabindex="-1"></a>                         <span class="at">terms=</span><span class="st">&quot;Days [1, 5, 9]&quot;</span>, </span>
+<span id="cb36-4"><a href="IC.html#cb36-4" tabindex="-1"></a>                         <span class="at">margin=</span><span class="st">&quot;empirical&quot;</span>)</span>
+<span id="cb36-5"><a href="IC.html#cb36-5" tabindex="-1"></a>pre3</span></code></pre></div>
 <pre><code>## # Average predicted values of Reaction
 ## 
 ## Days | Predicted |         95% CI
@@ -655,7 +730,7 @@ b_{0} &amp;\sim N(0, \sigma^2_{b0})
 ##    9 |    345.61 | 316.74, 374.48</code></pre>
 <p>Como resultado obtenemos una tabla con el valor predicho para <span class="math inline">\(\mu\)</span> en los días solicitados y los intervalos de confianza.</p>
 <p>Es posible representar estos resultados gráficamente de la siguiente manera.</p>
-<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="IC.html#cb421-1" tabindex="-1"></a><span class="fu">plot</span>(pre3, <span class="at">show_data =</span> <span class="cn">TRUE</span>, <span class="at">show_ci =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="IC.html#cb38-1" tabindex="-1"></a><span class="fu">plot</span>(pre3, <span class="at">show_data =</span> <span class="cn">TRUE</span>, <span class="at">show_ci =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## Data points may overlap. Use the `jitter` argument to add some amount of
 ##   random variation to the location of data points and avoid overplotting.</code></pre>
 <p><img src="libro_mod_mixtos_files/figure-html/plot_ic_pred_sleep_03-1.png" width="672" /></p>
@@ -667,7 +742,197 @@ b_{0} &amp;\sim N(0, \sigma^2_{b0})
 Cuando el conjunto de datos usados para ajustar el modelo tiene la misma cantidad de observaciones para cada grupo, las predicciones condicionales y marginales son muy similares. Pero cuando los grupos son desbalanceados, estas estimaciones difieren. Una explicación detallada de esta situación y un ejemplo puede consultarse en <a href="https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html" class="uri">https://strengejacke.github.io/ggeffects/articles/introduction_randomeffects.html</a>
 </div>
 </div>
-<p>Ver <a href="https://www.andrewheiss.com/blog/2022/11/29/conditional-marginal-marginaleffects/" class="uri">https://www.andrewheiss.com/blog/2022/11/29/conditional-marginal-marginaleffects/</a></p>
+</div>
+</div>
+<div id="ejemplo-modelo-gamma-1" class="section level2 unnumbered hasAnchor">
+<h2>Ejemplo: modelo gamma<a href="IC.html#ejemplo-modelo-gamma-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>En este ejemplo vamos a mostrar cómo obtener intervalos de confianza para un modelo con respuesta gamma. Para esto vamos a simular observaciones <span class="math inline">\(n_i=20\)</span> observaciones para <span class="math inline">\(G=9\)</span> grupos (en total 180 obs) que tengan la estructura mostrada abajo. El objetivo del ejemplo es mostrar cómo se obtienen los intervalos de confianza en varias situaciones.</p>
+<p><span class="math display">\[\begin{align*}
+y_{ij} | b_0 &amp;\sim  Gamma(\mu_{ij}, \phi) \\
+\log(\mu_{ij}) &amp;= -2 + 3 x_{ij} + b_{0i} \\
+\phi &amp;= 0.5 \\
+b_{0} &amp;\sim N(0, \sigma^2_{b0}=2) \\
+x &amp;\sim U(0, 1)
+\end{align*}\]</span></p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #000000;
+  -webkit-box-shadow: 1px 1px 3px 2px #000000;
+  box-shadow:         1px 1px 3px 2px #000000;">
+
+<div class="rmdexercise">
+Solución.
+</div>
+</div>
+<p>La función <code>rgamma_glm</code> que se muestra a continuación es una modificación de la función <code>rgamma</code> para tener la parametrización usada en los glm y que el parámetro <span class="math inline">\(\mu\)</span> coincida con la media de la distribución.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="IC.html#cb40-1" tabindex="-1"></a>rgamma_glm <span class="ot">&lt;-</span> <span class="cf">function</span>(n, mu, phi) {</span>
+<span id="cb40-2"><a href="IC.html#cb40-2" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rgamma</span>(<span class="at">n=</span>n, <span class="at">shape=</span><span class="dv">1</span><span class="sc">/</span>phi, <span class="at">scale=</span>mu<span class="sc">*</span>phi)</span>
+<span id="cb40-3"><a href="IC.html#cb40-3" tabindex="-1"></a>  <span class="fu">return</span>(x)</span>
+<span id="cb40-4"><a href="IC.html#cb40-4" tabindex="-1"></a>}</span></code></pre></div>
+<p>A continuación el código para simular datos del modelo de interés.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="IC.html#cb41-1" tabindex="-1"></a>ni <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb41-2"><a href="IC.html#cb41-2" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">9</span></span>
+<span id="cb41-3"><a href="IC.html#cb41-3" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> ni <span class="sc">*</span> G</span>
+<span id="cb41-4"><a href="IC.html#cb41-4" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>G, <span class="at">each=</span>ni))</span>
+<span id="cb41-5"><a href="IC.html#cb41-5" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span>ni, <span class="at">times=</span>G)</span>
+<span id="cb41-6"><a href="IC.html#cb41-6" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)</span>
+<span id="cb41-7"><a href="IC.html#cb41-7" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n=</span>nobs, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)</span>
+<span id="cb41-8"><a href="IC.html#cb41-8" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)</span>
+<span id="cb41-9"><a href="IC.html#cb41-9" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>G, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="fu">sqrt</span>(<span class="dv">2</span>)) <span class="co"># Intercepto aleatorio</span></span>
+<span id="cb41-10"><a href="IC.html#cb41-10" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x=</span>b0, <span class="at">each=</span>ni)             <span class="co"># El mismo intercepto aleatorio pero repetido</span></span>
+<span id="cb41-11"><a href="IC.html#cb41-11" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> x <span class="sc">+</span> b0)</span>
+<span id="cb41-12"><a href="IC.html#cb41-12" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)</span>
+<span id="cb41-13"><a href="IC.html#cb41-13" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rgamma_glm</span>(<span class="at">n=</span>nobs, <span class="at">mu=</span>media, <span class="at">phi=</span><span class="fl">0.5</span>)</span>
+<span id="cb41-14"><a href="IC.html#cb41-14" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(obs, grupo, b0, x, media, y)</span></code></pre></div>
+<p>En la siguiente figura se muestran los datos simulados para los nueve grupos considerados.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="IC.html#cb42-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb42-2"><a href="IC.html#cb42-2" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="IC.html#cb42-3" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> datos, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">color =</span> grupo)) <span class="sc">+</span></span>
+<span id="cb42-4"><a href="IC.html#cb42-4" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb42-5"><a href="IC.html#cb42-5" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb42-6"><a href="IC.html#cb42-6" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> grupo) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Reaction time&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb42-7"><a href="IC.html#cb42-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<p><img src="libro_mod_mixtos_files/figure-html/plot_ic_pred_gamma_01-1.png" width="672" /></p>
+<p>Ajustemos el modelo de interés usando la función <code>glmmTMB</code> del paquete <em>glmmTMB</em> de <span class="citation">Brooks et al. (<a href="#ref-R-glmmTMB">2025</a>)</span>.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="IC.html#cb43-1" tabindex="-1"></a><span class="fu">library</span>(glmmTMB)</span>
+<span id="cb43-2"><a href="IC.html#cb43-2" tabindex="-1"></a><span class="fu">library</span>(ggeffects)</span>
+<span id="cb43-3"><a href="IC.html#cb43-3" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="IC.html#cb43-4" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(y <span class="sc">~</span> x <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> grupo), <span class="at">family=</span><span class="fu">Gamma</span>(<span class="at">link=</span><span class="st">&quot;log&quot;</span>), <span class="at">data=</span>datos)</span></code></pre></div>
+<p>Para ver la tabla resumen con los resultados del modelo ajustado hacemos lo siguiente:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="IC.html#cb44-1" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div>
+<pre><code>##  Family: Gamma  ( log )
+## Formula:          y ~ x + (1 | grupo)
+## Data: datos
+## 
+##       AIC       BIC    logLik -2*log(L)  df.resid 
+##     632.2     644.9    -312.1     624.2       176 
+## 
+## Random effects:
+## 
+## Conditional model:
+##  Groups Name        Variance Std.Dev.
+##  grupo  (Intercept) 1.93     1.389   
+## Number of obs: 180, groups:  grupo, 9
+## 
+## Dispersion estimate for Gamma family (sigma^2): 0.511 
+## 
+## Conditional model:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  -0.6840     0.4748  -1.441     0.15    
+## x             2.9780     0.1887  15.781   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Las predicciones de los interceptos aleatorios <span class="math inline">\(b_0\)</span> se pueden obtener con el código siguiente y son útiles para calcular <span class="math inline">\(\hat{\mu}\)</span>.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="IC.html#cb46-1" tabindex="-1"></a><span class="fu">ranef</span>(fit)</span></code></pre></div>
+<pre><code>## $grupo
+##   (Intercept)
+## 1  0.19343037
+## 2 -1.94246345
+## 3 -1.84730623
+## 4 -1.28076294
+## 5  2.01846111
+## 6 -0.08977021
+## 7  0.73895864
+## 8  1.90427682
+## 9  0.19304021</code></pre>
+<div id="predicción-para-cada-individuo-1" class="section level3 unnumbered hasAnchor">
+<h3>Predicción para cada individuo<a href="#predicci%C3%B3n-para-cada-individuo-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Supongamos que nos interesa predecir la media de la variable respuesta <span class="math inline">\(Y\)</span> del grupo 2 y 4 en los valores <span class="math inline">\(X\)</span> de 0.2, 0.6 y 0.8, y en los valores 1.2, 1.5 que no fueron aún observados. Adicionalmente queremos los intervalos de confianza del 95% para la predicción en esos mismos valores de <span class="math inline">\(X\)</span>. Para eso vamos a usar la función <code>predict_response()</code> de la siguiente manera:</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="IC.html#cb48-1" tabindex="-1"></a>pre1 <span class="ot">&lt;-</span> <span class="fu">predict_response</span>(fit, </span>
+<span id="cb48-2"><a href="IC.html#cb48-2" tabindex="-1"></a>                         <span class="at">ci_level=</span><span class="fl">0.95</span>, </span>
+<span id="cb48-3"><a href="IC.html#cb48-3" tabindex="-1"></a>                         <span class="at">terms=</span><span class="fu">c</span>(<span class="st">&quot;x [0.2, 0.6, 0.8, 1.2, 1.5]&quot;</span>,</span>
+<span id="cb48-4"><a href="IC.html#cb48-4" tabindex="-1"></a>                                 <span class="st">&quot;grupo [2, 4]&quot;</span>),</span>
+<span id="cb48-5"><a href="IC.html#cb48-5" tabindex="-1"></a>                         <span class="at">type=</span><span class="st">&quot;random&quot;</span></span>
+<span id="cb48-6"><a href="IC.html#cb48-6" tabindex="-1"></a>                         )</span>
+<span id="cb48-7"><a href="IC.html#cb48-7" tabindex="-1"></a>pre1</span></code></pre></div>
+<pre><code>## # Predicted values of y
+## 
+## grupo: 2
+## 
+##    x | Predicted |      95% CI
+## ------------------------------
+## 0.20 |      0.13 | 0.09,  0.19
+## 0.60 |      0.43 | 0.31,  0.59
+## 0.80 |      0.78 | 0.57,  1.08
+## 1.20 |      2.58 | 1.75,  3.80
+## 1.50 |      6.30 | 3.98,  9.98
+## 
+## grupo: 4
+## 
+##    x | Predicted |      95% CI
+## ------------------------------
+## 0.20 |      0.25 | 0.18,  0.35
+## 0.60 |      0.84 | 0.60,  1.16
+## 0.80 |      1.52 | 1.07,  2.16
+## 1.20 |      5.00 | 3.22,  7.75
+## 1.50 |     12.21 | 7.24, 20.59</code></pre>
+<p>Como resultado se obtienen dos tablas, una para el grupo 2 y otra para el grupo 4. Cada tabla muestra los valores de <span class="math inline">\(X\)</span>, la predicción de <span class="math inline">\(\mu\)</span> y los intervalos de confianza del 95%. La predicción de <span class="math inline">\(\mu\)</span> en este caso incluye los respectivos <span class="math inline">\(\tilde{b}_0\)</span> obtenidos con <code>ranef</code>.</p>
+<p>Es posible representar gráficamente la predicción y los intervalos usando la función genérica <code>plot()</code> sobre el objeto <code>pre1</code> así:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="IC.html#cb50-1" tabindex="-1"></a><span class="fu">plot</span>(pre1, <span class="at">show_data =</span> <span class="cn">TRUE</span>, <span class="at">show_ci =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## Data points may overlap. Use the `jitter` argument to add some amount of
+##   random variation to the location of data points and avoid overplotting.</code></pre>
+<p><img src="libro_mod_mixtos_files/figure-html/plot_ic_pred_gamma_02-1.png" width="672" /></p>
+<p>En la figura anterior se observan los modelos ajustados representados por las líneas continuas y los intervalos como sombras. Adicionalmente se observan unos puntos que corresponden a los datos originales para los grupos considerados.</p>
+<p>La figura anterior puede ser usada para monitorear la variable respuesta en los valores <span class="math inline">\(X\)</span> de 0.2, 0.4, 0.6 y siguientes. Los intervalos de confianza se hacen más anchos a medida que <span class="math inline">\(X\)</span> aumenta, esto es esperado ya que si queremos hacer una estimación lejos de <span class="math inline">\(X=1\)</span>, muy seguramente tendremos más incertidumbre que para valores cercanos a 1.</p>
+</div>
+<div id="predicciones-condicionales-1" class="section level3 unnumbered hasAnchor">
+<h3>Predicciones condicionales<a href="IC.html#predicciones-condicionales-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Las predicciones condicionales son predicciones para el parámetro <span class="math inline">\(\mu\)</span> de la variable respuesta pensando en un grupo “típico”, es decir, predicciones para <span class="math inline">\(\mu\)</span> sin incluir los efectos aleatorios predichos en la ecuación. Para obtener esta predicción se usa la función <code>predict_response</code> con <code>margin="mean_reference"</code>.</p>
+<p>Supongamos que nos interesa obtener predicciones condicionales con respecto a la variable <span class="math inline">\(X\)</span> fijada en los valores de 0.2, 0.4 y 0.6. El código para realizar esto es el siguiente:</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="IC.html#cb52-1" tabindex="-1"></a><span class="co"># conditional predictions</span></span>
+<span id="cb52-2"><a href="IC.html#cb52-2" tabindex="-1"></a>pre2 <span class="ot">&lt;-</span> <span class="fu">predict_response</span>(<span class="at">model=</span>fit, </span>
+<span id="cb52-3"><a href="IC.html#cb52-3" tabindex="-1"></a>                         <span class="at">terms=</span><span class="st">&quot;x [0.2, 0.4, 0.6]&quot;</span>,</span>
+<span id="cb52-4"><a href="IC.html#cb52-4" tabindex="-1"></a>                         <span class="at">margin=</span><span class="st">&quot;mean_reference&quot;</span>)</span></code></pre></div>
+<pre><code>## You are calculating adjusted predictions on the population-level (i.e.
+##   `type = &quot;fixed&quot;`) for a *generalized* linear mixed model.
+##   This may produce biased estimates due to Jensen&#39;s inequality. Consider
+##   setting `bias_correction = TRUE` to correct for this bias.
+##   See also the documentation of the `bias_correction` argument.</code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="IC.html#cb54-1" tabindex="-1"></a>pre2</span></code></pre></div>
+<pre><code>## # Predicted values of y
+## 
+##    x | Predicted |     95% CI
+## -----------------------------
+## 0.20 |      0.92 | 0.36, 2.30
+## 0.40 |      1.66 | 0.67, 4.14
+## 0.60 |      3.01 | 1.21, 7.52
+## 
+## Adjusted for:
+## * grupo = NA (population-level)</code></pre>
+<p>Como resultado obtenemos una tabla con el valor predicho para <span class="math inline">\(\mu\)</span> en los días solicitados y los intervalos de confianza.</p>
+<p>Es posible representar estos resultados gráficamente de la siguiente manera.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="IC.html#cb56-1" tabindex="-1"></a><span class="fu">plot</span>(pre2, <span class="at">show_data =</span> <span class="cn">TRUE</span>, <span class="at">show_ci =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## Data points may overlap. Use the `jitter` argument to add some amount of
+##   random variation to the location of data points and avoid overplotting.</code></pre>
+<p><img src="libro_mod_mixtos_files/figure-html/plot_ic_pred_gamma_03-1.png" width="672" /></p>
+</div>
+<div id="predicciones-marginales-1" class="section level3 unnumbered hasAnchor">
+<h3>Predicciones marginales<a href="IC.html#predicciones-marginales-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Las predicciones marginales son predicciones para el parámetro <span class="math inline">\(\mu\)</span> de la variable respuesta pensando en el efecto de una covariable <span class="math inline">\(X\)</span> sobre todos los grupos de forma general.</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="IC.html#cb58-1" tabindex="-1"></a><span class="co"># average marginal predictions</span></span>
+<span id="cb58-2"><a href="IC.html#cb58-2" tabindex="-1"></a>pre3 <span class="ot">&lt;-</span> <span class="fu">predict_response</span>(<span class="at">model=</span>fit, </span>
+<span id="cb58-3"><a href="IC.html#cb58-3" tabindex="-1"></a>                         <span class="at">terms=</span><span class="st">&quot;x [0.2, 0.4, 0.6]&quot;</span>, </span>
+<span id="cb58-4"><a href="IC.html#cb58-4" tabindex="-1"></a>                         <span class="at">margin=</span><span class="st">&quot;empirical&quot;</span>)</span>
+<span id="cb58-5"><a href="IC.html#cb58-5" tabindex="-1"></a>pre3</span></code></pre></div>
+<pre><code>## # Average predicted values of y
+## 
+##    x | Predicted |      95% CI
+## ------------------------------
+## 0.20 |      2.06 | 0.17,  3.95
+## 0.40 |      3.74 | 0.32,  7.15
+## 0.60 |      6.78 | 0.58, 12.98</code></pre>
+<p>Como resultado obtenemos una tabla con el valor predicho para <span class="math inline">\(\mu\)</span> en los días solicitados y los intervalos de confianza.</p>
+<p>Es posible representar estos resultados gráficamente de la siguiente manera.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="IC.html#cb60-1" tabindex="-1"></a><span class="fu">plot</span>(pre3, <span class="at">show_data =</span> <span class="cn">TRUE</span>, <span class="at">show_ci =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## Data points may overlap. Use the `jitter` argument to add some amount of
+##   random variation to the location of data points and avoid overplotting.</code></pre>
+<p><img src="libro_mod_mixtos_files/figure-html/plot_ic_pred_gamma_04-1.png" width="672" /></p>
+<div style="-moz-box-shadow: 1px 1px 3px 2px #00ffff;
+  -webkit-box-shadow: 1px 1px 3px 2px #00ffff;
+  box-shadow:         1px 1px 3px 2px #00ffff;">
+
+<div class="rmdtip">
+Para comprender las diferencias entre estimación marginal y estimación condicional se recomienda consultar <a href="https://www.andrewheiss.com/blog/2022/11/29/conditional-marginal-marginaleffects/">esta publicación</a> donde se explican en detalle las diferencias.
+</div>
+</div>
 
 </div>
 </div>
@@ -676,6 +941,9 @@ Cuando el conjunto de datos usados para ajustar el modelo tiene la misma cantida
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-R-lme4" class="csl-entry">
 Bates, Douglas, Martin Maechler, Ben Bolker, and Steven Walker. 2025. <em>Lme4: Linear Mixed-Effects Models Using Eigen and S4</em>. <a href="https://github.com/lme4/lme4/">https://github.com/lme4/lme4/</a>.
+</div>
+<div id="ref-R-glmmTMB" class="csl-entry">
+Brooks, Mollie, Ben Bolker, Kasper Kristensen, Martin Maechler, Arni Magnusson, Hans Skaug, Anders Nielsen, Casper Berg, and Koen van Bentham. 2025. <em>glmmTMB: Generalized Linear Mixed Models Using Template Model Builder</em>. <a href="https://github.com/glmmTMB/glmmTMB">https://github.com/glmmTMB/glmmTMB</a>.
 </div>
 <div id="ref-R-ggeffects" class="csl-entry">
 Lüdecke, Daniel. 2025. <em>Ggeffects: Create Tidy Data Frames of Marginal Effects for Ggplot from Model Outputs</em>. <a href="https://strengejacke.github.io/ggeffects/">https://strengejacke.github.io/ggeffects/</a>.

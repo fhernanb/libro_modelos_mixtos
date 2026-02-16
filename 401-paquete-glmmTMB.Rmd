@@ -175,7 +175,7 @@ Solución.
 
 </div>
 
-La función `rgamma_glm` que se muestra a continuación es una modificación de la función `rgamma` para tener la parametrización usada en los glm.
+La función `rgamma_glm` que se muestra a continuación es una modificación de la función `rgamma` para tener la parametrización usada en los glm y que el parámetro $\mu$ coincida con la media de la distribución.
 
 ```{r}
 rgamma_glm <- function(n, mu, phi) {
@@ -219,7 +219,7 @@ ggplot(datos, aes(x, y, color=grupo) ) +
   labs(colour="Grupo/Cluster")
 ```
 
-Para estimar los parámetros del modelos se usa la función `glmer` de la siguiente forma.
+Para estimar los parámetros del modelo se usa la función `glmmTMB` de la siguiente forma.
 
 ```{r, message = FALSE, eval = TRUE, echo = TRUE}
 library(glmmTMB)
